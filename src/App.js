@@ -1,32 +1,23 @@
-import { Route, Routes } from 'react-router';
-import React, { useState } from 'react'
-import './App.css';
-import Login from './Component/Login';
-import Register from './Component/Register';
-import TopNavBar from './Component/AppBar';
+import "grapesjs-preset-webpage";
+import { GrapesjsReact } from "grapesjs-react";
+import "grapesjs/dist/css/grapes.min.css";
 function App() {
-
-  const [isLogin, setIsLogin] = useState(localStorage.getItem("token") != null);
-  const onLogoutSuccess = () => {
-    setIsLogin(false);
-    localStorage.clear();
-    console.log("Logout success");
-  }
-  const onLoginSuccess = () => {
-    setIsLogin(true);
-    console.log("Login success");
-  }
-
-  return  (
-    <div>
-      { isLogin ? <TopNavBar brandName={""} onLogoutSuccess={onLogoutSuccess}></TopNavBar> : 
-      <div></div>}
-    <Routes>
-      <Route path='/' element={<Login onLoginSuccess={onLoginSuccess}/>}/>
-      <Route path='/register' element={<Register/>}/>
-      
-    </Routes>
-    </div>
+  return (
+    <GrapesjsReact
+      id="grapesjs-react"
+      plugins={["gjs-preset-webpage", "gjs-blocks-basic"]}
+      width="100%"
+      height="100vh"
+      storageManager={{
+        autosave: true,
+        autoload: true,
+      }}
+      //===============|Editor is here |============
+      //===============|Do the event listen here|===============
+      onInit={(e) => {
+        console.log(e);
+      }}
+    />
   );
 }
 

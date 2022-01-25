@@ -1,10 +1,12 @@
 import { GrapesjsReact } from "grapesjs-react";
 import "grapesjs/dist/css/grapes.min.css";
+import './dist/Canvas.css'
+
 import './blocks/basicBlocks/index'
 import './blocks/intermediateBlocks/index'
 import './blocks/AdvancedBlocks/index'
+import './plugins/index'
 import 'grapesjs-navbar';
-
 /////////======================================
 //=======|Type 0 = Basic|=========
 //=======|Type 1 = Intermediate|=========
@@ -13,12 +15,10 @@ function Canvas({type}) {
   
   const getPlugins = () =>{
     const plugins=['gjs-blocks-basic','gjs-blocks-intermediate','gjs-blocks-advanced']
-    console.log(type);
     let result = plugins.slice(0,type+1);
     //Optional
 
-    result = result.concat(['gjs-navbar'])
-    console.log(result);
+    result = result.concat(['Plugins-defaults','gjs-navbar'])
     return result
   }
 
@@ -38,10 +38,12 @@ function Canvas({type}) {
         autosave: true,
         autoload: true,
       }}
+      blockManager= {{
+        appendTo: '.gjs-pn-block-container'
+      }}
       //===============|Editor is here |============
       //===============|Do the event listen here|===============
       onInit={(e) => {
-        console.log(e.Panels.getPanels());
         //CustomeCode(e);
       }}
     />

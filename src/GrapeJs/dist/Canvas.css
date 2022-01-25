@@ -1,0 +1,34 @@
+.gjs-pn-open-block{
+    left:0%;
+    width: 15%;
+
+    z-index: 4;
+}
+
+.gjs-pn-devices-c{
+    left:50%;
+
+}
+.gjs-pn-block-container{
+    height: 100%;
+    padding: 42px 0 0;
+    left: 0%;
+    width: 15%;
+    overflow: auto;
+    transition: 1s;
+
+}
+
+/* Cavas */
+.gjs-cv-canvas {
+    width: 70%;
+    right: 15%;
+    transition: 1s;
+    left: unset;
+}
+.active-block{
+    left: -15%;
+}
+.active-canvas{
+    width: 85%;
+}

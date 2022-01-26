@@ -18,7 +18,6 @@ export default function LoadCommands(editor, config) {
     (e) => window.confirm(txtConfirm) && e.runCommand("core:canvas-clear")
   );
   cm.add(openBlock, (e) => {
-    const cmd = editor.Commands;
     var element = document.getElementsByClassName("gjs-pn-block-container");
     var elementCanvas = document.getElementsByClassName("gjs-cv-canvas");
     // var elementCanvas = document.getElementsByClassName("gjs-frame-wrapper");
@@ -33,7 +32,12 @@ export default function LoadCommands(editor, config) {
     }
   
     //load agian
-    editor.refresh();
-   
+    //editor.refresh({},true);
+    //Transition 1s so we wait a little bit longer then refresh the editor
+    setTimeout(()=>{
+      console.log("HEHE")
+      editor.refresh()
+    },1100)
+
   });
 }

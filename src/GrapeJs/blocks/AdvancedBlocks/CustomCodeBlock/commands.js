@@ -3,7 +3,7 @@ import {
   keyCustomCode,
 } from './config';
 
-export default (editor, opts = {}) => {
+export default function loadCommands(editor, opts = {}) {
   const cmd = editor.Commands;
   const { modalTitle, codeViewOptions, commandCustomCode } = opts;
   const appendToContent = (target, content) => {

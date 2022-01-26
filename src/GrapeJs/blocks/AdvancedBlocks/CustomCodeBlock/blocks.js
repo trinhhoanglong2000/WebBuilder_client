@@ -2,7 +2,7 @@ import {
   typeCustomCode,
 } from './config';
 
-export default (editor, opts = {}) => {
+export default function loadBlocks (editor, opts = {}) {
   const bm = editor.BlockManager;
   const { blockCustomCode, blockLabel } = opts;
 

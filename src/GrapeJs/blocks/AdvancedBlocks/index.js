@@ -1,17 +1,17 @@
-import customCodePlugin from "./CustomCodeBlock"
+import {default as customCodePlugin} from "./CustomCodeBlock"
 import grapesjs from "grapesjs";
 
 export default grapesjs.plugins.add("gjs-blocks-advanced",(editor, opts = {}) => {
    
-    const config = {
-      blocks: [],
-      //=======================|Category name|=======================
+    // const config = {
+    //   blocks: [],
+    //   //=======================|Category name|=======================
 
      
-      //=======================|Block name|=======================
+    //   //=======================|Block name|=======================
 
-      ...opts,
-    };
+    //   ...opts,
+    // };
      //======================|Load Plugin|==============
 
      customCodePlugin(editor,{blockCustomCode:{category:'Extras'}});

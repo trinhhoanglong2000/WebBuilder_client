@@ -1,8 +1,8 @@
-import loadComponents from './components';
-import loadBlocks from './blocks';
-import loadCommands from './commands';
+import {default as loadComponents} from './components';
+import {default as loadBlocks} from './blocks';
+import {default as loadCommands} from './commands';
 
-export default (editor, opts = {}) => {
+export default function customCodePlugin(editor, opts = {})  {
   const options = { ...{
     // Label of the custom code block
     blockLabel: 'Custom Code',

@@ -4,7 +4,7 @@ import {
   typeCustomCode,
 } from './config';
 
-export default (editor, opts = {}) => {
+export default function loadComponents(editor, opts = {}) {
   const dc = editor.DomComponents;
   const defaultType = dc.getType('default');
   const defaultModel = defaultType.model;

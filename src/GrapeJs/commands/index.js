@@ -29,8 +29,16 @@ export default function LoadCommands(editor, config) {
 
     for (i = 0; i < elementCanvas.length; i++) {
       elementCanvas[i].classList.toggle("active-canvas");
-      elementCanvas[i].addEventListener('transitionend', function () {
-        editor.refresh()
+      //================|START|==========================
+      elementCanvas[i].addEventListener("transitionstart", function () {
+        this.classList.add("disabled")
+      });
+      //================|END|==========================
+
+      elementCanvas[i].addEventListener("transitionend", function () {
+        this.classList.remove("disabled");
+
+        editor.refresh();
       });
     }
 
@@ -40,6 +48,5 @@ export default function LoadCommands(editor, config) {
     // setTimeout(()=>{
     //   editor.refresh()
     // },1100)
-
   });
 }

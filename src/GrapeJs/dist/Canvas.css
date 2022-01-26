@@ -16,6 +16,7 @@
     width: 15%;
     overflow: auto;
     transition: 1s;
+    
 
 }
 
@@ -31,4 +32,7 @@
 }
 .active-canvas{
     width: 85%;
+}
+.disabled{
+    pointer-events: none;
 }

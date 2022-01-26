@@ -1,32 +1,20 @@
 .gjs-pn-open-block {
   left: 0%;
   width: 15%;
-  background-color: #444 !important;
   z-index: 4;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
-  color: #c6d0cc !important;
+
 }
-.gjs-pn-options {
+.gjs-pn-options,.gjs-pn-devices-c, .gjs-pn-commands,.gjs-pn-open-block,.gjs-pn-views {
   background-color: #444 !important;
   border-bottom: 2px solid rgba(0, 0, 0, 0.2);
   color: #c6d0cc !important;
 }
 .gjs-pn-devices-c {
   left: 50%;
-  background-color: #444 !important;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
-  color: #c6d0cc !important;
+
 }
-.gjs-pn-commands {
-  background-color: #444 !important;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
-  color: #c6d0cc !important;
-}
-.gjs-pn-views {
-  background-color: #444 !important;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
-  color: #c6d0cc !important;
-}
+
+
 .gjs-pn-block-container {
   height: 100%;
   /*  */
@@ -62,4 +50,15 @@
 }
 .gjs-two-color {
   color: black;
+}
+.gjs-title, .gjs-sm-sector-title, .gjs-field{
+    /* background-color: #c5cfc8!important; */
+    background-color: #e0eae3!important;
+
+}
+.gjs-four-color{
+    color: #84dd9e;
+}
+.gjs-color-warn{
+    color:black
 }

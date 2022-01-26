@@ -1,38 +1,65 @@
-.gjs-pn-open-block{
-    left:0%;
-    width: 15%;
-
-    z-index: 4;
+.gjs-pn-open-block {
+  left: 0%;
+  width: 15%;
+  background-color: #444 !important;
+  z-index: 4;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+  color: #c6d0cc !important;
 }
-
-.gjs-pn-devices-c{
-    left:50%;
-
+.gjs-pn-options {
+  background-color: #444 !important;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+  color: #c6d0cc !important;
 }
-.gjs-pn-block-container{
-    height: 100%;
-    padding: 42px 0 0;
-    left: 0%;
-    width: 15%;
-    overflow: auto;
-    transition: 1s;
-    
+.gjs-pn-devices-c {
+  left: 50%;
+  background-color: #444 !important;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+  color: #c6d0cc !important;
+}
+.gjs-pn-commands {
+  background-color: #444 !important;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+  color: #c6d0cc !important;
+}
+.gjs-pn-views {
+  background-color: #444 !important;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+  color: #c6d0cc !important;
+}
+.gjs-pn-block-container {
+  height: 100%;
+  /*  */
+  padding: 0 0 0;
+  top: 42px;
 
+  /*  */
+  left: 0%;
+  width: 15%;
+  overflow: auto;
+  transition: 1s;
 }
 
 /* Cavas */
 .gjs-cv-canvas {
-    width: 70%;
-    right: 15%;
-    transition: 1s;
-    left: unset;
+  width: 70%;
+  right: 15%;
+  transition: 1s;
+  left: unset;
 }
-.active-block{
-    left: -15%;
+.active-block {
+  left: -15%;
 }
-.active-canvas{
-    width: 85%;
+.active-canvas {
+  width: 85%;
 }
-.disabled{
-    pointer-events: none;
+.disabled {
+  pointer-events: none;
+}
+/* Color Theme */
+.gjs-one-bg {
+  background-color: #f6faf6;
+}
+.gjs-two-color {
+  color: black;
 }

@@ -41,6 +41,7 @@ export default function LoadPanels(editor, config) {
           id: obl,
           command: openBlock,
           className: "fa fa-th-large",
+
         },
       ],
     },
@@ -74,16 +75,22 @@ export default function LoadPanels(editor, config) {
           id: "undo",
           className: "fa fa-undo",
           command: (e) => e.runCommand("core:undo"),
+          attributes: { title: 'Undo'},
+
         },
         {
           id: "redo",
           className: "fa fa-repeat",
           command: (e) => e.runCommand("core:redo"),
+          attributes: { title: 'Redo'},
+
         },
         {
           id: cmdClear,
           className: "fa fa-trash",
           command: (e) => e.runCommand(cmdClear),
+          attributes: { title: 'Clear'},
+
         },
       ],
     },
@@ -117,17 +124,23 @@ export default function LoadPanels(editor, config) {
       id: cmdDeviceDesktop,
       command: cmdDeviceDesktop,
       className: "fa fa-desktop",
+      attributes: { title: 'Desktop'},
+
       active: 1,
     },
     {
       id: cmdDeviceTablet,
       command: cmdDeviceTablet,
       className: "fa fa-tablet",
+      attributes: { title: 'Tablet'},
+
     },
     {
       id: cmdDeviceMobile,
       command: cmdDeviceMobile,
       className: "fa fa-mobile",
+      attributes: { title: 'Mobile'},
+
     },
   ]);
 

@@ -29,15 +29,17 @@ export default function LoadCommands(editor, config) {
 
     for (i = 0; i < elementCanvas.length; i++) {
       elementCanvas[i].classList.toggle("active-canvas");
+      elementCanvas[i].addEventListener('transitionend', function () {
+        editor.refresh()
+      });
     }
-  
+
     //load agian
-    //editor.refresh({},true);
     //Transition 1s so we wait a little bit longer then refresh the editor
-    setTimeout(()=>{
-      console.log("HEHE")
-      editor.refresh()
-    },1100)
+
+    // setTimeout(()=>{
+    //   editor.refresh()
+    // },1100)
 
   });
 }

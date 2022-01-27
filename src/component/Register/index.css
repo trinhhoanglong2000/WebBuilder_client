@@ -1,0 +1,25 @@
+.bg {
+    position: relative;
+    background-color: #2B9361;
+    min-height: 100vh;
+    align-items: center;
+}
+
+.bgImg {
+    background-image: url('../../../public/img/Store1.png');
+    position: relative;
+    width: 80vh;
+    height: 80vh;
+    float: right;
+    right: 20vh;
+    float: top;
+    top: 10vh;
+    background-size: 80vh 80vh;
+    background-position: center;
+    background-color: #2B9361;
+}
+
+/* .Logo {
+    background-image: url('../../../public/img/Logo.png');
+    image
+} */

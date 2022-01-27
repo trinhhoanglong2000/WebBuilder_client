@@ -215,7 +215,7 @@ export default function loadBlocks(editor, opt = {}) {
       bm.add('text', {
         label: c.labelText,
         category: c.labelText_category,
-        attributes: { class: 'gjs-fonts gjs-f-text' },
+        attributes: { class: 'fa fa-paragraph' },
         content: {
           type: 'text',
           content: 'Insert your text here',
@@ -240,12 +240,36 @@ export default function loadBlocks(editor, opt = {}) {
       bm.add('image', {
         label: c.labelImage,
         category: c.labelImage_category,
-        attributes: { class: 'gjs-fonts gjs-f-image' },
+        attributes: { class: 'fa fa-image' },
         content: {
           style: { color: 'black' },
           type: 'image',
           activeOnRender: 1
         }
+      });
+      toAdd('button') &&
+      bm.add('button', {
+        label: c.buttonBlkLabel,
+        category: c.Button_category,
+        content: '<a class="button">Button</a>',
+        attributes: {class:'gjs-fonts gjs-f-button'}
+      });
+      toAdd('divider') &&
+      bm.add('divider', {
+        label: c.dividerBlkLabel,
+        category: c.divider_category,
+        content: `<table style="width: 100%; margin-top: 10px; margin-bottom: 10px;">
+          <tr>
+            <td class="divider"></td>
+          </tr>
+        </table>
+        <style>
+        .divider {
+          background-color: rgba(0, 0, 0, 0.1);
+          height: 1px;
+        }
+        </style>`,
+        attributes: {class:'gjs-fonts gjs-f-divider'}
       });
   
    

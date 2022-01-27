@@ -1,8 +1,15 @@
-
+@import url('https://fonts.googleapis.com/css2?family=Gentium+Basic:ital@1&family=Roboto+Condensed:ital,wght@0,300;1,300&family=Roboto:wght@100;300&display=swap');
 body {
   color: black;
 
   margin: 0;
   overflow-y: scroll;
+}
+* {
+  font-family: 'Roboto Condensed', sans-serif !important;
+}
+
+.fa {
+  font-family: 'FontAwesome' !important;
 }
 

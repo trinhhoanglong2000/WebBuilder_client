@@ -20,10 +20,10 @@
 }
 
 .btnSignUp {
-    background-color: green;
+    background-color: #2B9361;
     width: 100%;
-    height: 2.2rem;
-    border-radius: 5px;
+    height: 2.75rem;
+    border-radius: 15px;
     color: white;
 }
 

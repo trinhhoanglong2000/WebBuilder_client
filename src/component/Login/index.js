@@ -25,7 +25,7 @@ const Login = () => {
     }
 
     const buttonStyle = {
-        margin: '1rem 0 0.6rem 0'
+        margin: '2.5rem 0 0.6rem 0'
     }
 
     //=======================FUNCTION=========================
@@ -194,7 +194,7 @@ const Login = () => {
                         Don't have an account? 
                         <Link to={'/register'}> Sign up</Link>
                     </Typography>
-                    <Stack spacing={12}>
+                    <Stack spacing={9}>
                         <div></div>
                         <div></div>
                         <div></div>          

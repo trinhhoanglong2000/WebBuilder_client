@@ -2,18 +2,22 @@
   left: 0%;
   width: 15%;
   z-index: 4;
-
 }
-.gjs-pn-options,.gjs-pn-devices-c, .gjs-pn-commands,.gjs-pn-open-block,.gjs-pn-views {
+.gjs-pn-options,
+.gjs-pn-devices-c,
+.gjs-pn-commands,
+.gjs-pn-open-block,
+.gjs-pn-views {
   background-color: #444 !important;
   border-bottom: 2px solid rgba(0, 0, 0, 0.2);
   color: #c6d0cc !important;
 }
 .gjs-pn-devices-c {
   left: 50%;
-
 }
-
+.gjs-pn-options{
+  z-index: 6;
+}
 
 .gjs-pn-block-container {
   height: 100%;
@@ -26,6 +30,7 @@
   width: 15%;
   overflow: auto;
   transition: 1s;
+  box-shadow: 0 0 5px rgb(0 0 0 / 20%);
 }
 
 /* Cavas */
@@ -51,14 +56,50 @@
 .gjs-two-color {
   color: black;
 }
-.gjs-title, .gjs-sm-sector-title, .gjs-field{
-    /* background-color: #c5cfc8!important; */
-    background-color: #e0eae3!important;
+.gjs-title,
+.gjs-sm-sector-title,
+.gjs-field {
+  /* background-color: #c5cfc8!important; */
+  background-color: #e0eae3 !important;
+}
+.gjs-four-color {
+  color: #84dd9e;
+}
+.gjs-four-color-h:hover {
+  color: #4c884c;
+}
 
+.gjs-color-warn {
+  color: black;
 }
-.gjs-four-color{
-    color: #84dd9e;
+.gjs-fonts {
+  font-size: 8px;
 }
-.gjs-color-warn{
-    color:black
+/* Responsive */
+@media only screen and (max-width: 1100px) {
+  .gjs-pn-devices-c {
+    left: 30%;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+
+  .gjs-fonts {
+    font-size: 6px;
+  }
+  .gjs-block-svg {
+    width: 20px;
+    height: 54px;
+  }
+  .gjs-block-label {
+    font-size: 0.45rem;
+  }
+  .gjs-pn-devices-c {
+    left: 20%;
+  }
+}
+@media only screen and (max-width: 570px) {
+  .gjs-pn-devices-c {
+    display: none;
+  }
 }

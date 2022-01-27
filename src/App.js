@@ -8,7 +8,8 @@ const App = () => {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Login/>}/>
+          <Route path='/login' element={<Login/>}/>
+          <Route path='/home' element={<Canvas type={2}/>}/>
           <Route path='/register' element={<Register/>}/>
         </Routes>
       </BrowserRouter>

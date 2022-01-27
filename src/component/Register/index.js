@@ -129,7 +129,7 @@ const Register = ({onLoginSuccess}) => {
                     />
                     <Button type='button' style={buttonStyle} class='btnSignUp' color='primary' variant='contained' fullWidth >Sign Up</Button>
                     <Typography>
-                        Already have an account? <Link to={'/'}>Sign in</Link>
+                        Already have an account? <Link to={'/login'}>Sign in</Link>
                     </Typography>
                     
                     <Stack spacing={10}>

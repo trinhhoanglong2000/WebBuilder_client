@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Avatar, Button, Grid, Paper, TextField, Typography} from '@material-ui/core';
+import {Avatar, Button, Grid, Paper, TextField, Typography, Checkbox, FormControlLabel} from '@material-ui/core';
 import Stack from '@mui/material/Stack';
 import './index.css';
 import { Link } from "react-router-dom";
@@ -9,8 +9,11 @@ const Register = ({onLoginSuccess}) => {
     //=======================STATES===========================
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
-    const [isLogin, setIsLogin] = useState(localStorage.getItem("token") != null)
+    const [confirm, setConfirm] = useState();
+    const [firstname, setFirstname] = useState();
+    const [lastname, setLastname] = useState();
 
+    const [checked, setChecked] = useState(false);
     //=======================STYLES===========================
     const paperStyle = {
         position: 'relative',
@@ -35,53 +38,60 @@ const Register = ({onLoginSuccess}) => {
     const handleOnchangePassword = (e) => {
         setPassword(e.target.value);
     }
+    const handleOnchangeConfirm = (e) => {
+        setConfirm(e.target.value);
+    }
+    const handleOnchangeFirstname = (e) => {
+        setFirstname(e.target.value);
+    }
+    const handleOnchangeLastname = (e) => {
+        setLastname(e.target.value);
+    }
+    const handleOnchangeChecked = (e) => {
+        setChecked(e.target.checked);
+      };
     
-    const login = async () => {
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
+    const register = () => {
+        if (password !== confirm) {
+            alert("Password does not match!");
+            return;
+        }
+        if (password === "" || confirm === "") {
+            alert("You must fill in username and password!");
+        }
+        if (checked) {
+            alert("Yooooo")
+        }
+        if (username !== "") {
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
 
-        var raw = JSON.stringify({
-            "username": username,
-            "password": password
-        });
+            var raw = JSON.stringify({
+                "username": username,
+                "password": password,
+                "fullname": firstname + lastname,
+            });
 
-        var requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: raw,
-            redirect: 'follow'
-        };
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
 
-        await fetch(process.env.REACT_APP_API_URL + "login", requestOptions)
-            .then(response => {
-                console.log(response)
-                if (response.ok) {
-                    return response.json();
-                }
-
-                throw Error(response.status);
-            })
+            fetch(process.env.REACT_APP_API_URL + "accounts", requestOptions)
+            .then(response => response.text())
             .then(result => {
-                console.log(result)
-                localStorage.setItem("token", result.token);
-                localStorage.setItem("userId", result.user.id);
-                setIsLogin(true);
-                onLoginSuccess();
-
+                console.log(result);
+                alert("Register successfully, you can login now!");
             })
             .catch(error => {
-                console.log('error', error)
-                alert("Incorrect username or password!");
+                console.log('error', error);
+                alert("Register fail!")
             });
+        }
     }
 
-    const onLogoutSuccess = () => {
-        setIsLogin(false);
-        window.location.pathname ='/'; 
-        window.location.reload();
-        localStorage.clear();
-    }
-    
     return (
         <div className="bg">
             <div className="bgImg">
@@ -102,12 +112,36 @@ const Register = ({onLoginSuccess}) => {
                     <Typography><h3>Sign up</h3></Typography>
                     </Grid>
                     <TextField name='username' label='Username' placeholder='Enter username' fullWidth required onChange={handleOnchangeUsername}/>
+                    <Stack direction="row" spacing={2}>
+                    <TextField name='firstname' label='First Name' placeholder='Enter First Name' fullWidth required onChange={handleOnchangeFirstname}/>
+                    <TextField name='lastname' label='Last Name' placeholder='Enter Last Name' fullWidth required onChange={handleOnchangeLastname}/>            
+                    </Stack>
                     <TextField name='password' label='Password' placeholder='Enter password' type='password' fullWidth required onChange={handleOnchangePassword}/>
-                    <Button type='button' style={buttonStyle} color='primary' variant='contained' fullWidth onClick={login}>Sign Up</Button>
-
+                    <TextField label='Confirm Password' placeholder='Enter password again' type='password' fullWidth required onChange={handleOnchangeConfirm}/>
+                    <FormControlLabel className='label-check-terms'
+                        control={<Checkbox checked={checked} onChange={handleOnchangeChecked} style={{color: 'black'}}/>}
+                        label={
+                            <div>
+                               <span>I accept the </span>
+                               <Link to={'#'}>Terms of Use</Link>
+                            </div>
+                            }
+                    />
+                    <Button type='button' style={buttonStyle} class='btnSignUp' color='primary' variant='contained' fullWidth >Sign Up</Button>
                     <Typography>
                         Already have an account? <Link to={'/'}>Sign in</Link>
                     </Typography>
+                    
+                    <Stack spacing={10}>
+                        <div></div>
+                        <div></div>
+                        <div></div>          
+                    </Stack>
+                    <Stack direction="row" spacing={2} className='footer-page-register'>
+                        <Typography> <Link to={'#'} className="link-footer">Help</Link></Typography>
+                        <div className="line"></div>  
+                        <Typography><Link to={'#'} className="link-footer">Terms</Link></Typography>        
+                    </Stack>
                 </Paper>
             </Grid>
         </div>

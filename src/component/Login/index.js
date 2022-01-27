@@ -3,7 +3,8 @@ import {Avatar, Button, Grid, Paper, TextField, Typography} from '@material-ui/c
 import Stack from '@mui/material/Stack';
 import './index.css';
 import { Link } from "react-router-dom";
-
+import FacebookLogin from 'react-facebook-login';
+import GoogleLogin from 'react-google-login';
 const Login = () => {
     
     //=======================STATES===========================
@@ -24,7 +25,7 @@ const Login = () => {
     }
 
     const buttonStyle = {
-        margin: '10px 0'
+        margin: '1rem 0 0.6rem 0'
     }
 
     //=======================FUNCTION=========================
@@ -52,7 +53,7 @@ const Login = () => {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:5000/login", requestOptions)
+        fetch(process.env.REACT_APP_API_URL + "login", requestOptions)
             .then(response => {
                 console.log(response)
                 if (response.ok) {
@@ -74,6 +75,75 @@ const Login = () => {
             });
     }
 
+    const responseFacebook = response => {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "id_token": response.accessToken
+        });
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw
+        };
+
+        fetch(process.env.REACT_APP_API_URL + "auth/facebook-sign-in", requestOptions)
+            .then(response => {
+                console.log(response)
+                if (response.ok) {
+                    return response.json();
+                }
+
+                throw Error(response.status);
+            })
+            .then(result => {
+                localStorage.setItem("token", result.data.token);
+                localStorage.setItem("userId", result.data.user._id);
+                setIsLogin(true);
+                alert(result.message);
+            })
+            .catch(error => {
+                console.log('error', error)
+            });
+    }
+
+    const onSuccessGoogle = response => {
+        console.log(response);
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "id_token": response.tokenId,
+            "access_token": response.accessToken
+        });
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw
+        };
+
+        fetch(process.env.REACT_APP_API_URL + "auth/google-sign-in", requestOptions)
+            .then(response => {
+                console.log(response)
+                if (response.ok) {
+                    return response.json();
+                }
+
+                throw Error(response.status);
+            })
+            .then(result => {
+                localStorage.setItem("token", result.data.token);
+                localStorage.setItem("userId", result.data.user._id);
+                setIsLogin(true);
+                alert(result.message);
+            })
+            .catch(error => {
+                console.log('error', error)
+            });
+    }
     const onLogoutSuccess = () => {
         setIsLogin(false);
         window.location.pathname ='/'; 
@@ -102,12 +172,38 @@ const Login = () => {
                     </Grid>
                     <TextField name='email' label='Email' placeholder='Enter email' fullWidth required onChange={handleOnchangeUsername}/>
                     <TextField name='password' label='Password' placeholder='Enter password' type='password' fullWidth required onChange={handleOnchangePassword}/>
-                    <Button type='button' style={buttonStyle} color='primary' variant='contained' fullWidth onClick={login}>Sign In</Button>
-
+                    <Button type='button' style={buttonStyle} class='btnSignIn' color='primary' variant='contained' fullWidth onClick={login}>Sign In</Button>
+                    <FacebookLogin
+                        appId="842222179779996"
+                        fields="name,picture,email"
+                        autoLoad = {false}
+                        cssClass="btnFacebook"
+                        textButton = "Sign In with Facebook"   
+                        icon="fa-facebook"                                                             
+                        callback={responseFacebook} />
+                    <br></br>
+                    < GoogleLogin
+                        clientId="176406720657-kvkukhtjlamdlv6cnc1vg8qanluodo33.apps.googleusercontent.com"
+                        buttonText="Sign In with Google"
+                        onSuccess={onSuccessGoogle}
+                        isSignedIn={false}
+                        className="btnGoogle"
+                        scope="https://www.googleapis.com/auth/user.birthday.read https://www.googleapis.com/auth/user.gender.read"
+                    />
                     <Typography>
                         Don't have an account? 
                         <Link to={'/register'}> Sign up</Link>
                     </Typography>
+                    <Stack spacing={12}>
+                        <div></div>
+                        <div></div>
+                        <div></div>          
+                    </Stack>
+                    <Stack direction="row" spacing={2} className='footer-page-register'>
+                        <Typography> <Link to={'#'} className="link-footer">Help</Link></Typography>
+                        <div className="line"></div>  
+                        <Typography><Link to={'#'} className="link-footer">Terms</Link></Typography>        
+                    </Stack>
                 </Paper>
             </Grid>
         </div>

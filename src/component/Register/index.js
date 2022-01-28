@@ -3,22 +3,23 @@ import {Avatar, Button, Grid, Paper, TextField, Typography, Checkbox, FormContro
 import Stack from '@mui/material/Stack';
 import './index.css';
 import { Link } from "react-router-dom";
+import validator from 'validator';
 
-const Register = ({onLoginSuccess}) => {
+const Register = () => {
     
     //=======================STATES===========================
-    const [username, setUsername] = useState();
-    const [password, setPassword] = useState();
-    const [confirm, setConfirm] = useState();
-    const [firstname, setFirstname] = useState();
-    const [lastname, setLastname] = useState();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirm, setConfirm] = useState("");
+    const [firstname, setFirstname] = useState("");
+    const [lastname, setLastname] = useState("");
+    const [error, setError] = useState({});
 
     const [checked, setChecked] = useState(false);
     //=======================STYLES===========================
     const paperStyle = {
         position: 'relative',
         padding: 20,
-        height: '70vh',
         width: 300,
         float: 'left',
         left: '20vh',
@@ -27,12 +28,22 @@ const Register = ({onLoginSuccess}) => {
     }
 
     const buttonStyle = {
-        margin: '10px 0'
+        margin: '10px 0',
+        backgroundColor: '#2B9361',
+        width: '100%',
+        height: '2.75rem',
+        borderRadius: '15px',
+        color: 'white'
     }
 
+    const errorStyle = {
+        color: 'red',
+        fontSize: '13px'
+    };
+
     //=======================FUNCTION=========================
-    const handleOnchangeUsername = (e) => {
-        setUsername(e.target.value);
+    const handleOnchangeEmail = (e) => {
+        setEmail(e.target.value);
     }
 
     const handleOnchangePassword = (e) => {
@@ -49,27 +60,38 @@ const Register = ({onLoginSuccess}) => {
     }
     const handleOnchangeChecked = (e) => {
         setChecked(e.target.checked);
-      };
+    };
+
+    const validate = () => {
+        var err = {};
+        if (password !== confirm) {
+            err.confirm = "*Password does not match!"
+        }
+        if (password.length < 8) {
+            err.password = "*Password must contain at least 8 characters!"
+        }
+        if (!validator.isEmail(email)) {
+            err.email = "*Invalid email!"
+        }
+        if (firstname.length === 0  || lastname.length === 0) {
+            err.name = "*You must fill in first name and last name!"
+        }
+        
+        setError(err);
+
+        return (Object.keys(err).length);
+    }
     
     const register = () => {
-        if (password !== confirm) {
-            alert("Password does not match!");
-            return;
-        }
-        if (password === "" || confirm === "") {
-            alert("You must fill in username and password!");
-        }
-        if (checked) {
-            alert("Yooooo")
-        }
-        if (username !== "") {
+        var checkValid = validate();
+        if (checkValid === 0) {
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
 
             var raw = JSON.stringify({
-                "username": username,
+                "email": email,
                 "password": password,
-                "fullname": firstname + lastname,
+                "fullname": firstname + ' ' + lastname,
             });
 
             var requestOptions = {
@@ -79,11 +101,10 @@ const Register = ({onLoginSuccess}) => {
                 redirect: 'follow'
             };
 
-            fetch(process.env.REACT_APP_API_URL + "accounts", requestOptions)
-            .then(response => response.text())
+            fetch(process.env.REACT_APP_API_URL + "accounts/create", requestOptions)
+            .then(response => response.json())
             .then(result => {
-                console.log(result);
-                alert("Register successfully, you can login now!");
+                alert(result.message);
             })
             .catch(error => {
                 console.log('error', error);
@@ -93,10 +114,7 @@ const Register = ({onLoginSuccess}) => {
     }
 
     return (
-        <div className="bg">
-            <div className="bgImg">
-
-            </div>
+        <div className="bgImg">
             <Grid >
                 <Paper elevation={10} style ={paperStyle}>
                     <Stack direction="row" spacing={2}>
@@ -106,18 +124,33 @@ const Register = ({onLoginSuccess}) => {
                             sx={{ width: 24, height: 24 }}
                             variant="square"
                         />
-                        <Typography><h3>EASY MALL</h3></Typography>
+                        <Typography component={'span'}><h3>EASY MALL</h3></Typography>
                     </Stack>
                     <Grid>
-                    <Typography><h3>Sign up</h3></Typography>
+                    <Typography component={'span'}><h3>Sign up</h3></Typography>
                     </Grid>
-                    <TextField name='username' label='Username' placeholder='Enter username' fullWidth required onChange={handleOnchangeUsername}/>
+                    <TextField name='email'
+                            label='Email' 
+                            placeholder='Enter email' 
+                            fullWidth
+                            required
+                            value={email}
+                            onChange={handleOnchangeEmail}/>
+                            
+                    <Typography style={errorStyle}>{error.email}</Typography>
+
                     <Stack direction="row" spacing={2}>
-                    <TextField name='firstname' label='First Name' placeholder='Enter First Name' fullWidth required onChange={handleOnchangeFirstname}/>
-                    <TextField name='lastname' label='Last Name' placeholder='Enter Last Name' fullWidth required onChange={handleOnchangeLastname}/>            
+                    <TextField name='firstname' label='First Name' placeholder='Enter First Name' value={firstname} fullWidth required onChange={handleOnchangeFirstname}/>
+                    <TextField name='lastname' label='Last Name' placeholder='Enter Last Name' value={lastname} fullWidth required onChange={handleOnchangeLastname}/> 
                     </Stack>
-                    <TextField name='password' label='Password' placeholder='Enter password' type='password' fullWidth required onChange={handleOnchangePassword}/>
-                    <TextField label='Confirm Password' placeholder='Enter password again' type='password' fullWidth required onChange={handleOnchangeConfirm}/>
+                    <Typography style={errorStyle}>{error.name}</Typography>
+
+                    <TextField name='password' label='Password' placeholder='Enter password' type='password' value={password} fullWidth required onChange={handleOnchangePassword}/>
+                    <Typography style={errorStyle}>{error.password}</Typography>
+
+                    <TextField label='Confirm Password' placeholder='Enter password again' type='password' value={confirm} fullWidth required onChange={handleOnchangeConfirm}/>
+                    <Typography style={errorStyle}>{error.confirm}</Typography>
+
                     <FormControlLabel className='label-check-terms'
                         control={<Checkbox checked={checked} onChange={handleOnchangeChecked} style={{color: 'black'}}/>}
                         label={
@@ -127,21 +160,25 @@ const Register = ({onLoginSuccess}) => {
                             </div>
                             }
                     />
-                    <Button type='button' style={buttonStyle} class='btnSignUp' color='primary' variant='contained' fullWidth >Sign Up</Button>
+                    <Button type='button' 
+                            style={buttonStyle} 
+                            onClick={register} 
+                            variant='contained' 
+                            disabled={!checked}
+                            fullWidth>
+                        Sign Up
+                    </Button>
                     <Typography>
                         Already have an account? <Link to={'/login'}>Sign in</Link>
                     </Typography>
                     
-                    <Stack spacing={10}>
-                        <div></div>
-                        <div></div>
-                        <div></div>          
-                    </Stack>
-                    <Stack direction="row" spacing={2} className='footer-page-register'>
+                    <Grid container justifyContent="flex-end">
+                    <Stack direction="row" spacing={2} mt={5}>
                         <Typography> <Link to={'#'} className="link-footer">Help</Link></Typography>
                         <div className="line"></div>  
                         <Typography><Link to={'#'} className="link-footer">Terms</Link></Typography>        
                     </Stack>
+                    </Grid>
                 </Paper>
             </Grid>
         </div>

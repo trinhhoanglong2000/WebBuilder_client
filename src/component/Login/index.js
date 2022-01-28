@@ -17,14 +17,9 @@ const Login = () => {
 
     //=======================STYLES===========================
     const paperStyle = {
-        position: 'relative',
         padding: 20,
-        // height: '70vh',
         width: 300,
-        float: 'left',
-        left: '20vh',
-        float: 'top',
-        top: '10vh',
+        display: 'block'
     }
 
     const buttonStyle = {
@@ -186,6 +181,7 @@ const Login = () => {
     
     return (
         <div className="bgImg">
+            <div className="page-content">
             <Grid>
                 <Paper elevation={10} style ={paperStyle}>
                     <Stack direction="row" spacing={2}>
@@ -240,6 +236,7 @@ const Login = () => {
                 </Paper>
 
             </Grid>
+            </div>
         </div>
     );
 }

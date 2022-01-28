@@ -7,6 +7,14 @@
     background-color: #2B9361;
 }
 
+.page-content{
+    max-width: 50rem;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
 .btnFacebook { 
     width: 18.8rem;
     height: 2.75rem;  

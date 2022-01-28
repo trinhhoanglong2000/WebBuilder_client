@@ -18,13 +18,9 @@ const Register = () => {
     const [checked, setChecked] = useState(false);
     //=======================STYLES===========================
     const paperStyle = {
-        position: 'relative',
         padding: 20,
         width: 300,
-        float: 'left',
-        left: '20vh',
-        float: 'top',
-        top: '10vh',
+        display: 'block'
     }
 
     const buttonStyle = {
@@ -115,6 +111,7 @@ const Register = () => {
 
     return (
         <div className="bgImg">
+            <div className="page-content">
             <Grid >
                 <Paper elevation={10} style ={paperStyle}>
                     <Stack direction="row" spacing={2}>
@@ -181,6 +178,7 @@ const Register = () => {
                     </Grid>
                 </Paper>
             </Grid>
+            </div>
         </div>
     );
 }

@@ -41,7 +41,8 @@ function Canvas({ type }) {
         'gjs-navbar': { 'labelNavbarCategory': 'Navigation' },
         [pluginTooltip]: {
           blockTooltip: {
-            category: 'Extras'
+            category: 'Extras',
+            attributes: { class: "tooltip" },
           }
         },
         [grapjesTab]: {
@@ -49,6 +50,9 @@ function Canvas({ type }) {
         }
       }}
 
+      styleManager= {{
+        // clearProperties: true,
+      }}
       width="100%"
       height="100vh"
       storageManager={{

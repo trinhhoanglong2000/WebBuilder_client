@@ -15,7 +15,7 @@
 .gjs-pn-devices-c {
   left: 50%;
 }
-.gjs-pn-options{
+.gjs-pn-options {
   z-index: 6;
 }
 
@@ -83,7 +83,6 @@
 }
 
 @media only screen and (max-width: 800px) {
-
   .gjs-fonts {
     font-size: 6px;
   }
@@ -102,4 +101,49 @@
   .gjs-pn-devices-c {
     display: none;
   }
+}
+.gjs-block__media {
+  width: 48px;
+  margin: auto;
+}
+
+.tooltip svg {
+  width: 48px;
+  margin: auto;
+}
+.gjs-block {
+  overflow: hidden;
+}
+.gjs-sm-field input,
+.gjs-clm-select input,
+.gjs-clm-field input,
+.gjs-sm-field select,
+.gjs-clm-select select,
+.gjs-clm-field select {
+  color: black;
+}
+/*  */
+.gjs-field-arrow-u {
+  border-bottom: 4px solid rgba(0, 0, 0, 0.7);
+}
+
+.gjs-field-arrow-d {
+  border-top: 4px solid rgba(0, 0, 0, 0.7);
+}
+
+.gjs-clm-tags #gjs-clm-new {
+  color: rgb(0, 0, 0);
+}
+
+.gjs-three-bg {
+  background-color: #84dd9e;
+}
+
+.gjs-clm-tags #gjs-clm-checkbox,
+.gjs-clm-tags #gjs-clm-close {
+  color: rgb(0 0 0 / 90%);
+}
+
+.gjs-d-s-arrow {
+  border-top: 4px solid rgb(0 0 0 / 90%) !important;
 }

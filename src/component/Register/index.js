@@ -4,6 +4,7 @@ import Stack from '@mui/material/Stack';
 import './index.css';
 import { Link } from "react-router-dom";
 import validator from 'validator';
+import logo from '../Login/Logo.png'
 
 const Register = () => {
     
@@ -116,10 +117,8 @@ const Register = () => {
                 <Paper elevation={10} style ={paperStyle}>
                     <Stack direction="row" spacing={2}>
                         <Avatar
-                            alt="Logo"
-                            src="./Logo.jpg"
-                            sx={{ width: 24, height: 24 }}
-                            variant="square"
+                            src={logo}
+                            style={{ height: '70px', width: '70px' }}
                         />
                         <Typography component={'span'}><h3>EASY MALL</h3></Typography>
                     </Stack>

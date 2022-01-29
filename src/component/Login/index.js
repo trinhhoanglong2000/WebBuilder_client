@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
 import validator from 'validator';
+import logo from './Logo.png'
 
 const Login = () => {
     
@@ -103,7 +104,7 @@ const Login = () => {
             });
     }
 
-    const responseFacebook = response => {
+    const responseFacebook = (response) => {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
@@ -137,7 +138,7 @@ const Login = () => {
             });
     }
 
-    const onSuccessGoogle = response => {
+    const onSuccessGoogle = (response) => {
         console.log(response);
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -186,10 +187,8 @@ const Login = () => {
                 <Paper elevation={10} style ={paperStyle}>
                     <Stack direction="row" spacing={2}>
                         <Avatar
-                            alt="Logo"
-                            src="./Logo.jpg"
-                            sx={{ width: 24, height: 24 }}
-                            variant="square"
+                            src={logo}
+                            style={{ height: '70px', width: '70px' }}
                         />
                         <Typography component={'span'}><h3>EASY MALL</h3></Typography>
                     </Stack>

@@ -52,8 +52,19 @@ function Canvas({ type }) {
       width="100%"
       height="100vh"
       storageManager={{
-        autosave: true,
-        autoload: true,
+        type: 'remote',
+        stepsBeforeSave: 1,
+        contentTypeJson: true,
+        storeComponents: true,
+        storeStyles: true,
+        storeHtml: true,
+        storeCss: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        id: '',
+        urlStore: `${process.env.REACT_APP_API_URL}pages/${1}/content`,
+        urlLoad: `${process.env.REACT_APP_API_URL}pages/${1}/content`,
       }}
       blockManager={{
         appendTo: '.gjs-pn-block-container'

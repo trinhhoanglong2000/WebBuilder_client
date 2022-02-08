@@ -146,7 +146,6 @@ export default function loadBlocks(editor, opt = {}) {
             : ''
         }`
       });
-  
     toAdd('column2') &&
       bm.add('column2', {
         label: c.labelColumn2,
@@ -271,6 +270,18 @@ export default function loadBlocks(editor, opt = {}) {
         </style>`,
         attributes: {class:'gjs-fonts gjs-f-divider'}
       });
-  
+      toAdd('carousel') &&
+      bm.add('carousel', {
+        label: c.carouselBlkLabel,
+        category: c.carousel_category,
+        content: `<h1> Heheboiz<h1>
+        <style>
+        .divider {
+          background-color: rgba(0, 0, 0, 0.1);
+          height: 1px;
+        }
+        </style>`,
+        attributes: {class:'gjs-fonts carousel-icon'}
+      });
    
   }

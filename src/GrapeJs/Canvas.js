@@ -10,14 +10,27 @@ import 'grapesjs-navbar';
 import gjsForms from 'grapesjs-plugin-forms';
 import pluginTooltip from 'grapesjs-tooltip';
 import grapjesTab from 'grapesjs-tabs'
-
+//2022/08/02 LONG-TP ADD START 
+import './blocks/basicBlocks/basicBlocks.css';
+ //2022/08/02 LONG-TP ADD END 
 /////////======================================
 //=======|Type 0 = Basic|=========
 //=======|Type 1 = Intermediate|=========
 //=======|Type 2 = Advanced|=========
 function Canvas({ type }) {
 
-  const getPlugins = () => {
+   const getPlugins = () => {
+  //   const plugins = ['gjs-blocks-basic', 'gjs-blocks-intermediate', 'gjs-blocks-advanced']
+  //   let result = plugins.slice(0, type + 1);
+  //   //Optional
+  //   if (type => 1) {
+  //     result = result.concat([gjsForms])
+  //   }
+  //   if (type >= 2) {
+  //     result = result.concat([pluginTooltip, grapjesTab])
+  //   }
+  //   result = result.concat(['Plugins-defaults', 'gjs-navbar'])
+  //   return result
     const plugins = ['gjs-blocks-basic', 'gjs-blocks-intermediate', 'gjs-blocks-advanced']
     let result = plugins.slice(0, type + 1);
     //Optional
@@ -28,7 +41,7 @@ function Canvas({ type }) {
       result = result.concat([pluginTooltip, grapjesTab])
     }
     result = result.concat(['Plugins-defaults', 'gjs-navbar'])
-    return result
+    return result;
   }
 
 
@@ -71,7 +84,16 @@ function Canvas({ type }) {
         urlLoad: `${process.env.REACT_APP_API_URL}pages/${1}/content`,
       }}
       blockManager={{
-        appendTo: '.gjs-pn-block-container'
+        appendTo: '.gjs-pn-block-container',
+        blocks: [{
+          id: 'section', // id is mandatory
+          label: '<b>Section</b>', // You can use HTML/SVG inside labels
+          attributes: { class:'gjs-block-section' },
+          content: `<section>
+            <h1>This is a simple title</h1>
+            <div>This is just a Lorem text: Lorem ipsum dolor sit amet</div>
+          </section>`,
+        },]
       }}
       //===============|Editor is here |============
       //===============|Do the event listen here|===============

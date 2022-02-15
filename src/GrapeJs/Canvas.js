@@ -82,6 +82,11 @@ function Canvas({ type }) {
       //===============|Editor is here |============
       //===============|Do the event listen here|===============
       onInit={(editor) => {
+        editor.on('block:add', (block) => { 
+          console.log(this)
+          console.log("HEHE")
+        });
+
         //CustomeCode(e);
         var iframe = document.querySelector("iframe").contentWindow.document;
         //need to update in here

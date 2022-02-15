@@ -12,6 +12,7 @@ export default grapesjs.plugins.add('gjs-blocks-basic', (editor, opts = {}) => {
       'image',
       'button',
       'divider',
+      'test'
 
     ],
     flexGrid: 0,

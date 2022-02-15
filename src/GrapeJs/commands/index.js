@@ -42,11 +42,5 @@ export default function LoadCommands(editor, config) {
       });
     }
 
-    //load agian
-    //Transition 1s so we wait a little bit longer then refresh the editor
-
-    // setTimeout(()=>{
-    //   editor.refresh()
-    // },1100)
   });
 }

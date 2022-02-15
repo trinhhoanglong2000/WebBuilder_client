@@ -20,24 +20,26 @@ export default function LoadCommands(editor, config) {
   cm.add(openBlock, (e) => {
     var element = document.getElementsByClassName("gjs-pn-block-container");
     var elementCanvas = document.getElementsByClassName("gjs-cv-canvas");
-    // var elementCanvas = document.getElementsByClassName("gjs-frame-wrapper");
+    //====Add transition
+    element[0].classList.add("trans")
+    elementCanvas[0].classList.add("trans")
 
-    // Iterate through the retrieved elements and add the necessary class names.
     for (var i = 0; i < element.length; i++) {
       element[i].classList.toggle("active-block");
     }
-
     for (i = 0; i < elementCanvas.length; i++) {
       elementCanvas[i].classList.toggle("active-canvas");
-      //================|START|==========================
+      //================|Start Transition|==========================
       elementCanvas[i].addEventListener("transitionstart", function () {
         this.classList.add("disabled")
       });
-      //================|END|==========================
-
+      //================|End Transition|==========================
       elementCanvas[i].addEventListener("transitionend", function () {
         this.classList.remove("disabled");
+        element[0].classList.remove("trans")
+        elementCanvas[0].classList.remove("trans")
 
+        
         editor.refresh();
       });
     }

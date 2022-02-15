@@ -29,15 +29,18 @@
   left: 0%;
   width: 15%;
   overflow: auto;
-  transition: 1s;
   box-shadow: 0 0 5px rgb(0 0 0 / 20%);
 }
 
 /* Cavas */
+.trans{
+  transition: 1s;
+
+}
 .gjs-cv-canvas {
   width: 70%;
   right: 15%;
-  transition: 1s;
+  /* transition: 1s; */
   left: unset;
 }
 .active-block {

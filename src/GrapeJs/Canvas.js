@@ -11,8 +11,7 @@ import "grapesjs-navbar";
 import gjsForms from "grapesjs-plugin-forms";
 import pluginTooltip from "grapesjs-tooltip";
 import grapjesTab from "grapesjs-tabs";
-
-
+import { v4 as uuidv4 } from 'uuid';
 /////////======================================
 //=======|Type 0 = Basic|=========
 //=======|Type 1 = Intermediate|=========
@@ -82,32 +81,32 @@ function Canvas({ type }) {
       //===============|Editor is here |============
       //===============|Do the event listen here|===============
       onInit={(editor) => {
-        editor.on('block:add', (block) => { 
-          console.log(this)
-          console.log("HEHE")
+        editor.on('block:drag:stop', function (droppedComponent) {
+
+          droppedComponent.attributes.components.models.forEach(function (item) {
+            //check product//
+            if (item.attributes.name === "Products") {
+              console.log(item)
+
+              item.set({
+                
+                
+                  content: item.attributes.content.replace(/myCarousel/g, `${uuidv4()}`)
+                
+              })
+
+
+            }
+          })
+
+          //update the canvas
+
+
         });
 
         //CustomeCode(e);
-        var iframe = document.querySelector("iframe").contentWindow.document;
         //need to update in here
-        iframe.addEventListener("load", function (event) {
-          (async () => {
-            try {
 
-              console.log("HEHE");
-
-
-
-
-
-
-
-            } catch (e) {
-              // Deal with the fact the chain failed
-              console.log(e);
-            }
-          })();
-        });
 
       }}
       canvas={{

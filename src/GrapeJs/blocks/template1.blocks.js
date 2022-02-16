@@ -7,6 +7,7 @@ export default function loadBlocks(editor, opt = {}) {
     category: c.catergory_product_list,
 
     attributes: { class: "fa fa-paragraph" },
+ 
 
     content: {
       attributes: { class: "container product-section" },
@@ -26,12 +27,11 @@ export default function loadBlocks(editor, opt = {}) {
           removable:false, 
           name: "Products",
 
-          script: function(){
-            document.querySelector(`#${this.id} .carousel-control.left`).href = `#${this.id}Caracarousel`
-            document.querySelector(`#${this.id} .carousel-control.right`).href = `#${this.id}Caracarousel`
-            document.querySelector(`#${this.id} .carousel.slide`).id = `${this.id}Caracarousel`
- 
-          },
+        //   script: function(){
+        //     document.querySelector(`#${this.id} .carousel-control.left`).href = `#${this.id}Caracarousel`
+        //     document.querySelector(`#${this.id} .carousel-control.right`).href = `#${this.id}Caracarousel`
+        //     document.querySelector(`#${this.id} .carousel.slide`).id = `${this.id}Caracarousel`
+        //   },
           content: `<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="0">
               <!-- Carousel indicators -->
     

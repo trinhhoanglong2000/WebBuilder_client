@@ -1,38 +1,37 @@
 export default function loadBlocks(editor, opt = {}) {
-  const c = opt;
-  let bm = editor.BlockManager;
-  //========| |============//  
-  bm.add("productList", {
-    label: c.label_product_list,
-    category: c.catergory_product_list,
+    const c = opt;
+    let bm = editor.BlockManager;
+    //========| |============//
+    bm.add("productList", {
+        label: c.label_product_list,
+        category: c.catergory_product_list,
 
-    attributes: { class: "fa fa-paragraph" },
- 
+        attributes: { class: "fa fa-paragraph" },
 
-    content: {
-      attributes: { class: "container product-section" },
-      name: "Section",
-      content: <div class="container"></div>,
-      components: [
-        {
-          name: "Text",
-          draggable: ".product-section",
-          tagName:'h2',
-          content: `Trending Products`,
-          editable : true,
-          droppable :false,
-          type:'text',
-        },
-        {
-          removable:false, 
-          name: "Products",
+        content: {
+            attributes: { class: "container product-section" },
+            name: "Section",
+            draggable: "[data-gjs-type=wrapper]",
+            components: [
+                {
+                    name: "Text",
+                    draggable: ".product-section",
+                    tagName: "h2",
+                    content: `Trending Products`,
+                    editable: true,
+                    droppable: false,
+                    type: "text",
+                },
+                {
+                    removable: false,
+                    name: "Products",
+                    //   script: function(){
+                    //     document.querySelector(`#${this.id} .carousel-control.left`).href = `#${this.id}Caracarousel`
+                    //     document.querySelector(`#${this.id} .carousel-control.right`).href = `#${this.id}Caracarousel`
+                    //     document.querySelector(`#${this.id} .carousel.slide`).id = `${this.id}Caracarousel`
+                    //   },
 
-        //   script: function(){
-        //     document.querySelector(`#${this.id} .carousel-control.left`).href = `#${this.id}Caracarousel`
-        //     document.querySelector(`#${this.id} .carousel-control.right`).href = `#${this.id}Caracarousel`
-        //     document.querySelector(`#${this.id} .carousel.slide`).id = `${this.id}Caracarousel`
-        //   },
-          content: `<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="0">
+                    content: `<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="0">
               <!-- Carousel indicators -->
     
               <!-- Wrapper for carousel items -->
@@ -48,7 +47,7 @@ export default function loadBlocks(editor, opt = {}) {
                                   </div>
                                   <div class="thumb-content">
                                       <h4>Apple iPad</h4>
-                                      <p class="item-price"><strike>$400.00</strike> <span>$369.00</span></p>
+                                      <p class="item-price"><strike>$9.00</strike> <span>$8.00</span></p>
                                       <div class="star-rating">
                                           <ul class="list-inline">
                                               <li class="list-inline-item"><i class="fa fa-star"></i></li>
@@ -323,8 +322,66 @@ export default function loadBlocks(editor, opt = {}) {
                   <i class="fa fa-angle-right"></i>
               </a>
           </div> `,
+                },
+            ],
         },
-      ],
-    },
-  });
+    });
+
+    bm.add("carousel", {
+        label: `
+    <svg height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg">
+    <path d="M14 38h20V8H14v30zM4 34h8V12H4v22zm32-22v22h8V12h-8z"/><path d="M0 0h48v48H0z" fill="none"/>
+    </svg>
+      <div>${c.carouselBlkLabel}</div> `,
+        category: c.carousel_category,
+        draggable: "[data-gjs-type=wrapper]",
+
+        content: [
+            {
+                name: "Carousel",
+                tagName: "carousel",
+                content: `
+        <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" style="padding:0px">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          </div>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <img src="https://dummyimage.com/1360x540/55595c/fff" class="d-block w-100" alt="...">
+              <div class="carousel-caption d-none d-md-block">
+                <h5>First slide label</h5>
+                <p>Some representative placeholder content for the first slide.</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img src="https://dummyimage.com/1360x540/55595c/fff" class="d-block w-100" alt="...">
+              <div class="carousel-caption d-none d-md-block">
+                <h5>Second slide label</h5>
+                <p>Some representative placeholder content for the second slide.</p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img src="https://dummyimage.com/1360x540/55595c/fff" class="d-block w-100" alt="...">
+              <div class="carousel-caption d-none d-md-block">
+                <h5>Third slide label</h5>
+                <p>Some representative placeholder content for the third slide.</p>
+              </div>
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+            <div class="carousel-control-prev-icon" aria-hidden="true"></div>
+            <div class="visually-hidden">Previous</div>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+            <div class="carousel-control-next-icon" aria-hidden="true"></div>
+            <div class="visually-hidden">Next</div>
+          </button>
+      </div>
+
+        `,
+            },
+        ],
+    });
 }

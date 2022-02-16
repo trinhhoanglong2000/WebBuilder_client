@@ -8,10 +8,12 @@ export default grapesjs.plugins.add("template1",(editor, opts = {}) => {
       blocks: [],
       //=======================|Category name|=======================
       catergory_product_list :"Products",
+      carousel_category: "Carousel",
 
      
       //=======================|Block name|=======================
       label_product_list :"Product collection",
+      carouselBlkLabel: "Carousel",
 
       ...opts,
     };

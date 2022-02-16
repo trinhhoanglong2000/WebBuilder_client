@@ -1,5 +1,5 @@
 export default function loadStyles(editor, config) {
-    const style = ` h2 {
+  const style = ` h2 {
         color: #000;
         font-size: 26px;
         font-weight: 300;
@@ -56,7 +56,7 @@ export default function loadStyles(editor, config) {
     .carousel .item h4 {
       font-size: 18px;
       margin: 10px 0;
-      height: 40px;
+      height: 40px!important;
   }
 
     .carousel .item .btn {
@@ -120,6 +120,8 @@ export default function loadStyles(editor, config) {
     .carousel .item-price {
         font-size: 13px;
         padding: 2px 0;
+        margin: auto;
+        width: 50px;
     }
 
     .carousel .item-price strike {
@@ -168,8 +170,7 @@ export default function loadStyles(editor, config) {
     .star-rating i {
         font-size: 14px;
         color: #ffc000;
-    }`
-  
-    editor.setStyle(style);
+    }`;
 
+  editor.setStyle(style);
 }

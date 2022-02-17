@@ -12,9 +12,9 @@ export default grapesjs.plugins.add('gjs-blocks-basic', (editor, opts = {}) => {
       'image',
       'button',
       'divider',
-      //2022/06/02 LONG-TP ADD START 
-      'carousel'
-      //2022/06/02 LONG-TP ADD END 
+
+
+
     ],
     flexGrid: 0,
     stylePrefix: 'gjs-',
@@ -29,9 +29,8 @@ export default grapesjs.plugins.add('gjs-blocks-basic', (editor, opts = {}) => {
     labelImage_category: 'Media',
     Button_category: "Extras",
     divider_category: "Layout",
-    //2022/06/02 LONG-TP ADD START 
-    carousel_category: "Carousel",
-    //2022/06/02 LONG-TP ADD END 
+
+
 
     // labelVideo_category: 'Media',
     // labelMap_category: 'Extras',
@@ -46,9 +45,8 @@ export default grapesjs.plugins.add('gjs-blocks-basic', (editor, opts = {}) => {
     labelImage: 'Image',
     buttonBlkLabel :'Button',
     dividerBlkLabel: "Divider",
-    //2022/06/02 LONG-TP ADD START 
-    carouselBlkLabel: "Carousel",
-    //2022/06/02 LONG-TP ADD END 
+    
+
 
     // labelVideo: 'Video',
     // labelMap: 'Map',

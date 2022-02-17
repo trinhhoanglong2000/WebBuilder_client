@@ -1,15 +1,15 @@
 export default function loadBlocks(editor, opt = {}) {
-    const c = opt;
-    let bm = editor.BlockManager;
-    let blocks = c.blocks;
-    let stylePrefix = c.stylePrefix;
-    const flexGrid = c.flexGrid;
-    const basicStyle = c.addBasicStyle;
-    const rowHeight = c.rowHeight;
-    const clsRow = `${stylePrefix}row`;
-    const clsCell = `${stylePrefix}cell`;
-    const styleRow = flexGrid
-      ? `
+  const c = opt;
+  let bm = editor.BlockManager;
+  let blocks = c.blocks;
+  let stylePrefix = c.stylePrefix;
+  const flexGrid = c.flexGrid;
+  const basicStyle = c.addBasicStyle;
+  const rowHeight = c.rowHeight;
+  const clsRow = `${stylePrefix}row`;
+  const clsCell = `${stylePrefix}cell`;
+  const styleRow = flexGrid
+    ? `
       .${clsRow} {
         display: flex;
         justify-content: flex-start;
@@ -22,7 +22,7 @@ export default function loadBlocks(editor, opt = {}) {
           flex-wrap: wrap;
         }
       }`
-      : `
+    : `
       .${clsRow} {
         display: table;
         padding: 10px;
@@ -34,107 +34,107 @@ export default function loadBlocks(editor, opt = {}) {
           display: block;
         }
       }`;
-    const styleClm = flexGrid
-      ? `
+  const styleClm = flexGrid
+    ? `
       .${clsCell} {
         min-height: ${rowHeight}px;
         flex-grow: 1;
         flex-basis: 100%;
       }`
-      : `
+    : `
       .${clsCell} {
         width: 8%;
         display: table-cell;
         height: ${rowHeight}px;
       }`;
-    const styleClm30 = `
+  const styleClm30 = `
     .${stylePrefix}cell30 {
       width: 30%;
     }`;
-    const styleClm70 = `
+  const styleClm70 = `
     .${stylePrefix}cell70 {
       width: 70%;
     }`;
-  
-    const step = 0.2;
-    const minDim = 1;
-    const currentUnit = 1;
-    const resizerBtm = {
-      tl: 0,
-      tc: 0,
-      tr: 0,
-      cl: 0,
-      cr: 0,
-      bl: 0,
-      br: 0,
-      minDim
-    };
-    const resizerRight = {
-      ...resizerBtm,
-      cr: 1,
-      bc: 0,
-      currentUnit,
-      minDim,
-      step
-    };
-  
-    // Flex elements do not react on width style change therefore I use
-    // 'flex-basis' as keyWidth for the resizer on columns
-    if (flexGrid) {
-      resizerRight.keyWidth = 'flex-basis';
+
+  const step = 0.2;
+  const minDim = 1;
+  const currentUnit = 1;
+  const resizerBtm = {
+    tl: 0,
+    tc: 0,
+    tr: 0,
+    cl: 0,
+    cr: 0,
+    bl: 0,
+    br: 0,
+    minDim,
+  };
+  const resizerRight = {
+    ...resizerBtm,
+    cr: 1,
+    bc: 0,
+    currentUnit,
+    minDim,
+    step,
+  };
+
+  // Flex elements do not react on width style change therefore I use
+  // 'flex-basis' as keyWidth for the resizer on columns
+  if (flexGrid) {
+    resizerRight.keyWidth = "flex-basis";
+  }
+
+  const rowAttr = {
+    class: clsRow,
+    "data-gjs-droppable": `.${clsCell}`,
+    "data-gjs-resizable": resizerBtm,
+    "data-gjs-name": "Row",
+  };
+
+  const colAttr = {
+    class: clsCell,
+    "data-gjs-draggable": `.${clsRow}`,
+    "data-gjs-resizable": resizerRight,
+    "data-gjs-name": "Cell",
+  };
+
+  if (flexGrid) {
+    colAttr["data-gjs-unstylable"] = ["width"];
+    colAttr["data-gjs-stylable-require"] = ["flex-basis"];
+  }
+
+  // Make row and column classes private
+  const privateCls = [`.${clsRow}`, `.${clsCell}`];
+  editor.on(
+    "selector:add",
+    (selector) =>
+      privateCls.indexOf(selector.getFullName()) >= 0 &&
+      selector.set("private", 1)
+  );
+
+  const attrsToString = (attrs) => {
+    const result = [];
+
+    for (let key in attrs) {
+      let value = attrs[key];
+      const toParse = value instanceof Array || value instanceof Object;
+      value = toParse ? JSON.stringify(value) : value;
+      result.push(`${key}=${toParse ? `'${value}'` : `'${value}'`}`);
     }
-  
-    const rowAttr = {
-      class: clsRow,
-      'data-gjs-droppable': `.${clsCell}`,
-      'data-gjs-resizable': resizerBtm,
-      'data-gjs-name': 'Row'
-    };
-  
-    const colAttr = {
-      class: clsCell,
-      'data-gjs-draggable': `.${clsRow}`,
-      'data-gjs-resizable': resizerRight,
-      'data-gjs-name': 'Cell'
-    };
-  
-    if (flexGrid) {
-      colAttr['data-gjs-unstylable'] = ['width'];
-      colAttr['data-gjs-stylable-require'] = ['flex-basis'];
-    }
-  
-    // Make row and column classes private
-    const privateCls = [`.${clsRow}`, `.${clsCell}`];
-    editor.on(
-      'selector:add',
-      selector =>
-        privateCls.indexOf(selector.getFullName()) >= 0 &&
-        selector.set('private', 1)
-    );
-  
-    const attrsToString = attrs => {
-      const result = [];
-  
-      for (let key in attrs) {
-        let value = attrs[key];
-        const toParse = value instanceof Array || value instanceof Object;
-        value = toParse ? JSON.stringify(value) : value;
-        result.push(`${key}=${toParse ? `'${value}'` : `'${value}'`}`);
-      }
-  
-      return result.length ? ` ${result.join(' ')}` : '';
-    };
-  
-    const toAdd = name => blocks.indexOf(name) >= 0;
-    const attrsRow = attrsToString(rowAttr);
-    const attrsCell = attrsToString(colAttr);
-  
-    toAdd('column1') &&
-      bm.add('column1', {
-        label: c.labelColumn1,
-        category: c.labelColumn1_category,
-        attributes: { class: 'gjs-fonts gjs-f-b1' },
-        content: `<div ${attrsRow}>
+
+    return result.length ? ` ${result.join(" ")}` : "";
+  };
+
+  const toAdd = (name) => blocks.indexOf(name) >= 0;
+  const attrsRow = attrsToString(rowAttr);
+  const attrsCell = attrsToString(colAttr);
+
+  toAdd("column1") &&
+    bm.add("column1", {
+      label: c.labelColumn1,
+      category: c.labelColumn1_category,
+      attributes: { class: "gjs-fonts gjs-f-b1" },
+      content: `<div ${attrsRow}>
           <div ${attrsCell}></div>
         </div>
         ${
@@ -143,15 +143,16 @@ export default function loadBlocks(editor, opt = {}) {
             ${styleRow}
             ${styleClm}
           </style>`
-            : ''
-        }`
-      });
-    toAdd('column2') &&
-      bm.add('column2', {
-        label: c.labelColumn2,
-        attributes: { class: 'gjs-fonts gjs-f-b2' },
-        category: c.labelColumn2_category,
-        content: `<div ${attrsRow}>
+            : ""
+        }`,
+    });
+
+  toAdd("column2") &&
+    bm.add("column2", {
+      label: c.labelColumn2,
+      attributes: { class: "gjs-fonts gjs-f-b2" },
+      category: c.labelColumn2_category,
+      content: `<div ${attrsRow}>
           <div ${attrsCell}></div>
           <div ${attrsCell}></div>
         </div>
@@ -161,16 +162,16 @@ export default function loadBlocks(editor, opt = {}) {
             ${styleRow}
             ${styleClm}
           </style>`
-            : ''
-        }`
-      });
-  
-    toAdd('column3') &&
-      bm.add('column3', {
-        label: c.labelColumn3,
-        category: c.labelColumn3_category,
-        attributes: { class: 'gjs-fonts gjs-f-b3' },
-        content: `<div ${attrsRow}>
+            : ""
+        }`,
+    });
+
+  toAdd("column3") &&
+    bm.add("column3", {
+      label: c.labelColumn3,
+      category: c.labelColumn3_category,
+      attributes: { class: "gjs-fonts gjs-f-b3" },
+      content: `<div ${attrsRow}>
           <div ${attrsCell}></div>
           <div ${attrsCell}></div>
           <div ${attrsCell}></div>
@@ -181,22 +182,22 @@ export default function loadBlocks(editor, opt = {}) {
             ${styleRow}
             ${styleClm}
           </style>`
-            : ''
-        }`
-      });
-  
-    toAdd('column3-7') &&
-      bm.add('column3-7', {
-        label: c.labelColumn37,
-        category: c.labelColumn37_category,
-        attributes: { class: 'gjs-fonts gjs-f-b37' },
-        content: `<div ${attrsRow}>
+            : ""
+        }`,
+    });
+
+  toAdd("column3-7") &&
+    bm.add("column3-7", {
+      label: c.labelColumn37,
+      category: c.labelColumn37_category,
+      attributes: { class: "gjs-fonts gjs-f-b37" },
+      content: `<div ${attrsRow}>
           <div ${attrsCell} style='${
-          flexGrid ? 'flex-basis' : 'width'
-        }: 30%;'></div>
+        flexGrid ? "flex-basis" : "width"
+      }: 30%;'></div>
           <div ${attrsCell} style='${
-          flexGrid ? 'flex-basis' : 'width'
-        }: 70%;'></div>
+        flexGrid ? "flex-basis" : "width"
+      }: 70%;'></div>
         </div>
         ${
           basicStyle
@@ -206,58 +207,60 @@ export default function loadBlocks(editor, opt = {}) {
             ${styleClm30}
             ${styleClm70}
           </style>`
-            : ''
-        }`
-      });
-  
-    toAdd('text') &&
-      bm.add('text', {
-        label: c.labelText,
-        category: c.labelText_category,
-        attributes: { class: 'fa fa-paragraph' },
-        content: {
-          type: 'text',
-          content: 'Insert your text here',
-          style: { padding: '10px' },
-          activeOnRender: 1
-        }
-      });
-  
-    toAdd('link') &&
-      bm.add('link', {
-        label: c.labelLink,
-        category: c.labelLink_category,
-        attributes: { class: 'fa fa-link' },
-        content: {
-          type: 'link',
-          content: 'Link',
-          style: { color: '#d983a6' }
-        }
-      });
-  
-    toAdd('image') &&
-      bm.add('image', {
-        label: c.labelImage,
-        category: c.labelImage_category,
-        attributes: { class: 'fa fa-image' },
-        content: {
-          style: { color: 'black' },
-          type: 'image',
-          activeOnRender: 1
-        }
-      });
-      toAdd('button') &&
-      bm.add('button', {
-        label: c.buttonBlkLabel,
-        category: c.Button_category,
-        content: '<a class="button">Button</a>',
-        attributes: {class:'gjs-fonts gjs-f-button'}
-      });
-      toAdd('divider') &&
-      bm.add('divider', {
-        label: c.dividerBlkLabel,
-        category: c.divider_category,
-        content: `<table style="width: 100%; margin-top: 10px; margin-bottom: 10px;">
+            : ""
+        }`,
+    });
+
+  toAdd("text") &&
+    bm.add("text", {
+      label: c.labelText,
+      category: c.labelText_category,
+
+      attributes: { class: "fa fa-paragraph" },
+      content: {
+        type: "text",
+        content: "Insert your text here",
+        style: { padding: "10px" },
+        activeOnRender: 1,
+      },
+    });
+
+  toAdd("link") &&
+    bm.add("link", {
+      label: c.labelLink,
+      category: c.labelLink_category,
+      attributes: { class: "fa fa-link" },
+      content: {
+        type: "link",
+        content: "Link",
+        style: { color: "#d983a6" },
+      },
+    });
+
+  toAdd("image") &&
+    bm.add("image", {
+      label: c.labelImage,
+      category: c.labelImage_category,
+      attributes: { class: "fa fa-image" },
+      content: {
+        style: { color: "black" },
+        type: "image",
+        activeOnRender: 1,
+      },
+    });
+  toAdd("button") &&
+    bm.add("button", {
+      label: c.buttonBlkLabel,
+      category: c.Button_category,
+      content: '<a class="button">Button</a>',
+      attributes: { class: "gjs-fonts gjs-f-button" },
+    });
+    
+  toAdd("divider") &&
+    bm.add("divider", {
+      label: c.dividerBlkLabel,
+      category: c.divider_category,
+      content: `<table style="width: 100%; margin-top: 10px; margin-bottom: 10px;">
           <tr>
             <td class="divider"></td>
           </tr>
@@ -268,61 +271,7 @@ export default function loadBlocks(editor, opt = {}) {
           height: 1px;
         }
         </style>`,
-        attributes: {class:'gjs-fonts gjs-f-divider'}
-      });
-      //2022/06/02 LONG-TP ADD START 
-      toAdd('carousel') &&
-      bm.add('carousel', {
-        label: c.carouselBlkLabel,
-        category: c.carousel_category,
-        content:[
-          {
-            tagName: 'carousel',
-            content: 
-            `
-            <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-              <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-              </div>
-              <div class="carousel-inner">
-                <div class="carousel-item active">
-                  <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(46).jpg" class="d-block w-100" alt="...">
-                  <div class="carousel-caption d-none d-md-block">
-                    <h5>First slide label</h5>
-                    <p>Some representative placeholder content for the first slide.</p>
-                  </div>
-                </div>
-                <div class="carousel-item">
-                  <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(46).jpg" class="d-block w-100" alt="...">
-                  <div class="carousel-caption d-none d-md-block">
-                    <h5>Second slide label</h5>
-                    <p>Some representative placeholder content for the second slide.</p>
-                  </div>
-                </div>
-                <div class="carousel-item">
-                  <img src="https://mdbootstrap.com/img/Photos/Slides/img%20(46).jpg" class="d-block w-100" alt="...">
-                  <div class="carousel-caption d-none d-md-block">
-                    <h5>Third slide label</h5>
-                    <p>Some representative placeholder content for the third slide.</p>
-                  </div>
-                </div>
-              </div>
-              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-                <div class="carousel-control-prev-icon" aria-hidden="true"></div>
-                <div class="visually-hidden">Previous</div>
-              </button>
-              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-                <div class="carousel-control-next-icon" aria-hidden="true"></div>
-                <div class="visually-hidden">Next</div>
-              </button>
-          </div>
-    
-            `,
-        },
-        ],
-        attributes: {class:'gjs-fonts carousel-icon' }
-      });
-      //2022/06/02 LONG-TP ADD END 
-  }
+      attributes: { class: "gjs-fonts gjs-f-divider" },
+    });
+
+}

@@ -1,13 +1,14 @@
+import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 export default function loadBlocks(editor, opt = {}) {
   const c = opt;
   let bm = editor.BlockManager;
   //========| |============//
   bm.add("productList", {
-    label: c.label_product_list,
+   
+    label: `
+      <div>${c.label_product_list}</div> `,
     category: c.catergory_product_list,
-
-    attributes: { class: "fa fa-paragraph" },
-
+    attributes : {class :"fa fa-cube"},
     content: {
       attributes: { class: "container product-section" },
       name: "Section",
@@ -25,11 +26,6 @@ export default function loadBlocks(editor, opt = {}) {
         {
           removable: false,
           name: "Products",
-          //   script: function(){
-          //     document.querySelector(`#${this.id} .carousel-control.left`).href = `#${this.id}Caracarousel`
-          //     document.querySelector(`#${this.id} .carousel-control.right`).href = `#${this.id}Caracarousel`
-          //     document.querySelector(`#${this.id} .carousel.slide`).id = `${this.id}Caracarousel`
-          //   },
 
           content: `                <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
                     <!-- Carousel indicators -->

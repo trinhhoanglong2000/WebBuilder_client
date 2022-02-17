@@ -1,8 +1,8 @@
-import {default as loadBlocks }from '../blocks/template1.blocks'
+import {default as loadBlocks }from '../blocks/template-default.blocks'
 import grapesjs from "grapesjs";
-import loadStyles from '../styles/template1.styles';
+import loadStyles from '../styles/template-default.styles';
 
-export default grapesjs.plugins.add("template1",(editor, opts = {}) => {
+export default grapesjs.plugins.add("template-default",(editor, opts = {}) => {
    
     const config = {
       blocks: [],

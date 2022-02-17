@@ -255,6 +255,7 @@ export default function loadBlocks(editor, opt = {}) {
       content: '<a class="button">Button</a>',
       attributes: { class: "gjs-fonts gjs-f-button" },
     });
+    
   toAdd("divider") &&
     bm.add("divider", {
       label: c.dividerBlkLabel,

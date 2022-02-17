@@ -3,14 +3,9 @@ import "grapesjs/dist/css/grapes.min.css";
 import "./dist/Canvas.css";
 
 import "./blocks/basicBlocks/index";
-import "./blocks/intermediateBlocks/index";
-import "./blocks/AdvancedBlocks/index";
+
 import "./plugins/index";
-import "./plugins/template1.plugins";
-import "grapesjs-navbar";
-import gjsForms from "grapesjs-plugin-forms";
-import pluginTooltip from "grapesjs-tooltip";
-import grapjesTab from "grapesjs-tabs";
+import "./plugins/template-default.plugins";
 import { v4 as uuidv4 } from "uuid";
 /////////======================================
 //=======|Type 0 = Basic|=========
@@ -18,21 +13,8 @@ import { v4 as uuidv4 } from "uuid";
 //=======|Type 2 = Advanced|=========
 function Canvas({ type }) {
   const getPlugins = () => {
-    const plugins = [
-      "gjs-blocks-basic",
-      "gjs-blocks-intermediate",
-      "gjs-blocks-advanced",
-    ];
-    let result = plugins.slice(0, type + 1);
-    //Optional
-    if ((type) => 1) {
-      result = result.concat([gjsForms]);
-    }
-    if (type >= 2) {
-      result = result.concat([pluginTooltip, grapjesTab]);
-    }
-    result = result.concat(["Plugins-defaults", "gjs-navbar", "template1"]);
-    return result;
+
+    return ["Plugins-defaults", "template-default","gjs-blocks-basic",];
   };
 
   return (
@@ -40,16 +22,7 @@ function Canvas({ type }) {
       id="grapesjs-react"
       plugins={getPlugins()}
       pluginsOpts={{
-        "gjs-navbar": { labelNavbarCategory: "Navigation" },
-        [pluginTooltip]: {
-          blockTooltip: {
-            category: "Extras",
-            attributes: { class: "tooltip" },
-          },
-        },
-        [grapjesTab]: {
-          tabsBlock: { category: "Navigation" },
-        },
+       
       }}
       styleManager={
         {

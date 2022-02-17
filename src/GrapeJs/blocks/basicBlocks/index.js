@@ -12,7 +12,8 @@ export default grapesjs.plugins.add('gjs-blocks-basic', (editor, opts = {}) => {
       'image',
       'button',
       'divider',
-      'test'
+
+
 
     ],
     flexGrid: 0,
@@ -29,6 +30,8 @@ export default grapesjs.plugins.add('gjs-blocks-basic', (editor, opts = {}) => {
     Button_category: "Extras",
     divider_category: "Layout",
 
+
+
     // labelVideo_category: 'Media',
     // labelMap_category: 'Extras',
     //=======================|Block name|=======================
@@ -42,6 +45,7 @@ export default grapesjs.plugins.add('gjs-blocks-basic', (editor, opts = {}) => {
     labelImage: 'Image',
     buttonBlkLabel :'Button',
     dividerBlkLabel: "Divider",
+    
 
 
     // labelVideo: 'Video',

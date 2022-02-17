@@ -20,7 +20,7 @@
 }
 
 .gjs-pn-block-container {
-  height: 100%;
+  height: calc(100% - 42px);
   /*  */
   padding: 0 0 0;
   top: 42px;

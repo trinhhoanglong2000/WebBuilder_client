@@ -7,7 +7,7 @@ body {
   overflow-y: scroll;
 }
 * {
-  font-family: "Open Sans", sans-serif !important;
+  font-family: "Open Sans", sans-serif;
 }
 
 .fa-icon {

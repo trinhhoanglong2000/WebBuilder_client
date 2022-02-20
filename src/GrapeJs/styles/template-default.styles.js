@@ -170,7 +170,61 @@ export default function loadStyles(editor, config) {
     .star-rating i {
         font-size: 14px;
         color: #ffc000;
-    }`;
+    }
+    
+
+    // header and footer
+    
+    .navbar .container {
+        min-width: 100%;
+        margin: 5px;
+        padding: 1vh 4vw;
+        background-color: blue;
+    }
+
+    .footer-section {
+        padding: 1vh 3vw;
+    }
+    
+    .icon-header {
+        font-size: 25px;
+        padding-left: 3vw;
+        padding-right: 1vw;
+    }
+    
+    .icon-footer {
+        font-size: 35px;
+        padding: 0vh 1vw;
+    }
+
+    ul {
+        list-style-type: none;
+    }
+
+    a {
+        color: black !important;
+    }
+    
+    a:link {
+        text-decoration: none !important;
+    }
+
+    a:hover {
+        color: black !important;
+    }
+    
+    .icon-social-area {
+        padding-left: 3vw;
+    }
+
+    @media only screen and (max-width: 767px) {
+        a:hover {
+            background-color: grey !important;
+        }
+    }
+    
+    
+    `;
 
   editor.setStyle(style);
 }

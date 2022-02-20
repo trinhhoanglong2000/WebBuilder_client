@@ -381,4 +381,311 @@ export default function loadBlocks(editor, opt = {}) {
       },
     ],
   });
+
+    // Example Data
+    const mFooterNavigation1= [{
+    name: "Search",
+    link: "https://www.youtube.com/"
+    }, {
+    name: "Tern of service",
+    link: "https://www.youtube.com/"
+    }, {
+    name: "Refund policy",
+    link: "https://www.youtube.com/"
+    }];
+
+    // Example Data
+    const mFooterNavigation2= [{
+    name: "Share your store detail, promotion or brand contents",
+    link: "https://www.youtube.com/"
+    }];
+
+    // generate navigation button
+    const getFooterNavigationButton = (mNavigation) => {
+    let navbar = "";
+    if (mNavigation){
+        mNavigation.forEach((element) => {
+            navbar += `<li><a href="${element.link}">${element.name}</a></li>`;
+            })
+
+            return navbar;
+        };
+        return navbar;
+    }
+
+    bm.add('footer', {
+    label: "Footer",
+    category: "Footer",
+    // attributes
+    content: {
+        name: "Section",
+        content: <div></div>,
+        attributes: { class: "footer-section" },
+        components: [
+        {
+            layerable : false,
+            draggable: false,
+            tagName: "hr",
+        },
+        {
+            name: "Footer Navigation",
+            draggable: ".footer-section",
+            tagName: "div",
+            attributes: { class: "row footer-navigation" },
+            content: <div></div>,
+            components: [{
+            name: "Left Navtion",
+            draggable: ".footer-navigation",
+            tagName: "div",
+            attributes: { class: "col-12 col-md-6" },
+            content: `
+            <ul>
+                <h5>Quick link</h5> 
+                ${getFooterNavigationButton(mFooterNavigation1)}
+            </ul>
+            `
+            },
+            {
+            name: "Right Navigation",
+            draggable: ".footer-navigation",
+            tagName: "div",
+            attributes: { class: "col-12 col-md-6" },
+            content: `
+                <ul>
+                <h5>Heading</h5> 
+                ${getFooterNavigationButton(mFooterNavigation2)}
+                </ul>
+            `
+            },
+        ]
+        },     
+        {
+            layerable : false,
+            draggable: false,
+            tagName: "hr",
+        },     
+        {
+            name: "Social Navigation",
+            tagName: "div",
+            draggable: false,
+            attributes: { class: "icon-social-area" },
+            content: `
+            <i class="fa fa-linkedin-square icon-footer" aria-hidden="true"></i>
+            <i class="fa fa-envelope-o icon-footer" aria-hidden="true"></i>
+            <i class="fa fa-facebook-square icon-footer" aria-hidden="true"></i>
+            `
+        },
+        ],
+    }
+    });
+
+    // Example Data
+    const mHeaderNavigation= [{
+        name: "Product",
+        link: "#"
+    }, {
+        name: "Contact",
+        link: "#"
+    }];
+    const storeName = "Store name";
+    // generate navigation button
+    const getHeaderNavigationButton = (mNavigation) => {
+        let navbar = [];
+
+        if (mNavigation){
+            mNavigation.forEach((element) => {
+            navbar.push({
+                layerable : false,  
+                draggable: false,
+                tagName: "li",
+                attributes: { class: "nav-item" },
+                content: `<a href="${element.link}" class="nav-link p-1"> ${element.name}</a>`,
+            });
+            })
+
+            return navbar;
+
+        };
+
+        return navbar;
+    }
+    
+    bm.add('header', {
+    label: "Header",
+    category: "Header",
+    // attributes
+    content: {
+        name: "Header",
+        tagName: "nav",
+        attributes: { class: "navbar navbar-expand-md" },
+        components: [
+        {
+            layerable : false,  
+            draggable: false,
+            tagName: "div",
+            attributes: { class: "container" },
+            components: [
+            {
+                tagName: "button",
+                attributes: { class:"navbar-toggler", type:"button", "data-bs-toggle": "collapse", "data-bs-target": "#navbarSupportedContent", "aria-controls": "navbarSupportedContent", "aria-expanded": "false", "aria-label": "Toggle navigation" },
+                content: `<i class="fa fa-bars"></i>`,
+            },
+            {
+                tagName: "a",
+                attributes: { href: "#", class: "navbar-brand text-uppercase font-weight-bold" },
+                content: `<h4>${storeName}</h4>`,
+            },
+            {
+                tagName: "div",
+                attributes: { class:"d-block d-md-none" },
+                components: [
+                {
+                    tagName: "i",
+                    attributes: { class: "fa fa-search icon-header" },
+                },
+                {
+                    tagName: "i",
+                    attributes: { class: "fa fa-shopping-bag icon-header" },
+                },
+                ],
+            },
+            {
+                tagName: "div",
+                attributes: { id: "navbarSupportedContent", class: "collapse navbar-collapse" },
+                components: [
+                {
+                    tagName: "ul",
+                    attributes: { class: "navbar-nav ml-1" },
+                    components: getHeaderNavigationButton(mHeaderNavigation)
+                },
+                ],
+            },
+            {
+                tagName: "div",
+                attributes: { class:"d-none d-md-block" },
+                components: [
+                {
+                    tagName: "i",
+                    attributes: { class: "fa fa-search icon-header" },
+                },
+                {
+                    tagName: "i",
+                    attributes: { class: "fa fa-shopping-bag icon-header" },
+                },
+                ],
+            },
+            ]
+        },
+        ],
+    }
+    });
+
+    bm.add('header2', {
+        label: "Header2",
+        category: "Header",
+        // attributes
+        content: {
+            name: "Header2",
+            tagName: "div",
+            components: [
+            {
+                layerable : false,  
+                draggable: false,
+                tagName: "nav",
+                attributes: { class: "navbar" },
+                components: [
+                {
+                    tagName: "div",
+                    attributes: { class: "container" },
+                    components: [
+                    {
+                        tagName: "button",
+                        attributes: { class:"d-block d-md-none navbar-toggler", "data-bs-toggle": "offcanvas", "data-bs-target": "#offcanvas", "role": "button"},
+                        content: `<i class="fa fa-bars"></i>`,
+                    },
+                    {
+                        tagName: "a",
+                        attributes: { href: "#", class: "navbar-brand text-uppercase font-weight-bold" },
+                        content: `<h4>${storeName}</h4>`,
+                    },
+                    {
+                        tagName: "div",
+                        attributes: { class:"d-block d-md-none" },
+                        components: [
+                        {
+                            tagName: "i",
+                            attributes: { class: "fa fa-search icon-header" },
+                        },
+                        {
+                            tagName: "i",
+                            attributes: { class: "fa fa-shopping-bag icon-header" },
+                        },
+                        ],
+                    },
+                    {
+                        tagName: "div",
+                        attributes: { class: "d-none d-md-block", style: "flex-grow: 1; align-items: center;" },
+                        components: [
+                        {
+                            tagName: "ul",
+                            attributes: { class: "navbar-nav ml-1;", style: "flex-direction: row;" },
+                            components: getHeaderNavigationButton(mHeaderNavigation)
+                        },
+                        ],
+                    },
+                    {
+                        tagName: "div",
+                        attributes: { class:"d-none d-md-block" },
+                        components: [
+                        {
+                            tagName: "i",
+                            attributes: { class: "fa fa-search icon-header" },
+                        },
+                        {
+                            tagName: "i",
+                            attributes: { class: "fa fa-shopping-bag icon-header" },
+                        },
+                        ],
+                    },
+                    ]
+                },
+                ]
+            },
+            {
+                layerable : false,  
+                draggable: false,
+                name: "Left Side Navigation",
+                tagName: "div",
+                attributes: { class:"offcanvas offcanvas-start w-75", id:"offcanvas", "data-bs-keyboard": "false", "data-bs-backdrop": "false" },
+                components: [
+                {
+                    layerable : false,  
+                    draggable: false,
+                    tagName: "div",
+                    attributes: { class: "offcanvas-header" },
+                    content: `        
+                        <h6 class="offcanvas-title" id="offcanvas">Menu</h6>
+                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    `
+                },
+                {
+                    layerable : false,  
+                    draggable: false,
+                    tagName: "div",
+                    attributes: { class: "offcanvas-body py-0" },
+                    components: [
+                        {
+                            layerable : false,  
+                            draggable: false,
+                            tagName: "ul",
+                            attributes: { class: "nav nav-pills flex-column mb-sm-auto mb-0 align-items-start" },
+                            components: getHeaderNavigationButton(mHeaderNavigation)
+                        }
+                    ]
+                },
+                ],
+            },
+            ]
+        },
+    });
 }

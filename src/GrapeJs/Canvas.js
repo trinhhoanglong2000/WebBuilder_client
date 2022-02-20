@@ -74,7 +74,6 @@ function Canvas({ type }) {
             ) {
               //check product//
               if (item.attributes.name === "Products") {
-                console.log(item);
                 item.set({
                   content: item.attributes.content.replace(
                     /myCarousel/g,
@@ -99,7 +98,6 @@ function Canvas({ type }) {
         scripts: [
           `https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js`,
           `https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js`,
-          `//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js`,
           `//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js`,
           "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js",
         ],

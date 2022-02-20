@@ -1,6 +1,4 @@
-import React, {useState} from "react";
-import {Avatar, Button, Grid, Paper, TextField, Typography} from '@material-ui/core';
-import Stack from '@mui/material/Stack';
+import React from "react";
 import './index.css';
 import { Link } from "react-router-dom";
 
@@ -37,7 +35,7 @@ const HomePage = () => {
                             <h5 className="font-weight-bold  text-second-slide-1">Nội thất và nhà cửa</h5>
                         </div>
                     </div>
-                    <div className="row  text-align-center pb-1">
+                    <div className="row  text-align-center pb-1 pt-2">
                         <h5 className="font-weight-bold text-second-slide-2">Đưa ra các lựa chọn lí tưởng nhất</h5>
                         
                     </div>

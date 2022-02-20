@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import {Avatar, Button, Grid, Paper, TextField, Typography} from '@material-ui/core';
+import React from "react";
+import {Avatar, Typography} from '@material-ui/core';
 import { Dropdown } from 'react-bootstrap';
 import Stack from '@mui/material/Stack';
 import './index.css';
@@ -9,7 +9,7 @@ const NavBar = () => {
     return (
         <>
             <div className="row logo desktop">
-                    <div className="col-3">
+                    <div className=" col-md-3 col-lg-3 col-xl-3">
                         <Stack direction="row" spacing={2 } >  
                             <Avatar
                                 src={process.env.PUBLIC_URL + '/img/Logo.png'}
@@ -18,7 +18,7 @@ const NavBar = () => {
                             <Typography component={'span'} ><h3 className="mt-3 font-weight-bold">EASY MALL</h3></Typography>
                         </Stack>        
                     </div>     
-                    <div className="col-4 offset-5 ">
+                    <div className="col-md-5 col-lg-5 col-xl-4 offset-lg-4 offset-lg-4 offset-xl-5 ">
                         <Stack direction="row" spacing={5} className="navigation-menu ">
                             <Link to={'#'} className="text-nav"> Giá cước</Link>  
                             <Link to={'#'} className="text-nav"> Tìm hiểu</Link>

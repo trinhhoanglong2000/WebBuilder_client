@@ -5,11 +5,14 @@
         padding:  7.5rem 0.5rem 2rem 1.5rem !important;
     }
     .text-end-slide-1 {
-        font-size: 2.5rem !important;
+        font-size: 2.15rem !important;
     }
 
     .text-end-slide-2 {
-        font-size: 1.1rem !important;
+        font-size: 1rem !important;
+    }
+    .first-slide-part2 .btn-first-slide {
+        padding: 0.25rem !important;
     }
 
 } 
@@ -23,11 +26,11 @@
         padding:  7.5rem 0.5rem 0.5rem 1.5rem !important;
     }
     .text-end-slide-1 {
-        font-size: 1.8rem !important;
+        font-size: 1.5rem !important;
     }
 
     .text-end-slide-2 {
-        font-size: 0.95rem !important;
+        font-size: 0.9rem !important;
     }
     .second-slide .column4-second-slide {
         padding: 1.25rem 1.5rem !important;
@@ -72,7 +75,7 @@
         text-align: left !important;
     }
     .text-first-slide {  
-        font-size: 2.5rem !important;
+        font-size: 2rem !important;
         padding:  3rem 0.5rem 0rem 1.5rem !important;
     } 
     .btn-first-slide {
@@ -144,6 +147,8 @@
         font-size: 0.85rem;
         padding-bottom: 0.5rem !important;
     }
+    
+    
 }
 
 @media (max-width: 450px) {  
@@ -162,6 +167,10 @@
     }
     .end-slide .btn-end-slide {
         padding: 0.5rem 1rem !important;
+    }
+    
+    .text-end-slide-1 {
+        font-size: 0.95rem !important;
     }
 }
 .homepage {
@@ -186,7 +195,7 @@ img {
 .text-first-slide {
     color: #2B9361;
     font-weight:bold;
-    font-size: 3.3rem;
+    font-size: 2.25rem;
     padding:  7.5rem 0.5rem 5rem 5rem;
     text-align: left !important;
 }
@@ -273,12 +282,13 @@ img {
     margin-bottom: 8rem;
 }
 .text-end-slide-1 {
-    font-size: 2.85rem;
+    font-size: 2.15rem;
     padding-top:1rem;
 }
 
 .text-end-slide-2 {
-    font-size: 1.2rem;
+    font-size: 1rem;
+    padding-top: 1rem;
 }
 .btn-end-slide {
     border-radius: 45px !important;

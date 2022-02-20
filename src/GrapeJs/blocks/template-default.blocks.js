@@ -418,7 +418,7 @@ export default function loadBlocks(editor, opt = {}) {
     category: "Footer",
     // attributes
     content: {
-        name: "Section",
+        name: "Footer",
         content: <div></div>,
         attributes: { class: "footer-section" },
         components: [
@@ -468,11 +468,11 @@ export default function loadBlocks(editor, opt = {}) {
             name: "Social Navigation",
             tagName: "div",
             draggable: false,
-            attributes: { class: "icon-social-area" },
+            attributes: { class: "text-center text-md-start" },
             content: `
-            <i class="fa fa-linkedin-square icon-footer" aria-hidden="true"></i>
-            <i class="fa fa-envelope-o icon-footer" aria-hidden="true"></i>
-            <i class="fa fa-facebook-square icon-footer" aria-hidden="true"></i>
+            <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+            <i class="fa fa-envelope-o" aria-hidden="true"></i>
+            <i class="fa fa-facebook-square" aria-hidden="true"></i>
             `
         },
         ],
@@ -497,6 +497,7 @@ export default function loadBlocks(editor, opt = {}) {
             navbar.push({
                 layerable : false,  
                 draggable: false,
+                hoverable: false,
                 tagName: "li",
                 attributes: { class: "nav-item" },
                 content: `<a href="${element.link}" class="nav-link p-1"> ${element.name}</a>`,
@@ -522,38 +523,60 @@ export default function loadBlocks(editor, opt = {}) {
         {
             layerable : false,  
             draggable: false,
+            hoverable: false,
             tagName: "div",
             attributes: { class: "container" },
             components: [
             {
+                layerable : false,  
+                draggable: false,
+                hoverable: false,
                 tagName: "button",
                 attributes: { class:"navbar-toggler", type:"button", "data-bs-toggle": "collapse", "data-bs-target": "#navbarSupportedContent", "aria-controls": "navbarSupportedContent", "aria-expanded": "false", "aria-label": "Toggle navigation" },
                 content: `<i class="fa fa-bars"></i>`,
             },
             {
+                layerable : false,  
+                draggable: false,
+                hoverable: false,
                 tagName: "a",
                 attributes: { href: "#", class: "navbar-brand text-uppercase font-weight-bold" },
                 content: `<h4>${storeName}</h4>`,
             },
             {
+                layerable : false,  
+                draggable: false,
+                hoverable: false,
                 tagName: "div",
                 attributes: { class:"d-block d-md-none" },
                 components: [
                 {
+                    layerable : false,  
+                    draggable: false,
+                    hoverable: false,
                     tagName: "i",
-                    attributes: { class: "fa fa-search icon-header" },
+                    attributes: { class: "fa fa-search" },
                 },
                 {
+                    layerable : false,  
+                    draggable: false,
+                    hoverable: false,
                     tagName: "i",
-                    attributes: { class: "fa fa-shopping-bag icon-header" },
+                    attributes: { class: "fa fa-shopping-bag" },
                 },
                 ],
             },
             {
+                layerable : false,  
+                draggable: false,
+                hoverable: false,
                 tagName: "div",
                 attributes: { id: "navbarSupportedContent", class: "collapse navbar-collapse" },
                 components: [
                 {
+                    layerable : false,  
+                    draggable: false,
+                    hoverable: false,
                     tagName: "ul",
                     attributes: { class: "navbar-nav ml-1" },
                     components: getHeaderNavigationButton(mHeaderNavigation)
@@ -561,14 +584,23 @@ export default function loadBlocks(editor, opt = {}) {
                 ],
             },
             {
+                layerable : false,  
+                draggable: false,
+                hoverable: false,
                 tagName: "div",
                 attributes: { class:"d-none d-md-block" },
                 components: [
                 {
+                    layerable : false,  
+                    draggable: false,
+                    hoverable: false,
                     tagName: "i",
                     attributes: { class: "fa fa-search icon-header" },
                 },
                 {
+                    layerable : false,  
+                    draggable: false,
+                    hoverable: false,
                     tagName: "i",
                     attributes: { class: "fa fa-shopping-bag icon-header" },
                 },
@@ -585,48 +617,71 @@ export default function loadBlocks(editor, opt = {}) {
         category: "Header",
         // attributes
         content: {
-            name: "Header2",
             tagName: "div",
+            hoverable: false,
             components: [
             {
-                layerable : false,  
-                draggable: false,
+                name: "Header2",
                 tagName: "nav",
                 attributes: { class: "navbar" },
                 components: [
                 {
+                    layerable : false,  
+                    draggable: false,
+                    hoverable: false,
                     tagName: "div",
                     attributes: { class: "container" },
                     components: [
                     {
+                        layerable : false,  
+                        draggable: false,
+                        hoverable: false,
                         tagName: "button",
-                        attributes: { class:"d-block d-md-none navbar-toggler", "data-bs-toggle": "offcanvas", "data-bs-target": "#offcanvas", "role": "button"},
+                        attributes: { class:"d-block d-md-none navbar-toggler", id: "togglerBtn", "data-bs-toggle": "offcanvas", "data-bs-target": "#offcanvas", "role": "button"},
                         content: `<i class="fa fa-bars"></i>`,
                     },
                     {
+                        layerable : false,  
+                        draggable: false,
+                        hoverable: false,
                         tagName: "a",
                         attributes: { href: "#", class: "navbar-brand text-uppercase font-weight-bold" },
                         content: `<h4>${storeName}</h4>`,
                     },
                     {
+                        layerable : false,  
+                        draggable: false,
+                        hoverable: false,
                         tagName: "div",
                         attributes: { class:"d-block d-md-none" },
                         components: [
                         {
+                            layerable : false,  
+                            draggable: false,
+                            hoverable: false,
                             tagName: "i",
                             attributes: { class: "fa fa-search icon-header" },
                         },
                         {
+                            layerable : false,  
+                            draggable: false,
+                            hoverable: false,
                             tagName: "i",
                             attributes: { class: "fa fa-shopping-bag icon-header" },
                         },
                         ],
                     },
                     {
+                        layerable : false,  
+                        draggable: false,
+                        hoverable: false,
                         tagName: "div",
                         attributes: { class: "d-none d-md-block", style: "flex-grow: 1; align-items: center;" },
                         components: [
                         {
+                            layerable : false,  
+                            draggable: false,
+                            hoverable: false,
                             tagName: "ul",
                             attributes: { class: "navbar-nav ml-1;", style: "flex-direction: row;" },
                             components: getHeaderNavigationButton(mHeaderNavigation)
@@ -634,16 +689,25 @@ export default function loadBlocks(editor, opt = {}) {
                         ],
                     },
                     {
+                        layerable : false,  
+                        draggable: false,
+                        hoverable: false,
                         tagName: "div",
                         attributes: { class:"d-none d-md-block" },
                         components: [
                         {
+                            layerable : false,  
+                            draggable: false,
+                            hoverable: false,
                             tagName: "i",
-                            attributes: { class: "fa fa-search icon-header" },
+                            attributes: { class: "fa fa-search" },
                         },
                         {
+                            layerable : false,  
+                            draggable: false,
+                            hoverable: false,
                             tagName: "i",
-                            attributes: { class: "fa fa-shopping-bag icon-header" },
+                            attributes: { class: "fa fa-shopping-bag" },
                         },
                         ],
                     },
@@ -654,13 +718,14 @@ export default function loadBlocks(editor, opt = {}) {
             {
                 layerable : false,  
                 draggable: false,
-                name: "Left Side Navigation",
+                hoverable: false,
                 tagName: "div",
-                attributes: { class:"offcanvas offcanvas-start w-75", id:"offcanvas", "data-bs-keyboard": "false", "data-bs-backdrop": "false" },
+                attributes: { class:"d-block d-md-none offcanvas offcanvas-start w-75", id:"offcanvas", "data-bs-keyboard": "false", "data-bs-backdrop": "false" },
                 components: [
                 {
                     layerable : false,  
                     draggable: false,
+                    hoverable: false,
                     tagName: "div",
                     attributes: { class: "offcanvas-header" },
                     content: `        
@@ -671,17 +736,42 @@ export default function loadBlocks(editor, opt = {}) {
                 {
                     layerable : false,  
                     draggable: false,
+                    hoverable: false,
                     tagName: "div",
-                    attributes: { class: "offcanvas-body py-0" },
+                    attributes: { class: "offcanvas-body p-0" },
                     components: [
                         {
                             layerable : false,  
                             draggable: false,
+                            hoverable: false,
                             tagName: "ul",
-                            attributes: { class: "nav nav-pills flex-column mb-sm-auto mb-0 align-items-start" },
+                            attributes: { class: "nav nav-pills flex-column m-0 p-0 align-items-start" },
                             components: getHeaderNavigationButton(mHeaderNavigation)
                         }
                     ]
+                },
+                {
+                    layerable : false,  
+                    draggable: false,
+                    hoverable: false,
+                    tagName: "script",
+                    content: `
+                    const mediaQuery = window.matchMedia('(min-width: 768px)')
+                    
+                    function handleTabletChange(e) {
+                        if (e.matches) {
+                            let leftSidebar = document.getElementById("offcanvas");
+
+                            if (leftSidebar.className.includes("show")) {
+                                document.getElementById("togglerBtn").click();
+                            }
+
+                            console.log(leftSidebar.className);
+                        }
+                    }
+                    mediaQuery.addListener(handleTabletChange)
+                    handleTabletChange(mediaQuery)
+                    `
                 },
                 ],
             },

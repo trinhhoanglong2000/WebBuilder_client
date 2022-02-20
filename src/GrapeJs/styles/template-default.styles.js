@@ -174,52 +174,82 @@ export default function loadStyles(editor, config) {
     
 
     // header and footer
-    
     .navbar .container {
         min-width: 100%;
         margin: 5px;
         padding: 1vh 4vw;
         background-color: blue;
     }
-
-    .footer-section {
-        padding: 1vh 3vw;
-    }
     
-    .icon-header {
+    .navbar i {
         font-size: 25px;
         padding-left: 3vw;
         padding-right: 1vw;
     }
+
+    .navbar ul,
+    .footer-section ul {
+        list-style-type: none;
+    }
+
+    .navbar a,
+    .offcanvas a,
+    .footer-section a {
+        color: black !important;
+    }
     
-    .icon-footer {
+    .navbar a:link,
+    .footer-section a:link {
+        text-decoration: none !important;
+    }
+
+    .navbar a:hover,
+    .navbar i:hover,
+    .footer-section a:hover
+    {
+        color: blue !important;
+    }
+
+    .navbar a h4 {
+        margin: 0;
+    }
+
+    .navbar a.navbar-brand:hover {
+        color: black !important;
+    }
+    
+    .navbar li {
+        width: auto; 
+    }
+
+    .offcanvas .nav-pills .nav-link {
+        border-radius: 0;
+    }
+
+    .footer-section {
+        padding: 1vh 3vw;
+    }
+
+    .footer-section i {
+        padding-left: 3vw;
         font-size: 35px;
         padding: 0vh 1vw;
     }
 
-    ul {
-        list-style-type: none;
-    }
-
-    a {
-        color: black !important;
-    }
-    
-    a:link {
-        text-decoration: none !important;
-    }
-
-    a:hover {
-        color: black !important;
-    }
-    
-    .icon-social-area {
-        padding-left: 3vw;
-    }
-
     @media only screen and (max-width: 767px) {
-        a:hover {
-            background-color: grey !important;
+        .offcanvas a:hover {
+            color: back !important;
+            background-color: #BBB;
+        }
+
+        .offcanvas li {
+            width: 100%; 
+        }
+
+        .navbar i {
+            font-size: 15px;
+            padding-left: 1vw;
+            padding-right: 1vw;
         }
     }
     

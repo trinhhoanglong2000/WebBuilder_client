@@ -1,0 +1,81 @@
+
+
+@media (max-width: 996px) { 
+    .paper-style {
+        width: 100% !important;
+    }
+}
+.bgImg {
+    background-image: url('../../../public/img/bg.png');
+    background-size: contain;
+    background-position: center;
+    background-color: #2B9361;
+    background-repeat:no-repeat;
+}
+.paper-style {
+    padding: 20px;
+    width: 45%;
+}
+.float-right {
+    float: right;
+}
+.circle {
+    width: 30px;
+    height: 30px;
+    background-color: orange;
+    border-radius: 100%;
+    margin-top: 1.25rem;
+    text-align: center;
+}
+.fa-store-login {
+    font-size: 2.25rem;
+    margin: 0;
+}
+.btn-create-store {
+    border-radius: 10px;
+    height: 3.5rem;
+}
+.text-store {
+    padding-top: 1.25rem;
+    padding-left: 1rem;
+    font-weight: bold;
+    font-size: 1rem;
+}
+.find-store {
+    width: 93% !important;
+    margin-left: 1.5rem !important;
+}
+.find-store input {
+    font-family: 'FontAwesome' !important;
+    padding-left: 1rem;
+}
+
+.find-store .MuiInput-underline{
+    border: 1px solid rgba(0, 0, 0, 0.42);;
+}
+.find-store .MuiInput-underline::before {
+    border-bottom: none;
+}
+.find-store .MuiInput-underline::after {
+    border-bottom: none;
+}
+.dropdown-store-login .dropdown-toggle{
+    background-color: #fff !important;
+    border: none;
+}
+.text-create-store {
+    font-size: 1.1rem;
+}
+.text-create-store-2 {
+    font-size: 0.8rem;
+}
+.create-store-connect {
+    padding-left: 0.75rem;
+    margin-top: 0.5rem;
+}
+.div-button-create-store {
+    padding-left: 1.5rem;
+}
+.btn-create-store {
+    height: 4rem;
+}

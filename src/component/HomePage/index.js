@@ -55,13 +55,13 @@ const HomePage = () => {
                         <div className="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                             <i class="fab fa-refresh fa-icon ml-0"></i>
                             <h5 className="font-weight-bold text-second-slide-1">Chuyển sang EasyMall</h5>
-                            <h5 className="text-second-slide-3">Đưa cơ sở kinh doanh của bạn lên Triple L, bất kể bạn hiện đang sử dụng nền tảng thương mại điện tử nào</h5>
+                            <h5 className="text-second-slide-3">Đưa cơ sở kinh doanh của bạn lên EasyMall, bất kể bạn hiện đang sử dụng nền tảng thương mại điện tử nào</h5>
                         
                         </div>
                         <div className="col-12 col-sm-6 col-md-6 col-lg-3 col-xl-3">
                             <i class="fab fa-users fa-icon ml-0"></i>
                             <h5 className="font-weight-bold text-second-slide-1">Thuê chuyên gia EasyMall</h5>
-                            <h5 className="text-second-slide-3">Thiết lập cửa hàng với sự giúp đỡ của một người làm tự do hay đại lí đáng tin cậy từ Trung tâm chuyên gia Triple L</h5>
+                            <h5 className="text-second-slide-3">Thiết lập cửa hàng với sự giúp đỡ của một người làm tự do hay đại lí đáng tin cậy từ Trung tâm chuyên gia EasyMall</h5>
                         
                         </div>
                     </div>

@@ -196,7 +196,7 @@ const Login = () => {
                     <Typography component={'span'}><h3>Sign in</h3></Typography>
                     </Grid>
                     
-                    <TextField name='email' label='Email' placeholder='Enter email' fullWidth required onChange={handleOnchangeUsername}/>
+                    <TextField name='email' label='Email' placeholder='Enter email' fullWidth required onChange={handleOnchangeUsername} />
                     <Typography style={errorStyle}>{error.email}</Typography>
                     
                     <TextField name='password' label='Password' placeholder='Enter password' type='password' fullWidth required onChange={handleOnchangePassword}/>

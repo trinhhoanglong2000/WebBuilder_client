@@ -2,6 +2,7 @@
     margin-top: 1rem !important;
     margin-left: 1rem !important;
     width: 98%;
+    box-shadow: 0 10px 10px -10px rgb(33 35 38 / 10%);
 }
 @media (max-width: 1065px) {
     .desktop {

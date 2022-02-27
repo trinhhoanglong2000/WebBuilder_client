@@ -1,10 +1,24 @@
 import React, {useState} from "react";
+import { styled } from '@mui/material/styles';
 import {Avatar, Button, Grid, Paper, TextField, Typography, Checkbox, FormControlLabel} from '@material-ui/core';
 import Stack from '@mui/material/Stack';
 import './index.css';
 import { Link } from "react-router-dom";
 import validator from 'validator';
 import logo from '../Login/Logo.png'
+
+const SignUpButton = styled(Button)({
+    margin: '2.5rem 0 0.6rem 0',
+    backgroundColor: '#2B9361',
+    width: '100%',
+    height: '2.75rem',
+    borderRadius: '15px',
+    color: 'white',
+    '&:hover': {
+        backgroundColor: '#2B9361',
+        opacity: 0.6
+    }
+});
 
 const Register = () => {
     
@@ -22,15 +36,6 @@ const Register = () => {
         padding: 20,
         width: 300,
         display: 'block'
-    }
-
-    const buttonStyle = {
-        margin: '10px 0',
-        backgroundColor: '#2B9361',
-        width: '100%',
-        height: '2.75rem',
-        borderRadius: '15px',
-        color: 'white'
     }
 
     const errorStyle = {
@@ -156,14 +161,13 @@ const Register = () => {
                             </div>
                             }
                     />
-                    <Button type='button' 
-                            style={buttonStyle} 
+                    <SignUpButton type='button'  
                             onClick={register} 
                             variant='contained' 
                             disabled={!checked}
                             fullWidth>
                         Sign Up
-                    </Button>
+                    </SignUpButton>
                     <Typography>
                         Already have an account? <Link to={'/login'}>Sign in</Link>
                     </Typography>

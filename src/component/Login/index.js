@@ -19,7 +19,7 @@ const Login = () => {
     //=======================STYLES===========================
     const paperStyle = {
         padding: 20,
-        width: 300,
+        width: 340,
         display: 'block'
     }
 

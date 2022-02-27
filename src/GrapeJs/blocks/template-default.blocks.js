@@ -20,7 +20,7 @@ export default function loadBlocks(editor, opt = {}) {
     category: c.catergory_product_list,
     attributes : {class :"fa fa-cube"},
     content: {
-      attributes: { class: "container product-section" },
+      attributes: { class: "container product-section",name:"products-collections" },
       name: "Section",
       draggable: ".main-content",
       components: [

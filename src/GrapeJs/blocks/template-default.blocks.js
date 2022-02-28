@@ -324,12 +324,203 @@ export default function loadBlocks(editor, opt = {}) {
     },
   });
 
+
+  //LONG-TP 2022-02-22 TEST TRAITS - ADD START
+  const domc = editor.DomComponents;
+  const defaultType = domc.getType('default');
+  const textType = domc.getType('text');
+  const defaultModel = defaultType.model;
+  const defaultView = defaultType.view;
+  const textModel = textType.model;
+  const textView = textType.view;
+  const sfx = opt.socialClssfx;
+  editor.TraitManager.addType('href-next', {
+      
+    noLabel: true,
+    createLabel({ label }) {
+        return `<div>
+          <div>Before</div>
+          ${label}
+          <div>After</div>
+        </div>`;
+      },
+    // Expects as return a simple HTML string or an HTML element
+    createInput({ trait }) {
+      // Here we can decide to use properties from the trait
+      const traitOpts = trait.get('options') || [];
+      const options = traitOpts.length ? traitOpts : [
+        { id: 'url', name: 'URL' },
+        { id: 'email', name: 'Email' },
+      ];
+  
+      // Create a new element container and add some content
+      const el = document.createElement('div');
+      el.innerHTML = `
+        <select class="href-next__type">
+          ${options.map(opt => `<option value="${opt.id}">${opt.name}</option>`).join('')}
+        </select>
+        <div class="href-next__url-inputs" >
+          <input class="href-next__url" placeholder="Insert URL" />
+        </div>
+        <div class="href-next__email-inputs">
+          <input class="href-next__email" placeholder="Insert email" />
+          <input class="href-next__email-subject" placeholder="Insert subject" />
+        </div>
+      `;
+  
+      // Let's make our content interactive
+      const inputsUrl = el.querySelector('.href-next__url-inputs');
+      const inputsEmail = el.querySelector('.href-next__email-inputs');
+      const inputType = el.querySelector('.href-next__type');
+      debugger
+      inputType.addEventListener('change', ev => {
+        debugger
+        switch (ev.target.value) {
+          case 'url':
+            inputsUrl.style.display = '';
+            inputsEmail.style.display = 'none';
+            break;
+          case 'email':
+            inputsUrl.style.display = 'none';
+            inputsEmail.style.display = '';
+            break;
+        }
+      });
+  
+      return el;
+    },
+    // Get 
+    onEvent({ elInput, component, event }) {
+        const attributes = this.model.attributes;
+        const rootElementTrait = elInput;
+        const propertiesOfFrontComponet = component;
+        console.log(rootElementTrait)
+        console.log(propertiesOfFrontComponet)
+
+
+        const inputType = elInput.querySelector('.href-next__type');
+        let href = '';
+    
+        switch (inputType.value) {
+          case 'url':
+            const valUrl = elInput.querySelector('.href-next__url').value;
+            href = valUrl;
+            break;
+          case 'email':
+            const valEmail = elInput.querySelector('.href-next__email').value;
+            const valSubj = elInput.querySelector('.href-next__email-subject').value;
+            href = `mailto:${valEmail}${valSubj ? `?subject=${valSubj}` : ''}`;
+            break;
+        }
+        attributes.value = {elInput}
+        component.addAttributes({ href })
+        component.attributes.carouselproperty= href
+      },
+
+      onUpdate({ elInput, component }) {
+        const href = component.getAttributes().href || '';
+        console.log("UPDATE")
+        console.log(elInput)
+        console.log(component)
+        const inputType = elInput.querySelector('.href-next__type');
+        let type = 'url';
+    
+        if (href.indexOf('mailto:') === 0) {
+          const inputEmail = elInput.querySelector('.href-next__email');
+          const inputSubject = elInput.querySelector('.href-next__email-subject');
+          const mailTo = href.replace('mailto:', '').split('?');
+          const email = mailTo[0];
+          const params = (mailTo[1] || '').split('&').reduce((acc, item) => {
+            const items = item.split('=');
+            acc[items[0]] = items[1];
+            return acc;
+          }, {});
+          type = 'email';
+    
+          inputEmail.value = email || '';
+          inputSubject.value = params.subject || '';
+        } else {
+          elInput.querySelector('.href-next__url').value = href;
+        }
+    
+        inputType.value = type;
+        inputType.dispatchEvent(new CustomEvent('change'));
+      },
+  });
+
+
+
+  domc.addType('carousel', {
+    model: {
+      defaults: {
+        droppable: false,
+        traits: [
+        {
+            type: "href-next",
+            name: "carouselproperty",
+            changeProp:true,
+            placeholder: 'Insert text'
+        },
+        {
+            name: 'placeholder',
+            changeProp:true,
+            placeholder: 'Insert text'
+        }
+        ],
+        placeholder: 'Initial placeholder',
+        carouselproperty: 'Heeee'
+      },
+      
+      init() {
+        this.on('change:placeholder', this.handleTypeChange);
+        this.on('change:carouselproperty', this.handleTypeChange);
+        this.on('change:url', this.handleTypeChange);
+        this.on('change:email', this.handleTypeChange);
+        this.listenTo(this, 'change:content', this.handleTypeChange)
+      },
+  
+      handleTypeChange() {
+        console.log('Input type changed to: ');
+        console.log(this.attributes)
+      },
+  },
+  view:{ 
+      init: function() {
+        const attributes = this.model.attributes;
+        const rootElement = this.el
+        console.log(rootElement)
+        // Parent div of block
+      },
+      // Event on layout
+      events: {
+        click: 'handleClick',
+        dblclick: function(){
+          alert('Hi!');
+        }
+      },
+
+      handleClick: function(e) {
+        const attributes = this.model.attributes;
+        const rootElement = this.el
+        console.log(attributes);
+        console.log(rootElement)
+      },
+      render: function () {
+        // Extend the original render method
+        defaultType.view.prototype.render.apply(this, arguments);
+        return this;
+      },  
+  },
+
+});
+
+//LONG-TP 2022-02-22 TEST TRAITS - ADD END 
   bm.add("carousel", {
     label: `
     <svg height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg">
     <path d="M14 38h20V8H14v30zM4 34h8V12H4v22zm32-22v22h8V12h-8z"/><path d="M0 0h48v48H0z" fill="none"/>
     </svg>
-      <div>${c.carouselBlkLabel}</div> `,
+    <div>${c.carouselBlkLabel}</div> `,
     category: c.carousel_category,
     draggable: "[data-gjs-type=wrapper]",
 
@@ -337,16 +528,14 @@ export default function loadBlocks(editor, opt = {}) {
       {
         name: "Carousel",
         tagName: "carousel",
+        //LONG-TP 2022-02-22 TEST TRAITS - ADD START 
+        'type': "carousel",
+        //LONG-TP 2022-02-22 TEST TRAITS - ADD END 
         content: `
         <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" style="padding:0px">
-          <div class="carousel-indicators">
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-          </div>
-          <div class="carousel-inner">
+          <div class="carousel-      <div class="carousel-inner">
             <div class="carousel-item active">
-              <img src="https://dummyimage.com/1360x540/55595c/fff" class="d-block w-100" alt="...">
+              <img data-js= "carousel" src="https://dummyimage.com/1360x540/55595c/fff" class="d-block w-100" alt="...">
               <div class="carousel-caption d-none d-md-block">
                 <h5>First slide label</h5>
                 <p>Some representative placeholder content for the first slide.</p>
@@ -355,7 +544,12 @@ export default function loadBlocks(editor, opt = {}) {
             <div class="carousel-item">
               <img src="https://dummyimage.com/1360x540/55595c/fff" class="d-block w-100" alt="...">
               <div class="carousel-caption d-none d-md-block">
-                <h5>Second slide label</h5>
+                <h5>Second slideindicators">
+            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          </div>
+     label</h5>
                 <p>Some representative placeholder content for the second slide.</p>
               </div>
             </div>
@@ -376,7 +570,6 @@ export default function loadBlocks(editor, opt = {}) {
             <div class="visually-hidden">Next</div>
           </button>
       </div>
-
         `,
       },
     ],

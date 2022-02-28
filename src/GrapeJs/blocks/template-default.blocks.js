@@ -1,8 +1,18 @@
-import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 export default function loadBlocks(editor, opt = {}) {
   const c = opt;
   let bm = editor.BlockManager;
   //========| |============//
+  bm.add("Main",{
+      label:'Main',
+      category:"Main",
+      content:{
+          name:"Main",
+          droppable: true,
+          attributes : {class :"main-content"},
+          content:`<div style="height:100px;width:100%"></div>`
+
+      }
+  })
   bm.add("productList", {
    
     label: `
@@ -10,9 +20,9 @@ export default function loadBlocks(editor, opt = {}) {
     category: c.catergory_product_list,
     attributes : {class :"fa fa-cube"},
     content: {
-      attributes: { class: "container product-section" },
+      attributes: { class: "container product-section",name:"products-collections" },
       name: "Section",
-      draggable: "[data-gjs-type=wrapper]",
+      draggable: ".main-content",
       components: [
         {
           name: "Text",
@@ -514,7 +524,7 @@ export default function loadBlocks(editor, opt = {}) {
     bm.add('header', {
     label: "Header",
     category: "Header",
-    // attributes
+    attributes: { class: "fa fa-header" },
     content: {
         name: "Header",
         tagName: "nav",
@@ -615,7 +625,7 @@ export default function loadBlocks(editor, opt = {}) {
     bm.add('header2', {
         label: "Header2",
         category: "Header",
-        // attributes
+        attributes: { class: "fa fa-header" },
         content: {
             tagName: "div",
             hoverable: false,

@@ -59,6 +59,7 @@ function Canvas({ type }) {
             droppedComponent = droppedComponent[0];
           }
  
+          if (!droppedComponent) return
 
           if (droppedComponent.attributes.name ==="Carousel"){
             droppedComponent.set({
@@ -74,7 +75,6 @@ function Canvas({ type }) {
             ) {
               //check product//
               if (item.attributes.name === "Products") {
-                console.log(item);
                 item.set({
                   content: item.attributes.content.replace(
                     /myCarousel/g,
@@ -97,11 +97,12 @@ function Canvas({ type }) {
           "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
         ],
         scripts: [
-          `https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js`,
+          `https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js`,
           `https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js`,
-          `//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js`,
           `//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js`,
           "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js",
+          `http://localhost:5000/files/dist/js/template-default/test.js`,
+          
         ],
       }}
     />

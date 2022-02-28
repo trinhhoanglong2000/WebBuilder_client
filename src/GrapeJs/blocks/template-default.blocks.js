@@ -392,24 +392,6 @@ export default function loadBlocks(editor, opt = {}) {
     ],
   });
 
-    // Example Data
-    const mFooterNavigation1= [{
-    name: "Search",
-    link: "https://www.youtube.com/"
-    }, {
-    name: "Tern of service",
-    link: "https://www.youtube.com/"
-    }, {
-    name: "Refund policy",
-    link: "https://www.youtube.com/"
-    }];
-
-    // Example Data
-    const mFooterNavigation2= [{
-    name: "Share your store detail, promotion or brand contents",
-    link: "https://www.youtube.com/"
-    }];
-
     // generate navigation button
     const getFooterNavigationButton = (mNavigation) => {
     let navbar = "";
@@ -429,6 +411,7 @@ export default function loadBlocks(editor, opt = {}) {
     // attributes
     content: {
         name: "Footer",
+        type: "footer",
         content: <div></div>,
         attributes: { class: "footer-section" },
         components: [
@@ -451,7 +434,7 @@ export default function loadBlocks(editor, opt = {}) {
             content: `
             <ul>
                 <h5>Quick link</h5> 
-                ${getFooterNavigationButton(mFooterNavigation1)}
+                ${getFooterNavigationButton(c.footerNavigation1)}
             </ul>
             `
             },
@@ -463,7 +446,7 @@ export default function loadBlocks(editor, opt = {}) {
             content: `
                 <ul>
                 <h5>Heading</h5> 
-                ${getFooterNavigationButton(mFooterNavigation2)}
+                ${getFooterNavigationButton(c.footerNavigation2)}
                 </ul>
             `
             },
@@ -478,7 +461,7 @@ export default function loadBlocks(editor, opt = {}) {
             name: "Social Navigation",
             tagName: "div",
             draggable: false,
-            attributes: { class: "text-center text-md-start" },
+            attributes: { class: "text-center text-md-start pb-2" },
             content: `
             <i class="fa fa-linkedin-square" aria-hidden="true"></i>
             <i class="fa fa-envelope-o" aria-hidden="true"></i>
@@ -489,15 +472,6 @@ export default function loadBlocks(editor, opt = {}) {
     }
     });
 
-    // Example Data
-    const mHeaderNavigation= [{
-        name: "Product",
-        link: "#"
-    }, {
-        name: "Contact",
-        link: "#"
-    }];
-    const storeName = "Store name";
     // generate navigation button
     const getHeaderNavigationButton = (mNavigation) => {
         let navbar = [];
@@ -528,14 +502,15 @@ export default function loadBlocks(editor, opt = {}) {
     content: {
         name: "Header",
         tagName: "nav",
-        attributes: { class: "navbar navbar-expand-md" },
+        type: "navbar",
+        attributes: { class: "navbar navbar-expand-md border-bottom border-dark" },
         components: [
         {
             layerable : false,  
             draggable: false,
             hoverable: false,
             tagName: "div",
-            attributes: { class: "container" },
+            attributes: { class: "container align-items-baseline" },
             components: [
             {
                 layerable : false,  
@@ -551,7 +526,7 @@ export default function loadBlocks(editor, opt = {}) {
                 hoverable: false,
                 tagName: "a",
                 attributes: { href: "#", class: "navbar-brand text-uppercase font-weight-bold" },
-                content: `<h4>${storeName}</h4>`,
+                content: `<h4>${c.storeName}</h4>`,
             },
             {
                 layerable : false,  
@@ -588,8 +563,8 @@ export default function loadBlocks(editor, opt = {}) {
                     draggable: false,
                     hoverable: false,
                     tagName: "ul",
-                    attributes: { class: "navbar-nav ml-1" },
-                    components: getHeaderNavigationButton(mHeaderNavigation)
+                    attributes: { class: "navbar-nav" },
+                    components: getHeaderNavigationButton(c.headerNavigation)
                 },
                 ],
             },
@@ -631,16 +606,16 @@ export default function loadBlocks(editor, opt = {}) {
             hoverable: false,
             components: [
             {
-                name: "Header2",
                 tagName: "nav",
-                attributes: { class: "navbar" },
+                attributes: { class: "navbar border-bottom border-dark" },
+                type: "navbar",
                 components: [
                 {
                     layerable : false,  
                     draggable: false,
                     hoverable: false,
                     tagName: "div",
-                    attributes: { class: "container" },
+                    attributes: { class: "container align-items-baseline" },
                     components: [
                     {
                         layerable : false,  
@@ -656,7 +631,7 @@ export default function loadBlocks(editor, opt = {}) {
                         hoverable: false,
                         tagName: "a",
                         attributes: { href: "#", class: "navbar-brand text-uppercase font-weight-bold" },
-                        content: `<h4>${storeName}</h4>`,
+                        content: `<h4>${c.storeName}</h4>`,
                     },
                     {
                         layerable : false,  
@@ -694,7 +669,7 @@ export default function loadBlocks(editor, opt = {}) {
                             hoverable: false,
                             tagName: "ul",
                             attributes: { class: "navbar-nav ml-1;", style: "flex-direction: row;" },
-                            components: getHeaderNavigationButton(mHeaderNavigation)
+                            components: getHeaderNavigationButton(c.headerNavigation)
                         },
                         ],
                     },
@@ -737,7 +712,7 @@ export default function loadBlocks(editor, opt = {}) {
                     draggable: false,
                     hoverable: false,
                     tagName: "div",
-                    attributes: { class: "offcanvas-header" },
+                    attributes: { class: "offcanvas-header border-bottom border-dark" },
                     content: `        
                         <h6 class="offcanvas-title" id="offcanvas">Menu</h6>
                         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -756,7 +731,7 @@ export default function loadBlocks(editor, opt = {}) {
                             hoverable: false,
                             tagName: "ul",
                             attributes: { class: "nav nav-pills flex-column m-0 p-0 align-items-start" },
-                            components: getHeaderNavigationButton(mHeaderNavigation)
+                            components: getHeaderNavigationButton(c.headerNavigation)
                         }
                     ]
                 },
@@ -775,8 +750,6 @@ export default function loadBlocks(editor, opt = {}) {
                             if (leftSidebar.className.includes("show")) {
                                 document.getElementById("togglerBtn").click();
                             }
-
-                            console.log(leftSidebar.className);
                         }
                     }
                     mediaQuery.addListener(handleTabletChange)
@@ -786,6 +759,247 @@ export default function loadBlocks(editor, opt = {}) {
                 ],
             },
             ]
+        },
+    });
+
+    editor.DomComponents.addType('navbar', {
+        isComponent: el => el.tagName === 'NAVBAR',
+        model: {
+          defaults: {
+            traits: [
+              {
+                type: 'select',
+                label: 'Theme', // The label you will see in Settings
+                name: 'theme', // The name of the attribute/property to use on component
+                options: [
+                  { id: 'white', name: 'White (default)'},
+                  { id: 'black', name: 'Black'},
+                  { id: 'lGreen', name: 'Light green'},
+                  { id: 'lBlue', name: 'Light blue'},
+                  { id: 'sand', name: 'Sand'},
+                ]
+              },
+            ],
+          },
+
+          init() {
+            this.on('change:attributes:theme', this.handleThemeChange);
+          },
+      
+          handleThemeChange() {
+            if (this.getAttributes().theme === "white") {
+                editor.Css.setRule(
+                    `.navbar,`, {
+                         'background-color': 'white' 
+                    });
+                editor.Css.setRule(
+                    `.navbar a,
+                     .navbar i,
+                     .navbar a.navbar-brand:hover`, {
+                        'color': 'black !important' 
+                    });
+
+                editor.Css.setRule(
+                    `.offcanvas`, { 
+                        'background-color': 'white',
+                        'color': 'black !important'
+                    });
+
+                editor.Css.setRule(
+                    `.offcanvas .btn-close`, { 
+                        'background-color': 'none',
+                    });
+
+                editor.Css.setRule(
+                    `.offcanvas a`, { 
+                        'color': 'black !important'
+                    });
+            } else if (this.getAttributes().theme === "black") {
+                editor.Css.setRule(
+                    `.navbar`, { 
+                        'background-color': '#121212' 
+                    });
+                editor.Css.setRule(
+                    `.navbar a,
+                     .navbar i,
+                     .navbar a.navbar-brand:hover`, {
+                        'color': 'white !important'
+                    });
+
+                editor.Css.setRule(
+                    `.offcanvas`, { 
+                        'background-color': '#121212',
+                        'color': 'white !important'
+                    });
+
+                editor.Css.setRule(
+                    `.offcanvas .btn-close`, { 
+                        'background-color': 'white',
+                    });
+
+                editor.Css.setRule(
+                    `.offcanvas a`, { 
+                        'color': 'white !important'
+                    });
+
+            } else if (this.getAttributes().theme === "lGreen") {
+                editor.Css.setRule(
+                    `.navbar`, { 
+                        'background-color': '#69c5a3' 
+                    });
+                editor.Css.setRule(
+                    `.navbar a,
+                     .navbar i,
+                     .navbar a.navbar-brand:hover`, {
+                        'color': 'black !important'
+                    });
+
+                editor.Css.setRule(
+                    `.offcanvas`, { 
+                        'background-color': '#69c5a3',
+                        'color': 'black !important'
+                    });
+
+                editor.Css.setRule(
+                    `.offcanvas a`, { 
+                        'color': 'black !important'
+                    });
+
+            } else if (this.getAttributes().theme === "lBlue") {
+                editor.Css.setRule(
+                    `.navbar`, { 
+                        'background-color': '#c8e1e7' 
+                    });
+                editor.Css.setRule(
+                    `.navbar a,
+                     .navbar i,
+                     .navbar a.navbar-brand:hover`, {
+                        'color': 'back !important'
+                    });
+
+                editor.Css.setRule(
+                    `.offcanvas`, { 
+                        'background-color': '#c8e1e7',
+                        'color': 'back !important'
+                    });
+
+                editor.Css.setRule(
+                    `.offcanvas a`, { 
+                        'color': 'back !important'
+                    });
+
+            } else if (this.getAttributes().theme === "sand") {
+                editor.Css.setRule(
+                    `.navbar`, { 
+                        'background-color': '#f6d7b0' 
+                    });
+                editor.Css.setRule(
+                    `.navbar a,
+                     .navbar i,
+                     .navbar a.navbar-brand:hover`, {
+                        'color': 'back !important'
+                    });
+                
+                editor.Css.setRule(
+                    `.offcanvas`, { 
+                        'background-color': '#f6d7b0',
+                        'color': 'back !important'
+                    });
+
+                editor.Css.setRule(
+                    `.offcanvas a`, { 
+                        'color': 'back !important'
+                    });
+            }
+          },
+        },
+    });
+
+    editor.DomComponents.addType('footer', {
+        isComponent: el => el.tagName === 'FOOTER',
+        model: {
+          defaults: {
+            traits: [
+              {
+                type: 'select',
+                label: 'Theme', // The label you will see in Settings
+                name: 'theme', // The name of the attribute/property to use on component
+                options: [
+                  { id: 'white', name: 'White (default)'},
+                  { id: 'black', name: 'Black'},
+                  { id: 'lGreen', name: 'Light green'},
+                  { id: 'lBlue', name: 'Light blue'},
+                  { id: 'sand', name: 'Sand'},
+                ]
+              },
+            ],
+          },
+
+          init() {
+            this.on('change:attributes:theme', this.handleThemeChange);
+          },
+      
+          handleThemeChange() {
+            console.log('Input type changed to: ', this.getAttributes().theme);
+
+            if (this.getAttributes().theme === "white") {
+                editor.Css.setRule(
+                    `.footer-section`, {
+                         'background-color': 'white',
+                         'color': 'black !important'
+                    });
+                    
+                editor.Css.setRule(
+                    `.footer-section a`, {
+                        'color': 'black !important' 
+                    });
+
+            } else if (this.getAttributes().theme === "black") {
+                editor.Css.setRule(
+                    `.footer-section`, { 
+                        'background-color': '#121212',
+                        'color': 'white !important'
+                    });
+
+               editor.Css.setRule(
+                    `.footer-section a`, {
+                        'color': '#cccbe9 !important'
+                    });
+            } else if (this.getAttributes().theme === "lGreen") {
+                editor.Css.setRule(
+                    `.footer-section`, { 
+                        'background-color': '#69c5a3',
+                        'color': 'black !important'
+                    });
+                editor.Css.setRule(
+                    `.footer-section a`, {
+                        'color': 'black !important'
+                    });
+
+            } else if (this.getAttributes().theme === "lBlue") {
+                editor.Css.setRule(
+                    `.footer-section`, { 
+                        'background-color': '#c8e1e7',
+                        'color': 'back !important'
+                    });
+                editor.Css.setRule(
+                    `.footer-section a`, {
+                        'color': 'back !important'
+                    });
+
+            } else if (this.getAttributes().theme === "sand") {
+                editor.Css.setRule(
+                    `.footer-section`, { 
+                        'background-color': '#f6d7b0',
+                        'color': 'back !important'
+                    });
+                editor.Css.setRule(
+                    `.footer-section a`, {
+                        'color': 'back !important'
+                    });
+
+            }
+          },
         },
     });
 }

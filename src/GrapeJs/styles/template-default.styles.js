@@ -194,7 +194,8 @@ export default function loadStyles(editor, config) {
 
     .navbar a,
     .offcanvas a,
-    .footer-section a {
+    .footer-section a,
+    .navbar a.navbar-brand:hover {
         color: black !important;
     }
     
@@ -213,10 +214,6 @@ export default function loadStyles(editor, config) {
     .navbar a h4 {
         margin: 0;
     }
-
-    .navbar a.navbar-brand:hover {
-        color: black !important;
-    }
     
     .navbar li {
         width: auto; 
@@ -231,14 +228,14 @@ export default function loadStyles(editor, config) {
     }
 
     .footer-section i {
-        padding-left: 3vw;
         font-size: 35px;
         padding: 0vh 1vw;
+        padding-left: 3vw;
     }
 
     @media only screen and (max-width: 767px) {
         .offcanvas a:hover {
-            color: back !important;
+            color: black !important;
             background-color: #BBB;
         }
 
@@ -250,6 +247,11 @@ export default function loadStyles(editor, config) {
             font-size: 15px;
             padding-left: 1vw;
             padding-right: 1vw;
+        }
+
+        .navbar a:hover {
+            color: black !important;
+            background-color: #BBB;
         }
     }
     

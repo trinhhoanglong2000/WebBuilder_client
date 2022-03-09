@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import { styled } from '@mui/material/styles';
 import {Avatar, Button, Grid, Paper, TextField, Typography} from '@material-ui/core';
 import Stack from '@mui/material/Stack';
 import './index.css';
@@ -7,6 +8,19 @@ import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
 import validator from 'validator';
 import logo from './Logo.png'
+
+const SignInButton = styled(Button)({
+    margin: '2.5rem 0 0.6rem 0',
+    backgroundColor: '#2B9361',
+    width: '100%',
+    height: '2.75rem',
+    borderRadius: '15px',
+    color: 'white',
+    '&:hover': {
+        backgroundColor: '#2B9361',
+        opacity: 0.6
+    }
+});
 
 const Login = () => {
     
@@ -19,17 +33,8 @@ const Login = () => {
     //=======================STYLES===========================
     const paperStyle = {
         padding: 20,
-        width: 300,
+        width: 340,
         display: 'block'
-    }
-
-    const buttonStyle = {
-        margin: '2.5rem 0 0.6rem 0',
-        backgroundColor: '#2B9361',
-        width: '100%',
-        height: '2.75rem',
-        borderRadius: '15px',
-        color: 'white'
     }
 
     const errorStyle = {
@@ -68,7 +73,7 @@ const Login = () => {
         myHeaders.append("Content-Type", "application/json");
 
         var raw = JSON.stringify({
-            "username": username,
+            "email": username,
             "password": password
         });
 
@@ -79,7 +84,7 @@ const Login = () => {
             redirect: 'follow'
         };
 
-        fetch(process.env.REACT_APP_API_URL + "login", requestOptions)
+        fetch(process.env.REACT_APP_API_URL + "auth/login", requestOptions)
             .then(response => {
                 console.log(response)
                 if (response.ok) {
@@ -196,13 +201,13 @@ const Login = () => {
                     <Typography component={'span'}><h3>Sign in</h3></Typography>
                     </Grid>
                     
-                    <TextField name='email' label='Email' placeholder='Enter email' fullWidth required onChange={handleOnchangeUsername}/>
+                    <TextField name='email' label='Email' placeholder='Enter email' fullWidth required onChange={handleOnchangeUsername} />
                     <Typography style={errorStyle}>{error.email}</Typography>
                     
                     <TextField name='password' label='Password' placeholder='Enter password' type='password' fullWidth required onChange={handleOnchangePassword}/>
                     <Typography style={errorStyle}>{error.password}</Typography>
                     
-                    <Button type='button' style={buttonStyle} color='primary' variant='contained' fullWidth onClick={login}>Sign In</Button>
+                    <SignInButton type='button' variant='contained' onClick={login}>Sign In</SignInButton>
                     <FacebookLogin
                         appId="842222179779996"
                         fields="name,picture,email"

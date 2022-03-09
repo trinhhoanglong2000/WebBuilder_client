@@ -170,7 +170,93 @@ export default function loadStyles(editor, config) {
     .star-rating i {
         font-size: 14px;
         color: #ffc000;
-    }`;
+    }
+    
+
+    // header and footer
+    .navbar .container {
+        min-width: 100%;
+        margin: 5px;
+        padding: 1vh 4vw;
+        background-color: blue;
+    }
+    
+    .navbar i {
+        font-size: 25px;
+        padding-left: 3vw;
+        padding-right: 1vw;
+    }
+
+    .navbar ul,
+    .footer-section ul {
+        list-style-type: none;
+    }
+
+    .navbar a,
+    .offcanvas a,
+    .footer-section a,
+    .navbar a.navbar-brand:hover {
+        color: black !important;
+    }
+    
+    .navbar a:link,
+    .footer-section a:link {
+        text-decoration: none !important;
+    }
+
+    .navbar a:hover,
+    .navbar i:hover,
+    .footer-section a:hover
+    {
+        color: blue !important;
+    }
+
+    .navbar a h4 {
+        margin: 0;
+    }
+    
+    .navbar li {
+        width: auto; 
+    }
+
+    .offcanvas .nav-pills .nav-link {
+        border-radius: 0;
+    }
+
+    .footer-section {
+        padding: 1vh 3vw;
+    }
+
+    .footer-section i {
+        font-size: 35px;
+        padding: 0vh 1vw;
+        padding-left: 3vw;
+    }
+
+    @media only screen and (max-width: 767px) {
+        .offcanvas a:hover {
+            color: black !important;
+            background-color: #BBB;
+        }
+
+        .offcanvas li {
+            width: 100%; 
+        }
+
+        .navbar i {
+            font-size: 15px;
+            padding-left: 1vw;
+            padding-right: 1vw;
+        }
+
+        .navbar a:hover {
+            color: black !important;
+            background-color: #BBB;
+        }
+    }
+    
+    
+    `;
 
   editor.setStyle(style);
 }

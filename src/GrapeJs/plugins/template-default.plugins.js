@@ -19,8 +19,37 @@ export default grapesjs.plugins.add("template-default",(editor, opts = {}) => {
     };
      //======================|Load Plugin|==============
 
+    // Example Data
+    config.storeName = "Store name";
+
+    // Example Data
+    config.headerNavigation= [{
+      name: "Product",
+      link: "#"
+    }, {
+        name: "Contact",
+        link: "#"
+    }];
+
+    config.footerNavigation1= [{
+      name: "Search",
+      link: "https://www.youtube.com/"
+      }, {
+      name: "Tern of service",
+      link: "https://www.youtube.com/"
+      }, {
+      name: "Refund policy",
+      link: "https://www.youtube.com/"
+    }];
+  
+    // Example Data
+    config.footerNavigation2= [{
+      name: "Share your store detail, promotion or brand contents",
+      link: "https://www.youtube.com/"
+    }];
+
     // Add blocks
     loadBlocks(editor, config);
-    loadStyles(editor,config);
+    loadStyles(editor, config);
   }
 );

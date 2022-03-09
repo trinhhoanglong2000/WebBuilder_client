@@ -3,6 +3,9 @@
   width: 15%;
   z-index: 4;
 }
+.gjs-pn-btn{
+  font-size: 18px!important;
+}
 .gjs-pn-options,
 .gjs-pn-devices-c,
 .gjs-pn-commands,

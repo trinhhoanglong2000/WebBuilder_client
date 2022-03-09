@@ -6,7 +6,7 @@ import "./blocks/basicBlocks/index";
 
 import "./plugins/index";
 import "./plugins/template-default.plugins";
-import NavigationPanel from "./panels/NavigationPanel";
+import NavigationPanel from "./pages/NavigationPanel";
 import { v4 as uuidv4 } from "uuid";
 /////////======================================
 //=======|Type 0 = Basic|=========

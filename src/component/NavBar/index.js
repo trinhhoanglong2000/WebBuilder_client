@@ -42,7 +42,7 @@ const NavBar = () => {
                             <button className="btn btn-success btn-login" > <p className="text-btn-login"> Đăng nhập </p></button>
                             <Dropdown>
                                 <Dropdown.Toggle variant="success" id="dropdown-basic"> 
-                                    <i class="fa fa-icon fa-bars"></i>
+                                    <i className="fa fa-icon fa-bars"></i>
                                 </Dropdown.Toggle>
 
                                 <Dropdown.Menu>

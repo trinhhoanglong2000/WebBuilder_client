@@ -1,7 +1,6 @@
 import {default as loadBlocks }from '../blocks/template-default.blocks'
 import grapesjs from "grapesjs";
 import loadStyles from '../styles/template-default.styles';
-import loadPages from  '../page/template-default.page';
 
 export default grapesjs.plugins.add("template-default",(editor, opts = {}) => {
    
@@ -50,7 +49,6 @@ export default grapesjs.plugins.add("template-default",(editor, opts = {}) => {
     }];
 
     // Add blocks
-    loadPages(editor, config);
     loadBlocks(editor, config);
     loadStyles(editor, config);
   }

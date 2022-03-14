@@ -9,7 +9,6 @@ import {
 export default function LoadPanels(editor, config) {
   //device
 
-
   const pn = editor.Panels;
   const eConfig = editor.getConfig();
 
@@ -21,7 +20,6 @@ export default function LoadPanels(editor, config) {
   const otm = "open-tm";
   const ola = "open-layers";
   const obl = "open-blocks";
-  const ful = "fullscreen";
   const prv = "preview";
 
   eConfig.showDevices = 0;
@@ -41,7 +39,6 @@ export default function LoadPanels(editor, config) {
           id: obl,
           command: openBlock,
           className: "fa fa-th-large",
-
         },
       ],
     },
@@ -57,15 +54,21 @@ export default function LoadPanels(editor, config) {
         {
           id: prv,
           context: prv,
-          command: (e) => e.runCommand(prv),
+          command: (e) => {
+            var element = document.getElementsByClassName("navigationPanel");
+            for (var i = 0; i < element.length; i++) {
+              element[i].classList.toggle("dnone");
+            }
+            e.runCommand(prv);
+          },
           className: "fa fa-eye",
         },
-        {
-          id: ful,
-          command: ful,
-          context: ful,
-          className: "fa fa-arrows-alt",
-        },
+        // {
+        //   id: ful,
+        //   command: ful,
+        //   context: ful,
+        //   className: "fa fa-arrows-alt",
+        // },
         {
           id: expt,
           className: "fa fa-code",
@@ -75,15 +78,13 @@ export default function LoadPanels(editor, config) {
           id: "undo",
           className: "fa fa-undo",
           command: (e) => e.runCommand("core:undo"),
-          attributes: { title: 'Undo'},
-
+          attributes: { title: "Undo" },
         },
         {
           id: "redo",
           className: "fa fa-repeat",
           command: (e) => e.runCommand("core:redo"),
-          attributes: { title: 'Redo'},
-
+          attributes: { title: "Redo" },
         },
         // {
         //   id: cmdClear,
@@ -97,12 +98,12 @@ export default function LoadPanels(editor, config) {
     {
       id: "views",
       buttons: [
-        {
-          id: osm,
-          command: osm,
-          active: true,
-          className: "fa fa-paint-brush",
-        },
+        // {
+        //   id: osm,
+        //   command: osm,
+        //   active: true,
+        //   className: "fa fa-paint-brush",
+        // },
         {
           id: otm,
           command: otm,
@@ -124,7 +125,7 @@ export default function LoadPanels(editor, config) {
       id: cmdDeviceDesktop,
       command: cmdDeviceDesktop,
       className: "fa fa-desktop",
-      attributes: { title: 'Desktop'},
+      attributes: { title: "Desktop" },
 
       active: 1,
     },
@@ -132,15 +133,13 @@ export default function LoadPanels(editor, config) {
       id: cmdDeviceTablet,
       command: cmdDeviceTablet,
       className: "fa fa-tablet",
-      attributes: { title: 'Tablet'},
-
+      attributes: { title: "Tablet" },
     },
     {
       id: cmdDeviceMobile,
       command: cmdDeviceMobile,
       className: "fa fa-mobile",
-      attributes: { title: 'Mobile'},
-
+      attributes: { title: "Mobile" },
     },
   ]);
 

@@ -5,10 +5,11 @@ import { useEffect, useState } from "react";
 import "./blocks/basicBlocks/index";
 
 import "./plugins/index";
-import "./plugins/template-default.plugins";
+//import "./plugins/template-default.plugins";
 import NavigationPanel from "./pages/NavigationPanel";
 import { v4 as uuidv4 } from "uuid";
 import $ from "jquery";
+import "./Templates/template-default/template-default.plugins"
 
 function Canvas({ type }) {
   const [editor, setEditor] = useState(null);

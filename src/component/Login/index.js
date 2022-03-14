@@ -73,7 +73,7 @@ const Login = () => {
         myHeaders.append("Content-Type", "application/json");
 
         var raw = JSON.stringify({
-            "username": username,
+            "email": username,
             "password": password
         });
 
@@ -84,7 +84,7 @@ const Login = () => {
             redirect: 'follow'
         };
 
-        fetch(process.env.REACT_APP_API_URL + "login", requestOptions)
+        fetch(process.env.REACT_APP_API_URL + "auth/login", requestOptions)
             .then(response => {
                 console.log(response)
                 if (response.ok) {

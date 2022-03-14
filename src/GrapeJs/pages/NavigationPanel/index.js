@@ -31,6 +31,7 @@ const NavigationPanel = ( {editor} ) => {
                     throw Error(response.status);
                 })
                 .then(result => {
+                    console.log(result.data);
                     setPages(result.data);
                     result.data && initPages(result.data);
                 })

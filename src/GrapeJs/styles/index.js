@@ -1,6 +1,5 @@
 export default function loadStyles(editor, config) {
   const sm = editor.StyleManager;
-  console.log(editor.StyleManager.getBuiltInAll());
 
   sm.getSectors().reset(
     [

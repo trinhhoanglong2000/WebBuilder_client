@@ -150,7 +150,7 @@ export default function loadBlockCarousel(editor, opt = {}) {
     <div>${c.carouselBlkLabel}</div> `,
     // THIS PROPERTY IS CATEGORY GROUP OF BLOCK
     category: c.carousel_category,
-    draggable: "[data-gjs-type=wrapper]",
+    draggable: ".main-content",
     content: [
       {
         name: "Carousel",

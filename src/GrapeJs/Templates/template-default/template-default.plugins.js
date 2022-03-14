@@ -1,5 +1,4 @@
 import grapesjs from "grapesjs";
-import loadStyles from './template-default.styles';
 import loadBlockCarousel from './carousel';
 import loadBlockFooter from './footer';
 import loadBlockHeader from './header';
@@ -64,7 +63,6 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
 
     }
   })
-  loadStyles(editor, config);
   //Long ADD START
   loadBlockCarousel(editor, config)
   loadBlockProducts(editor, config)

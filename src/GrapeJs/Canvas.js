@@ -1,9 +1,10 @@
 import { GrapesjsReact } from "grapesjs-react";
+import { useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
 import "grapesjs/dist/css/grapes.min.css";
 import "./dist/Canvas.css";
-import { useEffect, useState } from "react";
-import "./blocks/basicBlocks/index";
 
+import "./blocks/basicBlocks/index";
 import "./plugins/index";
 //import "./plugins/template-default.plugins";
 import NavigationPanel from "./pages/NavigationPanel";
@@ -13,6 +14,7 @@ import "./Templates/template-default/template-default.plugins"
 
 function Canvas({ type }) {
   const [editor, setEditor] = useState(null);
+  const pageId = useSelector(state => state.page.pageId);
 
   const getPlugins = () => {
     return ["Plugins-defaults", "template-default", "gjs-blocks-basic"];
@@ -33,9 +35,10 @@ function Canvas({ type }) {
   return (
     <>
       <GrapesjsReact
+        key={pageId}
         id="grapesjs-react"
         plugins={getPlugins()}
-        pluginsOpts={{}}
+        pluginsOpts={{ }}
         styleManager={
           {
             // clearProperties: true,
@@ -44,7 +47,7 @@ function Canvas({ type }) {
         width="100%"
         height="100vh"
         storageManager={{
-          type: "null",
+          type: 'remote',
 
           stepsBeforeSave: 1,
           contentTypeJson: true,
@@ -54,10 +57,11 @@ function Canvas({ type }) {
           storeCss: true,
           headers: {
             "Content-Type": "application/json",
+            "Authorization":  `Bearer ${localStorage.getItem('token')}`
           },
           id: "",
-          urlStore: `${process.env.REACT_APP_API_URL}pages/${1}/content`,
-          urlLoad: `${process.env.REACT_APP_API_URL}pages/${1}/content`,
+          urlStore: `${process.env.REACT_APP_API_URL}pages/621b5a807ea079a0f7351fb8/${pageId}/content`,
+          urlLoad: `${process.env.REACT_APP_API_URL}pages/621b5a807ea079a0f7351fb8/${pageId}/content`,
         }}
         blockManager={{
           appendTo: ".gjs-pn-block-container",

@@ -111,65 +111,65 @@ const getFooterNavigationButton = (mNavigation) => {
             document.querySelector(".gjs-frame").contentDocument.querySelector(".footer-section").classList.add("bg-primary")
             console.log( document.querySelector(".gjs-frame").contentDocument.querySelector(".footer-section"))
            
-            // if (this.getAttributes().theme === "white") {
-            //     editor.Css.setRule(
-            //         `.footer-section`, {
-            //              'background-color': 'white',
-            //              'color': 'black !important'
-            //         });
+            if (this.getAttributes().theme === "white") {
+                editor.Css.setRule(
+                    `.footer-section`, {
+                         'background-color': 'white',
+                         'color': 'black !important'
+                    });
                     
-            //     editor.Css.setRule(
-            //         `.footer-section a`, {
-            //             'color': 'black !important' 
-            //         });
+                editor.Css.setRule(
+                    `.footer-section a`, {
+                        'color': 'black !important' 
+                    });
 
-            // } else if (this.getAttributes().theme === "black") {
-            //     editor.Css.setRule(
-            //         `.footer-section`, { 
-            //             'background-color': '#121212',
-            //             'color': 'white !important'
-            //         });
+            } else if (this.getAttributes().theme === "black") {
+                editor.Css.setRule(
+                    `.footer-section`, { 
+                        'background-color': '#121212',
+                        'color': 'white !important'
+                    });
 
-            //    editor.Css.setRule(
-            //         `.footer-section a`, {
-            //             'color': '#cccbe9 !important'
-            //         });
-            // } else if (this.getAttributes().theme === "lGreen") {
-            //     editor.Css.setRule(
-            //         `.footer-section`, { 
-            //             'background-color': '#69c5a3',
-            //             'color': 'black !important'
-            //         });
-            //     editor.Css.setRule(
-            //         `.footer-section a`, {
-            //             'color': 'black !important'
-            //         });
+               editor.Css.setRule(
+                    `.footer-section a`, {
+                        'color': '#cccbe9 !important'
+                    });
+            } else if (this.getAttributes().theme === "lGreen") {
+                editor.Css.setRule(
+                    `.footer-section`, { 
+                        'background-color': '#69c5a3',
+                        'color': 'black !important'
+                    });
+                editor.Css.setRule(
+                    `.footer-section a`, {
+                        'color': 'black !important'
+                    });
 
-            // } else if (this.getAttributes().theme === "lBlue") {
-            //     editor.Css.setRule(
-            //         `.footer-section`, { 
-            //             'background-color': '#c8e1e7',
-            //             'color': 'back !important'
-            //         });
-            //     editor.Css.setRule(
-            //         `.footer-section a`, {
-            //             'color': 'back !important'
-            //         });
+            } else if (this.getAttributes().theme === "lBlue") {
+                editor.Css.setRule(
+                    `.footer-section`, { 
+                        'background-color': '#c8e1e7',
+                        'color': 'back !important'
+                    });
+                editor.Css.setRule(
+                    `.footer-section a`, {
+                        'color': 'back !important'
+                    });
 
-            // } else if (this.getAttributes().theme === "sand") {
-            //     editor.Css.setRule(
-            //         `.footer-section`, { 
-            //             'background-color': '#f6d7b0',
-            //             'color': 'back !important'
-            //         });
-            //     editor.Css.setRule(
-            //         `.footer-section a`, {
-            //             'color': 'back !important'
-            //         });
+            } else if (this.getAttributes().theme === "sand") {
+                editor.Css.setRule(
+                    `.footer-section`, { 
+                        'background-color': '#f6d7b0',
+                        'color': 'back !important'
+                    });
+                editor.Css.setRule(
+                    `.footer-section a`, {
+                        'color': 'back !important'
+                    });
 
-            // }
+            }
           },
         },
     });
-//#endregion 
+    //#endregion 
 }

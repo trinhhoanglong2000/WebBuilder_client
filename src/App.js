@@ -8,6 +8,7 @@ import SellGuide from "./component/SellGuide";
 import MarketGuide from "./component/MarketGuide";
 import ManageGuide from "./component/ManageGuide";
 import StoreLogin from "./component/StoreLogin";
+import PricingScene from "./component/PricingScene";
 const App = () => {
   return(
     <div>
@@ -17,6 +18,7 @@ const App = () => {
           <Route path='/sell-guide' element={<SellGuide/>}/>
           <Route path='/market-guide' element={<MarketGuide/>}/>
           <Route path='/manage-guide' element={<ManageGuide/>}/>
+          <Route path='/pricing-scene' element={<PricingScene/>}/>
           
           <Route path='/store-login' element={<StoreLogin/>}/>
           <Route path='/login' element={<Login/>}/>

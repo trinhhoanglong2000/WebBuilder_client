@@ -47,7 +47,7 @@ function Canvas({ type }) {
         width="100%"
         height="100vh"
         storageManager={{
-          type: 'remote',
+          type: 'local',
 
           stepsBeforeSave: 1,
           contentTypeJson: true,

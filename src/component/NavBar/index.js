@@ -5,7 +5,13 @@ import Stack from '@mui/material/Stack';
 import './index.css';
 import { Link } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+import { useNavigate } from "react-router-dom";
 const NavBar = () => {
+    let navigate = useNavigate(); 
+    const routeChange = (newPath) =>{
+        navigate(newPath);
+    }
     return (
         <>
             <div className="row logo desktop">
@@ -22,7 +28,7 @@ const NavBar = () => {
                         <Stack direction="row" spacing={5} className="navigation-menu ">
                             <Link to={'#'} className="text-nav"> Giá cước</Link>  
                             <Link to={'#'} className="text-nav"> Tìm hiểu</Link>
-                            <button className="btn btn-success btn-login" > <p className="text-btn-login"> Đăng nhập </p></button>
+                            <button className="btn btn-success btn-login" onClick={() => routeChange("/login")}> <p className="text-btn-login"> Đăng nhập </p></button>
                         </Stack>
                     </div>
                     
@@ -39,7 +45,7 @@ const NavBar = () => {
                     </div>     
                     <div className="col-6 col-sm-6 col-md-5 col-lg-4 col-xl-4 offset-md-3 offset-lg-5 offset-xl-5 p-0">
                         <Stack direction="row" spacing={3} className="navigation-menu ">
-                            <button className="btn btn-success btn-login" > <p className="text-btn-login"> Đăng nhập </p></button>
+                            <button className="btn btn-success btn-login" onClick={() => routeChange("/login")}> <p className="text-btn-login"> Đăng nhập </p></button>
                             <Dropdown>
                                 <Dropdown.Toggle variant="success" id="dropdown-basic"> 
                                     <i class="fa fa-icon fa-bars"></i>

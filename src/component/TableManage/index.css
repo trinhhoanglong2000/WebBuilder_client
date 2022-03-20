@@ -1,0 +1,16 @@
+.table-manager-pagination .MuiTablePagination-selectLabel {
+    padding-top: 1rem;
+}
+.table-manager-pagination .MuiTablePagination-select {
+    padding-bottom: 0;
+}
+
+.table-manager-pagination .MuiTablePagination-displayedRows {
+    margin-bottom: 0;
+}
+.table td, .table th {
+    text-align: center;
+}
+.btn-product {
+    border: 1px solid gray;
+}

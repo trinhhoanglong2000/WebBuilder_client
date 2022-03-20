@@ -1,0 +1,42 @@
+.nav-detail {
+    min-height: 79vh;
+    max-height: 79vh;
+}
+.all-nav-detail {
+    min-height: 85vh;
+    max-height: 85vh;
+    overflow-y: scroll;
+}
+.dropdown-store-detail .dropdown-toggle{
+    background-color: #fff !important;
+    border: none;
+    font-size: 0.5rem;
+}
+.fa-store-detail {
+    font-size: 1.75rem;
+    margin: 0;
+}
+.nav-element {
+    padding-left: 0.45rem;
+}
+.nav-element:hover {
+    background-color: gray;
+    cursor: pointer;
+}
+.nav-element-selected {
+    background-color: #DBF2EA;
+    border-left: 5px solid #3A871E;
+    
+    padding-left: 0;
+}
+.fa-store-detail-nav {
+    font-size: 1.25rem;
+}
+.nav-extend {
+    padding-left: 3rem
+}
+
+.nav-extend:hover {
+    background-color: gray;
+    cursor: pointer;
+}

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { styled } from '@mui/material/styles';
 import {Avatar, Button, Grid, Paper, TextField, Typography} from '@material-ui/core';
 import Stack from '@mui/material/Stack';
@@ -8,6 +8,7 @@ import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
 import validator from 'validator';
 import logo from './Logo.png'
+import { useNavigate } from "react-router-dom";
 
 const SignInButton = styled(Button)({
     margin: '2.5rem 0 0.6rem 0',
@@ -20,9 +21,7 @@ const SignInButton = styled(Button)({
         backgroundColor: '#2B9361',
         opacity: 0.6
     }
-});
-
-const Login = () => {
+});const Login = () => {
     
     //=======================STATES===========================
     const [username, setUsername] = useState("");
@@ -65,6 +64,10 @@ const Login = () => {
         return (Object.keys(err).length);
     }
     
+    let navigate = useNavigate(); 
+    const routeChange = (newPath) =>{
+        navigate(newPath);
+    }
     const login = () => {
         var checkValid = validate();
         if (checkValid > 0) return;
@@ -91,7 +94,7 @@ const Login = () => {
                     return response.json();
                 }
 
-                throw Error(response.status);
+                throw response.status;
             })
             .then(result => {
                 if (result.statusCode === 200) 
@@ -100,15 +103,16 @@ const Login = () => {
                     localStorage.setItem("token", result.data.token);
                     localStorage.setItem("userId", result.data.user._id);
                     setIsLogin(true);
+                    
+                    routeChange('/store-login');
                 }
                 alert(result.message);
             })
             .catch(error => {
-                console.log('error', error)
+                if (error.status === 401) console.log('error', error)
                 alert("Incorrect username or password!");
             });
     }
-
     const responseFacebook = (response) => {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -130,12 +134,13 @@ const Login = () => {
                     return response.json();
                 }
 
-                throw Error(response.status);
+                throw response.status;
             })
             .then(result => {
                 localStorage.setItem("token", result.data.token);
                 localStorage.setItem("userId", result.data.user._id);
                 setIsLogin(true);
+                
                 alert(result.message);
             })
             .catch(error => {
@@ -166,12 +171,13 @@ const Login = () => {
                     return response.json();
                 }
 
-                throw Error(response.status);
+                throw response.status;
             })
             .then(result => {
                 localStorage.setItem("token", result.data.token);
                 localStorage.setItem("userId", result.data.user._id);
                 setIsLogin(true);
+                
                 alert(result.message);
             })
             .catch(error => {
@@ -184,8 +190,8 @@ const Login = () => {
         window.location.reload();
         localStorage.clear();
     }
-    
     return (
+
         <div className="bgImg">
             <div className="page-content">
             <Grid>

@@ -13,4 +13,39 @@ body {
 .fa-icon {
   font-family: 'FontAwesome' !important;
 }
+::-webkit-scrollbar {
+  width: 0.75rem;
+}
 
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #3D4A3B; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: gray; 
+}
+
+
+.ml-0 {
+  margin-left: 0;
+}
+.ml-1rem {
+  margin-left: 1rem;
+}
+.mr-1rem {
+  margin-right:1rem;
+}
+
+.mr-0-3rem {
+  margin-right: 0.3rem !important;
+}
+.pr-2rem {
+  padding-right: 2rem !important;
+}
+.p-0-75rem {
+  padding: 0.75rem !important;
+}

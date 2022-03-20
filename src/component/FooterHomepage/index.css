@@ -101,15 +101,6 @@
     font-size: 3.5rem;
     margin: 0 0.75rem;
 }
-.ml-0 {
-    margin-left: 0;
-}
-.mr-1rem {
-    margin-right:1rem;
-}
-.pr-2rem {
-    padding-right: 2rem !important;
-}
 .end-footer-right {
     display: flex;
     padding-bottom: 1rem !important;

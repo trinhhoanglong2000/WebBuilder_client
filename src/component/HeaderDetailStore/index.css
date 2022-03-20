@@ -1,0 +1,18 @@
+
+
+@media (max-width: 650px) {   
+    .button-header-mobile {
+        padding: 0;
+        margin: 0;
+    }
+}
+
+@media (max-width: 576px) {   
+    .navbar-header-mobile {
+        padding: 0;
+        margin: 0;
+    }
+}
+.menu_switch i {
+    cursor: pointer;
+}

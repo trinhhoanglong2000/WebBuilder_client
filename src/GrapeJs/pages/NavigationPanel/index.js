@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { doSwitchPage } from "../../../redux/slice/pageSlice";
+import { doSwitchLoginState } from "../../../redux/slice/loginSlice";
 import "./index.css";
 
 const NavigationPanel = () => {
+    const dispatch = useDispatch();
     const [pages, setPages] = useState(null);
     const pageId = useSelector(state => state.page.pageId);
-    const dispatch = useDispatch();
 
     useEffect(() => {
         getPages();
@@ -30,10 +31,15 @@ const NavigationPanel = () => {
                     return response.json();
                 }
 
-                throw Error(response.status);
+                throw response.status;
             })
             .then(result => {
                 setPages(result.data);
+            })
+            .catch((errorCode) => {
+                if (errorCode === 401) {
+                    dispatch(doSwitchLoginState(false));
+                }
             })
     }
 

@@ -2,7 +2,6 @@ import {
   cmdDeviceDesktop,
   cmdDeviceTablet,
   cmdDeviceMobile,
-  // cmdClear,
   openBlock,
 } from "../const.js";
 
@@ -86,13 +85,12 @@ export default function LoadPanels(editor, config) {
           command: (e) => e.runCommand("core:redo"),
           attributes: { title: "Redo" },
         },
-        // {
-        //   id: cmdClear,
-        //   className: "fa fa-trash",
-        //   command: (e) => e.runCommand(cmdClear),
-        //   attributes: { title: 'Clear'},
-
-        // },
+        {
+          id: "save",
+          className: "fa fa-save",
+          command: (e) => e.store(),
+          attributes: { title: 'Save'},
+        },
       ],
     },
     {

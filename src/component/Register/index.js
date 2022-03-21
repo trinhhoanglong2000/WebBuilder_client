@@ -103,7 +103,7 @@ const Register = () => {
                 redirect: 'follow'
             };
 
-            fetch(process.env.REACT_APP_API_URL + "accounts/create", requestOptions)
+            fetch(process.env.REACT_APP_API_URL + "auth/register", requestOptions)
             .then(response => response.json())
             .then(result => {
                 alert(result.message);

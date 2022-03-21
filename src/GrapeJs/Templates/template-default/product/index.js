@@ -9,8 +9,8 @@ bm.add("productList", {
     category: c.catergory_product_list,
     attributes: { class: "fa fa-cube" },
     content: {
-      attributes: { class: "container  -section",name:"products-collections",  },
-      name: "Section",
+      attributes: { class: "container section",name:"products-collections",  },
+      name: "ProductList",
       draggable: ".main-content",
       components: [
         {

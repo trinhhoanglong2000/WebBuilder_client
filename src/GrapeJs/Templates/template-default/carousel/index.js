@@ -154,7 +154,7 @@ export default function loadBlockCarousel(editor, opt = {}) {
     content: [
       {
         name: "Carousel",
-        tagName: "carousel",
+        attributes: { name: "banners" },
         //LONG-TP 2022-02-22 TEST TRAITS - ADD START 
         type: "carousel",
         //LONG-TP 2022-02-22 TEST TRAITS - ADD END 

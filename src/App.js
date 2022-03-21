@@ -11,7 +11,7 @@ const App = () => {
         <Routes>
           <Route path='/' element={<HomePage/>}/>
           <Route path='/login' element={<Login/>}/>
-          <Route path='/home' element={<Canvas type={2}/>}/>
+          <Route path='/editor/:idStore' element={<Canvas type={2}/>}/>
           <Route path='/register' element={<Register/>}/>
         </Routes>
       </BrowserRouter>

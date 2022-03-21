@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState , useEffect} from "react";
 import { styled } from '@mui/material/styles';
 import {Avatar, Button, Grid, Paper, TextField, Typography} from '@material-ui/core';
 import Stack from '@mui/material/Stack';
@@ -8,6 +8,8 @@ import FacebookLogin from 'react-facebook-login';
 import GoogleLogin from 'react-google-login';
 import validator from 'validator';
 import logo from './Logo.png'
+import { useDispatch, useSelector } from "react-redux";
+import { doSwitchLoginState } from "../../redux/slice/loginSlice";
 
 const SignInButton = styled(Button)({
     margin: '2.5rem 0 0.6rem 0',
@@ -23,12 +25,20 @@ const SignInButton = styled(Button)({
 });
 
 const Login = () => {
-    
+    const dispatch = useDispatch();
+
     //=======================STATES===========================
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [isLogin, setIsLogin] = useState(localStorage.getItem("token") != null)
+    const isLogin = useSelector(state => state.login.isLogin);
     const [error, setError] = useState({});
+
+    //=======================EFFECT===========================
+    useEffect(() => {
+        if (!isLogin) {
+            Logout();
+        }
+    }, [isLogin]) 
 
     //=======================STYLES===========================
     const paperStyle = {
@@ -99,7 +109,7 @@ const Login = () => {
                     console.log(result.message)
                     localStorage.setItem("token", result.data.token);
                     localStorage.setItem("userId", result.data.user._id);
-                    setIsLogin(true);
+                    dispatch(doSwitchLoginState(true));
                 }
                 alert(result.message);
             })
@@ -135,7 +145,7 @@ const Login = () => {
             .then(result => {
                 localStorage.setItem("token", result.data.token);
                 localStorage.setItem("userId", result.data.user._id);
-                setIsLogin(true);
+                dispatch(doSwitchLoginState(true));
                 alert(result.message);
             })
             .catch(error => {
@@ -171,16 +181,16 @@ const Login = () => {
             .then(result => {
                 localStorage.setItem("token", result.data.token);
                 localStorage.setItem("userId", result.data.user._id);
-                setIsLogin(true);
+                dispatch(doSwitchLoginState(true));
                 alert(result.message);
             })
             .catch(error => {
                 console.log('error', error)
             });
     }
-    const onLogoutSuccess = () => {
-        setIsLogin(false);
-        window.location.pathname ='/'; 
+    const Logout = () => {
+        dispatch(doSwitchLoginState(false));
+        window.location.pathname ='/login'; 
         window.location.reload();
         localStorage.clear();
     }

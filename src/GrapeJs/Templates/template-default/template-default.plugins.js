@@ -1,8 +1,10 @@
 import grapesjs from "grapesjs";
+
 import loadBlockCarousel from './carousel';
 import loadBlockFooter from './footer';
 import loadBlockHeader from './header';
 import loadBlockProducts from './product';
+
 export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
 
   const config = {
@@ -58,9 +60,7 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
     content: {
       name: "Main",
       droppable: true,
-      attributes: { class: "main-content" },
-      content: `<div style="height:100px;width:100%"></div>`
-
+      attributes: { class: "main-content", style: "min-height:100px;width:100%" },
     }
   })
   //Long ADD START

@@ -150,16 +150,16 @@ export default function loadBlockCarousel(editor, opt = {}) {
     <div>${c.carouselBlkLabel}</div> `,
     // THIS PROPERTY IS CATEGORY GROUP OF BLOCK
     category: c.carousel_category,
-    draggable: ".main-content",
     content: [
       {
         name: "Carousel",
         attributes: { name: "banners" },
+        draggable: ".main-content",
         //LONG-TP 2022-02-22 TEST TRAITS - ADD START 
         type: "carousel",
         //LONG-TP 2022-02-22 TEST TRAITS - ADD END 
         content: `
-        <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" data-type = "banners">
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                 <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>

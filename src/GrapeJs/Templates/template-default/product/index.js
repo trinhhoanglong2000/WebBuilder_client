@@ -1,9 +1,8 @@
 export default function loadBlockProducts(editor, opt = {}) {
-    const c = opt;
-    let bm = editor.BlockManager;
-//#region productList
-bm.add("productList", {
-
+  const c = opt;
+  let bm = editor.BlockManager;
+  //#region productList
+  bm.add("productList", {
     label: `
       <div>${c.label_product_list}</div> `,
     category: c.catergory_product_list,
@@ -26,8 +25,7 @@ bm.add("productList", {
           removable: false,
           name: "Products",
 
-        
-          content: `                <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" data-Pour = "/cá" >
+          content: `                <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" data-type = "products-collections" >
                     <!-- Carousel indicators -->
 
                     <!-- Wrapper for carousel items -->

@@ -2,15 +2,47 @@ export default function loadBlockProducts(editor, opt = {}) {
   const c = opt;
   let bm = editor.BlockManager;
   //#region productList
+  const domc = editor.DomComponents;
+  const defaultType = domc.getType("default");
+
+  domc.addType("product-list", {
+    model: {
+      defaults: {
+        traits: [
+          {
+            type: "select",
+            label: "Collection", // The label you will see in Settings
+            name: "data", // The name of the attribute/property to use on component
+            options: [
+              { id: "white", name: "White (default)" },
+              { id: "black", name: "Black" },
+              { id: "lGreen", name: "Light green" },
+              { id: "lBlue", name: "Light blue" },
+              { id: "sand", name: "Sand" },
+            ],
+          },
+        ],
+      },
+      init() {
+        this.on("change:attributes:data", this.handleTypeChangeData);
+      },
+      initData() {},
+      handleTypeChangeData(){
+          console.log("CHANGED")
+      },
+      // This function run when component created - we setup listen to change atri
+    },
+  });
   bm.add("productList", {
     label: `
       <div>${c.label_product_list}</div> `,
     category: c.catergory_product_list,
     attributes: { class: "fa fa-cube" },
     content: {
-      attributes: { class: "container section",name:"products-collections",  },
+      attributes: { class: "container section", name: "products-collections" },
       name: "ProductList",
       draggable: ".main-content",
+      type: "product-list",
       components: [
         {
           name: "Text",

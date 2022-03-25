@@ -106,6 +106,7 @@ export default function LoadPanels(editor, config) {
           id: otm,
           command: otm,
           className: "fa fa-cog",
+          active: true,
         },
         {
           id: ola,

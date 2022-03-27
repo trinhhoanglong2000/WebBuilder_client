@@ -1,8 +1,22 @@
 export default function loadBlockCarousel(editor, opt = {}) {
-    const c = opt;
-    let bm = editor.BlockManager;
+  const c = opt;
+  let bm = editor.BlockManager;
   //#region carousel panel
-
+  
+  const GetData = async (reloadFlag) => {
+    if (localStorage.getItem('crouselOptions') == null || reloadFlag == true) {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}collections/carousels?storeID=1`
+        , {
+          mode: 'cors',
+          headers: {
+            'Access-Control-Allow-Origin': '*'
+          }
+        });
+      let myJson = await response.json();
+      let Data = myJson.data.map((value) => { return { id: value.categoryId, name: value.name } });
+      localStorage.setItem('crouselOptions', JSON.stringify(Data))
+    } 
+  }
   //NODE SAVE HTML $(".gjs-frame").contentDocument.querySelector("html")
 
   //LONG-TP 2022-02-22 TEST TRAITS - ADD START
@@ -28,12 +42,15 @@ export default function loadBlockCarousel(editor, opt = {}) {
     },
     // Expects as return a simple HTML string or an HTML element
     createInput({ trait }) {
+
       // #1 Get data form api and pour to "data"
-      const data = ['option 1', 'option 2', 'option 3']
+      const data = JSON.parse(localStorage.getItem('crouselOptions'));
+      console.log(data)
       // #2 Convert data to trait option 
       let traitOptionsData = [];
+  
       data.forEach(item => {
-        traitOptionsData.push({ id: item, name: item })
+        traitOptionsData.push({ id: item.id, name: item.name })
       })
       // #3 Create HTML selected for trait option 
       const el = document.createElement('div');
@@ -45,9 +62,8 @@ export default function loadBlockCarousel(editor, opt = {}) {
       // #4 Add  event => when selected change =
       const inputType = el.querySelector('.options-carousel');
       inputType.addEventListener('change', ev => {
-      
       });
-      return el;
+      return el
     },
     // THIS FUNCTION WORK WHEN USER CLICK TO TRAIT SETTING or NEXT OF onEvent function  
     onUpdate({ elInput, component }) {
@@ -70,9 +86,9 @@ export default function loadBlockCarousel(editor, opt = {}) {
       let data = inputType.value;
 
       //#2 This function will set attribute data {nameAttribute:Value} => IMPORTAINT FOR COMPONENT LISTEN CHANGE ATTRIBUTE
-      if(component.getAttributes().data != data){
+      if (component.getAttributes().data != data) {
         component.setAttributes({ data })
-      } 
+      }
     },
   });
   //THIS IS SETTING COMPONENT
@@ -94,6 +110,7 @@ export default function loadBlockCarousel(editor, opt = {}) {
       },
       // This function run when component created - we setup listen to change atri
       init() {
+        GetData(true);
         this.on('change:attributes:data', this.handleTypeChangeData);
         this.on('change:attributes:placeholder', this.handleTypeChangePlaceHold);
       },
@@ -106,7 +123,7 @@ export default function loadBlockCarousel(editor, opt = {}) {
         console.log(this.view)
         console.log(this.view.el.nextElementSibling)
         console.log(this.view.el.firstChild.nextElementSibling)
-        
+
         //this.view.el.innerHTML = atributeData.data
       },
       handleTypeChangePlaceHold() {
@@ -201,6 +218,6 @@ export default function loadBlockCarousel(editor, opt = {}) {
       },
     ],
   });
-//#endregion
+  //#endregion
   //LONG-TP 2022-02-22 TEST TRAITS - ADD END 
 }

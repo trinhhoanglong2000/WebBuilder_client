@@ -60,7 +60,7 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
     content: {
       name: "Main",
       droppable: true,
-      attributes: { class: "main-content", style: "min-height:100px;width:100%" },
+      attributes: { class: "main-content", style: "min-height:100px;width:100%;height:100%" },
     }
   })
   //Long ADD START

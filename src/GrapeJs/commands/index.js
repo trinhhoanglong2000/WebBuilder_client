@@ -13,10 +13,7 @@ export default function LoadCommands(editor, config) {
   cm.add(cmdDeviceDesktop, (e) => e.setDevice("Desktop"));
   cm.add(cmdDeviceTablet, (e) => e.setDevice("Tablet"));
   cm.add(cmdDeviceMobile, (e) => e.setDevice("Mobile portrait"));
-  cm.add(
-    cmdClear,
-    (e) => window.confirm(txtConfirm) && e.runCommand("core:canvas-clear")
-  );
+  cm.add(cmdClear, (e) => window.confirm(txtConfirm) && e.runCommand("core:canvas-clear"));
   cm.add(openBlock, (e) => {
     var element = document.getElementsByClassName("gjs-pn-block-container");
     var elementCanvas = document.getElementsByClassName("gjs-cv-canvas");

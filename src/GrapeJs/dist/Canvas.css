@@ -149,3 +149,75 @@
 .gjs-d-s-arrow {
   border-top: 4px solid rgb(0 0 0 / 90%) !important;
 }
+
+.gjs-mdl-dialog {
+  max-width: 70%;
+}
+
+.gjs-trt-trait { 
+  display: inline;
+  padding: 0px;
+}
+
+.gjs-label-wrp {
+  width: 100%;
+  padding-left: 10px;
+  font-size: 14px;
+}
+
+.gjs-field-wrp {
+  margin: 10px;
+}
+
+/* HEADER */
+.gjs-field select {
+  background-color: white;
+  border: 1px solid lightgray;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+.gjs-field .gjs-sel-arrow {
+  z-index: 1;
+}
+
+.upload-image-area .card-body{
+  text-align: center;
+  padding: 10px;
+}
+
+.upload-image-area .card-body button {
+  background-color: #f6f6f7;
+}
+
+.upload-image-area .card-body button {
+  border: 1px solid lightgrey;
+  width: 100%;
+  padding: 5px 15px;
+  background-color: white;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.upload-image-area .card-body img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+}
+
+.gjs-field-wrp--select select:hover,
+.gjs-field-wrp--select select:focus {
+  box-shadow: 0 0 2px 1px rgb(45, 140, 248);
+}
+
+.upload-image-area .card-body img:hover,
+.upload-image-area .card-body img:focus {
+  box-shadow: 0 0 2px 1px rgb(45, 140, 248);
+}
+
+.upload-image-area .card-body button:hover {
+  box-shadow: 0 0 2px 1px rgb(45, 140, 248);
+}
+

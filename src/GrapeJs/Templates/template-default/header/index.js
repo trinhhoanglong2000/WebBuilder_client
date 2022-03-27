@@ -1,6 +1,12 @@
+import {
+    openAssets,
+} from "../../../const.js";
+
 export default function loadBlockHeader(editor, opt = {}) {
     const c = opt;
     let bm = editor.BlockManager;
+    const am = editor.AssetManager;
+    const dc = editor.DomComponents;
 
     const getHeaderNavigationButton = (mNavigation) => {
         let navbar = [];
@@ -31,7 +37,7 @@ export default function loadBlockHeader(editor, opt = {}) {
     content: {
         name: "Header",
         tagName: "nav",
-        type: "navbar",
+        type: "header",
         attributes: { class: "navbar navbar-expand-md border-bottom border-dark" },
         components: [
         {
@@ -138,7 +144,7 @@ export default function loadBlockHeader(editor, opt = {}) {
     //         {
     //             tagName: "nav",
     //             attributes: { class: "navbar border-bottom border-dark" },
-    //             type: "navbar",
+    //             type: "header",
     //             components: [
     //             {
     //                 layerable : false,  
@@ -292,22 +298,63 @@ export default function loadBlockHeader(editor, opt = {}) {
     //     },
     // });
 
-    editor.DomComponents.addType('navbar', {
+    editor.TraitManager.addType('upload-image', {
+        createInput({ trait }) {
+        const el = document.createElement('div');
+        el.innerHTML = `
+            <div class="card upload-image-area">
+                <div class="card-body">
+                    <img src="/img/FirstSlideHomePage.png" class="card-img-top">
+                    <button type="button">Change</button>
+                </div>
+            </div>
+        `;
+
+        const inputType = el.querySelector('.upload-image-area .card-body button');
+        inputType.onclick = () => {
+            am.open({
+                types: ['image'], // This is the default option
+                // Without select, nothing will happen on asset selection
+                select(asset, complete) {
+                  const selected = editor.getSelected();
+                    
+                  console.log(selected)
+                  if (selected && selected.is('image')) {
+                    selected.addAttributes({ src: asset.getSrc() });
+                    // The default AssetManager UI will trigger `select(asset, false)`
+                    // on asset click and `select(asset, true)` on double-click
+                    complete && am.close();
+                  }
+                }
+               });
+        };
+        return el;
+        },
+      });
+
+    dc.addType('navbar', {
         isComponent: el => el.tagName === 'NAVBAR',
         model: {
         defaults: {
             traits: [
             {
                 type: 'select',
-                label: 'Theme', // The label you will see in Settings
+                label: 'Theme color', // The label you will see in Settings
                 name: 'theme', // The name of the attribute/property to use on component
                 options: [
                 { id: 'white', name: 'White (default)'},
                 { id: 'black', name: 'Black'},
-                { id: 'lGreen', name: 'Light green'},
-                { id: 'lBlue', name: 'Light blue'},
+                { id: 'lGreen', name: 'Light Green'},
+                { id: 'lBlue', name: 'Light Blue'},
                 { id: 'sand', name: 'Sand'},
                 ]
+            },
+            {
+                type: 'upload-image',
+                label: 'Logo image',
+                text: 'Click me',
+                full: true, 
+                name: 'image',
             },
             ],
         },
@@ -408,6 +455,55 @@ export default function loadBlockHeader(editor, opt = {}) {
                 domWrapper.insertAdjacentHTML('afterbegin', `<style class="storeCss header"> ${cssContent} </style>`);
             }
         },
+
         },
     });
+
+
+    // editor.TraitManager.addType('theme', {
+    //     templateInput: '',
+    //     // Expects as return a simple HTML string or an HTML element
+    //     createInput({ trait }) {
+    //       // Here we can decide to use properties from the trait
+    //       const traitOpts = trait.get('options') || [];
+    //       const options = traitOpts.length ? traitOpts : [
+    //         { id: 'url', name: 'URL' },
+    //         { id: 'email', name: 'Email' },
+    //       ];
+      
+    //       // Create a new element container and add some content
+    //       const el = document.createElement('div');
+    //       el.innerHTML = `
+    //         <select class="href-next__type">
+    //           ${options.map(opt => `<option value="${opt.id}">${opt.name}</option>`).join('')}
+    //         </select>
+    //         <div class="href-next__url-inputs">
+    //           <input class="href-next__url" placeholder="Insert URL"/>
+    //         </div>
+    //         <div class="href-next__email-inputs">
+    //           <input class="href-next__email" placeholder="Insert email"/>
+    //           <input class="href-next__email-subject" placeholder="Insert subject"/>
+    //         </div>
+    //       `;
+      
+    //       // Let's make our content interactive
+    //       const inputsUrl = el.querySelector('.href-next__url-inputs');
+    //       const inputsEmail = el.querySelector('.href-next__email-inputs');
+    //       const inputType = el.querySelector('.href-next__type');
+    //       inputType.addEventListener('change', ev => {
+    //         switch (ev.target.value) {
+    //           case 'url':
+    //             inputsUrl.style.display = '';
+    //             inputsEmail.style.display = 'none';
+    //             break;
+    //           case 'email':
+    //             inputsUrl.style.display = 'none';
+    //             inputsEmail.style.display = '';
+    //             break;
+    //         }
+    //       });
+
+    //       return el;
+    //     },
+    //   });
 }

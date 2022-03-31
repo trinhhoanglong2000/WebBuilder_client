@@ -1,13 +1,13 @@
-import {
-    openAssets,
-} from "../../../const.js";
-
 export default function loadBlockHeader(editor, opt = {}) {
     const c = opt;
     let bm = editor.BlockManager;
     const am = editor.AssetManager;
     const dc = editor.DomComponents;
 
+    const getHeaderLogo = () => {
+        return c.logoURL? `<img src=${c.logoURL}>`: `<h4>${c.storeName}</h4>`;
+    }
+    
     const getHeaderNavigationButton = (mNavigation) => {
         let navbar = [];
 
@@ -37,7 +37,7 @@ export default function loadBlockHeader(editor, opt = {}) {
     content: {
         name: "Header",
         tagName: "nav",
-        type: "header",
+        type: "navbar",
         attributes: { class: "navbar navbar-expand-md border-bottom border-dark" },
         components: [
         {
@@ -61,7 +61,7 @@ export default function loadBlockHeader(editor, opt = {}) {
                 hoverable: false,
                 tagName: "a",
                 attributes: { href: "#", class: "navbar-brand text-uppercase font-weight-bold" },
-                content: `<h4>${c.storeName}</h4>`,
+                content: getHeaderLogo(),
             },
             {
                 layerable : false,  
@@ -303,29 +303,29 @@ export default function loadBlockHeader(editor, opt = {}) {
         el.innerHTML = `
             <div class="card upload-image-area">
                 <div class="card-body">
-                    <img src="/img/FirstSlideHomePage.png" class="card-img-top">
+                    <img src=${trait.get('src')?? "https://dummyimage.com/230x150/55595c/fff"} class="card-img-top">
                     <button type="button">Change</button>
                 </div>
             </div>
         `;
 
         const inputType = el.querySelector('.upload-image-area .card-body button');
+        const inputImage = el.querySelector('.upload-image-area .card-body img');
         inputType.onclick = () => {
             am.open({
-                types: ['image'], // This is the default option
-                // Without select, nothing will happen on asset selection
                 select(asset, complete) {
-                  const selected = editor.getSelected();
-                    
-                  console.log(selected)
-                  if (selected && selected.is('image')) {
-                    selected.addAttributes({ src: asset.getSrc() });
-                    // The default AssetManager UI will trigger `select(asset, false)`
-                    // on asset click and `select(asset, true)` on double-click
-                    complete && am.close();
-                  }
-                }
+                    const selected = editor.getSelected().view.el;
+                    const navBrand = selected.querySelector('.navbar-brand img');
+
+                    trait.set('src', asset.getSrc());
+                    inputImage.src = asset.getSrc();
+                    navBrand.src = asset.getSrc();
+                    am.close();
+                },
+
                });
+
+
         };
         return el;
         },
@@ -350,10 +350,10 @@ export default function loadBlockHeader(editor, opt = {}) {
             },
             {
                 type: 'upload-image',
+                changeProp: 1,
                 label: 'Logo image',
-                text: 'Click me',
-                full: true, 
                 name: 'image',
+                src: '/img/FirstSlideHomePage.png',
             },
             ],
         },

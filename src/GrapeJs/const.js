@@ -4,6 +4,5 @@ export const
   cmdDeviceTablet = 'set-device-tablet',
   cmdDeviceMobile = 'set-device-mobile',
   cmdClear = 'canvas-clear',
-  openBlock = 'set-toggle-block',
-  openAssets = 'open-assets'
+  openBlock = 'set-toggle-block'
  

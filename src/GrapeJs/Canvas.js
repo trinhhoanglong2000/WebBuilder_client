@@ -1,6 +1,9 @@
 import { GrapesjsReact } from "grapesjs-react";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import { doSwitchListPagesId } from "../redux/slice/storeSlice";
+import { doSwitchLoginState } from "../redux/slice/loginSlice";
 
 import "grapesjs/dist/css/grapes.min.css";
 import "./dist/Canvas.css";
@@ -14,9 +17,11 @@ import $ from "jquery";
 import "./Templates/template-default/template-default.plugins"
 
 function Canvas({ type }) {
+  const dispatch = useDispatch();
   const [editor, setEditor] = useState(null);
   const [listCssFile, setListCssFile] = useState([]);
   const storeId = useSelector(state => state.store.storeId);
+  const logoURL = useSelector(state => state.store.logoURL);
   const pageId = useSelector(state => state.page.pageId);
 
   const getPlugins = () => {
@@ -52,6 +57,39 @@ function Canvas({ type }) {
     head.insertAdjacentHTML('beforeend', `<link href="https://ezmall-bucket.s3.ap-southeast-1.amazonaws.com/css/621b5a807ea079a0f7351fb8.css" rel="stylesheet">`);
 
   }, [listCssFile])
+  
+  useEffect(() => {
+    getPages();
+  }, [storeId]);
+
+  const getPages = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+    myHeaders.append("Content-Type", "application/json");
+
+    var requestOptions = {
+        method: 'GET',
+        headers: myHeaders,
+        redirect: 'follow'
+        };
+
+    fetch(process.env.REACT_APP_API_URL + "pages/" + storeId, requestOptions)
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+
+            throw response.status;
+        })
+        .then(result => {
+          dispatch(doSwitchListPagesId(result.data));
+        })
+        .catch((errorCode) => {
+            if (errorCode === 401) {
+                dispatch(doSwitchLoginState(false));
+            }
+        })
+  }
 
   const saveStoreCssData = (data) => {
     var myHeaders = new Headers();
@@ -87,13 +125,51 @@ function Canvas({ type }) {
       });
   }
 
+  const saveLogoImage = (data) => {
+    var myHeaders = new Headers();
+    myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      name:  'LogoImage',
+      base64Image: data
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    console.log(data);
+    fetch(`${process.env.REACT_APP_API_URL}files/asset/${storeId}`, requestOptions)
+      .then(response => {
+        console.log(response)
+        if (response.ok) {
+          return response.json();
+        }
+
+        throw Error(response.status);
+      })
+      .then(result => {
+        console.log(result.message);
+      })
+      .catch(error => {
+        console.log('error', error)
+
+      });
+  }
+
   return (
     <>
       <GrapesjsReact
         key={pageId}
         id="grapesjs-react"
         plugins={getPlugins()}
-        pluginsOpts={{}}
+        pluginsOpts={{ 'template-default': {
+          'logoURL': logoURL,
+        }}}
         styleManager={
           {
             // clearProperties: true,
@@ -197,9 +273,13 @@ function Canvas({ type }) {
               }
             }
 
-            console.log(data);
             saveStoreCssData(data);
+
+            let logoImage = domWrapper.querySelector('.navbar-brand img');
+            //  IMAGE LOGO
+            saveLogoImage(logoImage.src)
           })
+
           //need to update in here
         }}
         canvas={{

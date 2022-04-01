@@ -3,8 +3,8 @@
   width: 15%;
   z-index: 4;
 }
-.gjs-pn-btn{
-  font-size: 18px!important;
+.gjs-pn-btn {
+  font-size: 18px !important;
 }
 .gjs-pn-options,
 .gjs-pn-devices-c,
@@ -36,9 +36,8 @@
 }
 
 /* Cavas */
-.trans{
+.trans {
   transition: 1s;
-
 }
 .gjs-cv-canvas {
   width: 70%;
@@ -82,7 +81,6 @@
   font-size: 8px;
 }
 /* Responsive */
-
 
 @media only screen and (max-width: 830px) {
   .gjs-fonts {
@@ -154,7 +152,7 @@
   max-width: 70%;
 }
 
-.gjs-trt-trait { 
+.gjs-trt-trait {
   display: inline;
   padding: 0px;
 }
@@ -170,19 +168,23 @@
 }
 
 /* HEADER */
-.gjs-field select {
+.gjs-field select,
+.gjs-field input {
   background-color: white;
   border: 1px solid lightgray;
   padding: 10px;
   font-size: 14px;
   border-radius: 5px;
 }
-
+.gjs-field input:focus {
+  outline: none !important;
+  border-color: #719ece;
+}
 .gjs-field .gjs-sel-arrow {
   z-index: 1;
 }
 
-.upload-image-area .card-body{
+.upload-image-area .card-body {
   text-align: center;
   padding: 10px;
 }
@@ -219,5 +221,23 @@
 
 .upload-image-area .card-body button:hover {
   box-shadow: 0 0 2px 1px rgb(45, 140, 248);
+}
+/* .Radio-Group */
+.Radio-Group input[type="radio"]:checked + .label-radio {
+  background-color: #80808052;
+}
+.Radio-Group input[type="radio"] + .label-radio {
+  font-size: 24px;
+}
+.Radio-Group {
+  display: flex;
+  justify-content: space-evenly;
+}
+.label-radio {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  border: 1px solid black;
+  cursor: pointer;
 }
 

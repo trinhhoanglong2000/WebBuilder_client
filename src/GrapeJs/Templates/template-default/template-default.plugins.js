@@ -4,7 +4,7 @@ import loadBlockCarousel from './carousel';
 import loadBlockFooter from './footer';
 import loadBlockHeader from './header';
 import loadBlockProducts from './product';
-
+import loadBlockMain from '../Main'
 export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
 
   const config = {
@@ -54,16 +54,9 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
   // Add blocks
   //loadBlocks(editor, config);
   //Note: Body containter
-  editor.BlockManager.add("Main", {
-    label: 'Main',
-    category: "Main",
-    content: {
-      name: "Main",
-      droppable: true,
-      attributes: { class: "main-content", style: "min-height:100px;width:100%" },
-    }
-  })
+
   //Long ADD START
+  loadBlockMain(editor,config)
   loadBlockCarousel(editor, config)
   loadBlockProducts(editor, config)
   loadBlockFooter(editor, config)

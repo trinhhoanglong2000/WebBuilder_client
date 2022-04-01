@@ -11,13 +11,13 @@ import "./plugins/index";
 import NavigationPanel from "./pages/NavigationPanel";
 import { v4 as uuidv4 } from "uuid";
 import $ from "jquery";
-import "./Templates/template-default/template-default.plugins"
+import "./Templates/template-default/template-default.plugins";
 
 function Canvas({ type }) {
   const [editor, setEditor] = useState(null);
   const [listCssFile, setListCssFile] = useState([]);
-  const storeId = useSelector(state => state.store.storeId);
-  const pageId = useSelector(state => state.page.pageId);
+  const storeId = useSelector((state) => state.store.storeId);
+  const pageId = useSelector((state) => state.page.pageId);
 
   const getPlugins = () => {
     return ["Plugins-defaults", "template-default", "gjs-blocks-basic"];
@@ -25,17 +25,14 @@ function Canvas({ type }) {
 
   useEffect(() => {
     $(document).ready(function () {
-
-      $(document).on('DOMNodeInserted', function (e) {
-        if ($(e.target).hasClass('gjs-off-prv')) {
+      $(document).on("DOMNodeInserted", function (e) {
+        if ($(e.target).hasClass("gjs-off-prv")) {
           $(e.target).click(function () {
             $(".navigationPanel").removeClass("dnone");
-          })
+          });
         }
       });
-
     });
-
   }, []);
 
   useEffect(() => {
@@ -46,46 +43,56 @@ function Canvas({ type }) {
     const head = editor.Canvas.getDocument().head;
 
     listCssFile.forEach((ele) => {
-      head.insertAdjacentHTML('beforeend', `<link href="http://localhost:5000/files/dist/css/components/${ele}.css" rel="stylesheet">`);
-    })
+      head.insertAdjacentHTML(
+        "beforeend",
+        `<link href="http://localhost:5000/files/dist/css/components/${ele}.css" rel="stylesheet">`
+      );
+    });
 
-    head.insertAdjacentHTML('beforeend', `<link href="https://ezmall-bucket.s3.ap-southeast-1.amazonaws.com/css/621b5a807ea079a0f7351fb8.css" rel="stylesheet">`);
-
-  }, [listCssFile])
+    head.insertAdjacentHTML(
+      "beforeend",
+      `<link href="https://ezmall-bucket.s3.ap-southeast-1.amazonaws.com/css/621b5a807ea079a0f7351fb8.css" rel="stylesheet">`
+    );
+  }, [listCssFile]);
 
   const saveStoreCssData = (data) => {
     var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+    myHeaders.append(
+      "Authorization",
+      "Bearer " + localStorage.getItem("token")
+    );
     myHeaders.append("Content-Type", "application/json");
 
     var raw = JSON.stringify({
-      data: data
+      data: data,
     });
 
     var requestOptions = {
-      method: 'POST',
+      method: "POST",
       headers: myHeaders,
       body: raw,
-      redirect: 'follow'
+      redirect: "follow",
     };
 
-    fetch(process.env.REACT_APP_API_URL + "stores/css/" + storeId, requestOptions)
-      .then(response => {
-        console.log(response)
+    fetch(
+      process.env.REACT_APP_API_URL + "stores/css/" + storeId,
+      requestOptions
+    )
+      .then((response) => {
+        console.log(response);
         if (response.ok) {
           return response.json();
         }
 
         throw Error(response.status);
       })
-      .then(result => {
+      .then((result) => {
         console.log(result.message);
       })
-      .catch(error => {
-        console.log('error', error)
-
+      .catch((error) => {
+        console.log("error", error);
       });
-  }
+  };
 
   return (
     <>
@@ -102,7 +109,7 @@ function Canvas({ type }) {
         width="100%"
         height="100vh"
         storageManager={{
-          type: 'remote',
+          type: "remote",
 
           autosave: false,
           contentTypeJson: true,
@@ -112,7 +119,7 @@ function Canvas({ type }) {
           storeCss: true,
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem('token')}`
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           id: "",
           urlStore: `${process.env.REACT_APP_API_URL}stores/${storeId}/${pageId}/content`,
@@ -134,31 +141,9 @@ function Canvas({ type }) {
             }
 
             if (!droppedComponent) return;
+            droppedComponent.initData();
 
-            if (droppedComponent.attributes.name === "Carousel") {
-              droppedComponent.set({
-                content: droppedComponent.attributes.content.replace(
-                  /myCarousel/g,
-                  `A${uuidv4()}`
-                ),
-              });
-            }
-            if (droppedComponent.attributes.components) {
-              droppedComponent.attributes.components.models.forEach(function (
-                item
-              ) {
-                //check product//
-                if (item.attributes.name === "Products") {
-                  item.set({
-                    content: item.attributes.content.replace(
-                      /myCarousel/g,
-                      `A${uuidv4()}`
-                    ),
-                  });
-                }
-              });
-            }
-
+            if (droppedComponent.get("name") == "Main") return;
             let listCss = listCssFile;
             if (!listCss.includes(droppedComponent.attributes.name)) {
               listCss.push(droppedComponent.attributes.name);
@@ -172,24 +157,23 @@ function Canvas({ type }) {
             // ========================== Load component css file ================================
             const listComponents = editor.Components.getComponents().models;
             let listCssFile = [];
-            listComponents.forEach(ele => {
+            listComponents.forEach((ele) => {
               if (ele.attributes.name === "Main") {
                 const mainComponent = ele.attributes.components.models;
                 mainComponent.forEach((ele) => {
                   listCssFile.push(ele.attributes.name);
-                })
+                });
               } else {
                 listCssFile.push(ele.attributes.name);
               }
-            })
+            });
 
             setListCssFile(listCssFile);
-          })
+          });
           editor.on("storage:end:store", function () {
             let domWrapper = editor.getWrapper().view.el;
-            let domStoreStyle = domWrapper.getElementsByClassName('storeCss');
+            let domStoreStyle = domWrapper.getElementsByClassName("storeCss");
             let data = "";
-            
 
             if (domStoreStyle) {
               for (let i = 0; i < domStoreStyle.length; i++) {
@@ -199,7 +183,7 @@ function Canvas({ type }) {
 
             console.log(data);
             saveStoreCssData(data);
-          })
+          });
           //need to update in here
         }}
         canvas={{

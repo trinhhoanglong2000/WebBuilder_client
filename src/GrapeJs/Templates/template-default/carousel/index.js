@@ -1,4 +1,5 @@
 import $ from "jquery";
+import { v4 as uuidv4 } from "uuid";
 
 export default function loadBlockCarousel(editor, opt = {}) {
   const c = opt;
@@ -120,6 +121,13 @@ export default function loadBlockCarousel(editor, opt = {}) {
         //this.view.el.innerHTML = atributeData.data
       },
       initData() {
+        //change uuid
+        this.set({
+          content: this.attributes.content.replace(
+            /myCarousel/g,
+            `A${uuidv4()}`
+          ),
+        });
         const banners = [
           {
             name: "TEST2",

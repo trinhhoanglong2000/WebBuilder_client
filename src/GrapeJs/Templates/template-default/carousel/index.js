@@ -1,3 +1,4 @@
+import loadScripts from  "../template-common";
 export default function loadBlockCarousel(editor, opt = {}) {
   const c = opt;
   let bm = editor.BlockManager;
@@ -42,7 +43,7 @@ export default function loadBlockCarousel(editor, opt = {}) {
     },
     // Expects as return a simple HTML string or an HTML element
     createInput({ trait }) {
-
+      console.log( trait.target.attributes.attributes.data)
       // #1 Get data form api and pour to "data"
       const data = JSON.parse(localStorage.getItem('crouselOptions'));
       console.log(data)
@@ -55,9 +56,16 @@ export default function loadBlockCarousel(editor, opt = {}) {
       // #3 Create HTML selected for trait option 
       const el = document.createElement('div');
       el.innerHTML = `
-        <select class="options-carousel">
-          ${traitOptionsData.map(opt => `<option value="${opt.id}">${opt.name}</option>`).join('')}
-        </select>
+        <div>
+          <div> 
+            Category
+          </div>
+          <select class="options-carousel">
+            ${traitOptionsData.map(opt => opt.id == trait.target.attributes.attributes.data ?  
+               `<option value="${opt.id}" selected>${opt.name}</option>` 
+               : `<option value="${opt.id}" >${opt.name}</option>` ).join('')}
+          </select>
+        </div>
       `;
       // #4 Add  event => when selected change =
       const inputType = el.querySelector('.options-carousel');
@@ -95,7 +103,7 @@ export default function loadBlockCarousel(editor, opt = {}) {
   domc.addType('carousel', {
     model: {
       defaults: {
-        tagName: 'carousel',
+        tagName: 'div',
         droppable: false,
         traits: [
           {
@@ -105,24 +113,33 @@ export default function loadBlockCarousel(editor, opt = {}) {
         ],
         // This is default attributes 
         attributes: {
-          data: 'option 1'
+          data: '1',
+          "ez-mall-type": "carousel"
         }
       },
       // This function run when component created - we setup listen to change atri
+      
       init() {
+        
         GetData(true);
         this.on('change:attributes:data', this.handleTypeChangeData);
         this.on('change:attributes:placeholder', this.handleTypeChangePlaceHold);
+        
+        loadScripts(
+          ["http://localhost:5000/files/dist/js/template-default/carousel/carousel.js"]
+        , function () {
+          console.log('carousel.js is loaded');
+        });
       },
 
       handleTypeChangeData() {
-        console.log("Data")
+        //console.log("Data")
         const atributeData = this.attributes.attributes;
-        console.log(document.querySelector(".gjs-frame").contentDocument.querySelector("html"))
+        //console.log(document.querySelector(".gjs-frame").contentDocument.querySelector("html"))
         // IMPORTAINT - this.view.el is root node => form 1 atribute change we can change front end by this
-        console.log(this.view)
-        console.log(this.view.el.nextElementSibling)
-        console.log(this.view.el.firstChild.nextElementSibling)
+       // console.log(this.view)
+       // console.log(this.view.el.nextElementSibling)
+        //console.log(this.view.el.firstChild.nextElementSibling)
 
         //this.view.el.innerHTML = atributeData.data
       },
@@ -176,34 +193,34 @@ export default function loadBlockCarousel(editor, opt = {}) {
         type: "carousel",
         //LONG-TP 2022-02-22 TEST TRAITS - ADD END 
         content: `
-        <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" data-type = "banners">
+        <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" data-type = "banners" >
             <div class="carousel-indicators">
                 <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
                 <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
                 <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
             </div>
             <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="https://dummyimage.com/1360x540/55595c/fff " class="d-block w-100" alt="https://dummyimage.com/1360x540/55595c/fff ">
-                <div class="carousel-caption d-none d-md-block">
-                <h5>First slide label</h5>
-                <p>Some representative placeholder content for the first slide.</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="https://dummyimage.com/1360x540/55595c/fff " class="d-block w-100" alt="https://dummyimage.com/1360x540/55595c/fff ">
-                <div class="carousel-caption d-none d-md-block">
-                <h5>Second slide label</h5>
-                <p>Some representative placeholder content for the second slide.</p>
-                </div>
-            </div>
-            <div class="carousel-item">
-                <img src="https://dummyimage.com/1360x540/55595c/fff " class="d-block w-100" alt="https://dummyimage.com/1360x540/55595c/fff ">
-                <div class="carousel-caption d-none d-md-block">
-                <h5>Third slide label</h5>
-                <p>Some representative placeholder content for the third slide.</p>
-                </div>
-            </div>
+              <div class="carousel-item active">
+                  <img src="https://dummyimage.com/1360x540/55595c/fff " class="d-block w-100" alt="https://dummyimage.com/1360x540/55595c/fff ">
+                  <div class="carousel-caption d-none d-md-block">
+                  <h5>First slide label</h5>
+                  <p>Some representative placeholder content for the first slide.</p>
+                  </div>
+              </div>
+              <div class="carousel-item">
+                  <img src="https://dummyimage.com/1360x540/55595c/fff " class="d-block w-100" alt="https://dummyimage.com/1360x540/55595c/fff ">
+                  <div class="carousel-caption d-none d-md-block">
+                  <h5>Second slide label</h5>
+                  <p>Some representative placeholder content for the second slide.</p>
+                  </div>
+              </div>
+              <div class="carousel-item">
+                  <img src="https://dummyimage.com/1360x540/55595c/fff " class="d-block w-100" alt="https://dummyimage.com/1360x540/55595c/fff ">
+                  <div class="carousel-caption d-none d-md-block">
+                  <h5>Third slide label</h5>
+                  <p>Some representative placeholder content for the third slide.</p>
+                  </div>
+              </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>

@@ -1,3 +1,6 @@
+:root {
+  --theme: #f6faf6;
+}
 .gjs-pn-open-block {
   left: 0%;
   width: 15%;
@@ -56,7 +59,7 @@
 }
 /* Color Theme */
 .gjs-one-bg {
-  background-color: #f6faf6;
+  background-color: var(--theme);
 }
 .gjs-two-color {
   color: black;
@@ -222,7 +225,7 @@
 .upload-image-area .card-body button:hover {
   box-shadow: 0 0 2px 1px rgb(45, 140, 248);
 }
-/* .Radio-Group */
+/* .Radio-Group for Product-Heading*/
 .Radio-Group input[type="radio"]:checked + .label-radio {
   background-color: #80808052;
 }
@@ -239,5 +242,34 @@
   justify-content: center;
   border: 1px solid black;
   cursor: pointer;
+}
+/* .CheckBOx for Product-Heading*/
+.checkbox-product{
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  padding-left: 0;
+}
+.checkbox-product #border{
+  display:none;
+}
+.checkbox-product .checkbox_box{
+  width: 1.25em;
+  height: 1.25em;
+  border:2px solid #cccccc;
+  margin-right: 10px;
+  flex-shrink: 0;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.checkbox-product .checkbox_box::after{
+  content: '\2714';
+  color:var(--theme);
+}
+.checkbox-input:checked + .checkbox_box{
+  background-color: #2266dc;
+  border-color: #2266dc;
 }
 

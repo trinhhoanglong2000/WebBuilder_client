@@ -28,6 +28,7 @@ export default function loadBlockProducts(editor, opt = {}) {
     onEvent({ elInput, component, event }) {
       //#1 when option change we will get new option => change HTML following option
       const inputType = elInput.querySelector(".Product-Heading");
+
       let data = inputType.value;
       //#2 This function will set attribute data {nameAttribute:Value} => IMPORTAINT FOR COMPONENT LISTEN CHANGE ATTRIBUTE
       if (component.get("content") !== data) {
@@ -38,6 +39,8 @@ export default function loadBlockProducts(editor, opt = {}) {
   editor.TraitManager.addType("product-heading-align", {
     // Expects as return a simple HTML string or an HTML element
     createInput({ trait }) {
+            //.Radio-Group CSS in CAnvas CSS
+
       const initValue = trait.target.getStyle()["text-align"] || "center";
       const el = document.createElement("div");
       el.innerHTML = `
@@ -73,8 +76,37 @@ export default function loadBlockProducts(editor, opt = {}) {
       const inputType = elInput.querySelector('input[name="alignment"]:checked');
 
       let data = inputType.value;
-      //#2 This function will set attribute data {nameAttribute:Value} => IMPORTAINT FOR COMPONENT LISTEN CHANGE ATTRIBUTE
-        component.setStyle({ "text-align": data });
+      // editor.Selectors.setState('after');
+      // console.log(editor.Selectors.getState())
+      component.setStyle({ "text-align": data });
+      
+    },
+  });
+  editor.TraitManager.addType("product-heading-border", {
+    // Expects as return a simple HTML string or an HTML element
+    createInput({ trait }) {
+      const initValue = trait.target.getStyle()["text-align"] || "center";
+      const el = document.createElement("div");
+      el.innerHTML = `
+      <div class="gjs-one-bg">
+        <label class="checkbox-product gjs-label-wrp" for="border" >
+          <input class ="checkbox-input" type="checkbox" id="border" name="border" value="Bike">
+          <div class="checkbox_box"></div>
+          I have a bike
+        <label/>
+      </div>
+      `;
+      
+      // $(el).find(`#${initValue}`).prop('checked', true);
+
+      
+        
+
+      return el;
+    },
+    onEvent({ elInput, component, event }) {
+      //#1 when option change we will get new option => change HTML following option
+
       
     },
   });
@@ -90,6 +122,10 @@ export default function loadBlockProducts(editor, opt = {}) {
             type: "product-heading-align",
             label: "Alignment",
           },
+          {
+            type:"product-heading-border",
+            label:false,
+          }
         ],
       },
     },
@@ -131,12 +167,12 @@ export default function loadBlockProducts(editor, opt = {}) {
 
         const products = [
           {
-            name: "TEST1",
+            name: "LONGEM",
             price: "$100.00",
             img: "HEHE",
           },
           {
-            name: "TEST2",
+            name: "LONG ANH",
             price: "$200.00",
             img: "HEHE",
           },
@@ -192,7 +228,7 @@ export default function loadBlockProducts(editor, opt = {}) {
           content: `Trending Products`,
           editable: true,
           droppable: false,
-          style:{"text-align":"center"},
+          style:{"text-align":"center","&:after":"{display:none}"},
           type: "product-text",
         },
         {

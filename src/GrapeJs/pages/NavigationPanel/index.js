@@ -25,7 +25,7 @@ const NavigationPanel = () => {
             };
 
         let storeId = "621b5a807ea079a0f7351fb8";
-        fetch(process.env.REACT_APP_API_URL + "pages/" + storeId, requestOptions)
+        fetch(process.env.REACT_APP_API_URL + "stores/" + storeId+ "/pages", requestOptions)
             .then(response => {
                 if (response.ok) {
                     return response.json();
@@ -49,7 +49,7 @@ const NavigationPanel = () => {
     }
 
     const renderPagesItem = () => {
-        return pages.map((ele) => { return <option value={ele._id} key={ele._id}> {ele.name} </option> });
+        return pages.map((ele) => { return <option value={ele.id} key={ele.id}> {ele.name} </option> });
     }
 
     return (

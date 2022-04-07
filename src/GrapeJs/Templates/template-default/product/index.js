@@ -1,16 +1,225 @@
+import $ from "jquery";
+import { v4 as uuidv4 } from "uuid";
 export default function loadBlockProducts(editor, opt = {}) {
   const c = opt;
   let bm = editor.BlockManager;
   //#region productList
+  const domc = editor.DomComponents;
+  editor.TraitManager.addType("product-heading", {
+    // Expects as return a simple HTML string or an HTML element
+    createInput({ trait }) {
+      const initValue = trait.target.get("content") || "";
+ 
+      const el = document.createElement("div");
+      el.innerHTML = `
+
+        <div class="gjs-field gjs-field-text">
+          <input class="Product-Heading"placeholder="Header " value="${initValue}" />
+         
+        </div>
+      `;
+
+      $(el)
+        .find("input")
+        .on("input", (ev) => this.onChange(ev));
+
+      return el;
+    },
+    onEvent({ elInput, component, event }) {
+      //#1 when option change we will get new option => change HTML following option
+      const inputType = elInput.querySelector(".Product-Heading");
+
+      let data = inputType.value;
+      //#2 This function will set attribute data {nameAttribute:Value} => IMPORTAINT FOR COMPONENT LISTEN CHANGE ATTRIBUTE
+      if (component.get("content") !== data) {
+        component.set({ content: data });
+      }
+    },
+  });
+  editor.TraitManager.addType("product-heading-align", {
+    // Expects as return a simple HTML string or an HTML element
+    createInput({ trait }) {
+            //.Radio-Group CSS in CAnvas CSS
+
+      const initValue = trait.target.getStyle()["text-align"] || "center";
+      const el = document.createElement("div");
+      el.innerHTML = `
+
+        <div class="Radio-Group gjs-one-bg">
+            <input id="left" type="radio" name="alignment" value="left" style="display:none" />
+
+            <label for="left"class="label-radio" style="border-right: none;border-top-left-radius: 5px;border-bottom-left-radius: 5px;" >
+                <i class="fa fa-align-left" aria-hidden="true"></i>
+            </label>
+
+            <input id="center" type="radio" name="alignment" value="center" style="display:none" />
+            <label for="center"class="label-radio">
+                <i class="fa fa-align-center" aria-hidden="true"></i>
+            </label>
+
+            <input id="right" type="radio" name="alignment" value="right" style="display:none" />
+            <label for="right"class="label-radio" style="border-left: none;border-top-right-radius: 5px;border-bottom-right-radius: 5px;" >
+                <i class="fa fa-align-right" aria-hidden="true"></i>
+
+            </label>
+        </div>
+      `;
+      $(el).find(`#${initValue}`).prop('checked', true);
+
+      
+        
+
+      return el;
+    },
+    onEvent({ elInput, component, event }) {
+      //#1 when option change we will get new option => change HTML following option
+      const inputType = elInput.querySelector('input[name="alignment"]:checked');
+
+      let data = inputType.value;
+      // editor.Selectors.setState('after');
+      // console.log(editor.Selectors.getState())
+      component.setStyle({ "text-align": data });
+      
+    },
+  });
+  editor.TraitManager.addType("product-heading-border", {
+    // Expects as return a simple HTML string or an HTML element
+    createInput({ trait }) {
+      const initValue = trait.target.getStyle()["text-align"] || "center";
+      const el = document.createElement("div");
+      el.innerHTML = `
+      <div class="gjs-one-bg">
+        <label class="checkbox-product gjs-label-wrp" for="border" >
+          <input class ="checkbox-input" type="checkbox" id="border" name="border" value="Bike">
+          <div class="checkbox_box"></div>
+          I have a bike
+        <label/>
+      </div>
+      `;
+      
+      // $(el).find(`#${initValue}`).prop('checked', true);
+
+      
+        
+
+      return el;
+    },
+    onEvent({ elInput, component, event }) {
+      //#1 when option change we will get new option => change HTML following option
+
+      
+    },
+  });
+  domc.addType("product-text", {
+    model: {
+      defaults: {
+        traits: [
+          {
+            type: "product-heading", // Type of the trait
+            label: "Heading", // The label you will see in Settings
+          },
+          {
+            type: "product-heading-align",
+            label: "Alignment",
+          },
+          {
+            type:"product-heading-border",
+            label:false,
+          }
+        ],
+      },
+    },
+  });
+  domc.addType("product-list", {
+    model: {
+      defaults: {
+        traits: [
+          {
+            type: "select",
+            label: "Collection", // The label you will see in Settings
+            name: "data", // The name of the attribute/property to use on component
+            options: [
+              { id: "white", name: "White (default)" },
+              { id: "black", name: "Black" },
+              { id: "lGreen", name: "Light green" },
+              { id: "lBlue", name: "Light blue" },
+              { id: "sand", name: "Sand" },
+            ],
+          },
+         
+        ],
+      },
+      init() {
+        this.on("change:attributes:data", this.handleTypeChangeData);
+      },
+      initData() {
+        this.attributes.components.models.forEach(function (item) {
+          //check product//
+          if (item.attributes.name === "Products") {
+            item.set({
+              content: item.attributes.content.replace(
+                /myCarousel/g,
+                `A${uuidv4()}`
+              ),
+            });
+          }
+        });
+
+        const products = [
+          {
+            name: "LONGEM",
+            price: "$100.00",
+            img: "HEHE",
+          },
+          {
+            name: "LONG ANH",
+            price: "$200.00",
+            img: "HEHE",
+          },
+          {
+            name: "TEST3",
+            price: "$300.00",
+            img: "HEHE",
+          },
+          {
+            name: "TEST4",
+            price: "$400.00",
+            img: "HEHE",
+          },
+        ];
+        $(this.view.el)
+          .find(".thumb-wrapper")
+          .each(function (index) {
+            $(this)
+              .find("h4")
+              .text(products[index % products.length].name);
+            $(this)
+              .find(".item-price strike")
+              .text(products[index % products.length].price);
+            $(this)
+              .find(".item-price span")
+              .text(products[index % products.length].price);
+          });
+      },
+      handleTypeChangeData() {
+        console.log("CHANGED");
+      },
+      // This function run when component created - we setup listen to change atri
+    },
+  });
   bm.add("productList", {
     label: `
       <div>${c.label_product_list}</div> `,
     category: c.catergory_product_list,
     attributes: { class: "fa fa-cube" },
     content: {
-      attributes: { class: "container section",name:"products-collections",  },
+      attributes: {
+        class: "container product-section",
+        name: "products-collections",
+      },
       name: "ProductList",
       draggable: ".main-content",
+      type: "product-list",
       components: [
         {
           name: "Text",
@@ -19,12 +228,18 @@ export default function loadBlockProducts(editor, opt = {}) {
           content: `Trending Products`,
           editable: true,
           droppable: false,
-          type: "text",
+          style:{"text-align":"center","&:after":"{display:none}"},
+          type: "product-text",
         },
         {
           removable: false,
           name: "Products",
-
+          draggable: false,
+          droppable: false,
+          highlightable: false,
+          copyable: false,
+          selectable: false,
+          hoverable: false,
           content: `                <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" data-type = "products-collections" >
                     <!-- Carousel indicators -->
 

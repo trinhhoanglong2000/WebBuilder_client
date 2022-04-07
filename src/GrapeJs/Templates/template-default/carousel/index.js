@@ -1,21 +1,24 @@
+import $ from "jquery";
+import { v4 as uuidv4 } from "uuid";
+
 export default function loadBlockCarousel(editor, opt = {}) {
-    const c = opt;
-    let bm = editor.BlockManager;
+  const c = opt;
+  let bm = editor.BlockManager;
   //#region carousel panel
 
   //NODE SAVE HTML $(".gjs-frame").contentDocument.querySelector("html")
 
   //LONG-TP 2022-02-22 TEST TRAITS - ADD START
   const domc = editor.DomComponents;
-  const defaultType = domc.getType('default');
-  const textType = domc.getType('text');
+  const defaultType = domc.getType("default");
+  const textType = domc.getType("text");
   const defaultModel = defaultType.model;
   const defaultView = defaultType.view;
   const textModel = textType.model;
   const textView = textType.view;
   const sfx = opt.socialClssfx;
   //THIS IS SETTING TRAIT
-  editor.TraitManager.addType('carousel', {
+  editor.TraitManager.addType("carousel", {
     // Disbale label custom - set false for use createLabel below
     noLabel: true,
     // Label custom for trait
@@ -29,35 +32,35 @@ export default function loadBlockCarousel(editor, opt = {}) {
     // Expects as return a simple HTML string or an HTML element
     createInput({ trait }) {
       // #1 Get data form api and pour to "data"
-      const data = ['option 1', 'option 2', 'option 3']
-      // #2 Convert data to trait option 
+      const data = ["option 1", "option 2", "option 3"];
+      // #2 Convert data to trait option
       let traitOptionsData = [];
-      data.forEach(item => {
-        traitOptionsData.push({ id: item, name: item })
-      })
-      // #3 Create HTML selected for trait option 
-      const el = document.createElement('div');
+      data.forEach((item) => {
+        traitOptionsData.push({ id: item, name: item });
+      });
+      // #3 Create HTML selected for trait option
+      const el = document.createElement("div");
       el.innerHTML = `
         <select class="options-carousel">
-          ${traitOptionsData.map(opt => `<option value="${opt.id}">${opt.name}</option>`).join('')}
+          ${traitOptionsData
+            .map((opt) => `<option value="${opt.id}">${opt.name}</option>`)
+            .join("")}
         </select>
       `;
       // #4 Add  event => when selected change =
-      const inputType = el.querySelector('.options-carousel');
-      inputType.addEventListener('change', ev => {
-      
-      });
+      const inputType = el.querySelector(".options-carousel");
+      inputType.addEventListener("change", (ev) => {});
       return el;
     },
-    // THIS FUNCTION WORK WHEN USER CLICK TO TRAIT SETTING or NEXT OF onEvent function  
+    // THIS FUNCTION WORK WHEN USER CLICK TO TRAIT SETTING or NEXT OF onEvent function
     onUpdate({ elInput, component }) {
       //#1 Get attribute data for update something
-      const dataAttributeValues = component.getAttributes().data || '';
+      const dataAttributeValues = component.getAttributes().data || "";
 
-      //#2 Update something here 
-      const inputType = elInput.querySelector('.options-carousel');
+      //#2 Update something here
+      const inputType = elInput.querySelector(".options-carousel");
 
-      inputType.dispatchEvent(new CustomEvent('change'));
+      inputType.dispatchEvent(new CustomEvent("change"));
     },
     // IN MY OPINION THIS FUNCTION WORK WHEN USER CHANGE OPTION - IF U KNOW IT WORK PLS CMT HERE
     onEvent({ elInput, component, event }) {
@@ -65,52 +68,93 @@ export default function loadBlockCarousel(editor, opt = {}) {
       const rootElementTrait = elInput;
       const propertiesOfFrontComponet = component;
 
-      //#1 when option change we will get new option => change HTML following option 
-      const inputType = elInput.querySelector('.options-carousel');
+      //#1 when option change we will get new option => change HTML following option
+      const inputType = elInput.querySelector(".options-carousel");
       let data = inputType.value;
 
       //#2 This function will set attribute data {nameAttribute:Value} => IMPORTAINT FOR COMPONENT LISTEN CHANGE ATTRIBUTE
-      if(component.getAttributes().data != data){
-        component.setAttributes({ data })
-      } 
+      if (component.getAttributes().data != data) {
+        component.setAttributes({ data });
+      }
     },
   });
   //THIS IS SETTING COMPONENT
-  domc.addType('carousel', {
+  domc.addType("carousel", {
     model: {
       defaults: {
-        tagName: 'carousel',
+        tagName: "carousel",
         droppable: false,
         traits: [
           {
-            name: 'data',
+            name: "data",
             type: "carousel",
-          }
+          },
         ],
-        // This is default attributes 
+        // This is default attributes
         attributes: {
-          data: 'option 1'
-        }
+          data: "option 1",
+        },
       },
       // This function run when component created - we setup listen to change atri
       init() {
-        this.on('change:attributes:data', this.handleTypeChangeData);
-        this.on('change:attributes:placeholder', this.handleTypeChangePlaceHold);
+        this.on("change:attributes:data", this.handleTypeChangeData);
+        this.on(
+          "change:attributes:placeholder",
+          this.handleTypeChangePlaceHold
+        );
       },
 
       handleTypeChangeData() {
-        console.log("Data")
+        console.log("Data");
         const atributeData = this.attributes.attributes;
-        console.log(document.querySelector(".gjs-frame").contentDocument.querySelector("html"))
+        console.log(
+          document
+            .querySelector(".gjs-frame")
+            .contentDocument.querySelector("html")
+        );
         // IMPORTAINT - this.view.el is root node => form 1 atribute change we can change front end by this
-        console.log(this.view)
-        console.log(this.view.el.nextElementSibling)
-        console.log(this.view.el.firstChild.nextElementSibling)
-        
+        console.log(this.view);
+        console.log(this.view.el.nextElementSibling);
+        console.log(this.view.el);
+        console.log(this.view.el.firstChild.nextElementSibling);
+
         //this.view.el.innerHTML = atributeData.data
       },
+      initData() {
+        //change uuid
+        this.set({
+          content: this.attributes.content.replace(
+            /myCarousel/g,
+            `A${uuidv4()}`
+          ),
+        });
+        const banners = [
+          {
+            name: "TEST2",
+            description: "Test2",
+          },
+          {
+            name: "TEST2",
+            description: "Test2",
+          },
+          {
+            name: "TEST3",
+            description: "Test3",
+          },
+        ];
+        $(this.view.el)
+          .find(".carousel-item")
+          .each(function (index) {
+            $(this)
+              .find("h5")
+              .text(banners[index % banners.length].name);
+            $(this)
+              .find("p")
+              .text(banners[index % banners.length].description);
+          });
+      },
       handleTypeChangePlaceHold() {
-        console.log("placeHold")
+        console.log("placeHold");
         const atributeData = this.attributes.attributes;
         // IMPORTAINT - this.view.el is root node => form 1 atribute change we can change front end by this
         //this.view.el.innerHTML = atributeData.data
@@ -119,18 +163,18 @@ export default function loadBlockCarousel(editor, opt = {}) {
     view: {
       init() {
         const attributes = this.model.attributes;
-        const rootElement = this.el
+        const rootElement = this.el;
       },
       // Event on layout
       events: {
-        click: 'handleClick',
+        click: "handleClick",
         dblclick: function () {
-          alert('Hi!');
-        }
+          alert("Hi!");
+        },
       },
       handleClick: function (e) {
         const attributes = this.model.attributes;
-        const rootElement = this.el
+        const rootElement = this.el;
       },
       render: function () {
         // Extend the original render method
@@ -138,7 +182,6 @@ export default function loadBlockCarousel(editor, opt = {}) {
         return this;
       },
     },
-
   });
   //THIS IS SETTING BLOCK
   bm.add("carousel", {
@@ -152,12 +195,12 @@ export default function loadBlockCarousel(editor, opt = {}) {
     category: c.carousel_category,
     content: [
       {
-        name: "Carousel",
+        name: "carousel",
         attributes: { name: "banners" },
         draggable: ".main-content",
-        //LONG-TP 2022-02-22 TEST TRAITS - ADD START 
+        //LONG-TP 2022-02-22 TEST TRAITS - ADD START
         type: "carousel",
-        //LONG-TP 2022-02-22 TEST TRAITS - ADD END 
+        //LONG-TP 2022-02-22 TEST TRAITS - ADD END
         content: `
         <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" data-type = "banners">
             <div class="carousel-indicators">
@@ -201,6 +244,6 @@ export default function loadBlockCarousel(editor, opt = {}) {
       },
     ],
   });
-//#endregion
-  //LONG-TP 2022-02-22 TEST TRAITS - ADD END 
+  //#endregion
+  //LONG-TP 2022-02-22 TEST TRAITS - ADD END
 }

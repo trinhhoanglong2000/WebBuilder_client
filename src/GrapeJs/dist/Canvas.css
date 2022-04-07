@@ -1,10 +1,13 @@
+:root {
+  --theme: #f6faf6;
+}
 .gjs-pn-open-block {
   left: 0%;
   width: 15%;
   z-index: 4;
 }
-.gjs-pn-btn{
-  font-size: 18px!important;
+.gjs-pn-btn {
+  font-size: 18px !important;
 }
 .gjs-pn-options,
 .gjs-pn-devices-c,
@@ -36,9 +39,8 @@
 }
 
 /* Cavas */
-.trans{
+.trans {
   transition: 1s;
-
 }
 .gjs-cv-canvas {
   width: 70%;
@@ -57,7 +59,7 @@
 }
 /* Color Theme */
 .gjs-one-bg {
-  background-color: #f6faf6;
+  background-color: var(--theme);
 }
 .gjs-two-color {
   color: black;
@@ -82,7 +84,6 @@
   font-size: 8px;
 }
 /* Responsive */
-
 
 @media only screen and (max-width: 830px) {
   .gjs-fonts {
@@ -154,7 +155,7 @@
   max-width: 70%;
 }
 
-.gjs-trt-trait { 
+.gjs-trt-trait {
   display: inline;
   padding: 0px;
 }
@@ -170,19 +171,23 @@
 }
 
 /* HEADER */
-.gjs-field select {
+.gjs-field select,
+.gjs-field input {
   background-color: white;
   border: 1px solid lightgray;
   padding: 10px;
   font-size: 14px;
   border-radius: 5px;
 }
-
+.gjs-field input:focus {
+  outline: none !important;
+  border-color: #719ece;
+}
 .gjs-field .gjs-sel-arrow {
   z-index: 1;
 }
 
-.upload-image-area .card-body{
+.upload-image-area .card-body {
   text-align: center;
   padding: 10px;
 }
@@ -220,3 +225,51 @@
 .upload-image-area .card-body button:hover {
   box-shadow: 0 0 2px 1px rgb(45, 140, 248);
 }
+/* .Radio-Group for Product-Heading*/
+.Radio-Group input[type="radio"]:checked + .label-radio {
+  background-color: #80808052;
+}
+.Radio-Group input[type="radio"] + .label-radio {
+  font-size: 24px;
+}
+.Radio-Group {
+  display: flex;
+  justify-content: space-evenly;
+}
+.label-radio {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  border: 1px solid black;
+  cursor: pointer;
+}
+/* .CheckBOx for Product-Heading*/
+.checkbox-product{
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  padding-left: 0;
+}
+.checkbox-product #border{
+  display:none;
+}
+.checkbox-product .checkbox_box{
+  width: 1.25em;
+  height: 1.25em;
+  border:2px solid #cccccc;
+  margin-right: 10px;
+  flex-shrink: 0;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.checkbox-product .checkbox_box::after{
+  content: '\2714';
+  color:var(--theme);
+}
+.checkbox-input:checked + .checkbox_box{
+  background-color: #2266dc;
+  border-color: #2266dc;
+}
+

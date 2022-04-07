@@ -14,7 +14,7 @@ const NavigationPanel = () => {
     }
 
     const renderPagesItem = () => {
-        return listPagesId.map((ele) => { return <option value={ele._id} key={ele._id}> {ele.name} </option> });
+        return listPagesId.map((ele) => { return <option value={ele.id} key={ele.id}> {ele.name} </option> });
     }
 
     return (

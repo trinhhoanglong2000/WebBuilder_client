@@ -59,6 +59,7 @@ export default function loadBlockHeader(editor, opt = {}) {
                 layerable : false,  
                 draggable: false,
                 hoverable: false,
+                selectable :false,
                 tagName: "a",
                 attributes: { href: "#", class: "navbar-brand text-uppercase font-weight-bold" },
                 content: getHeaderLogo(),

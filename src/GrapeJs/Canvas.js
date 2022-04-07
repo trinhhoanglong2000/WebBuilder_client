@@ -2,8 +2,8 @@ import { GrapesjsReact } from "grapesjs-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { doSwitchListPagesId } from "../redux/slice/storeSlice";
-import { doSwitchLoginState } from "../redux/slice/loginSlice";
+import { doSwitchStoreCssData, getInitDataStore, doSaveStoreData } from "../redux/slice/storeSlice";
+import { callAPIWithPostMethod } from "../Utils/callAPI";
 
 import "grapesjs/dist/css/grapes.min.css";
 import "./dist/Canvas.css";
@@ -21,6 +21,7 @@ function Canvas({ type }) {
   const [editor, setEditor] = useState(null);
   const [listCssFile, setListCssFile] = useState([]);
   const storeId = useSelector(state => state.store.storeId);
+  const storeCssData = useSelector(state => state.store.storeCssData);
   const logoURL = useSelector(state => state.store.logoURL);
   const pageId = useSelector(state => state.page.pageId);
 
@@ -48,120 +49,45 @@ function Canvas({ type }) {
     const head = editor.Canvas.getDocument().head;
 
     listCssFile.forEach((ele) => {
-      head.insertAdjacentHTML(
-        "beforeend",
-        `<link href="http://localhost:5000/files/dist/css/components/${ele}.css" rel="stylesheet">`
-      );
-    });
+      head.insertAdjacentHTML('beforeend', `<link href="http://localhost:5000/files/dist/css/components/${ele}.css" rel="stylesheet">`);
+    })
 
   }, [listCssFile])
-  
+
   useEffect(() => {
-    getPages();
+    dispatch(getInitDataStore(storeId));
   }, [storeId]);
 
-  const getPages = () => {
-    var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    myHeaders.append("Content-Type", "application/json");
+  useEffect(() => {
+    loadStoreCss();
+  }, [storeCssData]);
 
-    var requestOptions = {
-        method: 'GET',
-        headers: myHeaders,
-        redirect: 'follow'
-        };
-
-    fetch(process.env.REACT_APP_API_URL + "pages/" + storeId, requestOptions)
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-
-            throw response.status;
-        })
-        .then(result => {
-          dispatch(doSwitchListPagesId(result.data));
-        })
-        .catch((errorCode) => {
-            if (errorCode === 401) {
-                dispatch(doSwitchLoginState(false));
-            }
-        })
+  const addNewStoreCss = (newStoreCssData) => {
+    dispatch(doSwitchStoreCssData(newStoreCssData));
   }
 
-  const saveStoreCssData = (data) => {
-    var myHeaders = new Headers();
-    myHeaders.append(
-      "Authorization",
-      "Bearer " + localStorage.getItem("token")
-    );
-    myHeaders.append("Content-Type", "application/json");
+  const loadStoreCss = () => {
+    if (!editor) {
+      return;
+    }
 
-    var raw = JSON.stringify({
-      data: data,
-    });
+    let domWrapper = editor.getWrapper().view;
+    if (!domWrapper) {
+      return
+    }
 
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
+    let domStoreStyle = domWrapper.el.getElementsByClassName('storeCss')[0];
+    let cssContent = "";
 
-    fetch(
-      process.env.REACT_APP_API_URL + "stores/css/" + storeId,
-      requestOptions
-    )
-      .then((response) => {
-        console.log(response);
-        if (response.ok) {
-          return response.json();
-        }
+    for (let key in storeCssData) {
+      cssContent += key + " " + storeCssData[key] + " ";
+    }
 
-        throw Error(response.status);
-      })
-      .then((result) => {
-        console.log(result.message);
-      })
-      .catch((error) => {
-        console.log("error", error);
-      });
-  };
-
-  const saveLogoImage = (data) => {
-    var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    myHeaders.append("Content-Type", "application/json");
-
-    var raw = JSON.stringify({
-      name:  'LogoImage',
-      base64Image: data
-    });
-
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
-    };
-
-    console.log(data);
-    fetch(`${process.env.REACT_APP_API_URL}files/asset/${storeId}`, requestOptions)
-      .then(response => {
-        console.log(response)
-        if (response.ok) {
-          return response.json();
-        }
-
-        throw Error(response.status);
-      })
-      .then(result => {
-        console.log(result.message);
-      })
-      .catch(error => {
-        console.log('error', error)
-
-      });
+    if (domStoreStyle) {
+      domStoreStyle.innerHTML = cssContent;
+    } else {
+      domWrapper.el.insertAdjacentHTML('afterbegin', `<style class="storeCss"> ${cssContent} </style>`);
+    }
   }
 
   return (
@@ -170,9 +96,12 @@ function Canvas({ type }) {
         key={pageId}
         id="grapesjs-react"
         plugins={getPlugins()}
-        pluginsOpts={{ 'template-default': {
-          'logoURL': logoURL,
-        }}}
+        pluginsOpts={{
+          'template-default': {
+            'logoURL': logoURL,
+            'addCssStore': addNewStoreCss
+          }
+        }}
         styleManager={
           {
             // clearProperties: true,
@@ -191,7 +120,7 @@ function Canvas({ type }) {
           storeCss: true,
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Authorization": `Bearer ${localStorage.getItem("token")}`,
           },
           id: "",
           urlStore: `${process.env.REACT_APP_API_URL}stores/${storeId}/${pageId}/content`,
@@ -238,41 +167,53 @@ function Canvas({ type }) {
               } else {
                 listCssFile.push(ele.attributes.name);
               }
-            });
 
-            setListCssFile(listCssFile);
-          });
-          editor.on("storage:end:store", function () {
-            let domWrapper = editor.getWrapper().view.el;
-            let domStoreStyle = domWrapper.getElementsByClassName("storeCss");
-            let data = "";
+              if (ele.attributes.name === "Header") {
+                const navbarTrait = ele.getTrait('logoImage');
+              }
+            })
 
-            if (domStoreStyle) {
-              for (let i = 0; i < domStoreStyle.length; i++) {
-                data += domStoreStyle[i].innerHTML;
+            // ========================== Load Logo Store ================================
+            if (logoURL) {
+              let domWrapper = editor.getWrapper().view.el;
+              const navBrandImg = domWrapper.querySelector('.navbar-brand img');
+
+              if (navBrandImg) {
+                  navBrandImg.src = logoURL;
+              } else {
+                  const navBrand = domWrapper.querySelector('.navbar-brand');
+                  navBrand.innerHTML = `<img src="${logoURL}"/>`
               }
             }
 
-            saveStoreCssData(data);
+            setListCssFile(listCssFile);
+            // ========================== Load store css file ================================
+            loadStoreCss();
+          })
 
+          editor.on("storage:end:store", async function () {
+            let domWrapper = editor.getWrapper().view.el;
             let logoImage = domWrapper.querySelector('.navbar-brand img');
-            //  IMAGE LOGO
-            saveLogoImage(logoImage.src)
+            
+            if (logoImage) {
+              await callAPIWithPostMethod("files/assets/" + storeId, { name: 'LogoImage', base64Image: logoImage.src }, true);
+            }
+            dispatch(doSaveStoreData());
+            console.log("Save")
           })
 
           //need to update in here
         }}
         canvas={{
           styles: [
-            "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css",
-            "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
+            `https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css`,
+            `https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css`,
           ],
           scripts: [
             `https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js`,
             `https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js`,
             `//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js`,
-            "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js",
-            `http://localhost:5000/files/dist/js/template-default/test.js`,
+            `https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js`,
           ],
         }}
       />

@@ -5,22 +5,22 @@ export default function loadBlockHeader(editor, opt = {}) {
     const dc = editor.DomComponents;
 
     const getHeaderLogo = () => {
-        return c.logoURL? `<img src=${c.logoURL}>`: `<h4>${c.storeName}</h4>`;
+        return c.logoURL ? `<img src=${c.logoURL}>` : `<h4>${c.storeName}</h4>`;
     }
-    
+
     const getHeaderNavigationButton = (mNavigation) => {
         let navbar = [];
 
-        if (mNavigation){
+        if (mNavigation) {
             mNavigation.forEach((element) => {
-            navbar.push({
-                layerable : false,  
-                draggable: false,
-                hoverable: false,
-                tagName: "li",
-                attributes: { class: "nav-item" },
-                content: `<a href="${element.link}" class="nav-link p-1"> ${element.name}</a>`,
-            });
+                navbar.push({
+                    layerable: false,
+                    draggable: false,
+                    hoverable: false,
+                    tagName: "li",
+                    attributes: { class: "nav-item" },
+                    content: `<a href="${element.link}" class="nav-link p-1"> ${element.name}</a>`,
+                });
             })
 
             return navbar;
@@ -31,106 +31,107 @@ export default function loadBlockHeader(editor, opt = {}) {
     }
 
     bm.add('header', {
-    label: "Header",
-    category: "Header",
-    attributes: { class: "fa fa-header" },
-    content: {
-        name: "Header",
-        tagName: "nav",
-        type: "navbar",
-        attributes: { class: "navbar navbar-expand-md border-bottom border-dark" },
-        components: [
-        {
-            layerable : false,  
-            draggable: false,
-            hoverable: false,
-            tagName: "div",
-            attributes: { class: "container align-items-baseline" },
+        label: "Header",
+        category: "Header",
+        attributes: { class: "fa fa-header" },
+        content: {
+            name: "Header",
+            tagName: "nav",
+            type: "navbar",
+            attributes: { class: "navbar navbar-expand-md border-bottom border-dark" },
             components: [
-            {
-                layerable : false,  
-                draggable: false,
-                hoverable: false,
-                tagName: "button",
-                attributes: { class:"navbar-toggler", type:"button", "data-bs-toggle": "collapse", "data-bs-target": "#navbarSupportedContent", "aria-controls": "navbarSupportedContent", "aria-expanded": "false", "aria-label": "Toggle navigation" },
-                content: `<i class="fa fa-bars"></i>`,
-            },
-            {
-                layerable : false,  
-                draggable: false,
-                hoverable: false,
-                selectable :false,
-                tagName: "a",
-                attributes: { href: "#", class: "navbar-brand text-uppercase font-weight-bold" },
-                content: getHeaderLogo(),
-            },
-            {
-                layerable : false,  
-                draggable: false,
-                hoverable: false,
-                tagName: "div",
-                attributes: { class:"d-block d-md-none" },
-                components: [
                 {
-                    layerable : false,  
+                    layerable: false,
                     draggable: false,
                     hoverable: false,
-                    tagName: "i",
-                    attributes: { class: "fa fa-search" },
+                    selectable: false,
+                    tagName: "div",
+                    attributes: { class: "container align-items-baseline" },
+                    components: [
+                        {
+                            layerable: false,
+                            draggable: false,
+                            hoverable: false,
+                            tagName: "button",
+                            attributes: { class: "navbar-toggler", type: "button", "data-bs-toggle": "collapse", "data-bs-target": "#navbarSupportedContent", "aria-controls": "navbarSupportedContent", "aria-expanded": "false", "aria-label": "Toggle navigation" },
+                            content: `<i class="fa fa-bars"></i>`,
+                        },
+                        {
+                            layerable: false,
+                            draggable: false,
+                            hoverable: false,
+                            tagName: "a",
+                            attributes: { href: "#", class: "navbar-brand text-uppercase font-weight-bold" },
+                            content: getHeaderLogo(),
+                        },
+                        {
+                            layerable: false,
+                            draggable: false,
+                            hoverable: false,
+                            tagName: "div",
+                            attributes: { class: "d-block d-md-none" },
+                            components: [
+                                {
+                                    layerable: false,
+                                    draggable: false,
+                                    hoverable: false,
+                                    tagName: "i",
+                                    attributes: { class: "fa fa-search" },
+                                },
+                                {
+                                    layerable: false,
+                                    draggable: false,
+                                    hoverable: false,
+                                    tagName: "i",
+                                    attributes: { class: "fa fa-shopping-bag" },
+                                },
+                            ],
+                        },
+                        {
+                            layerable: false,
+                            draggable: false,
+                            hoverable: false,
+                            tagName: "div",
+                            selectable: false,
+                            attributes: { id: "navbarSupportedContent", class: "collapse navbar-collapse" },
+                            components: [
+                                {
+                                    layerable: false,
+                                    draggable: false,
+                                    hoverable: false,
+                                    tagName: "ul",
+                                    attributes: { class: "navbar-nav" },
+                                    components: getHeaderNavigationButton(c.headerNavigation)
+                                },
+                            ],
+                        },
+                        {
+                            layerable: false,
+                            draggable: false,
+                            hoverable: false,
+                            tagName: "div",
+                            attributes: { class: "d-none d-md-block" },
+                            components: [
+                                {
+                                    layerable: false,
+                                    draggable: false,
+                                    hoverable: false,
+                                    tagName: "i",
+                                    attributes: { class: "fa fa-search icon-header" },
+                                },
+                                {
+                                    layerable: false,
+                                    draggable: false,
+                                    hoverable: false,
+                                    tagName: "i",
+                                    attributes: { class: "fa fa-shopping-bag icon-header" },
+                                },
+                            ],
+                        },
+                    ]
                 },
-                {
-                    layerable : false,  
-                    draggable: false,
-                    hoverable: false,
-                    tagName: "i",
-                    attributes: { class: "fa fa-shopping-bag" },
-                },
-                ],
-            },
-            {
-                layerable : false,  
-                draggable: false,
-                hoverable: false,
-                tagName: "div",
-                attributes: { id: "navbarSupportedContent", class: "collapse navbar-collapse" },
-                components: [
-                {
-                    layerable : false,  
-                    draggable: false,
-                    hoverable: false,
-                    tagName: "ul",
-                    attributes: { class: "navbar-nav" },
-                    components: getHeaderNavigationButton(c.headerNavigation)
-                },
-                ],
-            },
-            {
-                layerable : false,  
-                draggable: false,
-                hoverable: false,
-                tagName: "div",
-                attributes: { class:"d-none d-md-block" },
-                components: [
-                {
-                    layerable : false,  
-                    draggable: false,
-                    hoverable: false,
-                    tagName: "i",
-                    attributes: { class: "fa fa-search icon-header" },
-                },
-                {
-                    layerable : false,  
-                    draggable: false,
-                    hoverable: false,
-                    tagName: "i",
-                    attributes: { class: "fa fa-shopping-bag icon-header" },
-                },
-                ],
-            },
-            ]
-        },
-        ],
-    }
+            ],
+        }
     });
 
     // bm.add('header2', {
@@ -278,7 +279,7 @@ export default function loadBlockHeader(editor, opt = {}) {
     //                 tagName: "script",
     //                 content: `
     //                 const mediaQuery = window.matchMedia('(min-width: 768px)')
-                    
+
     //                 function handleTabletChange(e) {
     //                     if (e.matches) {
     //                         let leftSidebar = document.getElementById("offcanvas");
@@ -300,162 +301,168 @@ export default function loadBlockHeader(editor, opt = {}) {
 
     editor.TraitManager.addType('upload-image', {
         createInput({ trait }) {
-        const el = document.createElement('div');
-        el.innerHTML = `
+            const el = document.createElement('div');
+            el.innerHTML = `
             <div class="card upload-image-area">
                 <div class="card-body">
-                    <img src=${trait.get('src')?? "https://dummyimage.com/230x150/55595c/fff"} class="card-img-top">
-                    <button type="button">Change</button>
+                    <img src=${trait.get('src') ?? "https://dummyimage.com/230x150/55595c/fff"} class="card-img-top"/>
+                    <button type="button" class="change-btn">Change</button>
+                    <button type="button" class="remove-btn">Remove</button>
                 </div>
             </div>
-        `;
+            `;
 
-        const inputType = el.querySelector('.upload-image-area .card-body button');
-        const inputImage = el.querySelector('.upload-image-area .card-body img');
-        inputType.onclick = () => {
-            am.open({
-                select(asset, complete) {
-                    const selected = editor.getSelected().view.el;
-                    const navBrand = selected.querySelector('.navbar-brand img');
+            const changeBtn = el.querySelector('.upload-image-area .card-body button.change-btn');
+            const removeBtn = el.querySelector('.upload-image-area .card-body button.remove-btn');
+            const inputImage = el.querySelector('.upload-image-area .card-body img');
+            changeBtn.onclick = () => {
+                am.open({
+                    select(asset, complete) {
+                        const selected = editor.getSelected().view.el;
+                        console.log(editor.getSelected().getTrait('navbar'))
+                        const navBrandImg = selected.querySelector('.navbar-brand img');
 
-                    trait.set('src', asset.getSrc());
-                    inputImage.src = asset.getSrc();
-                    navBrand.src = asset.getSrc();
-                    am.close();
-                },
+                        trait.set('src', asset.getSrc());
+                        inputImage.src = asset.getSrc();
 
-               });
+                        if (navBrandImg) {
+                            navBrandImg.src = asset.getSrc();
+                        } else {
+                            const navBrand = selected.querySelector('.navbar-brand');
+                            navBrand.innerHTML = `<img src="${asset.getSrc()}"/>`
+                        }
+                        // const modelComponent = editor.getSelected();
+                        // const navBrand = modelComponent.attributes.components.models[0].attributes.components.models[1]
+                        // console.log(navBrand.attributes)
+                        // navBrand.set({ 'content': `<img src="${asset.getSrc()}"/>` })
+
+                        am.close();
+                    },
+
+                });
 
 
-        };
-        return el;
+            };
+            removeBtn.onClick = () => {
+                trait.set('src', null);
+            }
+
+            return el;
         },
-      });
+    });
 
     dc.addType('navbar', {
         isComponent: el => el.tagName === 'NAVBAR',
         model: {
-        defaults: {
-            traits: [
-            {
-                type: 'select',
-                label: 'Theme color', // The label you will see in Settings
-                name: 'theme', // The name of the attribute/property to use on component
-                options: [
-                { id: 'white', name: 'White (default)'},
-                { id: 'black', name: 'Black'},
-                { id: 'lGreen', name: 'Light Green'},
-                { id: 'lBlue', name: 'Light Blue'},
-                { id: 'sand', name: 'Sand'},
-                ]
+            defaults: {
+                attributes: { 'theme': 'white' },
+                traits: [
+                    {
+                        type: 'select',
+                        label: 'Theme color', // The label you will see in Settings
+                        name: 'theme', // The name of the attribute/property to use on component
+                        options: [
+                            { id: 'white', name: 'White' },
+                            { id: 'black', name: 'Black' },
+                            { id: 'lGreen', name: 'Light Green' },
+                            { id: 'lBlue', name: 'Light Blue' },
+                            { id: 'sand', name: 'Sand' },
+                        ]
+                    },
+                    {
+                        type: 'upload-image',
+                        changeProp: 1,
+                        label: 'Logo image',
+                        name: 'logoImage',
+                        src: '/img/FirstSlideHomePage.png',
+                    },
+                ],
             },
-            {
-                type: 'upload-image',
-                changeProp: 1,
-                label: 'Logo image',
-                name: 'image',
-                src: '/img/FirstSlideHomePage.png',
+
+            init() {
+                this.on('change:attributes:theme', this.handleThemeChange);
             },
-            ],
-        },
 
-        init() {
-            this.on('change:attributes:theme', this.handleThemeChange);
-        },
-    
-        handleThemeChange() {
-            let storeCssData = {};
-            
-            if (this.getAttributes().theme === "white") {
-                
-                storeCssData[".navbar"] = "{ background-color: white !important}";
-                storeCssData[".navbar a, .navbar i, .navbar a.navbar-brand:hover"] = "{ color: black !important }";
-                
-                // storeCssData[".offcanvas"] = "{ background-color: white, color: black !important }";
-                // storeCssData[".offcanvas .btn-close"] = "{ background-color: none }";
-                // storeCssData[".offcanvas a"] = "{ color: black !important }";
+            handleThemeChange() {
+                let storeCssData = {};
 
-            } else if (this.getAttributes().theme === "black") {
-                storeCssData[".navbar"] = "{ background-color: #121212 !important}";
-                storeCssData[".navbar a, .navbar i, .navbar a.navbar-brand:hover"] = "{ color: white !important }";
+                if (this.getAttributes().theme === "white") {
+                    storeCssData["[data-gjs-type='navbar'].navbar"] = "{ background-color: white !important}";
+                    storeCssData["[data-gjs-type='navbar'].navbar a, [data-gjs-type='navbar'].navbar i, [data-gjs-type='navbar'].navbar a.navbar-brand:hover"] = "{ color: black !important }";
 
-                // editor.Css.setRule(
-                //     `.offcanvas`, { 
-                //         'background-color': '#121212',
-                //         'color': 'white !important'
-                //     });
+                    // storeCssData[".offcanvas"] = "{ background-color: white, color: black !important }";
+                    // storeCssData[".offcanvas .btn-close"] = "{ background-color: none }";
+                    // storeCssData[".offcanvas a"] = "{ color: black !important }";
 
-                // editor.Css.setRule(
-                //     `.offcanvas .btn-close`, { 
-                //         'background-color': 'white',
-                //     });
+                } else if (this.getAttributes().theme === "black") {
+                    storeCssData["[data-gjs-type='navbar'].navbar"] = "{ background-color: #121212 !important}";
+                    storeCssData["[data-gjs-type='navbar'].navbar a, [data-gjs-type='navbar'].navbar i, [data-gjs-type='navbar'].navbar a.navbar-brand:hover"] = "{ color: white !important }";
 
-                // editor.Css.setRule(
-                //     `.offcanvas a`, { 
-                //         'color': 'white !important'
-                //     });
+                    // editor.Css.setRule(
+                    //     `.offcanvas`, { 
+                    //         'background-color': '#121212',
+                    //         'color': 'white !important'
+                    //     });
 
-            } else if (this.getAttributes().theme === "lGreen") {
-                storeCssData[".navbar"] = "{ background-color: #69c5a3 !important}";
-                storeCssData[".navbar a, .navbar i, .navbar a.navbar-brand:hover"] = "{ color: black !important }";
+                    // editor.Css.setRule(
+                    //     `.offcanvas .btn-close`, { 
+                    //         'background-color': 'white',
+                    //     });
 
-                // editor.Css.setRule(
-                //     `.offcanvas`, { 
-                //         'background-color': '#69c5a3',
-                //         'color': 'black !important'
-                //     });
+                    // editor.Css.setRule(
+                    //     `.offcanvas a`, { 
+                    //         'color': 'white !important'
+                    //     });
 
-                // editor.Css.setRule(
-                //     `.offcanvas a`, { 
-                //         'color': 'black !important'
-                //     });
+                } else if (this.getAttributes().theme === "lGreen") {
+                    storeCssData["[data-gjs-type='navbar'].navbar"] = "{ background-color: #69c5a3 !important}";
+                    storeCssData["[data-gjs-type='navbar'].navbar a, [data-gjs-type='navbar'].navbar i, [data-gjs-type='navbar'].navbar a.navbar-brand:hover"] = "{ color: black !important }";
 
-            } else if (this.getAttributes().theme === "lBlue") {
-                storeCssData[".navbar"] = "{ background-color: #c8e1e7 !important}";
-                storeCssData[".navbar a, .navbar i, .navbar a.navbar-brand:hover"] = "{ color: black !important }";
+                    // editor.Css.setRule(
+                    //     `.offcanvas`, { 
+                    //         'background-color': '#69c5a3',
+                    //         'color': 'black !important'
+                    //     });
 
-                // editor.Css.setRule(
-                //     `.offcanvas`, { 
-                //         'background-color': '#c8e1e7',
-                //         'color': 'back !important'
-                //     });
+                    // editor.Css.setRule(
+                    //     `.offcanvas a`, { 
+                    //         'color': 'black !important'
+                    //     });
 
-                // editor.Css.setRule(
-                //     `.offcanvas a`, { 
-                //         'color': 'back !important'
-                //     });
+                } else if (this.getAttributes().theme === "lBlue") {
+                    storeCssData["[data-gjs-type='navbar'].navbar"] = "{ background-color: #c8e1e7 !important}";
+                    storeCssData["[data-gjs-type='navbar'].navbar a, [data-gjs-type='navbar'].navbar i, [data-gjs-type='navbar'].navbar a.navbar-brand:hover"] = "{ color: black !important }";
 
-            } else if (this.getAttributes().theme === "sand") {
-                storeCssData[".navbar"] = "{ background-color: #f6d7b0 !important}";
-                storeCssData[".navbar a, .navbar i, .navbar a.navbar-brand:hover"] = "{ color: black !important }";
-                
-                // editor.Css.setRule(
-                //     `.offcanvas`, { 
-                //         'background-color': '#f6d7b0',
-                //         'color': 'back !important'
-                //     });
+                    // editor.Css.setRule(
+                    //     `.offcanvas`, { 
+                    //         'background-color': '#c8e1e7',
+                    //         'color': 'back !important'
+                    //     });
 
-                // editor.Css.setRule(
-                //     `.offcanvas a`, { 
-                //         'color': 'back !important'
-                //     });
-            }
+                    // editor.Css.setRule(
+                    //     `.offcanvas a`, { 
+                    //         'color': 'back !important'
+                    //     });
 
-            let domWrapper = editor.getWrapper().view.el;
-            let domStoreStyle = domWrapper.getElementsByClassName('storeCss header')[0];
-            let cssContent = "";
+                } else if (this.getAttributes().theme === "sand") {
+                    storeCssData["[data-gjs-type='navbar'].navbar"] = "{ background-color: #f6d7b0 !important}";
+                    storeCssData["[data-gjs-type='navbar'].navbar a, [data-gjs-type='navbar'].navbar i, [data-gjs-type='navbar'].navbar a.navbar-brand:hover"] = "{ color: black !important }";
 
-            for (let key in storeCssData) {
-                cssContent += key + " " + storeCssData[key] + " ";
-            }
+                    // editor.Css.setRule(
+                    //     `.offcanvas`, { 
+                    //         'background-color': '#f6d7b0',
+                    //         'color': 'back !important'
+                    //     });
 
-            if (domStoreStyle) {
-                domStoreStyle.innerHTML = cssContent;
-            } else {
-                domWrapper.insertAdjacentHTML('afterbegin', `<style class="storeCss header"> ${cssContent} </style>`);
-            }
-        },
+                    // editor.Css.setRule(
+                    //     `.offcanvas a`, { 
+                    //         'color': 'back !important'
+                    //     });
+                }
 
+                c.addCssStore(storeCssData);
+
+            },
         },
     });
 
@@ -470,7 +477,7 @@ export default function loadBlockHeader(editor, opt = {}) {
     //         { id: 'url', name: 'URL' },
     //         { id: 'email', name: 'Email' },
     //       ];
-      
+
     //       // Create a new element container and add some content
     //       const el = document.createElement('div');
     //       el.innerHTML = `
@@ -485,7 +492,7 @@ export default function loadBlockHeader(editor, opt = {}) {
     //           <input class="href-next__email-subject" placeholder="Insert subject"/>
     //         </div>
     //       `;
-      
+
     //       // Let's make our content interactive
     //       const inputsUrl = el.querySelector('.href-next__url-inputs');
     //       const inputsEmail = el.querySelector('.href-next__email-inputs');

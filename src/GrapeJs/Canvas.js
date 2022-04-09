@@ -1,6 +1,9 @@
 import { GrapesjsReact } from "grapesjs-react";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import { doSwitchStoreCssData, getInitDataStore, doSaveStoreData } from "../redux/slice/storeSlice";
+import { callAPIWithPostMethod } from "../Utils/callAPI";
 
 import "grapesjs/dist/css/grapes.min.css";
 import "./dist/Canvas.css";
@@ -11,12 +14,15 @@ import "./plugins/index";
 import NavigationPanel from "./pages/NavigationPanel";
 import { v4 as uuidv4 } from "uuid";
 import $ from "jquery";
-import "./Templates/template-default/template-default.plugins"
+import "./Templates/template-default/template-default.plugins";
 
 function Canvas({ type }) {
+  const dispatch = useDispatch();
   const [editor, setEditor] = useState(null);
   const [listCssFile, setListCssFile] = useState([]);
   const storeId = useSelector(state => state.store.storeId);
+  const storeCssData = useSelector(state => state.store.storeCssData);
+  const logoURL = useSelector(state => state.store.logoURL);
   const pageId = useSelector(state => state.page.pageId);
 
   const getPlugins = () => {
@@ -25,17 +31,14 @@ function Canvas({ type }) {
 
   useEffect(() => {
     $(document).ready(function () {
-
-      $(document).on('DOMNodeInserted', function (e) {
-        if ($(e.target).hasClass('gjs-off-prv')) {
+      $(document).on("DOMNodeInserted", function (e) {
+        if ($(e.target).hasClass("gjs-off-prv")) {
           $(e.target).click(function () {
             $(".navigationPanel").removeClass("dnone");
-          })
+          });
         }
       });
-
     });
-
   }, []);
 
   useEffect(() => {
@@ -49,42 +52,42 @@ function Canvas({ type }) {
       head.insertAdjacentHTML('beforeend', `<link href="http://localhost:5000/files/dist/css/components/${ele}.css" rel="stylesheet">`);
     })
 
-    head.insertAdjacentHTML('beforeend', `<link href="https://ezmall-bucket.s3.ap-southeast-1.amazonaws.com/css/621b5a807ea079a0f7351fb8.css" rel="stylesheet">`);
-
   }, [listCssFile])
 
-  const saveStoreCssData = (data) => {
-    var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
-    myHeaders.append("Content-Type", "application/json");
+  useEffect(() => {
+    dispatch(getInitDataStore(storeId));
+  }, [storeId]);
 
-    var raw = JSON.stringify({
-      data: data
-    });
+  useEffect(() => {
+    loadStoreCss();
+  }, [storeCssData]);
 
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
-    };
+  const addNewStoreCss = (newStoreCssData) => {
+    dispatch(doSwitchStoreCssData(newStoreCssData));
+  }
 
-    fetch(process.env.REACT_APP_API_URL + "stores/css/" + storeId, requestOptions)
-      .then(response => {
-        console.log(response)
-        if (response.ok) {
-          return response.json();
-        }
+  const loadStoreCss = () => {
+    if (!editor) {
+      return;
+    }
 
-        throw Error(response.status);
-      })
-      .then(result => {
-        console.log(result.message);
-      })
-      .catch(error => {
-        console.log('error', error)
+    let domWrapper = editor.getWrapper().view;
+    if (!domWrapper) {
+      return
+    }
 
-      });
+    let domStoreStyle = domWrapper.el.getElementsByClassName('storeCss')[0];
+    let cssContent = "";
+
+    for (let key in storeCssData) {
+      cssContent += key + " " + storeCssData[key] + " ";
+    }
+
+    if (domStoreStyle) {
+      domStoreStyle.innerHTML = cssContent;
+    } else {
+      domWrapper.el.insertAdjacentHTML('afterbegin', `<style class="storeCss"> ${cssContent} </style>`);
+    }
   }
 
   return (
@@ -93,7 +96,12 @@ function Canvas({ type }) {
         key={pageId}
         id="grapesjs-react"
         plugins={getPlugins()}
-        pluginsOpts={{}}
+        pluginsOpts={{
+          'template-default': {
+            'logoURL': logoURL,
+            'addCssStore': addNewStoreCss
+          }
+        }}
         styleManager={
           {
             // clearProperties: true,
@@ -102,7 +110,7 @@ function Canvas({ type }) {
         width="100%"
         height="100vh"
         storageManager={{
-          type: 'remote',
+          type: "remote",
 
           autosave: false,
           contentTypeJson: true,
@@ -112,7 +120,7 @@ function Canvas({ type }) {
           storeCss: true,
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem('token')}`
+            "Authorization": `Bearer ${localStorage.getItem("token")}`,
           },
           id: "",
           urlStore: `${process.env.REACT_APP_API_URL}stores/${storeId}/${pageId}/content`,
@@ -127,7 +135,6 @@ function Canvas({ type }) {
           setEditor(editor);
 
           editor.on("block:drag:stop", function (dropped_Component) {
-            console.log(dropped_Component);
             let droppedComponent = dropped_Component;
 
             if (Array.isArray(droppedComponent)) {
@@ -135,34 +142,12 @@ function Canvas({ type }) {
             }
 
             if (!droppedComponent) return;
+            droppedComponent.initData();
 
-            if (droppedComponent.attributes.name === "Carousel") {
-              droppedComponent.set({
-                content: droppedComponent.attributes.content.replace(
-                  /myCarousel/g,
-                  `A${uuidv4()}`
-                ),
-              });
-            }
-            if (droppedComponent.attributes.components) {
-              droppedComponent.attributes.components.models.forEach(function (
-                item
-              ) {
-                //check product//
-                if (item.attributes.name === "Products") {
-                  item.set({
-                    content: item.attributes.content.replace(
-                      /myCarousel/g,
-                      `A${uuidv4()}`
-                    ),
-                  });
-                }
-              });
-            }
-
+            if (droppedComponent.get("name") == "Main") return;
             let listCss = listCssFile;
-            if (!listCss.includes(dropped_Component.attributes.name)) {
-              listCss.push(dropped_Component.attributes.name);
+            if (!listCss.includes(droppedComponent.attributes.name)) {
+              listCss.push(droppedComponent.attributes.name);
             }
             setListCssFile(listCss);
 
@@ -173,41 +158,56 @@ function Canvas({ type }) {
             // ========================== Load component css file ================================
             const listComponents = editor.Components.getComponents().models;
             let listCssFile = [];
-            listComponents.forEach(ele => {
+            listComponents.forEach((ele) => {
               if (ele.attributes.name === "Main") {
                 const mainComponent = ele.attributes.components.models;
                 mainComponent.forEach((ele) => {
                   listCssFile.push(ele.attributes.name);
-                })
+                });
               } else {
                 listCssFile.push(ele.attributes.name);
               }
+
+              if (ele.attributes.name === "Header") {
+                const navbarTrait = ele.getTrait('logoImage');
+              }
             })
 
-            setListCssFile(listCssFile);
-          })
-          editor.on("storage:end:store", function () {
-            let domWrapper = editor.getWrapper().view.el;
-            let domStoreStyle = domWrapper.getElementsByClassName('storeCss');
-            let data = "";
-            
+            // ========================== Load Logo Store ================================
+            if (logoURL) {
+              let domWrapper = editor.getWrapper().view.el;
+              const navBrandImg = domWrapper.querySelector('.navbar-brand img');
 
-            if (domStoreStyle) {
-              for (let i = 0; i < domStoreStyle.length; i++) {
-                data += domStoreStyle[i].innerHTML;
+              if (navBrandImg) {
+                  navBrandImg.src = logoURL;
+              } else {
+                  const navBrand = domWrapper.querySelector('.navbar-brand');
+                  navBrand.innerHTML = `<img src="${logoURL}"/>`
               }
             }
 
-            console.log(data);
-            saveStoreCssData(data);
+            setListCssFile(listCssFile);
+            // ========================== Load store css file ================================
+            loadStoreCss();
           })
+
+          editor.on("storage:end:store", async function () {
+            let domWrapper = editor.getWrapper().view.el;
+            let logoImage = domWrapper.querySelector('.navbar-brand img');
+            
+            if (logoImage) {
+              await callAPIWithPostMethod("files/assets/" + storeId, { name: 'LogoImage', base64Image: logoImage.src }, true);
+            }
+            dispatch(doSaveStoreData());
+            console.log("Save")
+          })
+
           //need to update in here
         }}
         canvas={{
           styles: [
-            "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css",
-            "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
-            `http://localhost:5000/files/dist/css/template-default/template-default.css`,
+            `https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css`,
+            `https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css`,
           ],
           scripts: [
             `https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js`,

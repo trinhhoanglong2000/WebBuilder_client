@@ -5,3 +5,4 @@ export const
   cmdDeviceMobile = 'set-device-mobile',
   cmdClear = 'canvas-clear',
   openBlock = 'set-toggle-block'
+ 

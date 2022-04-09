@@ -3,12 +3,10 @@ import { doSwitchLoginState } from "../redux/slice/loginSlice";
 
 const callAPIWithGetMethod = async(pathURL, bearTokenFlg) => {
     var myHeaders = new Headers();
-    myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
-
+    myHeaders.append("Content-Type", "application/json");
     if (bearTokenFlg) {
         myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
     } 
-
     var requestOptions = {
         method: 'GET',
         headers: myHeaders,

@@ -197,13 +197,20 @@
 }
 
 .upload-image-area .card-body button {
-  border: 1px solid lightgrey;
-  width: 100%;
+  border: 2px solid lightgrey;
+  width: 49%;
   padding: 5px 15px;
-  background-color: white;
   border-radius: 5px;
   font-size: 14px;
   margin-top: 5px;
+}
+
+.upload-image-area .card-body button.change-btn {
+  background-color: #8dd7f7;
+}
+
+.upload-image-area .card-body button.remove-btn {
+  background-color: #fb6450;
 }
 
 .upload-image-area .card-body img {

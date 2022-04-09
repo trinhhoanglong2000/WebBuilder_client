@@ -1,6 +1,9 @@
 import { GrapesjsReact } from "grapesjs-react";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
+import { doSwitchStoreCssData, getInitDataStore, doSaveStoreData } from "../redux/slice/storeSlice";
+import { callAPIWithPostMethod } from "../Utils/callAPI";
 
 import "grapesjs/dist/css/grapes.min.css";
 import "./dist/Canvas.css";
@@ -15,10 +18,13 @@ import $ from "jquery";
 import "./Templates/template-default/template-default.plugins";
 
 function Canvas({ type }) {
+  const dispatch = useDispatch();
   const [editor, setEditor] = useState(null);
   const [listCssFile, setListCssFile] = useState([]);
-  const storeId = useSelector((state) => state.store.storeId);
-  const pageId = useSelector((state) => state.page.pageId);
+  const storeId = useSelector(state => state.store.storeId);
+  const storeCssData = useSelector(state => state.store.storeCssData);
+  const logoURL = useSelector(state => state.store.logoURL);
+  const pageId = useSelector(state => state.page.pageId);
 
   const getPlugins = () => {
     return ["Plugins-defaults", "template-default", "gjs-blocks-basic"];
@@ -44,56 +50,46 @@ function Canvas({ type }) {
     const head = editor.Canvas.getDocument().head;
 
     listCssFile.forEach((ele) => {
-      head.insertAdjacentHTML(
-        "beforeend",
-        `<link href="http://localhost:5000/files/dist/css/components/${ele}.css" rel="stylesheet">`
-      );
-    });
+      head.insertAdjacentHTML('beforeend', `<link href="http://localhost:5000/files/dist/css/components/${ele}.css" rel="stylesheet">`);
+    })
 
-    head.insertAdjacentHTML(
-      "beforeend",
-      `<link href="https://ezmall-bucket.s3.ap-southeast-1.amazonaws.com/css/621b5a807ea079a0f7351fb8.css" rel="stylesheet">`
-    );
-  }, [listCssFile]);
+  }, [listCssFile])
 
-  const saveStoreCssData = (data) => {
-    var myHeaders = new Headers();
-    myHeaders.append(
-      "Authorization",
-      "Bearer " + localStorage.getItem("token")
-    );
-    myHeaders.append("Content-Type", "application/json");
+  useEffect(() => {
+    dispatch(getInitDataStore(storeId));
+  }, [storeId]);
 
-    var raw = JSON.stringify({
-      data: data,
-    });
+  useEffect(() => {
+    loadStoreCss();
+  }, [storeCssData]);
 
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
+  const addNewStoreCss = (newStoreCssData) => {
+    dispatch(doSwitchStoreCssData(newStoreCssData));
+  }
 
-    fetch(
-      process.env.REACT_APP_API_URL + "stores/css/" + storeId,
-      requestOptions
-    )
-      .then((response) => {
-        console.log(response);
-        if (response.ok) {
-          return response.json();
-        }
+  const loadStoreCss = () => {
+    if (!editor) {
+      return;
+    }
 
-        throw Error(response.status);
-      })
-      .then((result) => {
-        console.log(result.message);
-      })
-      .catch((error) => {
-        console.log("error", error);
-      });
-  };
+    let domWrapper = editor.getWrapper().view;
+    if (!domWrapper) {
+      return
+    }
+
+    let domStoreStyle = domWrapper.el.getElementsByClassName('storeCss')[0];
+    let cssContent = "";
+
+    for (let key in storeCssData) {
+      cssContent += key + " " + storeCssData[key] + " ";
+    }
+
+    if (domStoreStyle) {
+      domStoreStyle.innerHTML = cssContent;
+    } else {
+      domWrapper.el.insertAdjacentHTML('afterbegin', `<style class="storeCss"> ${cssContent} </style>`);
+    }
+  }
 
   return (
     <>
@@ -101,7 +97,12 @@ function Canvas({ type }) {
         key={pageId}
         id="grapesjs-react"
         plugins={getPlugins()}
-        pluginsOpts={{}}
+        pluginsOpts={{
+          'template-default': {
+            'logoURL': logoURL,
+            'addCssStore': addNewStoreCss
+          }
+        }}
         styleManager={
           {
             // clearProperties: true,
@@ -120,7 +121,7 @@ function Canvas({ type }) {
           storeCss: true,
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Authorization": `Bearer ${localStorage.getItem("token")}`,
           },
           id: "",
           urlStore: `${process.env.REACT_APP_API_URL}stores/${storeId}/${pageId}/content`,
@@ -154,6 +155,7 @@ function Canvas({ type }) {
             //update the canvas
           });
 
+
           editor.onReady(() => {
             // ========================== Load component css file ================================
             const listComponents = editor.Components.getComponents().models;
@@ -167,30 +169,47 @@ function Canvas({ type }) {
               } else {
                 listCssFile.push(ele.attributes.name);
               }
-            });
+
+              if (ele.attributes.name === "Header") {
+                const navbarTrait = ele.getTrait('logoImage');
+              }
+            })
+
+            // ========================== Load Logo Store ================================
+            if (logoURL) {
+              let domWrapper = editor.getWrapper().view.el;
+              const navBrandImg = domWrapper.querySelector('.navbar-brand img');
+
+              if (navBrandImg) {
+                  navBrandImg.src = logoURL;
+              } else {
+                  const navBrand = domWrapper.querySelector('.navbar-brand');
+                  navBrand.innerHTML = `<img src="${logoURL}"/>`
+              }
+            }
 
             setListCssFile(listCssFile);
-
-            //
+            // ========================== Load store css file ================================
+            loadStoreCss();
 
             const style = `strong{font-weight:bold;}`;
 
             if (!editor.getCss().includes(style)) editor.addStyle(style);
-          });
-          editor.on("storage:end:store", function () {
+          })
+          
+          editor.on("storage:end:store", async function () {
             let domWrapper = editor.getWrapper().view.el;
-            let domStoreStyle = domWrapper.getElementsByClassName("storeCss");
-            let data = "";
-
-            if (domStoreStyle) {
-              for (let i = 0; i < domStoreStyle.length; i++) {
-                data += domStoreStyle[i].innerHTML;
-              }
+            let logoImage = domWrapper.querySelector('.navbar-brand img');
+            
+            if (logoImage) {
+              await callAPIWithPostMethod("files/assets/" + storeId, { name: 'LogoImage', base64Image: logoImage.src }, true);
             }
+            dispatch(doSaveStoreData());
+            console.log("Save")
+          })
 
-            console.log(data);
-            saveStoreCssData(data);
-          });
+         
+
           //need to update in here
         }}
         canvas={{
@@ -203,8 +222,7 @@ function Canvas({ type }) {
             `https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js`,
             `https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js`,
             `//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js`,
-            "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js",
-            `http://localhost:5000/files/dist/js/template-default/test.js`,
+            `https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js`,
           ],
         }}
       />

@@ -85,7 +85,7 @@ export default function loadBlockProducts(editor, opt = {}) {
   editor.TraitManager.addType("product-heading-border", {
     // Expects as return a simple HTML string or an HTML element
     createInput({ trait }) {
-      const initValue = trait.target.getStyle()["text-align"] || "center";
+      // const initValue = trait.target.getStyle()["text-align"] || "center";
       const el = document.createElement("div");
       el.innerHTML = `
       <div class="gjs-one-bg">
@@ -228,7 +228,7 @@ export default function loadBlockProducts(editor, opt = {}) {
           content: `Trending Products`,
           editable: true,
           droppable: false,
-          style:{"text-align":"center","&:after":"{display:none}"},
+          style:{"text-align":"center"},
           type: "product-text",
         },
         {

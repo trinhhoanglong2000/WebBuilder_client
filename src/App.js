@@ -5,7 +5,7 @@ const App = () => {
   return(
     <div>
       <BrowserRouter>
-        <Routes>
+        <Routes >
           <Route path='/editor/:idStore' element={<Canvas type={2}/>}/>
         </Routes>
       </BrowserRouter>

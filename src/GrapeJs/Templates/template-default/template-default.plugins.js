@@ -5,6 +5,7 @@ import loadBlockFooter from './footer';
 import loadBlockHeader from './header';
 import loadBlockProducts from './product';
 import loadBlockMain from '../Main'
+import loadBlockRichText from './richText'
 export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
 
   const config = {
@@ -12,11 +13,12 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
     //=======================|Category name|=======================
     catergory_product_list: "Products",
     carousel_category: "Carousel",
-
+    category_rich_text:'RichText',
 
     //=======================|Block name|=======================
     label_product_list: "Product collection",
     carouselBlkLabel: "Carousel",
+    label_rich_text:"Rich text",
 
     ...opts,
   };
@@ -59,6 +61,7 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
   loadBlockMain(editor,config)
   loadBlockCarousel(editor, config)
   loadBlockProducts(editor, config)
+  loadBlockRichText(editor,config)
   loadBlockFooter(editor, config)
   loadBlockHeader(editor, config)
   //Long ADD END

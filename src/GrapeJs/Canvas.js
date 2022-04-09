@@ -4,7 +4,8 @@ import { useSelector } from "react-redux";
 
 import "grapesjs/dist/css/grapes.min.css";
 import "./dist/Canvas.css";
-
+import "./dist/snow.css";
+// import "https://cdn.quilljs.com/1.3.6/quill.snow.css"
 import "./blocks/basicBlocks/index";
 import "./plugins/index";
 //import "./plugins/template-default.plugins";
@@ -169,6 +170,12 @@ function Canvas({ type }) {
             });
 
             setListCssFile(listCssFile);
+
+            //
+
+            const style = `strong{font-weight:bold;}`;
+
+            if (!editor.getCss().includes(style)) editor.addStyle(style);
           });
           editor.on("storage:end:store", function () {
             let domWrapper = editor.getWrapper().view.el;
@@ -190,6 +197,7 @@ function Canvas({ type }) {
           styles: [
             "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css",
             "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
+            "https://cdn.quilljs.com/1.3.6/quill.snow.css",
           ],
           scripts: [
             `https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js`,

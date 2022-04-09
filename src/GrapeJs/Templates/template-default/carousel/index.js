@@ -1,11 +1,11 @@
-import loadScripts from  "../template-common";
+import loadScripts from "../template-common";
 import { v4 as uuidv4 } from "uuid";
 import $ from "jquery";
 export default function loadBlockCarousel(editor, opt = {}) {
   const c = opt;
   let bm = editor.BlockManager;
   //#region carousel panel
-  
+
   const GetData = async (reloadFlag) => {
     if (localStorage.getItem('crouselOptions') == null || reloadFlag == true) {
       const response = await fetch(`${process.env.REACT_APP_API_URL}collections/carousels?storeID=1`
@@ -18,7 +18,7 @@ export default function loadBlockCarousel(editor, opt = {}) {
       let myJson = await response.json();
       let Data = myJson.data.map((value) => { return { id: value.categoryId, name: value.name } });
       localStorage.setItem('crouselOptions', JSON.stringify(Data))
-    } 
+    }
   }
   //NODE SAVE HTML $(".gjs-frame").contentDocument.querySelector("html")
 
@@ -45,33 +45,75 @@ export default function loadBlockCarousel(editor, opt = {}) {
     },
     // Expects as return a simple HTML string or an HTML element
     createInput({ trait }) {
-      console.log( trait.target.attributes.attributes.data)
+      console.log(trait.target.attributes.attributes.data)
       // #1 Get data form api and pour to "data"
       const data = JSON.parse(localStorage.getItem('crouselOptions'));
       console.log(data)
       // #2 Convert data to trait option 
       let traitOptionsData = [];
-  
+
       data.forEach(item => {
         traitOptionsData.push({ id: item.id, name: item.name })
       })
+      let textOptionsData = [
+        { id: "black", name: "black" },
+        { id: "white", name: "white" },
+      ];
+
+      let displayOptionsData = [
+        { id: "on", name: "on" },
+        { id: "off", name: "off" },
+      ];
+
       // #3 Create HTML selected for trait option 
       const el = document.createElement('div');
       el.innerHTML = `
         <div>
-          <div> 
+          <div>
+            <div> 
             Category
+            </div>
+            <select class="options-carousel-data" optionType="data">
+              ${traitOptionsData.map(opt => opt.id == trait.target.attributes.attributes.data ?
+        `<option value="${opt.id}" selected>${opt.name}</option>`
+        : `<option value="${opt.id}" >${opt.name}</option>`).join('')}
+            </select>
           </div>
-          <select class="options-carousel">
-            ${traitOptionsData.map(opt => opt.id == trait.target.attributes.attributes.data ?  
-               `<option value="${opt.id}" selected>${opt.name}</option>` 
-               : `<option value="${opt.id}" >${opt.name}</option>` ).join('')}
-          </select>
+          
+          <div>
+            <div> 
+            Text Color
+            </div>
+            <select class="options-carousel-text-color" optionType="text-color">
+              ${textOptionsData.map(opt => opt.id == trait.target.attributes.attributes.textColor ?
+          `<option value="${opt.id}" selected>${opt.name}</option>`
+          : `<option value="${opt.id}" >${opt.name}</option>`).join('')}
+            </select>
+          </div>
+
+          <div>
+            <div> 
+            Display Caption
+            </div>
+            <select class="options-carousel-display" optionType="display">
+              ${displayOptionsData.map(opt => opt.id == trait.target.attributes.attributes.displayType ?
+          `<option value="${opt.id}" selected>${opt.name}</option>`
+          : `<option value="${opt.id}" >${opt.name}</option>`).join('')}
+            </select>
+          </div>
         </div>
       `;
       // #4 Add  event => when selected change =
-      const inputType = el.querySelector('.options-carousel');
-      inputType.addEventListener('change', ev => {
+      const inputTypeData = el.querySelector('.options-carousel-data');
+      inputTypeData.addEventListener('change', ev => {
+      });
+
+      const inputTypeTextColor = el.querySelector('.options-carousel-text-color');
+      inputTypeTextColor.addEventListener('change', ev => {
+      });
+
+      const inputdisplayOptionsData = el.querySelector('.options-carousel-display');
+      inputdisplayOptionsData.addEventListener('change', ev => {
       });
       return el
     },
@@ -81,24 +123,67 @@ export default function loadBlockCarousel(editor, opt = {}) {
       const dataAttributeValues = component.getAttributes().data || "";
 
       //#2 Update something here
-      const inputType = elInput.querySelector(".options-carousel");
+      const inputTypeData = elInput.querySelector(".options-carousel-data");
 
-      inputType.dispatchEvent(new CustomEvent("change"));
+      inputTypeData.dispatchEvent(new CustomEvent("change"));
+
+      const inputTypeTextColor = elInput.querySelector(".options-carousel-text-color");
+
+      inputTypeTextColor.dispatchEvent(new CustomEvent("change"));
+
+      const inputdisplayOptionsData = elInput.querySelector(".options-carousel-display");
+
+      inputdisplayOptionsData.dispatchEvent(new CustomEvent("change"));
     },
     // IN MY OPINION THIS FUNCTION WORK WHEN USER CHANGE OPTION - IF U KNOW IT WORK PLS CMT HERE
-    onEvent({ elInput, component, event }) {
+    onEvent({ elInput, component, event }) {      
       const attributes = this.model.attributes;
       const rootElementTrait = elInput;
       const propertiesOfFrontComponet = component;
+      let optionType = event.target.getAttribute("optionType");
+      switch (optionType) {
+        case "data":
+          //#1 when option change we will get new option => change HTML following option
+          let inputTypeData = elInput.querySelector(".options-carousel-data");
+          let data = inputTypeData.value;
 
-      //#1 when option change we will get new option => change HTML following option
-      const inputType = elInput.querySelector(".options-carousel");
-      let data = inputType.value;
+          //#2 This function will set attribute data {nameAttribute:Value} => IMPORTAINT FOR COMPONENT LISTEN CHANGE ATTRIBUTE
+          if (component.getAttributes().data != data) {
+            component.addAttributes({ data })
+          }
+          break;
+        case "text-color":
+          //#1 when option change we will get new option => change HTML following option
+          let inputTextColor = elInput.querySelector(".options-carousel-text-color");
+          let textColor = inputTextColor.value;
 
-      //#2 This function will set attribute data {nameAttribute:Value} => IMPORTAINT FOR COMPONENT LISTEN CHANGE ATTRIBUTE
-      if (component.getAttributes().data != data) {
-        component.setAttributes({ data })
+          //#2 This function will set attribute data {nameAttribute:Value} => IMPORTAINT FOR COMPONENT LISTEN CHANGE ATTRIBUTE
+          if (component.getAttributes().textColor != textColor) {
+            component.setClass( `carousel-text-${inputTextColor.value}` );
+            component.addAttributes({ textColor })
+          }
+
+          break;
+        case "display":
+          //#1 when option change we will get new option => change HTML following option
+          let inputdisplayOptionsData = elInput.querySelector(".options-carousel-display");
+          let displayType = inputdisplayOptionsData.value;
+
+          //#2 This function will set attribute data {nameAttribute:Value} => IMPORTAINT FOR COMPONENT LISTEN CHANGE ATTRIBUTE
+          if (component.getAttributes().displayType != displayType) {
+            if(inputdisplayOptionsData.value == "off"){
+              component.addClass( `carousel-display-off` );
+            } else{
+              component.removeClass( `carousel-display-off` );
+            }
+            component.addAttributes({ displayType })
+          }
+
+          break;
+        default:
+          break;
       }
+
     },
   });
   //THIS IS SETTING COMPONENT
@@ -120,31 +205,57 @@ export default function loadBlockCarousel(editor, opt = {}) {
         }
       },
       // This function run when component created - we setup listen to change atri
-      
+
       init() {
-        
+
         GetData(true);
         this.on('change:attributes:data', this.handleTypeChangeData);
         this.on('change:attributes:placeholder', this.handleTypeChangePlaceHold);
-        
+
         loadScripts(
           ["http://localhost:5000/files/dist/js/template-default/carousel/carousel.js"]
-        , function () {
-          console.log('carousel.js is loaded');
-        });
+          , function () {
+            //console.log('carousel.js is loaded');
+          });
       },
 
-      handleTypeChangeData() {
+      async handleTypeChangeData() {
         //console.log("Data")
         const atributeData = this.attributes.attributes;
         //console.log(document.querySelector(".gjs-frame").contentDocument.querySelector("html"))
         // IMPORTAINT - this.view.el is root node => form 1 atribute change we can change front end by this
-       // console.log(this.view)
-       // console.log(this.view.el.nextElementSibling)
-        //console.log(this.view.el.firstChild.nextElementSibling)
 
+        let carouselIndicators = $(this.view.el).find(`.carousel-indicators`)[0]
+        let carouselInner = $(this.view.el).find(`.carousel-inner`)[0];
+        carouselIndicators.innerHTML = "";
+        carouselInner.innerHTML = "";
+        let categoryId = this.attributes.attributes.data
+        const response = await fetch(`http://localhost:5000/collections/category/${categoryId}`
+          , {
+            mode: 'cors',
+            headers: {
+              'Access-Control-Allow-Origin': '*'
+            }
+          });
+        let myJson = await response.json();
+        let data = myJson.data;
+        data.forEach((item, index) => {
+          let htmlButtonInsert = `
+      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="${index}" class = "${index == 0 ? "active" : ""}" aria-label="Slide ${index}"></button>
+      `
+          carouselIndicators.insertAdjacentHTML("beforeend", htmlButtonInsert);
 
-        //this.view.el.innerHTML = atributeData.data
+          let htmlCarouselItemInsert = `
+      <div class="carousel-item ${index == 0 ? "active" : ""}">
+        <img src="${item.image}" class="d-block w-100" alt="${item.image}">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>${item.caption}</h5>
+          <p>${item.description}</p>
+        </div>
+      </div>
+    `
+          carouselInner.insertAdjacentHTML("beforeend", htmlCarouselItemInsert)
+        })
       },
       initData() {
         //change uuid
@@ -154,7 +265,7 @@ export default function loadBlockCarousel(editor, opt = {}) {
             `A${uuidv4()}`
           ),
         });
-        
+
       },
       handleTypeChangePlaceHold() {
         console.log("placeHold");
@@ -205,7 +316,7 @@ export default function loadBlockCarousel(editor, opt = {}) {
         type: "carousel",
         //LONG-TP 2022-02-22 TEST TRAITS - ADD END
         content: `
-        <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" data-type = "banners" >
+        <div id="myCarousel" class="container carousel slide" data-bs-ride="carousel" data-type = "banners" >
             <div class="carousel-indicators">
                 
             </div>

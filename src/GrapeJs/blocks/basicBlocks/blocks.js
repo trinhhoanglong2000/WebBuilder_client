@@ -248,6 +248,20 @@ export default function loadBlocks(editor, opt = {}) {
         activeOnRender: 1,
       },
     });
+    toAdd('video') &&
+    bm.add('video', {
+      label: c.labelVideo,
+      category: c.labelVideo_category,
+      attributes: { class: 'fa fa-youtube-play' },
+      content: {
+        type: 'video',
+        src: 'img/video2.webm',
+        style: {
+          height: '350px',
+          width: '615px'
+        }
+      }
+    });
   toAdd("button") &&
     bm.add("button", {
       label: c.buttonBlkLabel,

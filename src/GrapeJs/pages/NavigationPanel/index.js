@@ -8,10 +8,6 @@ const NavigationPanel = () => {
     const listPagesId = useSelector(state => state.store.listPagesId);
     const pageId = useSelector(state => state.page.pageId);
 
-    // useState(() =>{
-    //     console.log(listPagesId);
-    // }, [listPagesId])
-
     //=======================FUNCTION=========================
     const handleOnchangePage = (e) => {
         dispatch(doSwitchPage(e.target.value));

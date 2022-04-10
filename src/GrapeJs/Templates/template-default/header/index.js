@@ -17,6 +17,7 @@ export default function loadBlockHeader(editor, opt = {}) {
                     layerable: false,
                     draggable: false,
                     hoverable: false,
+                    selectable: false,
                     tagName: "li",
                     attributes: { class: "nav-item" },
                     content: `<a href="${element.link}" class="nav-link p-1"> ${element.name}</a>`,
@@ -62,12 +63,14 @@ export default function loadBlockHeader(editor, opt = {}) {
                             hoverable: false,
                             tagName: "a",
                             attributes: { href: "#", class: "navbar-brand text-uppercase font-weight-bold" },
+                            selectable: false,
                             content: getHeaderLogo(),
                         },
                         {
                             layerable: false,
                             draggable: false,
                             hoverable: false,
+                            selectable: false,
                             tagName: "div",
                             attributes: { class: "d-block d-md-none" },
                             components: [
@@ -75,6 +78,7 @@ export default function loadBlockHeader(editor, opt = {}) {
                                     layerable: false,
                                     draggable: false,
                                     hoverable: false,
+                                    selectable: false,
                                     tagName: "i",
                                     attributes: { class: "fa fa-search" },
                                 },
@@ -82,6 +86,7 @@ export default function loadBlockHeader(editor, opt = {}) {
                                     layerable: false,
                                     draggable: false,
                                     hoverable: false,
+                                    selectable: false,
                                     tagName: "i",
                                     attributes: { class: "fa fa-shopping-bag" },
                                 },
@@ -91,14 +96,15 @@ export default function loadBlockHeader(editor, opt = {}) {
                             layerable: false,
                             draggable: false,
                             hoverable: false,
-                            tagName: "div",
                             selectable: false,
+                            tagName: "div",
                             attributes: { id: "navbarSupportedContent", class: "collapse navbar-collapse" },
                             components: [
                                 {
                                     layerable: false,
                                     draggable: false,
                                     hoverable: false,
+                                    selectable: false,
                                     tagName: "ul",
                                     attributes: { class: "navbar-nav" },
                                     components: getHeaderNavigationButton(c.headerNavigation)
@@ -109,6 +115,7 @@ export default function loadBlockHeader(editor, opt = {}) {
                             layerable: false,
                             draggable: false,
                             hoverable: false,
+                            selectable: false,
                             tagName: "div",
                             attributes: { class: "d-none d-md-block" },
                             components: [
@@ -116,6 +123,7 @@ export default function loadBlockHeader(editor, opt = {}) {
                                     layerable: false,
                                     draggable: false,
                                     hoverable: false,
+                                    selectable: false,
                                     tagName: "i",
                                     attributes: { class: "fa fa-search icon-header" },
                                 },
@@ -123,6 +131,7 @@ export default function loadBlockHeader(editor, opt = {}) {
                                     layerable: false,
                                     draggable: false,
                                     hoverable: false,
+                                    selectable: false,
                                     tagName: "i",
                                     attributes: { class: "fa fa-shopping-bag icon-header" },
                                 },
@@ -319,7 +328,6 @@ export default function loadBlockHeader(editor, opt = {}) {
                 am.open({
                     select(asset, complete) {
                         const selected = editor.getSelected().view.el;
-                        console.log(editor.getSelected().getTrait('navbar'))
                         const navBrandImg = selected.querySelector('.navbar-brand img');
 
                         trait.set('src', asset.getSrc());
@@ -331,8 +339,11 @@ export default function loadBlockHeader(editor, opt = {}) {
                             const navBrand = selected.querySelector('.navbar-brand');
                             navBrand.innerHTML = `<img src="${asset.getSrc()}"/>`
                         }
+
                         // const modelComponent = editor.getSelected();
                         // const navBrand = modelComponent.attributes.components.models[0].attributes.components.models[1]
+                        // c.addImageUpload({'target': navBrand, 'image': asset.getSrc()})
+
                         // console.log(navBrand.attributes)
                         // navBrand.set({ 'content': `<img src="${asset.getSrc()}"/>` })
 
@@ -374,13 +385,16 @@ export default function loadBlockHeader(editor, opt = {}) {
                         changeProp: 1,
                         label: 'Logo image',
                         name: 'logoImage',
-                        src: '/img/FirstSlideHomePage.png',
+                        src: c.logoURL?? 'https://dummyimage.com/600x400/55595c/fff',
                     },
                 ],
             },
 
             init() {
                 this.on('change:attributes:theme', this.handleThemeChange);
+            },
+            initData() {
+                
             },
 
             handleThemeChange() {
@@ -465,52 +479,4 @@ export default function loadBlockHeader(editor, opt = {}) {
             },
         },
     });
-
-
-    // editor.TraitManager.addType('theme', {
-    //     templateInput: '',
-    //     // Expects as return a simple HTML string or an HTML element
-    //     createInput({ trait }) {
-    //       // Here we can decide to use properties from the trait
-    //       const traitOpts = trait.get('options') || [];
-    //       const options = traitOpts.length ? traitOpts : [
-    //         { id: 'url', name: 'URL' },
-    //         { id: 'email', name: 'Email' },
-    //       ];
-
-    //       // Create a new element container and add some content
-    //       const el = document.createElement('div');
-    //       el.innerHTML = `
-    //         <select class="href-next__type">
-    //           ${options.map(opt => `<option value="${opt.id}">${opt.name}</option>`).join('')}
-    //         </select>
-    //         <div class="href-next__url-inputs">
-    //           <input class="href-next__url" placeholder="Insert URL"/>
-    //         </div>
-    //         <div class="href-next__email-inputs">
-    //           <input class="href-next__email" placeholder="Insert email"/>
-    //           <input class="href-next__email-subject" placeholder="Insert subject"/>
-    //         </div>
-    //       `;
-
-    //       // Let's make our content interactive
-    //       const inputsUrl = el.querySelector('.href-next__url-inputs');
-    //       const inputsEmail = el.querySelector('.href-next__email-inputs');
-    //       const inputType = el.querySelector('.href-next__type');
-    //       inputType.addEventListener('change', ev => {
-    //         switch (ev.target.value) {
-    //           case 'url':
-    //             inputsUrl.style.display = '';
-    //             inputsEmail.style.display = 'none';
-    //             break;
-    //           case 'email':
-    //             inputsUrl.style.display = 'none';
-    //             inputsEmail.style.display = '';
-    //             break;
-    //         }
-    //       });
-
-    //       return el;
-    //     },
-    //   });
 }

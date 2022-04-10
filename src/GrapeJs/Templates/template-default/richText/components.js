@@ -12,8 +12,8 @@ export default function loadComponentsRichText(editor, opt = {}) {
             label: "Description", // The label you will see in Settings
           },
           {
-            type : "RichText-TextFontSize-Trait",
-            label:"Font size",
+            type: "RichText-TextFontSize-Trait",
+            label: "Font size",
           }
         ],
       },

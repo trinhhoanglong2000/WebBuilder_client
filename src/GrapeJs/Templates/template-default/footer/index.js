@@ -105,6 +105,10 @@ const getFooterNavigationButton = (mNavigation) => {
           init() {
             this.on('change:attributes:theme', this.handleThemeChange);
           },
+
+          initData() {
+
+          },
       
           handleThemeChange() {
             console.log('Input type changed to: ', this.getAttributes().theme);

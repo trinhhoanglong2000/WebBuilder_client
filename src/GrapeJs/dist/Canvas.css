@@ -280,3 +280,11 @@
   border-color: #2266dc;
 }
 
+.gjs-field-checkbox input:checked+.gjs-chk-icon {
+  border-color: black;
+}
+
+.gjs-field.gjs-field-checkbox {
+  background-color: #ffffff !important;
+  border: 1px solid black;
+}

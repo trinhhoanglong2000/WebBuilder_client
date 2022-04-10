@@ -2,8 +2,8 @@ import { GrapesjsReact } from "grapesjs-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { doSwitchStoreCssData, getInitDataStore, doSaveStoreData } from "../redux/slice/storeSlice";
-import { callAPIWithPostMethod } from "../Utils/callAPI";
+import { doSwitchStoreCssData, getInitDataStore, doSaveStoreData, doAddImageUpload } from "../redux/slice/storeSlice";
+import { callAPIWithPostMethod } from "../helper/callAPI";
 
 import "grapesjs/dist/css/grapes.min.css";
 import "./dist/Canvas.css";
@@ -58,9 +58,12 @@ function Canvas({ type }) {
     const head = editor.Canvas.getDocument().head;
 
     listCssFile.forEach((ele) => {
-      head.insertAdjacentHTML('beforeend', `<link href="http://localhost:5000/files/dist/css/components/${ele}.css" rel="stylesheet">`);
-
+      if (ele && ele !== "") {
+        head.insertAdjacentHTML('beforeend', `<link href="http://localhost:5000/files/dist/css/components/${ele}.css" rel="stylesheet">`);
+      }
     })
+
+   
     //script
     head.insertAdjacentHTML('beforeend', `<script type="text/javascript" src="http://localhost:5000/files/dist/js/template-default/carousel/carousel.js"></script>
     `);
@@ -78,40 +81,48 @@ function Canvas({ type }) {
     dispatch(doSwitchStoreCssData(newStoreCssData));
   }
 
+  const addImageUpload = (target, image) => {
+    dispatch(doAddImageUpload(target, image));
+  }
+
   const loadStoreCss = () => {
+
     if (!editor) {
       return;
     }
+    try {
+      let domWrapper = editor.getWrapper().view;
+      if (!domWrapper) {
+        return
+      }
 
-    let domWrapper = editor.getWrapper().view;
-    if (!domWrapper) {
-      return
-    }
+      let domStoreStyle = domWrapper.el.getElementsByClassName('storeCss')[0];
+      let cssContent = "";
 
-    let domStoreStyle = domWrapper.el.getElementsByClassName('storeCss')[0];
-    let cssContent = "";
+      for (let key in storeCssData) {
+        cssContent += key + " " + storeCssData[key] + " ";
+      }
 
-    for (let key in storeCssData) {
-      cssContent += key + " " + storeCssData[key] + " ";
-    }
-
-    if (domStoreStyle) {
-      domStoreStyle.innerHTML = cssContent;
-    } else {
-      domWrapper.el.insertAdjacentHTML('afterbegin', `<style class="storeCss"> ${cssContent} </style>`);
+      if (domStoreStyle) {
+        domStoreStyle.innerHTML = cssContent;
+      } else {
+        domWrapper.el.insertAdjacentHTML('afterbegin', `<style class="storeCss"> ${cssContent} </style>`);
+      }
+    } catch(e) {
     }
   }
 
   return (
     <>
       <GrapesjsReact
-        key={pageId}
+        key={[pageId, logoURL]}
         id="grapesjs-react"
         plugins={getPlugins()}
         pluginsOpts={{
           'template-default': {
             'logoURL': logoURL,
-            'addCssStore': addNewStoreCss
+            'addCssStore': addNewStoreCss,
+            'addImageUpload': addImageUpload
           }
         }}
         styleManager={
@@ -145,7 +156,6 @@ function Canvas({ type }) {
         //===============|Do the event listen here|===============
         onInit={(editor) => {
           setEditor(editor);
-
           editor.on("block:drag:stop", function (dropped_Component) {
             let droppedComponent = dropped_Component;
 
@@ -154,8 +164,10 @@ function Canvas({ type }) {
             }
 
             if (!droppedComponent) return;
-            droppedComponent.initData();
 
+            try {
+              droppedComponent.initData();
+            } catch (e) { }
             if (droppedComponent.get("name") == "Main") return;
             let listCss = listCssFile;
             if (!listCss.includes(droppedComponent.attributes.name)) {
@@ -167,7 +179,9 @@ function Canvas({ type }) {
           });
 
 
-          editor.onReady(() => {
+          editor.onReady(() => {  
+            setEditor(editor);
+ 
             // ========================== Load component css file ================================
             const listComponents = editor.Components.getComponents().models;
             let listCssFile = [];
@@ -180,11 +194,8 @@ function Canvas({ type }) {
               } else {
                 listCssFile.push(ele.attributes.name);
               }
-
-              if (ele.attributes.name === "Header") {
-                const navbarTrait = ele.getTrait('logoImage');
-              }
             })
+            setListCssFile(listCssFile);
 
             // ========================== Load Logo Store ================================
             if (logoURL) {
@@ -198,28 +209,39 @@ function Canvas({ type }) {
                   navBrand.innerHTML = `<img src="${logoURL}"/>`
               }
             }
-
-            setListCssFile(listCssFile);
             // ========================== Load store css file ================================
-            loadStoreCss();
+            let domWrapper = editor.getWrapper().view;
+            if (!domWrapper) {
+              return
+            }
+
+            let domStoreStyle = domWrapper.el.getElementsByClassName('storeCss')[0];
+            let cssContent = "";
+      
+            for (let key in storeCssData) {
+              cssContent += key + " " + storeCssData[key] + " ";
+            }
+      
+            if (domStoreStyle) {
+              domStoreStyle.innerHTML = cssContent;
+            } else {
+              domWrapper.el.insertAdjacentHTML('afterbegin', `<style class="storeCss"> ${cssContent} </style>`);
+            }
 
             const style = `strong{font-weight:bold;}`;
-
             if (!editor.getCss().includes(style)) editor.addStyle(style);
           })
           
-          editor.on("storage:end:store", async function () {
+          editor.on("storage:start:store", async function () {
             let domWrapper = editor.getWrapper().view.el;
             let logoImage = domWrapper.querySelector('.navbar-brand img');
             
-            if (logoImage) {
+            if (logoImage && logoImage.src != logoURL) {
               await callAPIWithPostMethod("files/assets/" + storeId, { name: 'LogoImage', base64Image: logoImage.src }, true);
             }
             dispatch(doSaveStoreData());
-            console.log("Save")
           })
 
-         
 
           //need to update in here
         }}

@@ -9,12 +9,12 @@ export default function loadBlockProducts(editor, opt = {}) {
     // Expects as return a simple HTML string or an HTML element
     createInput({ trait }) {
       const initValue = trait.target.get("content") || "";
- 
+      const placeholder = trait.get('placeholder') || "";
       const el = document.createElement("div");
       el.innerHTML = `
 
         <div class="gjs-field gjs-field-text">
-          <input class="Product-Heading"placeholder="Header " value="${initValue}" />
+          <input class="Product-Heading"placeholder="${placeholder} " value="${initValue}" />
          
         </div>
       `;
@@ -78,7 +78,8 @@ export default function loadBlockProducts(editor, opt = {}) {
       let data = inputType.value;
       // editor.Selectors.setState('after');
       // console.log(editor.Selectors.getState())
-      component.setStyle({ "text-align": data });
+      component.setStyle({ ...component.getStyle(),"text-align": data  });
+
       
     },
   });
@@ -117,6 +118,7 @@ export default function loadBlockProducts(editor, opt = {}) {
           {
             type: "product-heading", // Type of the trait
             label: "Heading", // The label you will see in Settings
+            placeholder:"Header",
           },
           {
             type: "product-heading-align",
@@ -126,6 +128,7 @@ export default function loadBlockProducts(editor, opt = {}) {
             type:"product-heading-border",
             label:false,
           }
+          ,
         ],
       },
     },

@@ -14,11 +14,11 @@ export default function loadBlockRichText(editor, opt = {}) {
     category: c.label_rich_text,
     attributes: { class: "fa fa-file-text" },
     content: {
-      style: {
-        "text-align": "center",
-        width: "calc(100% - 15rem)",
-        margin: "auto",
-      },
+      // style: {
+      //   "text-align": "center",
+      //   width: "calc(100% - 15rem)",
+      //   margin: "auto",
+      // },
       attributes: {
         class: "Rich-Text",
         name: "rich-text",
@@ -56,6 +56,7 @@ export default function loadBlockRichText(editor, opt = {}) {
         {
           name: "Button",
           draggable: ".Rich-Text",
+          type: "RichText-Button",
           tagName: "a",
           content: `Button Link`,
           editable: true,
@@ -116,9 +117,10 @@ export default function loadBlockRichText(editor, opt = {}) {
     category: c.label_rich_text,
 
     attributes: { class: "gjs-fonts gjs-f-button" },
-    content: {
+    content:  {
       name: "Button",
       draggable: ".Rich-Text",
+      type: "RichText-Button",
       tagName: "a",
       content: `Button Link`,
       editable: true,

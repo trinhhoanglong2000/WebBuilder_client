@@ -1,11 +1,54 @@
 import $ from "jquery";
 import Quill from "quill";
 export default function loadTraitRichText(editor, opt = {}) {
+  editor.TraitManager.addType("RichText-Button-Color", {
+    // Expects as return a simple HTML string or an HTML element
+    createInput({ trait }) {
+      const data = ["primary", "secondary ","success","danger","warning","info","light","dark","link"];
+      const classes = trait.target.getClasses();
+      for (var i=0;i<classes.length;i++){
+      
+        if (classes[i].match(/(?<=btn-).*/g))
+          break;
+      }
+      const initValue =  classes[i].match(/(?<=btn-).*/g)[0] || "primary";
+      const el = document.createElement("div");
+      el.innerHTML = `
+          <div data-input="">
+          <select>
+          ${data
+            .map(
+              (opt) =>
+                `<option class="bg-${opt}" id = "${opt}Color" value="${opt}">${opt}</option>`
+            )
+            .join("")}
+            </select>
+
+          </div>
+          <div class="gjs-sel-arrow">
+            <div class="gjs-d-s-arrow"></div>
+          </div>
+        
+          `;
+      $(el).find(`#${initValue}Color`).prop("selected", true);
+
+      return el;
+    },
+    onEvent({ elInput, component, event }) {
+      const inputType = elInput.querySelector("option:checked");
+
+      const data = inputType.value
+
+      //component.removeClass(`btn-${data}`)
+      component.setClass(`btn btn-${data} align-self-center d-inline-flex justify-content-center align-items-center`)
+
+    },
+  });
   editor.TraitManager.addType("RichText-Text-Trait", {
     // Expects as return a simple HTML string or an HTML element
     createInput({ trait }) {
       const el = document.createElement("div");
-      const initValue = trait.target.get('content');
+      const initValue = trait.target.get("content");
       el.innerHTML = `
         <div id="editor" style="font-size:12px;">
         ${initValue}
@@ -16,7 +59,6 @@ export default function loadTraitRichText(editor, opt = {}) {
       let quill = new Quill(container, {
         modules: {
           toolbar: [
-            
             "bold",
             "italic",
             "underline",
@@ -28,11 +70,11 @@ export default function loadTraitRichText(editor, opt = {}) {
         },
         theme: "snow",
       });
-      quill.on('text-change', (delta, oldDelta, source) =>{
-        if (source == 'api') {
+      quill.on("text-change", (delta, oldDelta, source) => {
+        if (source == "api") {
           console.log("An API call triggered this change.");
-        } else if (source == 'user') {
-          this.onChange()
+        } else if (source == "user") {
+          this.onChange();
         }
       });
       // $(el).find(`#${initValue}`).prop('checked', true);
@@ -40,12 +82,10 @@ export default function loadTraitRichText(editor, opt = {}) {
       return el;
     },
     onEvent({ elInput, component, event }) {
-      const inputType = elInput.querySelector('.ql-editor').innerHTML;
+      const inputType = elInput.querySelector(".ql-editor").innerHTML;
       //#1 when option change we will get new option => change HTML following option
-      console.log(component)
-      console.log(inputType)
-      component.set({ "content": inputType });
 
+      component.set({ content: inputType });
     },
   });
 
@@ -59,8 +99,12 @@ export default function loadTraitRichText(editor, opt = {}) {
           <div data-input="">
           <select>
           ${data
-            .map((opt) => `<option id = "${opt}FontSize" value="${opt}">${opt}</option>`)
+            .map(
+              (opt) =>
+                `<option id = "${opt}FontSize" value="${opt}">${opt}</option>`
+            )
             .join("")}
+            </select>
 
           </div>
           <div class="gjs-sel-arrow">
@@ -69,16 +113,16 @@ export default function loadTraitRichText(editor, opt = {}) {
         
           `;
 
-      $(el).find(`#${initValue}FontSize`).prop('selected', true);
+      $(el).find(`#${initValue}FontSize`).prop("selected", true);
 
       return el;
     },
     onEvent({ elInput, component, event }) {
       //#1 when option change we will get new option => change HTML following option
-      const inputType = elInput.querySelector('option:checked');
+      const inputType = elInput.querySelector("option:checked");
       let data = inputType.value;
-
-      component.setStyle({ "font-size": data });
+      component.setStyle({ ...component.getStyle(),"font-size": data });
     },
   });
+
 }

@@ -17,6 +17,8 @@ import { v4 as uuidv4 } from "uuid";
 import $ from "jquery";
 import "./Templates/template-default/template-default.plugins";
 
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 function Canvas({ type }) {
   const dispatch = useDispatch();
   const [editor, setEditor] = useState(null);
@@ -25,7 +27,13 @@ function Canvas({ type }) {
   const storeCssData = useSelector(state => state.store.storeCssData);
   const logoURL = useSelector(state => state.store.logoURL);
   const pageId = useSelector(state => state.page.pageId);
-
+  // const [open, setOpen] = React.useState(false);
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
+  // const handleToggle = () => {
+  //   setOpen(!open);
+  // };
   const getPlugins = () => {
     return ["Plugins-defaults", "template-default", "gjs-blocks-basic"];
   };
@@ -51,8 +59,11 @@ function Canvas({ type }) {
 
     listCssFile.forEach((ele) => {
       head.insertAdjacentHTML('beforeend', `<link href="http://localhost:5000/files/dist/css/components/${ele}.css" rel="stylesheet">`);
-    })
 
+    })
+    //script
+    head.insertAdjacentHTML('beforeend', `<script type="text/javascript" src="http://localhost:5000/files/dist/js/template-default/carousel/carousel.js"></script>
+    `);
   }, [listCssFile])
 
   useEffect(() => {
@@ -219,12 +230,11 @@ function Canvas({ type }) {
             "https://cdn.quilljs.com/1.3.6/quill.snow.css",
           ],
           scripts: [
-            `https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js`,
+            `https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js`,
             `https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js`,
-            `//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js`,
             "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js",
             `http://localhost:5000/files/dist/js/template-default/test.js`,
-            `http://localhost:5000/files/dist/js/template-default/template-common.js`,
+            // `http://localhost:5000/files/dist/js/template-default/template-common.js`,
          
           ],
         }}

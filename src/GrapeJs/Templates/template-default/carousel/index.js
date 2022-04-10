@@ -55,9 +55,9 @@ export default function loadBlockCarousel(editor, opt = {}) {
       data.forEach(item => {
         traitOptionsData.push({ id: item.id, name: item.name })
       })
-      let textOptionsData = [
-        { id: "black", name: "black" },
+      let textOptionsData = [ 
         { id: "white", name: "white" },
+        { id: "black", name: "black" },
       ];
 
       let displayOptionsData = [

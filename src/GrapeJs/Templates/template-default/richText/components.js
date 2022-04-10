@@ -24,6 +24,28 @@ export default function loadComponentsRichText(editor, opt = {}) {
       // This function run when component created - we setup listen to change atri
     },
   });
+  domc.addType("RichText-Button", {
+    model: {
+      defaults: {
+        traits: [
+          {
+            type: "product-heading", // Type of the trait
+            label: "Label", // The label you will see in Settings
+            placeholder:"Label"
+          },
+          {
+            type:"RichText-Button-Color",
+            label:"Button color"
+          }
+        ],
+      },
+      init() {
+      },
+      initData() {},
+      handleTypeChangeData() {},
+      // This function run when component created - we setup listen to change atri
+    },
+  });
   domc.addType("RichText", {
     model: {
       defaults: {

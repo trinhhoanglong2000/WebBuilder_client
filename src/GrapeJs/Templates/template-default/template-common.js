@@ -3,7 +3,6 @@ import $ from 'jquery';
 
 export default function loadScripts(array, callback) {
     var loader = function (src, handler) {
-        debugger
         var script = document.createElement("script");
         script.src = src;
         script.onload = script.onreadystatechange = function () {

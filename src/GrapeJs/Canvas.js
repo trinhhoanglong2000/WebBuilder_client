@@ -2,7 +2,12 @@ import { GrapesjsReact } from "grapesjs-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { doSwitchStoreCssData, getInitDataStore, doSaveStoreData, doAddImageUpload } from "../redux/slice/storeSlice";
+import {
+  doSwitchStoreCssData,
+  getInitDataStore,
+  doSaveStoreData,
+  doAddImageUpload,
+} from "../redux/slice/storeSlice";
 import { callAPIWithPostMethod } from "../helper/callAPI";
 
 import "grapesjs/dist/css/grapes.min.css";
@@ -17,16 +22,17 @@ import { v4 as uuidv4 } from "uuid";
 import $ from "jquery";
 import "./Templates/template-default/template-default.plugins";
 
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
 function Canvas({ type }) {
   const dispatch = useDispatch();
   const [editor, setEditor] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [listCssFile, setListCssFile] = useState([]);
-  const storeId = useSelector(state => state.store.storeId);
-  const storeCssData = useSelector(state => state.store.storeCssData);
-  const logoURL = useSelector(state => state.store.logoURL);
-  const pageId = useSelector(state => state.page.pageId);
+  const storeId = useSelector((state) => state.store.storeId);
+  const storeCssData = useSelector((state) => state.store.storeCssData);
+  const logoURL = useSelector((state) => state.store.logoURL);
+  const pageId = useSelector((state) => state.page.pageId);
   // const [open, setOpen] = React.useState(false);
   // const handleClose = () => {
   //   setOpen(false);
@@ -59,18 +65,24 @@ function Canvas({ type }) {
 
     listCssFile.forEach((ele) => {
       if (ele && ele !== "") {
-        head.insertAdjacentHTML('beforeend', `<link href="http://localhost:5000/files/dist/css/components/${ele}.css" rel="stylesheet">`);
+        head.insertAdjacentHTML(
+          "beforeend",
+          `<link href="http://localhost:5000/files/dist/css/components/${ele}.css" rel="stylesheet">`
+        );
       }
-    })
+    });
 
-   
     //script
-    head.insertAdjacentHTML('beforeend', `<script type="text/javascript" src="http://localhost:5000/files/dist/js/template-default/carousel/carousel.js"></script>
-    `);
-  }, [listCssFile])
+    head.insertAdjacentHTML(
+      "beforeend",
+      `<script type="text/javascript" src="http://localhost:5000/files/dist/js/template-default/carousel/carousel.js"></script>`
+    );
+  }, [listCssFile]);
 
-  useEffect(() => {
-    dispatch(getInitDataStore(storeId));
+  useEffect(async () => {
+    dispatch(getInitDataStore(storeId)).then(() => {
+      setLoading(false);
+    });
   }, [storeId]);
 
   useEffect(() => {
@@ -79,24 +91,24 @@ function Canvas({ type }) {
 
   const addNewStoreCss = (newStoreCssData) => {
     dispatch(doSwitchStoreCssData(newStoreCssData));
-  }
+  };
 
   const addImageUpload = (target, image) => {
     dispatch(doAddImageUpload(target, image));
-  }
+  };
 
-  const loadStoreCss = () => {
-
-    if (!editor) {
+  const loadStoreCss = (e=null) => {
+    const _editor = e?e:editor;
+    if (!_editor) {
       return;
     }
     try {
-      let domWrapper = editor.getWrapper().view;
+      let domWrapper = _editor.getWrapper().view;
       if (!domWrapper) {
-        return
+        return;
       }
 
-      let domStoreStyle = domWrapper.el.getElementsByClassName('storeCss')[0];
+      let domStoreStyle = domWrapper.el.getElementsByClassName("storeCss")[0];
       let cssContent = "";
 
       for (let key in storeCssData) {
@@ -106,162 +118,153 @@ function Canvas({ type }) {
       if (domStoreStyle) {
         domStoreStyle.innerHTML = cssContent;
       } else {
-        domWrapper.el.insertAdjacentHTML('afterbegin', `<style class="storeCss"> ${cssContent} </style>`);
+        domWrapper.el.insertAdjacentHTML(
+          "afterbegin",
+          `<style class="storeCss"> ${cssContent} </style>`
+        );
       }
-    } catch(e) {
-    }
-  }
+    } catch (e) {}
+  };
 
   return (
     <>
-      <GrapesjsReact
-        key={[pageId, logoURL]}
-        id="grapesjs-react"
-        plugins={getPlugins()}
-        pluginsOpts={{
-          'template-default': {
-            'logoURL': logoURL,
-            'addCssStore': addNewStoreCss,
-            'addImageUpload': addImageUpload
-          }
-        }}
-        styleManager={
-          {
-            // clearProperties: true,
-          }
-        }
-        width="100%"
-        height="100vh"
-        storageManager={{
-          type: "remote",
-
-          autosave: false,
-          contentTypeJson: true,
-          storeComponents: true,
-          storeStyles: true,
-          storeHtml: true,
-          storeCss: true,
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem("token")}`,
-          },
-          id: "",
-          urlStore: `${process.env.REACT_APP_API_URL}stores/${storeId}/${pageId}/content`,
-          urlLoad: `${process.env.REACT_APP_API_URL}stores/${storeId}/${pageId}/content`,
-        }}
-        blockManager={{
-          appendTo: ".gjs-pn-block-container",
-        }}
-        //===============|Editor is here |============
-        //===============|Do the event listen here|===============
-        onInit={(editor) => {
-          setEditor(editor);
-          editor.on("block:drag:stop", function (dropped_Component) {
-            let droppedComponent = dropped_Component;
-
-            if (Array.isArray(droppedComponent)) {
-              droppedComponent = droppedComponent[0];
+      {!loading && (
+        <>
+          <GrapesjsReact
+            key={pageId}
+            id="grapesjs-react"
+            plugins={getPlugins()}
+            pluginsOpts={{
+              "template-default": {
+                logoURL: logoURL,
+                addCssStore: addNewStoreCss,
+                addImageUpload: addImageUpload,
+              },
+            }}
+            styleManager={
+              {
+                // clearProperties: true,
+              }
             }
+            width="100%"
+            height="100vh"
+            storageManager={{
+              type: "remote",
 
-            if (!droppedComponent) return;
+              autosave: false,
+              contentTypeJson: true,
+              storeComponents: true,
+              storeStyles: true,
+              storeHtml: true,
+              storeCss: true,
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+              id: "",
+              urlStore: `${process.env.REACT_APP_API_URL}stores/${storeId}/${pageId}/content`,
+              urlLoad: `${process.env.REACT_APP_API_URL}stores/${storeId}/${pageId}/content`,
+            }}
+            blockManager={{
+              appendTo: ".gjs-pn-block-container",
+            }}
+            //===============|Editor is here |============
+            //===============|Do the event listen here|===============
+            onInit={(editor) => {
+              setEditor(editor);
+              editor.on("block:drag:stop", function (dropped_Component) {
+                let droppedComponent = dropped_Component;
 
-            try {
-              droppedComponent.initData();
-            } catch (e) { }
-            if (droppedComponent.get("name") == "Main") return;
-            let listCss = listCssFile;
-            if (!listCss.includes(droppedComponent.attributes.name)) {
-              listCss.push(droppedComponent.attributes.name);
-            }
-            setListCssFile(listCss);
+                if (Array.isArray(droppedComponent)) {
+                  droppedComponent = droppedComponent[0];
+                }
 
-            //update the canvas
-          });
+                if (!droppedComponent) return;
 
+                try {
+                  droppedComponent.initData();
+                } catch (e) {}
+                if (droppedComponent.get("name") == "Main") return;
+                let listCss = listCssFile;
+                if (!listCss.includes(droppedComponent.attributes.name)) {
+                  listCss.push(droppedComponent.attributes.name);
+                }
+                setListCssFile(listCss);
 
-          editor.onReady(() => {  
-            setEditor(editor);
- 
-            // ========================== Load component css file ================================
-            const listComponents = editor.Components.getComponents().models;
-            let listCssFile = [];
-            listComponents.forEach((ele) => {
-              if (ele.attributes.name === "Main") {
-                const mainComponent = ele.attributes.components.models;
-                mainComponent.forEach((ele) => {
-                  listCssFile.push(ele.attributes.name);
+                //update the canvas
+              });
+
+              editor.onReady(() => {
+                setEditor(editor);
+
+                // ========================== Load component css file ================================
+                const listComponents = editor.Components.getComponents().models;
+                let listCssFile = [];
+                listComponents.forEach((ele) => {
+                  if (ele.attributes.name === "Main") {
+                    const mainComponent = ele.attributes.components.models;
+                    mainComponent.forEach((ele) => {
+                      listCssFile.push(ele.attributes.name);
+                    });
+                  } else {
+                    listCssFile.push(ele.attributes.name);
+                  }
                 });
-              } else {
-                listCssFile.push(ele.attributes.name);
-              }
-            })
-            setListCssFile(listCssFile);
+                setListCssFile(listCssFile);
 
-            // ========================== Load Logo Store ================================
-            if (logoURL) {
-              let domWrapper = editor.getWrapper().view.el;
-              const navBrandImg = domWrapper.querySelector('.navbar-brand img');
+                // ========================== Load Logo Store ================================
+                if (logoURL) {
+                  let domWrapper = editor.getWrapper().view.el;
+                  const navBrandImg =
+                    domWrapper.querySelector(".navbar-brand img");
 
-              if (navBrandImg) {
-                  navBrandImg.src = logoURL;
-              } else {
-                  const navBrand = domWrapper.querySelector('.navbar-brand');
-                  navBrand.innerHTML = `<img src="${logoURL}"/>`
-              }
-            }
-            // ========================== Load store css file ================================
-            let domWrapper = editor.getWrapper().view;
-            if (!domWrapper) {
-              return
-            }
+                  if (navBrandImg) {
+                    navBrandImg.src = logoURL;
+                  } else {
+                    const navBrand = domWrapper.querySelector(".navbar-brand");
+                    navBrand.innerHTML = `<img src="${logoURL}"/>`;
+                  }
+                }
+                // ========================== Load store css file ================================
+                loadStoreCss(editor)
+                const style = `strong{font-weight:bold;}`;
+                if (!editor.getCss().includes(style)) editor.addStyle(style);
+              });
 
-            let domStoreStyle = domWrapper.el.getElementsByClassName('storeCss')[0];
-            let cssContent = "";
-      
-            for (let key in storeCssData) {
-              cssContent += key + " " + storeCssData[key] + " ";
-            }
-      
-            if (domStoreStyle) {
-              domStoreStyle.innerHTML = cssContent;
-            } else {
-              domWrapper.el.insertAdjacentHTML('afterbegin', `<style class="storeCss"> ${cssContent} </style>`);
-            }
+              editor.on("storage:start:store", async function () {
+                let domWrapper = editor.getWrapper().view.el;
+                let logoImage = domWrapper.querySelector(".navbar-brand img");
 
-            const style = `strong{font-weight:bold;}`;
-            if (!editor.getCss().includes(style)) editor.addStyle(style);
-          })
-          
-          editor.on("storage:start:store", async function () {
-            let domWrapper = editor.getWrapper().view.el;
-            let logoImage = domWrapper.querySelector('.navbar-brand img');
-            
-            if (logoImage && logoImage.src != logoURL) {
-              await callAPIWithPostMethod("files/assets/" + storeId, { name: 'LogoImage', base64Image: logoImage.src }, true);
-            }
-            dispatch(doSaveStoreData());
-          })
+                if (logoImage && logoImage.src != logoURL) {
+                  await callAPIWithPostMethod(
+                    "files/assets/" + storeId,
+                    { name: "LogoImage", base64Image: logoImage.src },
+                    true
+                  );
+                }
+                dispatch(doSaveStoreData());
+              });
 
-
-          //need to update in here
-        }}
-        canvas={{
-          styles: [
-            "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css",
-            "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
-            "https://cdn.quilljs.com/1.3.6/quill.snow.css",
-          ],
-          scripts: [
-            `https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js`,
-            `https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js`,
-            "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js",
-            `http://localhost:5000/files/dist/js/template-default/test.js`,
-            // `http://localhost:5000/files/dist/js/template-default/template-common.js`,
-         
-          ],
-        }}
-      />
-      {editor && <NavigationPanel editor={editor} />}
+              //need to update in here
+            }}
+            canvas={{
+              styles: [
+                "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css",
+                "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css",
+                "https://cdn.quilljs.com/1.3.6/quill.snow.css",
+              ],
+              scripts: [
+                `https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js`,
+                `https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js`,
+                "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js",
+                `http://localhost:5000/files/dist/js/template-default/test.js`,
+                // `http://localhost:5000/files/dist/js/template-default/template-common.js`,
+              ],
+            }}
+          />
+          {editor && <NavigationPanel editor={editor} />}
+        </>
+      )}
     </>
   );
 }

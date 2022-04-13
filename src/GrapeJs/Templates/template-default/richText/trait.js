@@ -62,7 +62,8 @@ export default function loadTraitRichText(editor, opt = {}) {
             "bold",
             "italic",
             "underline",
-            "strike",
+            "link",
+            
             { script: "sub" },
             { script: "super" },
             { size: "small" },

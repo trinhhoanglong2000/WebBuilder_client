@@ -2,6 +2,7 @@
 import $ from 'jquery';
 
 export default function loadScripts(array, callback) {
+    console.log("HEHE")
     var loader = function (src, handler) {
         var script = document.createElement("script");
         script.src = src;

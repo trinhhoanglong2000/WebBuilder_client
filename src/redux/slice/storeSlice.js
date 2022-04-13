@@ -41,6 +41,7 @@ export const storeSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(getInitDataStore.pending, (state) => {
+            
         })
         builder.addCase(getInitDataStore.fulfilled, (state, action) => {
             state.logoURL = action.payload.logoURL;

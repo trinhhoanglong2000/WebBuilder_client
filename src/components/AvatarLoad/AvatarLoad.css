@@ -1,0 +1,21 @@
+/* .box {
+  perspective: 120px;
+} */
+
+.coin {
+  width: 25%;
+  height: 25%;
+
+  background: url('/public/img/Logo.png');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  animation: spin 1.5s ease-in-out infinite;
+
+}
+
+@keyframes spin {
+  to {
+    transform: rotateY(360deg);
+  }
+}

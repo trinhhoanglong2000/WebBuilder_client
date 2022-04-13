@@ -13,21 +13,19 @@ import { callAPIWithPostMethod } from "../helper/callAPI";
 import "grapesjs/dist/css/grapes.min.css";
 import "./dist/Canvas.css";
 import "./dist/snow.css";
-// import "https://cdn.quilljs.com/1.3.6/quill.snow.css"
 import "./blocks/basicBlocks/index";
 import "./plugins/index";
-//import "./plugins/template-default.plugins";
 import NavigationPanel from "./pages/NavigationPanel";
-import { v4 as uuidv4 } from "uuid";
 import $ from "jquery";
 import "./Templates/template-default/template-default.plugins";
 
-import Backdrop from "@mui/material/Backdrop";
-import CircularProgress from "@mui/material/CircularProgress";
+import AvatarLoad from '../components/AvatarLoad/AvatarLoad'
+import SaveLoad from '../components/SaveLoad/SaveLoad'
 function Canvas({ type }) {
   const dispatch = useDispatch();
   const [editor, setEditor] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isSaving,setIsSaving] = useState(false)
   const [listCssFile, setListCssFile] = useState([]);
   const storeId = useSelector((state) => state.store.storeId);
   const storeCssData = useSelector((state) => state.store.storeCssData);
@@ -73,13 +71,21 @@ function Canvas({ type }) {
     });
 
     //script
-    head.insertAdjacentHTML(
-      "beforeend",
-      `<script type="text/javascript" src="http://localhost:5000/files/dist/js/template-default/carousel/carousel.js"></script>`
-    );
+
+    var addScript = function (url){
+      let script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = url; // use this for linked script
+      editor.Canvas.getDocument().body.appendChild(script);
+    }
+   
+    addScript("http://localhost:5000/files/dist/js/template-default/test.js")
+    addScript("http://localhost:5000/files/dist/js/template-default/carousel/carousel.js")
+
+
   }, [listCssFile]);
 
-  useEffect(async () => {
+  useEffect(() => {
     dispatch(getInitDataStore(storeId)).then(() => {
       setLoading(false);
     });
@@ -97,8 +103,8 @@ function Canvas({ type }) {
     dispatch(doAddImageUpload(target, image));
   };
 
-  const loadStoreCss = (e=null) => {
-    const _editor = e?e:editor;
+  const loadStoreCss = (e = null) => {
+    const _editor = e ? e : editor;
     if (!_editor) {
       return;
     }
@@ -128,7 +134,7 @@ function Canvas({ type }) {
 
   return (
     <>
-      {!loading && (
+      {!loading ? (
         <>
           <GrapesjsReact
             key={pageId}
@@ -226,12 +232,13 @@ function Canvas({ type }) {
                   }
                 }
                 // ========================== Load store css file ================================
-                loadStoreCss(editor)
+                loadStoreCss(editor);
                 const style = `strong{font-weight:bold;}`;
                 if (!editor.getCss().includes(style)) editor.addStyle(style);
               });
 
               editor.on("storage:start:store", async function () {
+                setIsSaving(true);
                 let domWrapper = editor.getWrapper().view.el;
                 let logoImage = domWrapper.querySelector(".navbar-brand img");
 
@@ -244,7 +251,10 @@ function Canvas({ type }) {
                 }
                 dispatch(doSaveStoreData());
               });
-
+              editor.on("storage:end:store", function () {
+                setIsSaving(false);
+            
+              });
               //need to update in here
             }}
             canvas={{
@@ -254,17 +264,18 @@ function Canvas({ type }) {
                 "https://cdn.quilljs.com/1.3.6/quill.snow.css",
               ],
               scripts: [
-                `https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js`,
+                `https://code.jquery.com/jquery-3.6.0.js`,
                 `https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js`,
                 "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js",
-                `http://localhost:5000/files/dist/js/template-default/test.js`,
+                // `http://localhost:5000/files/dist/js/template-default/test.js`,
                 // `http://localhost:5000/files/dist/js/template-default/template-common.js`,
               ],
             }}
           />
           {editor && <NavigationPanel editor={editor} />}
+          {isSaving && <SaveLoad open = {isSaving}/>}
         </>
-      )}
+      ): <AvatarLoad load={true}></AvatarLoad>}
     </>
   );
 }

@@ -212,19 +212,13 @@ export default function loadBlockCarousel(editor, opt = {}) {
         this.on('change:attributes:data', this.handleTypeChangeData);
         this.on('change:attributes:placeholder', this.handleTypeChangePlaceHold);
 
-        loadScripts(
-          ["http://localhost:5000/files/dist/js/template-default/carousel/carousel.js"]
-          , function () {
-            //console.log('carousel.js is loaded');
-          });
+        // loadScripts(
+        //   ["http://localhost:5000/files/dist/js/template-default/carousel/carousel.js"]
+        //   , function () {
+        //     //console.log('carousel.js is loaded');
+        //   });
       },
-
-      async handleTypeChangeData() {
-        //console.log("Data")
-        const atributeData = this.attributes.attributes;
-        //console.log(document.querySelector(".gjs-frame").contentDocument.querySelector("html"))
-        // IMPORTAINT - this.view.el is root node => form 1 atribute change we can change front end by this
-
+      async Update(){
         let carouselIndicators = $(this.view.el).find(`.carousel-indicators`)[0]
         let carouselInner = $(this.view.el).find(`.carousel-inner`)[0];
         carouselIndicators.innerHTML = "";
@@ -257,6 +251,15 @@ export default function loadBlockCarousel(editor, opt = {}) {
           carouselInner.insertAdjacentHTML("beforeend", htmlCarouselItemInsert)
         })
       },
+      async handleTypeChangeData() {
+        //console.log("Data")
+        const atributeData = this.attributes.attributes;
+        //console.log(document.querySelector(".gjs-frame").contentDocument.querySelector("html"))
+        // IMPORTAINT - this.view.el is root node => form 1 atribute change we can change front end by this
+        this.Update()
+
+       
+      },
       initData() {
         //change uuid
         this.set({
@@ -265,7 +268,7 @@ export default function loadBlockCarousel(editor, opt = {}) {
             `A${uuidv4()}`
           ),
         });
-
+        this.Update()
       },
       handleTypeChangePlaceHold() {
         console.log("placeHold");

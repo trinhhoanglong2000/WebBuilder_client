@@ -1,13 +1,12 @@
 export default function loadBlockFooter(editor, opt = {}) {
     const c = opt;
     let bm = editor.BlockManager;
-//#region Footer
 
-const getFooterNavigationButton = (mNavigation) => {
-    let navbar = "";
-    if (mNavigation){
-        mNavigation.forEach((element) => {
-            navbar += `<li><a href="${element.link}">${element.name}</a></li>`;
+    const getFooterNavigationButton = (mNavigation) => {
+        let navbar = "";
+        if (mNavigation){
+            mNavigation.forEach((element) => {
+                navbar += `<li><a href="${element.link}">${element.name}</a></li>`;
             })
 
             return navbar;
@@ -37,28 +36,28 @@ const getFooterNavigationButton = (mNavigation) => {
             attributes: { class: "row footer-navigation" },
             content: <div></div>,
             components: [{
-            name: "Left Navtion",
-            draggable: ".footer-navigation",
-            tagName: "div",
-            attributes: { class: "col-12 col-md-6" },
-            content: `
-            <ul>
-                <h5>Quick link</h5> 
-                ${getFooterNavigationButton(c.footerNavigation1)}
-            </ul>
+                name: "Navigation",
+                draggable: ".footer-navigation",
+                tagName: "div",
+                attributes: { class: "col-12 col-md-6" },
+                content: `
+                <ul>
+                    <h5>Quick link</h5> 
+                    ${getFooterNavigationButton(c.footerNavigation1)}
+                </ul>
             `
             },
             {
-            name: "Right Navigation",
-            draggable: ".footer-navigation",
-            tagName: "div",
-            attributes: { class: "col-12 col-md-6" },
-            content: `
-                <ul>
-                <h5>Heading</h5> 
-                ${getFooterNavigationButton(c.footerNavigation2)}
-                </ul>
-            `
+                name: "Navigation",
+                draggable: ".footer-navigation",
+                tagName: "div",
+                attributes: { class: "col-12 col-md-6" },
+                content: `
+                    <ul>
+                    <h5>Heading</h5> 
+                    ${getFooterNavigationButton(c.footerNavigation2)}
+                    </ul>
+                `
             },
         ]
         },     
@@ -175,5 +174,4 @@ const getFooterNavigationButton = (mNavigation) => {
           },
         },
     });
-    //#endregion 
 }

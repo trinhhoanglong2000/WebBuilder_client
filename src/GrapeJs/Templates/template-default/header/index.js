@@ -8,20 +8,22 @@ export default function loadBlockHeader(editor, opt = {}) {
         return c.logoURL ? `<img src=${c.logoURL}>` : `<h4>${c.storeName}</h4>`;
     }
 
-    const getHeaderNavigationButton = (mNavigation) => {
+    const getHeaderNavigationButton = () => {
         let navbar = [];
 
-        if (mNavigation) {
-            mNavigation.forEach((element) => {
-                navbar.push({
-                    layerable: false,
-                    draggable: false,
-                    hoverable: false,
-                    selectable: false,
-                    tagName: "li",
-                    attributes: { class: "nav-item" },
-                    content: `<a href="${element.link}" class="nav-link p-1"> ${element.name}</a>`,
-                });
+        if (c.headerNavigation) {
+            c.headerNavigation.forEach((element) => {
+                if (element.id != c.pageId) {
+                    navbar.push({
+                        layerable: false,
+                        draggable: false,
+                        hoverable: false,
+                        selectable: false,
+                        tagName: "li",
+                        attributes: { class: "nav-item" },
+                        content: `<a href="#" class="nav-link p-1"> ${element.name}</a>`,
+                    });
+                }
             })
 
             return navbar;
@@ -39,7 +41,7 @@ export default function loadBlockHeader(editor, opt = {}) {
             name: "Header",
             tagName: "nav",
             type: "navbar",
-            attributes: { class: "navbar navbar-expand-md border-bottom border-dark" },
+            attributes: { class: "navbar navbar-expand-md border-bottom border-dark", name: "header-navigation" },
             components: [
                 {
                     layerable: false,
@@ -107,7 +109,7 @@ export default function loadBlockHeader(editor, opt = {}) {
                                     selectable: false,
                                     tagName: "ul",
                                     attributes: { class: "navbar-nav" },
-                                    components: getHeaderNavigationButton(c.headerNavigation)
+                                    components: getHeaderNavigationButton()
                                 },
                             ],
                         },
@@ -401,16 +403,16 @@ export default function loadBlockHeader(editor, opt = {}) {
                 let storeCssData = {};
 
                 if (this.getAttributes().theme === "white") {
-                    storeCssData["[data-gjs-type='navbar'].navbar"] = "{ background-color: white !important}";
-                    storeCssData["[data-gjs-type='navbar'].navbar a, [data-gjs-type='navbar'].navbar i, [data-gjs-type='navbar'].navbar a.navbar-brand:hover"] = "{ color: black !important }";
+                    storeCssData["[name='header-navigation'].navbar"] = "{ background-color: white !important}";
+                    storeCssData["[name='header-navigation'].navbar a, [name='header-navigation'].navbar i, [name='header-navigation'].navbar a.navbar-brand:hover"] = "{ color: black !important }";
 
                     // storeCssData[".offcanvas"] = "{ background-color: white, color: black !important }";
                     // storeCssData[".offcanvas .btn-close"] = "{ background-color: none }";
                     // storeCssData[".offcanvas a"] = "{ color: black !important }";
 
                 } else if (this.getAttributes().theme === "black") {
-                    storeCssData["[data-gjs-type='navbar'].navbar"] = "{ background-color: #121212 !important}";
-                    storeCssData["[data-gjs-type='navbar'].navbar a, [data-gjs-type='navbar'].navbar i, [data-gjs-type='navbar'].navbar a.navbar-brand:hover"] = "{ color: white !important }";
+                    storeCssData["[name='header-navigation'].navbar"] = "{ background-color: #121212 !important}";
+                    storeCssData["[name='header-navigation'].navbar a, [name='header-navigation'].navbar i, [name='header-navigation'].navbar a.navbar-brand:hover"] = "{ color: white !important }";
 
                     // editor.Css.setRule(
                     //     `.offcanvas`, { 
@@ -429,8 +431,8 @@ export default function loadBlockHeader(editor, opt = {}) {
                     //     });
 
                 } else if (this.getAttributes().theme === "lGreen") {
-                    storeCssData["[data-gjs-type='navbar'].navbar"] = "{ background-color: #69c5a3 !important}";
-                    storeCssData["[data-gjs-type='navbar'].navbar a, [data-gjs-type='navbar'].navbar i, [data-gjs-type='navbar'].navbar a.navbar-brand:hover"] = "{ color: black !important }";
+                    storeCssData["[name='header-navigation'].navbar"] = "{ background-color: #69c5a3 !important}";
+                    storeCssData["[name='header-navigation'].navbar a, [name='header-navigation'].navbar i, [name='header-navigation'].navbar a.navbar-brand:hover"] = "{ color: black !important }";
 
                     // editor.Css.setRule(
                     //     `.offcanvas`, { 
@@ -444,8 +446,8 @@ export default function loadBlockHeader(editor, opt = {}) {
                     //     });
 
                 } else if (this.getAttributes().theme === "lBlue") {
-                    storeCssData["[data-gjs-type='navbar'].navbar"] = "{ background-color: #c8e1e7 !important}";
-                    storeCssData["[data-gjs-type='navbar'].navbar a, [data-gjs-type='navbar'].navbar i, [data-gjs-type='navbar'].navbar a.navbar-brand:hover"] = "{ color: black !important }";
+                    storeCssData["[name='header-navigation'].navbar"] = "{ background-color: #c8e1e7 !important}";
+                    storeCssData["[name='header-navigation'].navbar a, [name='header-navigation'].navbar i, [name='header-navigation'].navbar a.navbar-brand:hover"] = "{ color: black !important }";
 
                     // editor.Css.setRule(
                     //     `.offcanvas`, { 
@@ -459,8 +461,8 @@ export default function loadBlockHeader(editor, opt = {}) {
                     //     });
 
                 } else if (this.getAttributes().theme === "sand") {
-                    storeCssData["[data-gjs-type='navbar'].navbar"] = "{ background-color: #f6d7b0 !important}";
-                    storeCssData["[data-gjs-type='navbar'].navbar a, [data-gjs-type='navbar'].navbar i, [data-gjs-type='navbar'].navbar a.navbar-brand:hover"] = "{ color: black !important }";
+                    storeCssData["[name='header-navigation'].navbar"] = "{ background-color: #f6d7b0 !important}";
+                    storeCssData["[name='header-navigation'].navbar a, [name='header-navigation'].navbar i, [name='header-navigation'].navbar a.navbar-brand:hover"] = "{ color: black !important }";
 
                     // editor.Css.setRule(
                     //     `.offcanvas`, { 

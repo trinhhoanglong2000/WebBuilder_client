@@ -7,6 +7,7 @@ import loadBlockProducts from './product';
 import loadBlockMain from '../Main'
 import loadBlockRichText from './richText'
 import loadImageWithText from "./imageWithText";
+import loadContactForm from "./contactForm";
 
 export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
 
@@ -28,15 +29,6 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
 
   // Example Data
   config.storeName = "Store name";
-
-  // Example Data
-  config.headerNavigation = [{
-    name: "Product",
-    link: "#"
-  }, {
-    name: "Contact",
-    link: "#"
-  }];
 
   config.footerNavigation1 = [{
     name: "Search",
@@ -67,6 +59,7 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
   loadBlockFooter(editor, config)
   loadBlockHeader(editor, config)
   loadImageWithText(editor, config)
+  loadContactForm(editor, config)
   //Long ADD END
 }
 );

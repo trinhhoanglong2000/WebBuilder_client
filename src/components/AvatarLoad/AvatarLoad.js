@@ -9,7 +9,7 @@ const AvatarLoad = ({ load }) => {
         open={load}
       >
         
-          <div class="coin"></div>
+          <div className="coin"></div>
         
       </Backdrop>
     </>

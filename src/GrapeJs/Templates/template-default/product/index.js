@@ -35,12 +35,18 @@ export default function loadBlockProducts(editor, opt = {}) {
           <div class="input-group" style="overflow-y: scroll;">
             <div class="form-outline d-flex w-100 border rounded  mx-1 mt-1" >
                
-                <input type="search" id="form1" class="form-control" style="border:none" placeholder = "Search"/>
+                <input type="search" id="form1" class="form-control pr-0" style="border:none" placeholder = "Search"/>
                 <button type="button " class="btn">
                 <i class="fas fa-search"></i>
               </button>
             </div>
            
+          </div>
+
+          <div>
+            <ul   style="list-style: none;padding:0" > 
+            
+            </ul>
           </div>
         </div>
 
@@ -98,7 +104,26 @@ export default function loadBlockProducts(editor, opt = {}) {
         });
 
         GetRequest(`${process.env.REACT_APP_API_URL}stores/621b5a807ea079a0f7351fb8/collections/product?name=`).then(data => {
-          console.log(data); 
+          data.data.forEach(element => {
+            $(el).find('.Modal-popup ul').append(`<li>
+            <div style="width: 100%;display: flex;align-items: center;" class="btn border-bottom py-3">
+            
+              <div class="Picture" >
+                <img style= "width: 32px;height: 32px;" src="${element.thumbnail ? element.thumbnai: 'https://img.icons8.com/fluency-systems-regular/48/000000/image.png'}"/>
+
+
+              </div>
+              <div style ="font-size:12px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2; /* number of lines to show */ line-clamp: 2;-webkit-box-orient: vertical;
+              " >
+              ${element.name}
+
+              </div>
+            </div>  
+            
+            </li>`)
+          });
+          
+          
         });
         // $(el)
         // .find("input")

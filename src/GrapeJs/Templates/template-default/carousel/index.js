@@ -1,4 +1,3 @@
-import loadScripts from "../template-common";
 import { v4 as uuidv4 } from "uuid";
 import $ from "jquery";
 export default function loadBlockCarousel(editor, opt = {}) {

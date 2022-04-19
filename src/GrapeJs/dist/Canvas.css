@@ -279,7 +279,32 @@
   background-color: #2266dc;
   border-color: #2266dc;
 }
+.Modal-popup{
+  height: calc(100vh - 42px); 
+  width:114%;
+  position:absolute;
+  background-color:white;
+  top: -72px;
+  left: -10px;
+  z-index: 9999;
 
+}
+@media only screen and (max-width: 900px) {
+  .Modal-popup{
+    top:-90px;
+
+  }
+}
+.Modal-popup input:focus, .Modal-popup .btn:focus{
+  outline: none;
+  border-color: inherit;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border: none;
+}
+.Modal-popup .btn{
+  border: none;
+}
 .gjs-field-checkbox input:checked+.gjs-chk-icon {
   border-color: black;
 }

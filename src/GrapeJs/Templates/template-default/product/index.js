@@ -3,13 +3,118 @@ import { v4 as uuidv4 } from "uuid";
 export default function loadBlockProducts(editor, opt = {}) {
   const c = opt;
   let bm = editor.BlockManager;
+  var GetRequest = async (url)=>{
+    const response = await fetch(url, {
+      method: 'GET', 
+
+    
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      redirect: 'follow', 
+    });
+    return response.json()
+  }
   //#region productList
   const domc = editor.DomComponents;
+  editor.TraitManager.addType("product-collection", {
+    // Expects as return a simple HTML string or an HTML element
+    createInput({ trait }) {
+      const el = document.createElement("div");
+      el.innerHTML = `
+        <div class="Modal-popup dnone" style="">
+
+          <div class ="d-flex border-bottom mb-3 p-3">
+            <h5 class="flex-grow-1">
+            Select collection
+            </h5> 
+            <button type="button" class="btn close-btn">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <div class="input-group" style="overflow-y: scroll;">
+            <div class="form-outline d-flex w-100 border rounded  mx-1 mt-1" >
+               
+                <input type="search" id="form1" class="form-control" style="border:none" placeholder = "Search"/>
+                <button type="button " class="btn">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+           
+          </div>
+        </div>
+
+
+        <div class="card">
+          <div class= "card-body" >
+            <div class="Collection-content d-lg-flex mb-3">
+            <div style="font-size: 24px;margin-right: 20px;">
+              <i class="fa fa-tags" aria-hidden="true"></i>
+            </div>
+            <div style = "overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2; /* number of lines to show */ line-clamp: 2;-webkit-box-orient: vertical;
+          " >
+              SUMMER COLLECTION
+            </div>
+            </div>
+            <div class="type-collection" style="color:rgb(109, 113, 117)">
+              Collection
+            </div>
+          </div>         
+          <div style = "border-top: 1px solid #0000004d"class= "card-body" >
+          <a  style="width: 100%;font-size: 100%;" class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Change
+          </a>
+          <div  style="width: 100%;font-size: 120%; margin-top:10px" class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" href="#"><span style ="font-size:16px"><i style ="width:20px"class="fa fa-pencil-square-o" aria-hidden="true"></i></span> Change 
+          </a>
+          <a class="dropdown-item" href="#"> <span style ="font-size:16px"><i style ="width:20px" class="fa fa-trash-o" aria-hidden="true"></i></span>  Delete 
+          </a>
+          </div>
+
+          </div>         
+        </div>
+
+
+      `;
+      el.style = "position:relative";
+      $(el).find(".Modal-popup .close-btn").on('click',function(){
+        $(el).find(".Modal-popup").toggle(200);
+
+      })
+      $(el)
+        .find(".dropdown-item")
+        .each(function (i) {
+          let func;
+          if (i == 0) {
+            func = function () {
+              $(el).find(".Modal-popup").toggle(200);
+            };
+          } else {
+            func = function () {
+              console.log("HOHO");
+            };
+          }
+          $(this).on("click", func);
+        });
+
+        GetRequest(`${process.env.REACT_APP_API_URL}stores/621b5a807ea079a0f7351fb8/collections/product?name=`).then(data => {
+          console.log(data); 
+        });
+        // $(el)
+        // .find("input")
+        // .on("input", (ev) => this.onChange(ev));
+      return el;
+    },
+    onEvent({ elInput, component, event }) {
+      console.log("ONEVENT")
+      //#1 when option change we will get new option => change HTML following option
+    },
+  });
   editor.TraitManager.addType("product-heading", {
     // Expects as return a simple HTML string or an HTML element
     createInput({ trait }) {
       const initValue = trait.target.get("content") || "";
-      const placeholder = trait.get('placeholder') || "";
+      const placeholder = trait.get("placeholder") || "";
       const el = document.createElement("div");
       el.innerHTML = `
 
@@ -39,7 +144,7 @@ export default function loadBlockProducts(editor, opt = {}) {
   editor.TraitManager.addType("product-heading-align", {
     // Expects as return a simple HTML string or an HTML element
     createInput({ trait }) {
-            //.Radio-Group CSS in CAnvas CSS
+      //.Radio-Group CSS in CAnvas CSS
 
       const initValue = trait.target.getStyle()["text-align"] || "center";
       const el = document.createElement("div");
@@ -64,23 +169,20 @@ export default function loadBlockProducts(editor, opt = {}) {
             </label>
         </div>
       `;
-      $(el).find(`#${initValue}`).prop('checked', true);
-
-      
-        
+      $(el).find(`#${initValue}`).prop("checked", true);
 
       return el;
     },
     onEvent({ elInput, component, event }) {
       //#1 when option change we will get new option => change HTML following option
-      const inputType = elInput.querySelector('input[name="alignment"]:checked');
+      const inputType = elInput.querySelector(
+        'input[name="alignment"]:checked'
+      );
 
       let data = inputType.value;
       // editor.Selectors.setState('after');
       // console.log(editor.Selectors.getState())
-      component.setStyle({ ...component.getStyle(),"text-align": data  });
-
-      
+      component.setStyle({ ...component.getStyle(), "text-align": data });
     },
   });
   editor.TraitManager.addType("product-heading-border", {
@@ -97,18 +199,13 @@ export default function loadBlockProducts(editor, opt = {}) {
         <label/>
       </div>
       `;
-      
-      // $(el).find(`#${initValue}`).prop('checked', true);
 
-      
-        
+      // $(el).find(`#${initValue}`).prop('checked', true);
 
       return el;
     },
     onEvent({ elInput, component, event }) {
       //#1 when option change we will get new option => change HTML following option
-
-      
     },
   });
   domc.addType("product-text", {
@@ -118,17 +215,16 @@ export default function loadBlockProducts(editor, opt = {}) {
           {
             type: "product-heading", // Type of the trait
             label: "Heading", // The label you will see in Settings
-            placeholder:"Header",
+            placeholder: "Header",
           },
           {
             type: "product-heading-align",
             label: "Alignment",
           },
           {
-            type:"product-heading-border",
-            label:false,
-          }
-          ,
+            type: "product-heading-border",
+            label: false,
+          },
         ],
       },
     },
@@ -138,18 +234,9 @@ export default function loadBlockProducts(editor, opt = {}) {
       defaults: {
         traits: [
           {
-            type: "select",
+            type: "product-collection",
             label: "Collection", // The label you will see in Settings
-            name: "data", // The name of the attribute/property to use on component
-            options: [
-              { id: "white", name: "White (default)" },
-              { id: "black", name: "Black" },
-              { id: "lGreen", name: "Light green" },
-              { id: "lBlue", name: "Light blue" },
-              { id: "sand", name: "Sand" },
-            ],
           },
-         
         ],
       },
       init() {
@@ -231,7 +318,7 @@ export default function loadBlockProducts(editor, opt = {}) {
           content: `Trending Products`,
           editable: true,
           droppable: false,
-          style:{"text-align":"center"},
+          style: { "text-align": "center" },
           type: "product-text",
         },
         {

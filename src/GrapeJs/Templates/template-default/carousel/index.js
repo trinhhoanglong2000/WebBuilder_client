@@ -1,10 +1,13 @@
 import loadScripts from "../template-common";
 import { v4 as uuidv4 } from "uuid";
 import $ from "jquery";
+import loadTraitCarousel from "./traint"
+
 export default function loadBlockCarousel(editor, opt = {}) {
   const c = opt;
   let bm = editor.BlockManager;
   //#region carousel panel
+  loadTraitCarousel(editor,c);
 
   const GetData = async (reloadFlag) => {
     if (localStorage.getItem('crouselOptions') == null || reloadFlag == true) {
@@ -31,161 +34,6 @@ export default function loadBlockCarousel(editor, opt = {}) {
   const textModel = textType.model;
   const textView = textType.view;
   const sfx = opt.socialClssfx;
-  //THIS IS SETTING TRAIT
-  editor.TraitManager.addType("carousel", {
-    // Disbale label custom - set false for use createLabel below
-    noLabel: true,
-    // Label custom for trait
-    createLabel({ label }) {
-      return `<div>
-          <div>Before</div>
-          ${label}
-          <div>After</div>
-        </div>`;
-    },
-    // Expects as return a simple HTML string or an HTML element
-    createInput({ trait }) {
-      console.log(trait.target.attributes.attributes.data)
-      // #1 Get data form api and pour to "data"
-      const data = JSON.parse(localStorage.getItem('crouselOptions'));
-      console.log(data)
-      // #2 Convert data to trait option 
-      let traitOptionsData = [];
-
-      data.forEach(item => {
-        traitOptionsData.push({ id: item.id, name: item.name })
-      })
-      let textOptionsData = [ 
-        { id: "white", name: "white" },
-        { id: "black", name: "black" },
-      ];
-
-      let displayOptionsData = [
-        { id: "on", name: "on" },
-        { id: "off", name: "off" },
-      ];
-
-      // #3 Create HTML selected for trait option 
-      const el = document.createElement('div');
-      el.innerHTML = `
-        <div>
-          <div>
-            <div> 
-            Category
-            </div>
-            <select class="options-carousel-data" optionType="data">
-              ${traitOptionsData.map(opt => opt.id == trait.target.attributes.attributes.data ?
-        `<option value="${opt.id}" selected>${opt.name}</option>`
-        : `<option value="${opt.id}" >${opt.name}</option>`).join('')}
-            </select>
-          </div>
-          
-          <div>
-            <div> 
-            Text Color
-            </div>
-            <select class="options-carousel-text-color" optionType="text-color">
-              ${textOptionsData.map(opt => opt.id == trait.target.attributes.attributes.textColor ?
-          `<option value="${opt.id}" selected>${opt.name}</option>`
-          : `<option value="${opt.id}" >${opt.name}</option>`).join('')}
-            </select>
-          </div>
-
-          <div>
-            <div> 
-            Display Caption
-            </div>
-            <select class="options-carousel-display" optionType="display">
-              ${displayOptionsData.map(opt => opt.id == trait.target.attributes.attributes.displayType ?
-          `<option value="${opt.id}" selected>${opt.name}</option>`
-          : `<option value="${opt.id}" >${opt.name}</option>`).join('')}
-            </select>
-          </div>
-        </div>
-      `;
-      // #4 Add  event => when selected change =
-      const inputTypeData = el.querySelector('.options-carousel-data');
-      inputTypeData.addEventListener('change', ev => {
-      });
-
-      const inputTypeTextColor = el.querySelector('.options-carousel-text-color');
-      inputTypeTextColor.addEventListener('change', ev => {
-      });
-
-      const inputdisplayOptionsData = el.querySelector('.options-carousel-display');
-      inputdisplayOptionsData.addEventListener('change', ev => {
-      });
-      return el
-    },
-    // THIS FUNCTION WORK WHEN USER CLICK TO TRAIT SETTING or NEXT OF onEvent function
-    onUpdate({ elInput, component }) {
-      //#1 Get attribute data for update something
-      const dataAttributeValues = component.getAttributes().data || "";
-
-      //#2 Update something here
-      const inputTypeData = elInput.querySelector(".options-carousel-data");
-
-      inputTypeData.dispatchEvent(new CustomEvent("change"));
-
-      const inputTypeTextColor = elInput.querySelector(".options-carousel-text-color");
-
-      inputTypeTextColor.dispatchEvent(new CustomEvent("change"));
-
-      const inputdisplayOptionsData = elInput.querySelector(".options-carousel-display");
-
-      inputdisplayOptionsData.dispatchEvent(new CustomEvent("change"));
-    },
-    // IN MY OPINION THIS FUNCTION WORK WHEN USER CHANGE OPTION - IF U KNOW IT WORK PLS CMT HERE
-    onEvent({ elInput, component, event }) {      
-      const attributes = this.model.attributes;
-      const rootElementTrait = elInput;
-      const propertiesOfFrontComponet = component;
-      let optionType = event.target.getAttribute("optionType");
-      switch (optionType) {
-        case "data":
-          //#1 when option change we will get new option => change HTML following option
-          let inputTypeData = elInput.querySelector(".options-carousel-data");
-          let data = inputTypeData.value;
-
-          //#2 This function will set attribute data {nameAttribute:Value} => IMPORTAINT FOR COMPONENT LISTEN CHANGE ATTRIBUTE
-          if (component.getAttributes().data != data) {
-            component.addAttributes({ data })
-          }
-          break;
-        case "text-color":
-          //#1 when option change we will get new option => change HTML following option
-          let inputTextColor = elInput.querySelector(".options-carousel-text-color");
-          let textColor = inputTextColor.value;
-
-          //#2 This function will set attribute data {nameAttribute:Value} => IMPORTAINT FOR COMPONENT LISTEN CHANGE ATTRIBUTE
-          if (component.getAttributes().textColor != textColor) {
-            component.setClass( `carousel-text-${inputTextColor.value}` );
-            component.addAttributes({ textColor })
-          }
-
-          break;
-        case "display":
-          //#1 when option change we will get new option => change HTML following option
-          let inputdisplayOptionsData = elInput.querySelector(".options-carousel-display");
-          let displayType = inputdisplayOptionsData.value;
-
-          //#2 This function will set attribute data {nameAttribute:Value} => IMPORTAINT FOR COMPONENT LISTEN CHANGE ATTRIBUTE
-          if (component.getAttributes().displayType != displayType) {
-            if(inputdisplayOptionsData.value == "off"){
-              component.addClass( `carousel-display-off` );
-            } else{
-              component.removeClass( `carousel-display-off` );
-            }
-            component.addAttributes({ displayType })
-          }
-
-          break;
-        default:
-          break;
-      }
-
-    },
-  });
   //THIS IS SETTING COMPONENT
   domc.addType("carousel", {
     model: {
@@ -194,9 +42,18 @@ export default function loadBlockCarousel(editor, opt = {}) {
         droppable: false,
         traits: [
           {
+            label:"Collections",
             name: "data",
-            type: "carousel",
+            type: "banner-data",
           },
+          {
+            type:"banner-text-color",
+            label:"Button color"
+          },
+          {
+            type:"banner-text-display",
+            label:"Text Display"
+          }
         ],
         // This is default attributes
         attributes: {

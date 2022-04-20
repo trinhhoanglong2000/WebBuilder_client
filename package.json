@@ -12,6 +12,7 @@
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
+    "abort-controller": "^3.0.0",
     "font-awesome": "^4.7.0",
     "grapesjs": "^0.18.1",
     "grapesjs-react": "^4.0.1-alpha",

@@ -9,6 +9,7 @@ export default function loadTraitProduct(editor, opt = {}) {
   
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         signal: controller.signal,
         redirect: "follow",
@@ -16,7 +17,6 @@ export default function loadTraitProduct(editor, opt = {}) {
       return response.json();
     };
     //#region productList
-    const domc = editor.DomComponents;
     editor.TraitManager.addType("product-collection", {
       // Expects as return a simple HTML string or an HTML element
       createInput({ trait }) {
@@ -100,7 +100,6 @@ export default function loadTraitProduct(editor, opt = {}) {
               };
             } else {
               func = function () {
-                console.log("HOHO");
               };
             }
             $(this).on("click", func);
@@ -203,8 +202,7 @@ export default function loadTraitProduct(editor, opt = {}) {
       onEvent({ elInput, component, event }) {
         if (event.type =='change') return
         const data = $(elInput).find('.Modal-popup ul li.active').data('value')
-        console.log(data)
-        console.log(component)
+
         component.setAttributes({...component.getAttributes(),'data-ez-mall-collection':data});
   
         //#1 when option change we will get new option => change HTML following option

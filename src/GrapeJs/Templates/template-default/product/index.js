@@ -1,16 +1,15 @@
 import $ from "jquery";
 import { v4 as uuidv4 } from "uuid";
 import AbortController from "abort-controller";
-import loadTraitProduct from "./trait"
+import loadTraitProduct from "./trait";
 export default function loadBlockProducts(editor, opt = {}) {
   let controller;
   const c = opt;
   let bm = editor.BlockManager;
-  loadTraitProduct(editor,opt);
+  loadTraitProduct(editor, opt);
 
- 
   const domc = editor.DomComponents;
-  
+
   domc.addType("product-text", {
     model: {
       defaults: {
@@ -43,7 +42,7 @@ export default function loadBlockProducts(editor, opt = {}) {
         ],
       },
       init() {
-        this.on("change:attributes:data", this.handleTypeChangeData);
+        this.on("change:attributes:data-ez-mall-collection", this.handleTypeChangeData);
       },
       initData() {
         this.attributes.components.models.forEach(function (item) {
@@ -57,45 +56,39 @@ export default function loadBlockProducts(editor, opt = {}) {
             });
           }
         });
-
-        const products = [
+        this.Update()
+       
+      },
+      async Update() {
+        let products_data = [
           {
-            name: "LONGEM",
+            title: "Product Title",
             price: "$100.00",
             img: "HEHE",
           },
-          {
-            name: "LONG ANH",
-            price: "$200.00",
-            img: "HEHE",
-          },
-          {
-            name: "TEST3",
-            price: "$300.00",
-            img: "HEHE",
-          },
-          {
-            name: "TEST4",
-            price: "$400.00",
-            img: "HEHE",
-          },
         ];
-        $(this.view.el)
-          .find(".thumb-wrapper")
-          .each(function (index) {
-            $(this)
-              .find("h4")
-              .text(products[index % products.length].name);
-            $(this)
-              .find(".item-price strike")
-              .text(products[index % products.length].price);
-            $(this)
-              .find(".item-price span")
-              .text(products[index % products.length].price);
+        const id = this.attributes.attributes['data-ez-mall-collection'] || "1";
+        fetch(`http://localhost:5000/collections/product/${id}`)
+          .then((response) => response.json())
+          .then((data) => {
+            products_data = data.data[0].listProducts;
+            $(this.view.el)
+              .find(".thumb-wrapper")
+              .each(function (index) {
+                $(this)
+                  .find("h4")
+                  .text(products_data[index % products_data.length].title);
+                $(this)
+                  .find(".item-price strike")
+                  .text(products_data[index % products_data.length].price);
+                $(this)
+                  .find(".item-price span")
+                  .text(products_data[index % products_data.length].price);
+              });
           });
       },
       handleTypeChangeData() {
-        console.log("CHANGED");
+        this.Update()
       },
       // This function run when component created - we setup listen to change atri
     },

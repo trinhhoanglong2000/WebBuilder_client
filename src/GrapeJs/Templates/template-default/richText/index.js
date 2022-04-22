@@ -14,11 +14,10 @@ export default function loadBlockRichText(editor, opt = {}) {
     category: c.label_rich_text,
     attributes: { class: "fa fa-file-text" },
     content: {
-      // style: {
-      //   "text-align": "center",
-      //   width: "calc(100% - 15rem)",
-      //   margin: "auto",
-      // },
+      style:{
+        'background-color':'white',
+        'color':'rgb(33, 37, 41)',
+      },
       attributes: {
         class: "Rich-Text",
         name: "rich-text",

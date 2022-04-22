@@ -23,10 +23,7 @@ export default function loadBlockProducts(editor, opt = {}) {
             type: "product-heading-align",
             label: "Alignment",
           },
-          {
-            type: "product-heading-border",
-            label: false,
-          },
+         
         ],
       },
     },
@@ -67,11 +64,12 @@ export default function loadBlockProducts(editor, opt = {}) {
             img: "HEHE",
           },
         ];
-        const id = this.attributes.attributes['data-ez-mall-collection'] || "1";
+        const id = this.attributes.attributes['data-ez-mall-collection'] || " ";
         fetch(`http://localhost:5000/collections/product/${id}`)
           .then((response) => response.json())
           .then((data) => {
-            products_data = data.data[0].listProducts;
+            if (data.data[0].listProducts) 
+                products_data = data.data[0].listProducts;
             $(this.view.el)
               .find(".thumb-wrapper")
               .each(function (index) {

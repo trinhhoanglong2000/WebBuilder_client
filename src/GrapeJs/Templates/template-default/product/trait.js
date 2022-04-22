@@ -92,21 +92,28 @@ export default function loadTraitProduct(editor, opt = {}) {
           });
         $(el)
           .find(".dropdown-item")
-          .each(function (i) {
+          .each( (i) =>{
             let func;
             if (i == 0) {
               func = function () {
                 $(el).find(".Modal-popup").toggle(200);
               };
             } else {
-              func = function () {
+              func =  (ev) =>{
+                // trait.target.setAttributes({...trait.target.getAttributes(),['data-ez-mall-collection']:""})
+                $(".Modal-popup ul li").removeClass("active");
+                $(el).find(".Modal-popup ul li").find(".check-item").fadeOut(0);
+                $(el).find(".name-collection").text("")
+                this.onChange(ev)
               };
             }
-            $(this).on("click", func);
+
+            $($(el)
+            .find(".dropdown-item").get(i)).on("click", func);
           });
         const GetItem = (name ="",flag=false) => {
           GetRequest(
-            `${process.env.REACT_APP_API_URL}stores/621b5a807ea079a0f7351fb8/collections/product?name=${name}`
+            `${process.env.REACT_APP_API_URL}stores/621b5a807ea079a0f7351fb8/collections/product?name=${name.trim()}`
           ).then((data) => {
             let domdata = "";
             initValue = trait.target.attributes.attributes['data-ez-mall-collection'] || "";
@@ -201,8 +208,7 @@ export default function loadTraitProduct(editor, opt = {}) {
       },
       onEvent({ elInput, component, event }) {
         if (event.type =='change') return
-        const data = $(elInput).find('.Modal-popup ul li.active').data('value')
-
+        const data = $(elInput).find('.Modal-popup ul li.active').data('value') || ""
         component.setAttributes({...component.getAttributes(),'data-ez-mall-collection':data});
   
         //#1 when option change we will get new option => change HTML following option
@@ -283,28 +289,6 @@ export default function loadTraitProduct(editor, opt = {}) {
         component.setStyle({ ...component.getStyle(), "text-align": data });
       },
     });
-    editor.TraitManager.addType("product-heading-border", {
-      // Expects as return a simple HTML string or an HTML element
-      createInput({ trait }) {
-        // const initValue = trait.target.getStyle()["text-align"] || "center";
-        const el = document.createElement("div");
-        el.innerHTML = `
-        <div class="gjs-one-bg">
-          <label class="checkbox-product gjs-label-wrp" for="border" >
-            <input class ="checkbox-input" type="checkbox" id="border" name="border" value="Bike">
-            <div class="checkbox_box"></div>
-            I have a bike
-          <label/>
-        </div>
-        `;
-  
-        // $(el).find(`#${initValue}`).prop('checked', true);
-  
-        return el;
-      },
-      onEvent({ elInput, component, event }) {
-        //#1 when option change we will get new option => change HTML following option
-      },
-    });
+    
 
 }

@@ -21,6 +21,7 @@ import "./Templates/template-default/template-default.plugins";
 
 import AvatarLoad from '../components/AvatarLoad/AvatarLoad'
 import SaveLoad from '../components/SaveLoad/SaveLoad'
+import { readCookie } from './../helper/cookie';
 function Canvas({ type }) {
   const dispatch = useDispatch();
   const [editor, setEditor] = useState(null);
@@ -32,6 +33,8 @@ function Canvas({ type }) {
   const storeCssData = useSelector((state) => state.store.storeCssData);
   const logoURL = useSelector((state) => state.store.logoURL);
   const pageId = useSelector((state) => state.page.pageId);
+  const token = readCookie('token');
+
   // const [open, setOpen] = React.useState(false);
   // const handleClose = () => {
   //   setOpen(false);
@@ -168,7 +171,7 @@ function Canvas({ type }) {
               storeCss: true,
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                Authorization: `Bearer ${token}`,
               },
               id: "",
               urlStore: `${process.env.REACT_APP_API_URL}stores/${storeId}/${pageId}/content`,

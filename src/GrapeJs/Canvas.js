@@ -28,6 +28,7 @@ function Canvas({ type }) {
   const [isSaving,setIsSaving] = useState(false)
   const [listCssFile, setListCssFile] = useState([]);
   const storeId = useSelector((state) => state.store.storeId);
+  const listPagesId = useSelector(state => state.store.listPagesId);
   const storeCssData = useSelector((state) => state.store.storeCssData);
   const logoURL = useSelector((state) => state.store.logoURL);
   const pageId = useSelector((state) => state.page.pageId);
@@ -143,6 +144,8 @@ function Canvas({ type }) {
             pluginsOpts={{
               "template-default": {
                 logoURL: logoURL,
+                pageId: pageId,
+                headerNavigation: listPagesId,
                 addCssStore: addNewStoreCss,
                 addImageUpload: addImageUpload,
               },
@@ -269,10 +272,11 @@ function Canvas({ type }) {
                 "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js",
                 // `http://localhost:5000/files/dist/js/template-default/test.js`,
                 // `http://localhost:5000/files/dist/js/template-default/template-common.js`,
+                `http://localhost:5000/files/dist/js/template-default/header.js`,
               ],
             }}
           />
-          {editor && <NavigationPanel editor={editor} />}
+          {editor && <NavigationPanel listPagesId={listPagesId} />}
           {isSaving && <SaveLoad open = {isSaving}/>}
         </>
       ): <AvatarLoad load={true}></AvatarLoad>}

@@ -59,7 +59,6 @@ function Canvas({ type }) {
     if (!editor) {
       return;
     }
-
     const head = editor.Canvas.getDocument().head;
 
     listCssFile.forEach((ele) => {
@@ -204,8 +203,8 @@ function Canvas({ type }) {
               });
 
               editor.onReady(() => {
-                setEditor(editor);
-
+                // setEditor(editor);
+                setIsSaving(false)
                 // ========================== Load component css file ================================
                 const listComponents = editor.Components.getComponents().models;
                 let listCssFile = [];
@@ -268,15 +267,13 @@ function Canvas({ type }) {
               ],
               scripts: [
                 `https://code.jquery.com/jquery-3.6.0.js`,
-                `https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js`,
-                "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js",
-                // `http://localhost:5000/files/dist/js/template-default/test.js`,
-                // `http://localhost:5000/files/dist/js/template-default/template-common.js`,
+                `https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js`,
+                "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js",
                 `http://localhost:5000/files/dist/js/template-default/header.js`,
               ],
             }}
           />
-          {editor && <NavigationPanel listPagesId={listPagesId} />}
+          {editor && <NavigationPanel setLoading={setIsSaving} listPagesId={listPagesId} />}
           {isSaving && <SaveLoad open = {isSaving}/>}
         </>
       ): <AvatarLoad load={true}></AvatarLoad>}

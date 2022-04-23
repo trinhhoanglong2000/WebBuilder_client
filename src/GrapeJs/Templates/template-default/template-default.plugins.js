@@ -3,11 +3,14 @@ import grapesjs from "grapesjs";
 import loadBlockCarousel from './carousel';
 import loadBlockFooter from './footer';
 import loadBlockHeader from './header';
-import loadBlockProducts from './product';
+import loadBlockProducts from './productList';
 import loadBlockMain from '../Main'
 import loadBlockRichText from './richText'
 import loadImageWithText from "./imageWithText";
 import loadContactForm from "./contactForm";
+import loadBlockProductPage from "./productPage";
+
+
 
 export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
 
@@ -60,6 +63,7 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
   loadBlockHeader(editor, config)
   loadImageWithText(editor, config)
   loadContactForm(editor, config)
+  loadBlockProductPage(editor,config)
   //Long ADD END
 }
 );

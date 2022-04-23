@@ -100,7 +100,7 @@
     left: 40%;
   }
 }
-@media only screen and (max-width: 570px) {
+@media only screen and (max-width: 1000px) {
   .gjs-pn-devices-c {
     display: none;
   }

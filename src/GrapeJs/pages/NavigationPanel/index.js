@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { doSwitchPage } from "../../../redux/slice/pageSlice";
 import "./index.css";
 
-const NavigationPanel = ({listPagesId}) => {
+const NavigationPanel = ({listPagesId,setLoading}) => {
     const dispatch = useDispatch();
     const pageId = useSelector(state => state.page.pageId);
 
     //=======================FUNCTION=========================
     const handleOnchangePage = (e) => {
+        setLoading(true);
         dispatch(doSwitchPage(e.target.value));
     }
 

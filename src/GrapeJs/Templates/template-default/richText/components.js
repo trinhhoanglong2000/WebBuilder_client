@@ -47,21 +47,20 @@ export default function loadComponentsRichText(editor, opt = {}) {
     },
   });
   domc.addType("RichText", {
+
     model: {
       defaults: {
         traits: [
           {
-            type: "select",
-            label: "Collection", // The label you will see in Settings
-            name: "data", // The name of the attribute/property to use on component
-            options: [
-              { id: "white", name: "White (default)" },
-              { id: "black", name: "Black" },
-              { id: "lGreen", name: "Light green" },
-              { id: "lBlue", name: "Light blue" },
-              { id: "sand", name: "Sand" },
-            ],
+            type:"RichText-Color-Trait",
+            label:"Color",
           },
+          {
+            type: "RichText-FullWidth-Trait",
+            label: false, // The label you will see in Settings
+            
+          },
+
         ],
       },
       init() {},

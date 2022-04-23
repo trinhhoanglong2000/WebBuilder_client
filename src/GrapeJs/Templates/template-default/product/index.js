@@ -1,116 +1,15 @@
 import $ from "jquery";
 import { v4 as uuidv4 } from "uuid";
+import AbortController from "abort-controller";
+import loadTraitProduct from "./trait";
 export default function loadBlockProducts(editor, opt = {}) {
+  let controller;
   const c = opt;
   let bm = editor.BlockManager;
-  //#region productList
+  loadTraitProduct(editor, opt);
+
   const domc = editor.DomComponents;
-  editor.TraitManager.addType("product-heading", {
-    // Expects as return a simple HTML string or an HTML element
-    createInput({ trait }) {
-      const initValue = trait.target.get("content") || "";
-      const placeholder = trait.get('placeholder') || "";
-      const el = document.createElement("div");
-      el.innerHTML = `
 
-        <div class="gjs-field gjs-field-text">
-          <input class="Product-Heading"placeholder="${placeholder} " value="${initValue}" />
-         
-        </div>
-      `;
-
-      $(el)
-        .find("input")
-        .on("input", (ev) => this.onChange(ev));
-
-      return el;
-    },
-    onEvent({ elInput, component, event }) {
-      //#1 when option change we will get new option => change HTML following option
-      const inputType = elInput.querySelector(".Product-Heading");
-
-      let data = inputType.value;
-      //#2 This function will set attribute data {nameAttribute:Value} => IMPORTAINT FOR COMPONENT LISTEN CHANGE ATTRIBUTE
-      if (component.get("content") !== data) {
-        component.set({ content: data });
-      }
-    },
-  });
-  editor.TraitManager.addType("product-heading-align", {
-    // Expects as return a simple HTML string or an HTML element
-    createInput({ trait }) {
-            //.Radio-Group CSS in CAnvas CSS
-
-      const initValue = trait.target.getStyle()["text-align"] || "center";
-      const el = document.createElement("div");
-      el.innerHTML = `
-
-        <div class="Radio-Group gjs-one-bg">
-            <input id="left" type="radio" name="alignment" value="left" style="display:none" />
-
-            <label for="left"class="label-radio" style="border-right: none;border-top-left-radius: 5px;border-bottom-left-radius: 5px;" >
-                <i class="fa fa-align-left" aria-hidden="true"></i>
-            </label>
-
-            <input id="center" type="radio" name="alignment" value="center" style="display:none" />
-            <label for="center"class="label-radio">
-                <i class="fa fa-align-center" aria-hidden="true"></i>
-            </label>
-
-            <input id="right" type="radio" name="alignment" value="right" style="display:none" />
-            <label for="right"class="label-radio" style="border-left: none;border-top-right-radius: 5px;border-bottom-right-radius: 5px;" >
-                <i class="fa fa-align-right" aria-hidden="true"></i>
-
-            </label>
-        </div>
-      `;
-      $(el).find(`#${initValue}`).prop('checked', true);
-
-      
-        
-
-      return el;
-    },
-    onEvent({ elInput, component, event }) {
-      //#1 when option change we will get new option => change HTML following option
-      const inputType = elInput.querySelector('input[name="alignment"]:checked');
-
-      let data = inputType.value;
-      // editor.Selectors.setState('after');
-      // console.log(editor.Selectors.getState())
-      component.setStyle({ ...component.getStyle(),"text-align": data  });
-
-      
-    },
-  });
-  editor.TraitManager.addType("product-heading-border", {
-    // Expects as return a simple HTML string or an HTML element
-    createInput({ trait }) {
-      // const initValue = trait.target.getStyle()["text-align"] || "center";
-      const el = document.createElement("div");
-      el.innerHTML = `
-      <div class="gjs-one-bg">
-        <label class="checkbox-product gjs-label-wrp" for="border" >
-          <input class ="checkbox-input" type="checkbox" id="border" name="border" value="Bike">
-          <div class="checkbox_box"></div>
-          I have a bike
-        <label/>
-      </div>
-      `;
-      
-      // $(el).find(`#${initValue}`).prop('checked', true);
-
-      
-        
-
-      return el;
-    },
-    onEvent({ elInput, component, event }) {
-      //#1 when option change we will get new option => change HTML following option
-
-      
-    },
-  });
   domc.addType("product-text", {
     model: {
       defaults: {
@@ -118,17 +17,13 @@ export default function loadBlockProducts(editor, opt = {}) {
           {
             type: "product-heading", // Type of the trait
             label: "Heading", // The label you will see in Settings
-            placeholder:"Header",
+            placeholder: "Header",
           },
           {
             type: "product-heading-align",
             label: "Alignment",
           },
-          {
-            type:"product-heading-border",
-            label:false,
-          }
-          ,
+         
         ],
       },
     },
@@ -138,22 +33,13 @@ export default function loadBlockProducts(editor, opt = {}) {
       defaults: {
         traits: [
           {
-            type: "select",
+            type: "product-collection",
             label: "Collection", // The label you will see in Settings
-            name: "data", // The name of the attribute/property to use on component
-            options: [
-              { id: "white", name: "White (default)" },
-              { id: "black", name: "Black" },
-              { id: "lGreen", name: "Light green" },
-              { id: "lBlue", name: "Light blue" },
-              { id: "sand", name: "Sand" },
-            ],
           },
-         
         ],
       },
       init() {
-        this.on("change:attributes:data", this.handleTypeChangeData);
+        this.on("change:attributes:data-ez-mall-collection", this.handleTypeChangeData);
       },
       initData() {
         this.attributes.components.models.forEach(function (item) {
@@ -167,45 +53,40 @@ export default function loadBlockProducts(editor, opt = {}) {
             });
           }
         });
-
-        const products = [
+        this.Update()
+       
+      },
+      async Update() {
+        let products_data = [
           {
-            name: "LONGEM",
+            title: "Product Title",
             price: "$100.00",
             img: "HEHE",
           },
-          {
-            name: "LONG ANH",
-            price: "$200.00",
-            img: "HEHE",
-          },
-          {
-            name: "TEST3",
-            price: "$300.00",
-            img: "HEHE",
-          },
-          {
-            name: "TEST4",
-            price: "$400.00",
-            img: "HEHE",
-          },
         ];
-        $(this.view.el)
-          .find(".thumb-wrapper")
-          .each(function (index) {
-            $(this)
-              .find("h4")
-              .text(products[index % products.length].name);
-            $(this)
-              .find(".item-price strike")
-              .text(products[index % products.length].price);
-            $(this)
-              .find(".item-price span")
-              .text(products[index % products.length].price);
+        const id = this.attributes.attributes['data-ez-mall-collection'] || " ";
+        fetch(`http://localhost:5000/collections/product/${id}`)
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.data[0].listProducts) 
+                products_data = data.data[0].listProducts;
+            $(this.view.el)
+              .find(".thumb-wrapper")
+              .each(function (index) {
+                $(this)
+                  .find("h4")
+                  .text(products_data[index % products_data.length].title);
+                $(this)
+                  .find(".item-price strike")
+                  .text(products_data[index % products_data.length].price);
+                $(this)
+                  .find(".item-price span")
+                  .text(products_data[index % products_data.length].price);
+              });
           });
       },
       handleTypeChangeData() {
-        console.log("CHANGED");
+        this.Update()
       },
       // This function run when component created - we setup listen to change atri
     },
@@ -231,7 +112,7 @@ export default function loadBlockProducts(editor, opt = {}) {
           content: `Trending Products`,
           editable: true,
           droppable: false,
-          style:{"text-align":"center"},
+          style: { "text-align": "center" },
           type: "product-text",
         },
         {

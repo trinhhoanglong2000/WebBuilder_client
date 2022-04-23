@@ -7,21 +7,6 @@ export default function loadBlockCarousel(editor, opt = {}) {
   let bm = editor.BlockManager;
   //#region carousel panel
   loadTraitCarousel(editor,c);
-
-  const GetData = async (reloadFlag) => {
-    if (localStorage.getItem('crouselOptions') == null || reloadFlag == true) {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}collections/carousels?storeID=1`
-        , {
-          mode: 'cors',
-          headers: {
-            'Access-Control-Allow-Origin': '*'
-          }
-        });
-      let myJson = await response.json();
-      let Data = myJson.data.map((value) => { return { id: value.categoryId, name: value.name } });
-      localStorage.setItem('crouselOptions', JSON.stringify(Data))
-    }
-  }
   //NODE SAVE HTML $(".gjs-frame").contentDocument.querySelector("html")
 
   //LONG-TP 2022-02-22 TEST TRAITS - ADD START
@@ -41,30 +26,31 @@ export default function loadBlockCarousel(editor, opt = {}) {
         droppable: false,
         traits: [
           {
-            label:"Collections",
+            type: "carousel-collection",
             name: "data",
-            type: "banner-data",
+            label: "Banner Collection", // The label you will see in Settings
           },
           {
             type:"banner-text-color",
-            label:"Button color"
+            label:"Contents Style"
           },
           {
             type:"banner-text-display",
-            label:"Text Display"
-          }
+            label:"Contents Display"
+          },
+         
         ],
         // This is default attributes
         attributes: {
           data: '1',
-          "ez-mall-type": "carousel"
+          "ez-mall-type": "carousel",
+          textColor:'white',
+          displayType: "middle"
         }
       },
       // This function run when component created - we setup listen to change atri
 
       init() {
-
-        GetData(true);
         this.on('change:attributes:data', this.handleTypeChangeData);
         this.on('change:attributes:placeholder', this.handleTypeChangePlaceHold);
 
@@ -75,10 +61,10 @@ export default function loadBlockCarousel(editor, opt = {}) {
         //   });
       },
       async Update(){
+        console.log($(this.view.el))
         let carouselIndicators = $(this.view.el).find(`.carousel-indicators`)[0]
         let carouselInner = $(this.view.el).find(`.carousel-inner`)[0];
-        carouselIndicators.innerHTML = "";
-        carouselInner.innerHTML = "";
+ 
         let categoryId = this.attributes.attributes.data
         const response = await fetch(`http://localhost:5000/collections/category/${categoryId}`
           , {
@@ -89,21 +75,25 @@ export default function loadBlockCarousel(editor, opt = {}) {
           });
         let myJson = await response.json();
         let data = myJson.data;
+        carouselIndicators.innerHTML = "";
+        carouselInner.innerHTML = "";
         data.forEach((item, index) => {
           let htmlButtonInsert = `
-      <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="${index}" class = "${index == 0 ? "active" : ""}" aria-label="Slide ${index}"></button>
-      `
-          carouselIndicators.insertAdjacentHTML("beforeend", htmlButtonInsert);
-
-          let htmlCarouselItemInsert = `
-      <div class="carousel-item ${index == 0 ? "active" : ""}">
-        <img src="${item.image}" class="d-block w-100" alt="${item.image}">
-        <div class="carousel-caption d-none d-md-block">
-          <h5>${item.caption}</h5>
-          <p>${item.description}</p>
+        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="${index}" class = "${index == 0 ? "active" : ""}" aria-label="Slide ${index}"></button>
+        `
+        carouselIndicators.insertAdjacentHTML("beforeend", htmlButtonInsert);
+        let htmlCarouselItemInsert = `
+        <div class="carousel-item ${index == 0 ? "active" : ""}">
+          <img src="${item.image}" class="d-block w-100" alt="${item.image}">
+          <div class="carousel-caption d-none d-md-block">
+            <div class = "ezMall-carousel-contents">
+              <h2 class="bolder">${item.caption}</h2>
+              <p>${item.description}</p>
+              <a class="btn ezMall-btn bolder" href=${item.link} role="button">Shop Now</a>
+            </div>
+          </div>
         </div>
-      </div>
-    `
+      `
           carouselInner.insertAdjacentHTML("beforeend", htmlCarouselItemInsert)
         })
       },
@@ -113,8 +103,6 @@ export default function loadBlockCarousel(editor, opt = {}) {
         //console.log(document.querySelector(".gjs-frame").contentDocument.querySelector("html"))
         // IMPORTAINT - this.view.el is root node => form 1 atribute change we can change front end by this
         this.Update()
-
-       
       },
       initData() {
         //change uuid
@@ -169,13 +157,13 @@ export default function loadBlockCarousel(editor, opt = {}) {
     content: [
       {
         name: "carousel",
-        attributes: { name: "banners" },
+        attributes: { name: "banners",class: "carousel-text-white carousel-display-middle" },
         draggable: ".main-content",
         //LONG-TP 2022-02-22 TEST TRAITS - ADD START
         type: "carousel",
         //LONG-TP 2022-02-22 TEST TRAITS - ADD END
         content: `
-        <div id="myCarousel" class="container carousel slide" data-bs-ride="carousel" data-type = "banners" >
+        <div id="myCarousel" class=" carousel slide ezMall-carousel" data-bs-ride="carousel" data-type = "banners" >
             <div class="carousel-indicators">
                 
             </div>
@@ -192,6 +180,7 @@ export default function loadBlockCarousel(editor, opt = {}) {
             </button>
         </div>
         `,
+        
       },
     ],
   });

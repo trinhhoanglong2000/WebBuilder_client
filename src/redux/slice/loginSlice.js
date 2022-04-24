@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { readCookie } from '../../helper/cookie';
 
 export const loginSlice = createSlice({
     name: 'login',
     initialState: {
-        isLogin: localStorage.getItem("token") != null
+        isLogin: readCookie('token') != null
     },
     reducers: {
         doSwitchLoginState(state, action) {

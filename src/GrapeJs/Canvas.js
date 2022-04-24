@@ -132,6 +132,8 @@ function Canvas({ type }) {
                 pageId: pageId,
                 headerNavigation: listPagesId,
                 addCssStore: addNewStoreCss,
+                storeId:storeId,
+                
               },
             }}
             styleManager={

@@ -13,9 +13,9 @@ export const storeSlice = createSlice({
     name: 'store',
     initialState: {
         logoURL: null,
+        templateName: null,
         storeCssData: {},
         listPagesId: [],
-        imagesUpload: {},
     },
     reducers: {
  
@@ -29,9 +29,6 @@ export const storeSlice = createSlice({
         doSwitchLogoURL(state, action) {
             state.logoURL = action.payload;
         },
-        doAddImageUpload(state, action) {
-            state.imagesUpload[action.payload.target.ccid] = { 'target': action.payload.target, 'image': action.payload.image }
-        },
         doSaveStoreData(state, action) {
             callAPIWithPostMethod("stores/css/" + state.storeId, { data: state.storeCssData }, true);
         },
@@ -44,6 +41,7 @@ export const storeSlice = createSlice({
             state.logoURL = action.payload.logoURL;
             state.listPagesId = action.payload.listPagesId;
             state.storeCssData = action.payload.storeCssData;
+            state.templateName = action.payload.template;
         })
         builder.addCase(getInitDataStore.rejected, (state, action) => {
             // Tat loader

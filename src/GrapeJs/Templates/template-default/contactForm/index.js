@@ -8,7 +8,6 @@ export default function loadContactForm(editor, opt = {}) {
         // attributes
         content: {
             name: 'contactForm',
-            type: 'contactForm',
             draggable: ".main-content",
             attributes: { class: "container", name: "contactForm" },
             content: `

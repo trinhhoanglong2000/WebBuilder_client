@@ -58,26 +58,21 @@ function Canvas({ type }) {
     const head = editor.Canvas.getDocument().head;
 
     listCssFile.forEach((ele) => {
+      var addScript = function (url) {
+        let script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = url; // use this for linked script
+        editor.Canvas.getDocument().body.appendChild(script);
+      }
       if (ele && ele !== "") {
         head.insertAdjacentHTML(
           "beforeend",
           `<link href="http://localhost:5000/files/dist/css/${template}/${ele}.css" rel="stylesheet">`
         );
+        addScript(`http://localhost:5000/files/dist/js/${template}/${ele}.js`);
+
       }
     });
-
-    //script
-
-    var addScript = function (url) {
-      let script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = url; // use this for linked script
-      editor.Canvas.getDocument().body.appendChild(script);
-    }
-
-    addScript(`http://localhost:5000/files/dist/js/${template}/test.js`);
-    addScript(`http://localhost:5000/files/dist/js/${template}/header.js`);
-    addScript(`http://localhost:5000/files/dist/js/${template}/carousel/carousel.js`);
 
   }, [listCssFile]);
 

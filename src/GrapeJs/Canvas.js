@@ -20,6 +20,7 @@ import {
   getInitDataStore,
   doSaveStoreData,
 } from "../redux/slice/storeSlice";
+import { doSwitchPage } from "../redux/slice/pageSlice";
 
 function Canvas({ type }) {
   const dispatch = useDispatch();
@@ -52,6 +53,19 @@ function Canvas({ type }) {
   }, []);
 
   useEffect(() => {
+    dispatch(getInitDataStore(storeId))
+  }, [storeId]);
+
+  useEffect(() => {
+    listPagesId && (listPagesId.length > 0) && listPagesId.forEach((element) => {
+      if (!pageId && element.name == "Home") {
+        dispatch(doSwitchPage(element.id))
+        setLoading(false);
+      }
+    });
+  }, [listPagesId]);
+
+  useEffect(() => {
     if (!editor) {
       return;
     }
@@ -75,12 +89,6 @@ function Canvas({ type }) {
     });
 
   }, [listCssFile]);
-
-  useEffect(() => {
-    dispatch(getInitDataStore(storeId)).then(() => {
-      setLoading(false);
-    });
-  }, []);
 
   useEffect(() => {
     loadStoreCss();
@@ -218,9 +226,9 @@ function Canvas({ type }) {
                 let logoImage = domWrapper.querySelector(".navbar-brand img");
 
                 if (logoImage && logoImage.src != logoURL) {
-                  await callAPIWithPostMethod("files/assets/" + storeId, { base64Image: logoImage.src }, true);
+                  await callAPIWithPostMethod("stores/logoUrl/" + storeId, { logoUrl: logoImage.src }, true);
                 }
-                dispatch(doSaveStoreData());
+                dispatch(doSaveStoreData(storeId));
               });
 
               editor.on("storage:end:store", function () {

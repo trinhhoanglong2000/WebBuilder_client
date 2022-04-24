@@ -187,7 +187,6 @@ export default function loadImageWithText(editor, opt = {}) {
                     select(asset, complete) {
                         const selected = editor.getSelected();
 
-                        trait.set('src', asset.getSrc());
                         inputImage.src = asset.getSrc();
 
                         const image = selected.get("components").models[0].get("components").models[0];
@@ -199,7 +198,6 @@ export default function loadImageWithText(editor, opt = {}) {
                 });
             };
             removeBtn.onClick = () => {
-                trait.set('src', null);
             }
 
             return el;

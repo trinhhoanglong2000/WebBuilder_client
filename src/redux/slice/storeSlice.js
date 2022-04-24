@@ -18,7 +18,6 @@ export const storeSlice = createSlice({
         listPagesId: [],
     },
     reducers: {
- 
         doSwitchStoreCssData(state, action) {
             let newStoreCssData  = { ...state.storeCssData}
             for (let key in action.payload) {
@@ -30,7 +29,7 @@ export const storeSlice = createSlice({
             state.logoURL = action.payload;
         },
         doSaveStoreData(state, action) {
-            callAPIWithPostMethod("stores/css/" + state.storeId, { data: state.storeCssData }, true);
+            callAPIWithPostMethod("stores/css/" + action.payload.storeId, { data: state.storeCssData }, true);
         },
     },
     extraReducers: (builder) => {

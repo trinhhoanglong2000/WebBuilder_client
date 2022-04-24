@@ -332,7 +332,6 @@ export default function loadBlockHeader(editor, opt = {}) {
                         const selected = editor.getSelected().view.el;
                         const navBrandImg = selected.querySelector('.navbar-brand img');
 
-                        trait.set('src', asset.getSrc());
                         inputImage.src = asset.getSrc();
 
                         if (navBrandImg) {
@@ -349,8 +348,9 @@ export default function loadBlockHeader(editor, opt = {}) {
 
 
             };
+            
             removeBtn.onClick = () => {
-                trait.set('src', null);
+
             }
 
             return el;

@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { doSwitchPage } from "../../../redux/slice/pageSlice";
 import "./index.css";
@@ -14,7 +13,7 @@ const NavigationPanel = ({listPagesId,setLoading}) => {
     }
 
     const renderPagesItem = () => {
-        return listPagesId.map((ele) => { return <option value={ele.id} key={ele.id}> {ele.name} </option> });
+        return listPagesId.map((element) => { return <option value={element.id} key={element.id}> {element.name} </option> });
     }
 
     return (

@@ -20,10 +20,12 @@ import {
   getInitDataStore,
   doSaveStoreData,
 } from "../redux/slice/storeSlice";
-import { doSwitchPage } from "../redux/slice/pageSlice";
+import { useSearchParams } from "react-router-dom";
 
 function Canvas({ type }) {
   const dispatch = useDispatch();
+  let [searchParams, setSearchParams] = useSearchParams();
+  const pageId = searchParams.get('pageId') || "";
   const [editor, setEditor] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false)
@@ -33,7 +35,6 @@ function Canvas({ type }) {
   const storeCssData = useSelector((state) => state.store.storeCssData);
   const logoURL = useSelector((state) => state.store.logoURL);
   const template = useSelector((state) => state.store.templateName)
-  const pageId = useSelector((state) => state.page.pageId);
   const token = readCookie('token');
 
   const getPlugins = () => {
@@ -53,17 +54,11 @@ function Canvas({ type }) {
   }, []);
 
   useEffect(() => {
-    dispatch(getInitDataStore(storeId))
-  }, [storeId]);
+    dispatch(getInitDataStore(storeId)).then(()=>{
+      setLoading(false);
+    })
+  }, []);
 
-  useEffect(() => {
-    listPagesId && (listPagesId.length > 0) && listPagesId.forEach((element) => {
-      if (!pageId && element.name == "Home") {
-        dispatch(doSwitchPage(element.id))
-        setLoading(false);
-      }
-    });
-  }, [listPagesId]);
 
   useEffect(() => {
     if (!editor) {
@@ -96,6 +91,8 @@ function Canvas({ type }) {
 
   const addNewStoreCss = (newStoreCssData) => {
     dispatch(doSwitchStoreCssData(newStoreCssData));
+    setLoading(false);
+
   };
 
   const loadStoreCss = (e = null) => {
@@ -248,7 +245,7 @@ function Canvas({ type }) {
               ],
             }}
           />
-          {editor && <NavigationPanel setLoading={setIsSaving} listPagesId={listPagesId} />}
+          {editor && <NavigationPanel setLoading={setIsSaving} listPagesId={listPagesId} setSearchParams={setSearchParams} pageId={pageId}/>}
           {isSaving && <SaveLoad open={isSaving} />}
         </>
       ) : <AvatarLoad load={true}></AvatarLoad>}

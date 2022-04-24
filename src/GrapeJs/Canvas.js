@@ -22,26 +22,20 @@ import "./Templates/template-default/template-default.plugins";
 import AvatarLoad from '../components/AvatarLoad/AvatarLoad'
 import SaveLoad from '../components/SaveLoad/SaveLoad'
 import { readCookie } from './../helper/cookie';
+import { useParams } from "react-router-dom";
 function Canvas({ type }) {
   const dispatch = useDispatch();
   const [editor, setEditor] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isSaving,setIsSaving] = useState(false)
   const [listCssFile, setListCssFile] = useState([]);
-  const storeId = useSelector((state) => state.store.storeId);
+  const storeId = useParams().idStore;
   const listPagesId = useSelector(state => state.store.listPagesId);
   const storeCssData = useSelector((state) => state.store.storeCssData);
   const logoURL = useSelector((state) => state.store.logoURL);
   const pageId = useSelector((state) => state.page.pageId);
   const token = readCookie('token');
 
-  // const [open, setOpen] = React.useState(false);
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
-  // const handleToggle = () => {
-  //   setOpen(!open);
-  // };
   const getPlugins = () => {
     return ["Plugins-defaults", "template-default", "gjs-blocks-basic"];
   };
@@ -92,7 +86,7 @@ function Canvas({ type }) {
     dispatch(getInitDataStore(storeId)).then(() => {
       setLoading(false);
     });
-  }, [storeId]);
+  }, []);
 
   useEffect(() => {
     loadStoreCss();

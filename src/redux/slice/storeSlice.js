@@ -12,16 +12,13 @@ export const getInitDataStore = createAsyncThunk(
 export const storeSlice = createSlice({
     name: 'store',
     initialState: {
-        storeId: "621b5a807ea079a0f7351fb8",
         logoURL: null,
         storeCssData: {},
         listPagesId: [],
         imagesUpload: {},
     },
     reducers: {
-        doSwitchStore(state, action) {
-            state.storeId = action.payload;
-        }, 
+ 
         doSwitchStoreCssData(state, action) {
             let newStoreCssData  = { ...state.storeCssData}
             for (let key in action.payload) {

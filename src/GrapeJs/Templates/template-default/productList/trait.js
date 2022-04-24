@@ -1,5 +1,6 @@
 import $ from "jquery";
 import AbortController from "abort-controller";
+import { readCookie } from "../../../../helper/cookie";
 export default function loadTraitProduct(editor, opt = {}) {
     let controller;
     var GetRequest = async (url) => {
@@ -9,7 +10,7 @@ export default function loadTraitProduct(editor, opt = {}) {
   
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${readCookie('token')}`,
         },
         signal: controller.signal,
         redirect: "follow",

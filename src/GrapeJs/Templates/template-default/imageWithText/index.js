@@ -13,7 +13,7 @@ export default function loadImageWithText(editor, opt = {}) {
             const el = document.createElement("div");
             el.innerHTML = `
                 <div class="gjs-field gjs-field-text">
-                    <input class="imageWithText-heading"placeholder="${placeholder}" value="${initValue}" />
+                    <input class="imageWithText-heading" placeholder="${placeholder}" value="${initValue}" />
                 </div>
             `;
 
@@ -23,14 +23,57 @@ export default function loadImageWithText(editor, opt = {}) {
 
             return el;
         },
-        onEvent({ elInput, component, event }) {
-              const inputType = elInput.querySelector(".imageWithText-heading");
-              let data = inputType.value;
 
-              const header = component.get("components").models[0].get("components").models[1].get("components").models[0];
-              if (header.get("content") !== data) {
-                header.set({ content: data });
-              }
+        onEvent({ elInput, component, event }) {
+            const inputType = elInput.querySelector(".imageWithText-heading").value;
+            const parent = component.get("components").models[0].get("components").models[1].get("components").models[0];
+            const header = parent.get("components").models[0];
+
+
+            console.log(inputType)
+
+            header.set({ content: inputType });
+        },
+    });
+
+    editor.TraitManager.addType("imageWithText-heading-align", {
+        // Expects as return a simple HTML string or an HTML element
+        createInput({ trait }) {
+            const initValue = trait.target.getStyle()["text-align"] || "left";
+            const el = document.createElement("div");
+            el.innerHTML = `
+    
+            <div class="Radio-Group gjs-one-bg">
+                <input id="left" type="radio" name="alignment" value="left" style="display:none" />
+    
+                <label for="left"class="label-radio" style="border-right: none;border-top-left-radius: 5px;border-bottom-left-radius: 5px;" >
+                    <i class="fa fa-align-left" aria-hidden="true"></i>
+                </label>
+    
+                <input id="center" type="radio" name="alignment" value="center" style="display:none" />
+                <label for="center"class="label-radio">
+                    <i class="fa fa-align-center" aria-hidden="true"></i>
+                </label>
+    
+                <input id="right" type="radio" name="alignment" value="right" style="display:none" />
+                <label for="right"class="label-radio" style="border-left: none;border-top-right-radius: 5px;border-bottom-right-radius: 5px;" >
+                    <i class="fa fa-align-right" aria-hidden="true"></i>
+                </label>
+            </div>
+          `;
+            $(el).find(`#${initValue}`).prop('checked', true);
+
+            return el;
+        },
+
+        onEvent({ elInput, component, event }) {
+            const inputType = elInput.querySelector('input[name="alignment"]:checked');
+            const parent = component.get("components").models[0].get("components").models[1].get("components").models[0];
+            const header = parent.get("components").models[0];
+
+            let data = inputType.value;
+
+            header.setStyle({ ...header.getStyle(), "text-align": data });
         },
     });
 
@@ -74,22 +117,13 @@ export default function loadImageWithText(editor, opt = {}) {
             return el;
           },
           onEvent({ elInput, component, event }) {
-            const inputType = elInput.querySelector(".ql-editor").innerHTML;
+            const inputType = elInput.querySelector(".ql-editor p").innerHTML;
+            const parent = component.get("components").models[0].get("components").models[1].get("components").models[0];
+            const content = parent.get("components").models[1];
 
-            const content = component.get("components").models[0].get("components").models[1].get("components").models[1];
             content.set({ content: inputType });
           },
 
-        
-        // onEvent({ elInput, component, event }) {
-        //     const inputType = elInput.querySelector(".imageWithText-content");
-        //     let data = inputType.value;
-
-        //     const header = component.get("components").models[0].get("components").models[1].get("components").models[1];
-        //     if (header.get("content") !== data) {
-        //         header.set({ content: data });
-        //     }
-        // },
     });
 
     editor.TraitManager.addType("imageWithText-button-label", {
@@ -112,63 +146,35 @@ export default function loadImageWithText(editor, opt = {}) {
         },
         onEvent({ elInput, component, event }) {
             const inputType = elInput.querySelector(".imageWithText-button-label");
+            const parent = component.get("components").models[0].get("components").models[1].get("components").models[0];
+            const button = parent.get("components").models[2];
+            
             let data = `<button class="btn"> ${inputType.value} </button>`;
 
-            const button = component.get("components").models[0].get("components").models[1].get("components").models[2];
             if (button.get("content") !== data) {
                 button.set({ content: data });
             }
         },
     });
 
-    editor.TraitManager.addType("imageWithText-heading-align", {
-        // Expects as return a simple HTML string or an HTML element
-        createInput({ trait }) {
-            const initValue = trait.target.getStyle()["text-align"] || "left";
-            const el = document.createElement("div");
-            el.innerHTML = `
-    
-            <div class="Radio-Group gjs-one-bg">
-                <input id="left" type="radio" name="alignment" value="left" style="display:none" />
-    
-                <label for="left"class="label-radio" style="border-right: none;border-top-left-radius: 5px;border-bottom-left-radius: 5px;" >
-                    <i class="fa fa-align-left" aria-hidden="true"></i>
-                </label>
-    
-                <input id="center" type="radio" name="alignment" value="center" style="display:none" />
-                <label for="center"class="label-radio">
-                    <i class="fa fa-align-center" aria-hidden="true"></i>
-                </label>
-    
-                <input id="right" type="radio" name="alignment" value="right" style="display:none" />
-                <label for="right"class="label-radio" style="border-left: none;border-top-right-radius: 5px;border-bottom-right-radius: 5px;" >
-                    <i class="fa fa-align-right" aria-hidden="true"></i>
-                </label>
-            </div>
-          `;
-            $(el).find(`#${initValue}`).prop('checked', true);
-
-            return el;
-        },
-
-        onEvent({ elInput, component, event }) {
-            const inputType = elInput.querySelector('input[name="alignment"]:checked');
-            let data = inputType.value;
-            
-            const header = component.get("components").models[0].get("components").models[1].get("components").models[0];
-            header.setStyle({ ...header.getStyle(), "text-align": data });
-        },
-    });
-
     editor.TraitManager.addType('imageWithText-image', {
         createInput({ trait }) {
+            const initValue = trait.target.view.el.querySelector("img").src;
             const el = document.createElement('div');
             el.innerHTML = `
             <div class="card upload-image-area">
                 <div class="card-body">
-                    <img src=${trait.get('src') ?? "https://dummyimage.com/230x150/55595c/fff"} class="card-img-top"/>
-                    <button type="button" class="change-btn">Change</button>
-                    <button type="button" class="remove-btn">Remove</button>
+                    <div class="target-img">
+                        <img src=${initValue?? trait.get('src')} class="card-img-top"/>
+                    </div>
+                    <div class="row">
+                        <div class="col-6 col-md-12">
+                            <button type="button" class="change-btn">Change</button>
+                        </div>
+                        <div class="col">
+                            <button type="button" class="remove-btn">Remove</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             `;
@@ -230,32 +236,40 @@ export default function loadImageWithText(editor, opt = {}) {
                             hoverable: false,
                             selectable: false,
                             tagName: "div",
-                            attributes: { class: "col text-part" },
+                            attributes: { class: "col text-part d-flex align-items-center" },
                             draggable: "[name='imageWithText'] .row",
                             components: [
                                 {
                                     draggable: false,
                                     selectable: false,
                                     hoverable: false,
-                                    tagName: "h1",
-                                    style:{"text-align":"left"},
-                                    content: `Picture header`
-                                }, 
-                                {
-                                    draggable: false,
-                                    selectable: false,
-                                    hoverable: false,
-                                    tagName: "p",
-                                    content:`Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or event privide review.`  
-                                }, 
-                                {
-                                    draggable: false,
-                                    selectable: false,
-                                    hoverable: false,
-                                    attributes: { class: "text-center" },
                                     tagName: "div",
-                                    content:`<button class="btn">Button label</button>`  
-                                }
+                                    components: [
+                                        {
+                                            draggable: false,
+                                            selectable: false,
+                                            hoverable: false,
+                                            tagName: "h1",
+                                            style:{"text-align":"left"},
+                                            content: `Picture header`
+                                        }, 
+                                        {
+                                            draggable: false,
+                                            selectable: false,
+                                            hoverable: false,
+                                            tagName: "p",
+                                            content:`Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or event privide review.`  
+                                        }, 
+                                        {
+                                            draggable: false,
+                                            selectable: false,
+                                            hoverable: false,
+                                            attributes: { class: "text-center" },
+                                            tagName: "div",
+                                            content:`<button class="btn">Button label</button>`  
+                                        }
+                                    ]
+                                },
                             ]
                         }
                     ]
@@ -293,13 +307,13 @@ export default function loadImageWithText(editor, opt = {}) {
                         type: "imageWithText-image",
                         label: "Image",
                         placeholder: "Button label",
-                        src: null,
+                        src: "https://dummyimage.com/230x150/55595c/fff",
                     }
                 ],
             },
 
             init() {
-                console.log(editor.getSelected());
+
             },
 
             initData() {

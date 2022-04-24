@@ -195,12 +195,7 @@
 }
 
 .upload-image-area .card-body button {
-  background-color: #f6f6f7;
-}
-
-.upload-image-area .card-body button {
   border: 2px solid lightgrey;
-  width: 49%;
   padding: 5px 15px;
   border-radius: 5px;
   font-size: 14px;

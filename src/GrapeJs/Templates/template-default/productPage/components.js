@@ -9,7 +9,11 @@ export default function loadComponentsProductPage(editor, opt = {}) {
         model: {
           defaults: {
             traits: [
-             
+              {
+                type:'ProductPage-numProducts', 
+                label:'Products per page'
+
+              }
             ],
           },
           init() {

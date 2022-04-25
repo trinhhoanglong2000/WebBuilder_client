@@ -1,9 +1,7 @@
 import $ from "jquery";
 import { v4 as uuidv4 } from "uuid";
-import AbortController from "abort-controller";
 import loadTraitProduct from "./trait";
 export default function loadBlockProducts(editor, opt = {}) {
-  let controller;
   const c = opt;
   let bm = editor.BlockManager;
   loadTraitProduct(editor, opt);
@@ -23,7 +21,6 @@ export default function loadBlockProducts(editor, opt = {}) {
             type: "product-heading-align",
             label: "Alignment",
           },
-         
         ],
       },
     },
@@ -39,7 +36,10 @@ export default function loadBlockProducts(editor, opt = {}) {
         ],
       },
       init() {
-        this.on("change:attributes:data-ez-mall-collection", this.handleTypeChangeData);
+        this.on(
+          "change:attributes:data-ez-mall-collection",
+          this.handleTypeChangeData
+        );
       },
       initData() {
         this.attributes.components.models.forEach(function (item) {
@@ -53,23 +53,22 @@ export default function loadBlockProducts(editor, opt = {}) {
             });
           }
         });
-        this.Update()
-       
+        this.Update();
       },
       async Update() {
         let products_data = [
           {
             title: "Product Title",
             price: "$100.00",
-            img: "HEHE",
+            thumbnail: "https://dummyimage.com/600x400/55595c/fff",
           },
         ];
-        const id = this.attributes.attributes['data-ez-mall-collection'] || " ";
+        const id = this.attributes.attributes["data-ez-mall-collection"] || " ";
         fetch(`http://localhost:5000/collections/product/${id}`)
           .then((response) => response.json())
           .then((data) => {
-            if (data.data[0].listProducts) 
-                products_data = data.data[0].listProducts;
+            if (data.data[0].listProducts)
+              products_data = data.data[0].listProducts;
             $(this.view.el)
               .find(".thumb-wrapper")
               .each(function (index) {
@@ -82,11 +81,17 @@ export default function loadBlockProducts(editor, opt = {}) {
                 $(this)
                   .find(".item-price span")
                   .text(products_data[index % products_data.length].price);
+                $(this)
+                  .find("img")
+                  .attr(
+                    "src",
+                    products_data[index % products_data.length].thumbnail
+                  );
               });
           });
       },
       handleTypeChangeData() {
-        this.Update()
+        this.Update();
       },
       // This function run when component created - we setup listen to change atri
     },
@@ -421,5 +426,4 @@ export default function loadBlockProducts(editor, opt = {}) {
     },
   });
   //#endregion
-  
 }

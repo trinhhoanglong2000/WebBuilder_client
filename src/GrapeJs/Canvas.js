@@ -91,8 +91,6 @@ function Canvas({ type }) {
 
   const addNewStoreCss = (newStoreCssData) => {
     dispatch(doSwitchStoreCssData(newStoreCssData));
-    setLoading(false);
-
   };
 
   const loadStoreCss = (e = null) => {

@@ -8,9 +8,8 @@ import loadBlockMain from '../Main'
 import loadBlockRichText from './richText'
 import loadImageWithText from "./imageWithText";
 import loadContactForm from "./contactForm";
-import loadBlockColumnLink from "./columnLink";
 import loadBlockProductPage from "./productPage";
-
+import loadBlockMulticolumn from "./multicolumn";
 
 
 export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
@@ -21,6 +20,7 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
     catergory_product_list: "Products",
     carousel_category: "Carousel",
     category_rich_text:'RichText',
+    multicolumn: "Multicolumn",
 
     //=======================|Block name|=======================
     label_product_list: "Product collection",
@@ -64,8 +64,8 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
   loadBlockHeader(editor, config)
   loadImageWithText(editor, config)
   loadContactForm(editor, config)
-  loadBlockColumnLink(editor,config)
   loadBlockProductPage(editor,config)
+  loadBlockMulticolumn(editor,config)
   //Long ADD END
 }
 );

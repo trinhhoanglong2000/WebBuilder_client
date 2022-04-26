@@ -310,7 +310,7 @@ export default function loadBlockHeader(editor, opt = {}) {
     //     },
     // });
 
-    editor.TraitManager.addType('upload-image', {
+    editor.TraitManager.addType('header-upload-image', {
         createInput({ trait }) {
             const el = document.createElement('div');
             el.innerHTML = `
@@ -332,7 +332,6 @@ export default function loadBlockHeader(editor, opt = {}) {
                         const selected = editor.getSelected().view.el;
                         const navBrandImg = selected.querySelector('.navbar-brand img');
 
-                        trait.set('src', asset.getSrc());
                         inputImage.src = asset.getSrc();
 
                         if (navBrandImg) {
@@ -342,13 +341,6 @@ export default function loadBlockHeader(editor, opt = {}) {
                             navBrand.innerHTML = `<img src="${asset.getSrc()}"/>`
                         }
 
-                        // const modelComponent = editor.getSelected();
-                        // const navBrand = modelComponent.attributes.components.models[0].attributes.components.models[1]
-                        // c.addImageUpload({'target': navBrand, 'image': asset.getSrc()})
-
-                        // console.log(navBrand.attributes)
-                        // navBrand.set({ 'content': `<img src="${asset.getSrc()}"/>` })
-
                         am.close();
                     },
 
@@ -356,8 +348,9 @@ export default function loadBlockHeader(editor, opt = {}) {
 
 
             };
+            
             removeBtn.onClick = () => {
-                trait.set('src', null);
+
             }
 
             return el;
@@ -383,7 +376,7 @@ export default function loadBlockHeader(editor, opt = {}) {
                         ]
                     },
                     {
-                        type: 'upload-image',
+                        type: 'header-upload-image',
                         changeProp: 1,
                         label: 'Logo image',
                         name: 'logoImage',

@@ -1,5 +1,6 @@
 import $ from "jquery";
 import AbortController from "abort-controller";
+import { readCookie } from "../../../../helper/cookie";
 export default function loadTraitProduct(editor, opt = {}) {
     let controller;
     var GetRequest = async (url) => {
@@ -9,7 +10,7 @@ export default function loadTraitProduct(editor, opt = {}) {
   
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${readCookie('token')}`,
         },
         signal: controller.signal,
         redirect: "follow",
@@ -113,7 +114,7 @@ export default function loadTraitProduct(editor, opt = {}) {
           });
         const GetItem = (name ="",flag=false) => {
           GetRequest(
-            `${process.env.REACT_APP_API_URL}stores/621b5a807ea079a0f7351fb8/collections/product?name=${name.trim()}`
+            `${process.env.REACT_APP_API_URL}stores/${opt.storeId}/collections/product?name=${name.trim()}`
           ).then((data) => {
             let domdata = "";
             initValue = trait.target.attributes.attributes['data-ez-mall-collection'] || "";

@@ -1,11 +1,11 @@
 import { useDispatch } from "react-redux";
 import { doSwitchLoginState } from "../redux/slice/loginSlice";
-
+import {readCookie} from "../helper/cookie"
 const callAPIWithGetMethod = async(pathURL, bearTokenFlg) => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     if (bearTokenFlg) {
-        myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+        myHeaders.append("Authorization", "Bearer " + readCookie('token'));
     } 
     var requestOptions = {
         method: 'GET',
@@ -43,7 +43,7 @@ const callAPIWithPostMethod = async(pathURL, data, bearTokenFlg) => {
     myHeaders.append("Content-Type", "application/json");
 
     if (bearTokenFlg) {
-        myHeaders.append("Authorization", "Bearer " + localStorage.getItem("token"));
+        myHeaders.append("Authorization", "Bearer " + readCookie('token'));
     } 
 
     var raw = JSON.stringify(data);

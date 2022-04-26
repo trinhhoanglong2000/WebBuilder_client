@@ -71,6 +71,7 @@ function Canvas({ type }) {
         let script = document.createElement("script");
         script.type = "text/javascript";
         script.src = url; // use this for linked script
+        script.className = "ScriptClass"
         editor.Canvas.getDocument().body.appendChild(script);
       }
       if (ele && ele !== "") {

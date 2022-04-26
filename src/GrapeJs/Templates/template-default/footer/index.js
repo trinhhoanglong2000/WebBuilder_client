@@ -110,10 +110,7 @@ export default function loadBlockFooter(editor, opt = {}) {
           },
       
           handleThemeChange() {
-            console.log('Input type changed to: ', this.getAttributes().theme);
             document.querySelector(".gjs-frame").contentDocument.querySelector(".footer-section").classList.add("bg-primary")
-            console.log( document.querySelector(".gjs-frame").contentDocument.querySelector(".footer-section"))
-           
             if (this.getAttributes().theme === "white") {
                 editor.Css.setRule(
                     `.footer-section`, {

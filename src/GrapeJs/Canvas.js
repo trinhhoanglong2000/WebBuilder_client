@@ -64,15 +64,23 @@ function Canvas({ type }) {
 
     listCssFile.forEach((ele) => {
       if (ele && ele !== "") {
-        head.insertAdjacentHTML(
-          "beforeend",
-          `<link href="http://localhost:5000/files/dist/css/components/${ele}.css" rel="stylesheet">`
-        );
+        try{
+          head.insertAdjacentHTML(
+            "beforeend",
+            `<link href="http://localhost:5000/files/dist/css/components/${ele}.css" rel="stylesheet">`
+          );
+        }catch(e){
+          console.log(e)
+        }
+
       }
     });
 
     //script
-
+    head.insertAdjacentHTML(
+      "beforeend",
+      `<link href="http://localhost:5000/files/dist/css/components/columnLink.css" rel="stylesheet">`
+    );
     var addScript = function (url){
       let script = document.createElement("script");
       script.type = "text/javascript";

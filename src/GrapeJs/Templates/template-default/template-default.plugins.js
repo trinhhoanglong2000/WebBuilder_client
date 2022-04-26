@@ -8,7 +8,7 @@ import loadBlockMain from '../Main'
 import loadBlockRichText from './richText'
 import loadImageWithText from "./imageWithText";
 import loadContactForm from "./contactForm";
-
+import loadBlockColumnLink from "./columnLink";
 export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
 
   const config = {
@@ -60,6 +60,7 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
   loadBlockHeader(editor, config)
   loadImageWithText(editor, config)
   loadContactForm(editor, config)
+  loadBlockColumnLink(editor,config)
   //Long ADD END
 }
 );

@@ -75,16 +75,6 @@ function Canvas({ type }) {
         editor.Canvas.getDocument().body.appendChild(script);
       }
       if (ele && ele !== "") {
-
-        // try{
-        //   head.insertAdjacentHTML(
-        //     "beforeend",
-        //     `<link href="http://localhost:5000/files/dist/css/components/${ele}.css" rel="stylesheet">`
-        //   );
-        // }catch(e){
-        //   console.log(e)
-        // }
-
         head.insertAdjacentHTML(
           "beforeend",
           `<link href="http://localhost:5000/files/dist/css/${template}/${ele}.css" rel="stylesheet">`
@@ -93,12 +83,6 @@ function Canvas({ type }) {
 
       }
     });
-      //script
-      // head.insertAdjacentHTML(
-      //   "beforeend",
-      //   `<link href="http://localhost:5000/files/dist/css/components/columnLink.css" rel="stylesheet">`
-      // );
-
   }, [listCssFile]);
 
   useEffect(() => {

@@ -4,9 +4,13 @@ import loadTraitProduct from "./trait";
 export default function loadBlockProducts(editor, opt = {}) {
   const c = opt;
   let bm = editor.BlockManager;
+  const domc = editor.DomComponents;
+
+  const defaultType = domc.getType("default");
+  const defaultModel = defaultType.model;
+  const defaultView = defaultType.view;
   loadTraitProduct(editor, opt);
 
-  const domc = editor.DomComponents;
 
   domc.addType("product-text", {
     model: {
@@ -36,10 +40,7 @@ export default function loadBlockProducts(editor, opt = {}) {
         ],
       },
       init() {
-        this.on(
-          "change:attributes:data-ez-mall-collection",
-          this.handleTypeChangeData
-        );
+
       },
       initData() {
         this.attributes.components.models.forEach(function (item) {
@@ -53,48 +54,56 @@ export default function loadBlockProducts(editor, opt = {}) {
             });
           }
         });
-        this.Update();
       },
-      async Update() {
-        let products_data = [
-          {
-            title: "Product Title",
-            price: "$100.00",
-            thumbnail: "https://dummyimage.com/600x400/55595c/fff",
-          },
-        ];
-        const id = this.attributes.attributes["data-ez-mall-collection"] || " ";
-        fetch(`http://localhost:5000/collections/product/${id}`)
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.data[0].listProducts)
-              products_data = data.data[0].listProducts;
-            $(this.view.el)
-              .find(".thumb-wrapper")
-              .each(function (index) {
-                $(this)
-                  .find("h4")
-                  .text(products_data[index % products_data.length].title);
-                $(this)
-                  .find(".item-price strike")
-                  .text(products_data[index % products_data.length].price);
-                $(this)
-                  .find(".item-price span")
-                  .text(products_data[index % products_data.length].price);
-                $(this)
-                  .find("img")
-                  .attr(
-                    "src",
-                    products_data[index % products_data.length].thumbnail
-                  );
-              });
-          });
-      },
-      handleTypeChangeData() {
-        this.Update();
-      },
+     
+
       // This function run when component created - we setup listen to change atri
     },
+    view:defaultView.extend( {
+        init() {
+            this.listenTo(this.model, "change:attributes:data-ez-mall-collection",this.Update);
+        },
+        onRender() {
+            this.Update()
+        },
+        async Update() {
+            let products_data = [
+              {
+                title: "Product Title",
+                price: "$100.00",
+                thumbnail: "https://dummyimage.com/600x400/55595c/fff",
+              },
+            ];
+            const id = this.model.attributes.attributes["data-ez-mall-collection"] || " ";
+            fetch(`http://localhost:5000/collections/product/${id}`)
+              .then((response) => response.json())
+              .then((data) => {
+                if (data.data[0].listProducts)
+                  products_data = data.data[0].listProducts;
+                $(this.el)
+                  .find(".thumb-wrapper")
+                  .each(function (index) {
+                    $(this)
+                      .find("h4")
+                      .text(products_data[index % products_data.length].title);
+                    $(this)
+                      .find(".item-price strike")
+                      .text(products_data[index % products_data.length].price);
+                    $(this)
+                      .find(".item-price span")
+                      .text(products_data[index % products_data.length].price);
+                    $(this)
+                      .find("img")
+                      .attr(
+                        "src",
+                        products_data[index % products_data.length].thumbnail
+                      );
+                  });
+              });
+          },
+      },
+    )
+    
   });
   bm.add("productList", {
     label: `

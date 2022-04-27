@@ -22,6 +22,8 @@ export default function loadComponentsProductPage(editor, opt = {}) {
           handleTypeChangeData() {},
           // This function run when component created - we setup listen to change atri
         },
-      });
+       
+      },
+      );
   }
   

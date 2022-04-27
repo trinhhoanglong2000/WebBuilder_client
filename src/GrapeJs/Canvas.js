@@ -245,6 +245,8 @@ function Canvas({ type }) {
               editor.on("storage:end:store", function () {
                 setIsSaving(false);
               });
+
+
             }}
             canvas={{
               styles: [

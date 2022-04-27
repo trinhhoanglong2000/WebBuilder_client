@@ -105,6 +105,8 @@ export default function loadBlockColumnItem(editor, opt = {}) {
             hoverable: false,
             selectable: false,
             highlightable: false,
+            droppable: false,
+
             content: `
             <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
           `,
@@ -115,6 +117,8 @@ export default function loadBlockColumnItem(editor, opt = {}) {
             hoverable: false,
             highlightable: false,
             selectable: false,
+            droppable: false,
+
             components: [
               {
                 attributes: { class: "card-title", style: "text-decoration: none;" },
@@ -125,6 +129,8 @@ export default function loadBlockColumnItem(editor, opt = {}) {
                 hoverable: false,
                 selectable: false,
                 highlightable: false,
+                droppable: false,
+
               }
               , {
                 removable: false,

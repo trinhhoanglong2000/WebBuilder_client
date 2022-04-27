@@ -28,16 +28,16 @@ export default function loadBlockRichText(editor, opt = {}) {
       components: [
         {
           name: "Header",
-          draggable: ".Rich-Text",
           tagName: "h1",
           content: `Talk about your brand `,
           editable: true,
           droppable: false,
 
+          draggable: ".Rich-Text",
+
           type: "product-text",
         },
         {
-          removable: false,
           name: "Text",
           type: "RichText-Text",
           attributes: {
@@ -54,12 +54,13 @@ export default function loadBlockRichText(editor, opt = {}) {
         },
         {
           name: "Button",
-          draggable: ".Rich-Text",
           type: "RichText-Button",
           tagName: "a",
           content: `Button Link`,
           editable: true,
           droppable: false,
+          draggable: ".Rich-Text",
+
           attributes: {
             class:
               "btn btn-primary align-self-center d-inline-flex justify-content-center align-items-center",
@@ -75,13 +76,14 @@ export default function loadBlockRichText(editor, opt = {}) {
     category: c.label_rich_text,
 
     attributes: { class: "fa fa-header " },
-    content: {
+    content:  {
       name: "Header",
-      draggable: ".Rich-Text",
       tagName: "h1",
       content: `Talk about your brand `,
       editable: true,
       droppable: false,
+
+      draggable: ".Rich-Text",
 
       type: "product-text",
     },
@@ -93,7 +95,6 @@ export default function loadBlockRichText(editor, opt = {}) {
 
     attributes: { class: "gjs-fonts gjs-f-text" },
     content:  {
-      removable: false,
       name: "Text",
       type: "RichText-Text",
       attributes: {
@@ -116,14 +117,15 @@ export default function loadBlockRichText(editor, opt = {}) {
     category: c.label_rich_text,
 
     attributes: { class: "gjs-fonts gjs-f-button" },
-    content:  {
+    content:   {
       name: "Button",
-      draggable: ".Rich-Text",
       type: "RichText-Button",
       tagName: "a",
       content: `Button Link`,
       editable: true,
       droppable: false,
+      draggable: ".Rich-Text",
+
       attributes: {
         class:
           "btn btn-primary align-self-center d-inline-flex justify-content-center align-items-center",

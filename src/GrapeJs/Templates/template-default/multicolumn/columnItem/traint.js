@@ -3,11 +3,8 @@ import Quill from "quill";
 export default function loadTraitColumnItem(editor, opt = {}) {
     const am = editor.AssetManager;
     editor.TraitManager.addType("Column-Item-Trait-RichText", {
-        // Expects as return a simple HTML string or an HTML element
         createInput({ trait }) {
-
             const el = document.createElement("div");
-            // Get target
             const initValue = trait.target.get("components").models[1].get("components").models[1].get("content");
             el.innerHTML = `
             <div id="editor" style="font-size:12px;">
@@ -33,35 +30,27 @@ export default function loadTraitColumnItem(editor, opt = {}) {
                     this.onChange();
                 }
             });
-            // $(el).find(`#${initValue}`).prop('checked', true);
             return el;
         },
         onEvent({ elInput, component, event }) {
-
             const inputType = elInput.querySelector(".ql-editor").innerHTML;
-            //#1 when option change we will get new option => change HTML following option
             component.get("components").models[1].get("components").models[1].set({ content: inputType });
         },
     });
 
     editor.TraitManager.addType("Column-Item-RichText-TextFontSize-Trait", {
-        // Expects as return a simple HTML string or an HTML element
         createInput({ trait }) {
             const data = ["small", "medium", "large"];
             const initValue = trait.target.get("components").models[1].get("components").models[1].getStyle()["font-size"] || "small";
-
             const el = document.createElement("div");
             el.innerHTML = `
               <div data-input="">
               <select>
               ${data
                     .map(
-                        (opt) =>
-                            `<option id = "${opt}FontSize" value="${opt}">${opt}</option>`
-                    )
+                        (opt) => `<option id = "${opt}FontSize" value="${opt}">${opt}</option>`)
                     .join("")}
                 </select>
-    
               </div>
               <div class="gjs-sel-arrow">
                 <div class="gjs-d-s-arrow"></div>
@@ -70,7 +59,6 @@ export default function loadTraitColumnItem(editor, opt = {}) {
               `;
 
             $(el).find(`#${initValue}FontSize`).prop("selected", true);
-
             return el;
         },
         onEvent({ elInput, component, event }) {
@@ -88,25 +76,18 @@ export default function loadTraitColumnItem(editor, opt = {}) {
             const placeholder = trait.get("placeholder") || "";
             const el = document.createElement("div");
             el.innerHTML = `
-    
             <div class="gjs-field gjs-field-text">
               <input class="Product-Heading"placeholder="${placeholder} " value="${initValue}" />
-             
             </div>
           `;
-
             $(el)
                 .find("input")
                 .on("input", (ev) => this.onChange(ev));
-
             return el;
         },
         onEvent({ elInput, component, event }) {
-            //#1 when option change we will get new option => change HTML following option
             const inputType = elInput.querySelector(".Product-Heading");
-
             let data = inputType.value;
-            //#2 This function will set attribute data {nameAttribute:Value} => IMPORTAINT FOR COMPONENT LISTEN CHANGE ATTRIBUTE
             if (component.get("content") !== data) {
                 component.get("components").models[1].get("components").models[0].set({ content: data });
             }
@@ -152,8 +133,6 @@ export default function loadTraitColumnItem(editor, opt = {}) {
             );
 
             let data = inputType.value;
-            // editor.Selectors.setState('after');
-            // console.log(editor.Selectors.getState())
             component.get("components").models[1].get("components").models[0].setStyle({ ...component.getStyle(), "text-align": data });
         },
     });
@@ -166,7 +145,7 @@ export default function loadTraitColumnItem(editor, opt = {}) {
             <div class="card upload-image-area">
                 <div class="card-body">
                     <div class="target-img">
-                        <img src=${initValue?? trait.get('src')} class="card-img-top"/>
+                        <img src=${initValue ?? trait.get('src')} class="card-img-top"/>
                     </div>
                     <div class="row">
                         <div class="col-6 col-md-12">
@@ -189,7 +168,7 @@ export default function loadTraitColumnItem(editor, opt = {}) {
                         const selected = editor.getSelected();
                         inputImage.src = asset.getSrc();
                         const image = selected.get("components").models[0];
-                        image.set('content', `<img src="${asset.getSrc()}" class="img-responsive img-fluid" alt="">`);  
+                        image.set('content', `<img src="${asset.getSrc()}" class="img-responsive img-fluid" alt="">`);
                         am.close();
                     },
                 });

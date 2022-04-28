@@ -16,7 +16,6 @@ export default function loadBlockColumnItem(editor, opt = {}) {
   domc.addType("columnItem", {
     model: {
       defaults: {
-        tagName: 'div',
         droppable: false,
         traits: [
           {
@@ -93,6 +92,7 @@ export default function loadBlockColumnItem(editor, opt = {}) {
     category: c.multicolumn,
     content: [
       {
+        droppable: false,
         name: "columnItem",
         attributes: { name: "columnItem", class: "ezMall-column-item card  container col-md-4 col-sm-6 " },
         type: "columnItem",
@@ -106,7 +106,7 @@ export default function loadBlockColumnItem(editor, opt = {}) {
             selectable: false,
             highlightable: false,
             droppable: false,
-
+            draggable:false,
             content: `
             <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
           `,
@@ -115,10 +115,10 @@ export default function loadBlockColumnItem(editor, opt = {}) {
             attributes: { class: "card-body" },
             layerable: false,
             hoverable: false,
-            highlightable: false,
             selectable: false,
+            highlightable: false,
             droppable: false,
-
+            draggable:false,
             components: [
               {
                 attributes: { class: "card-title", style: "text-decoration: none;" },
@@ -130,7 +130,7 @@ export default function loadBlockColumnItem(editor, opt = {}) {
                 selectable: false,
                 highlightable: false,
                 droppable: false,
-
+                draggable:false,
               }
               , {
                 removable: false,
@@ -142,6 +142,7 @@ export default function loadBlockColumnItem(editor, opt = {}) {
                 style: { "font-size": "medium" },
                 editable: true,
                 droppable: false,
+                draggable:false,
                 draggable: ".Rich-Text",
                 content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or
                 welcome customers to your store.</p>`,

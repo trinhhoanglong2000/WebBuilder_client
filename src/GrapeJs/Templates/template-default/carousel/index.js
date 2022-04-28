@@ -5,105 +5,39 @@ import loadTraitCarousel from "./traint"
 export default function loadBlockCarousel(editor, opt = {}) {
   const c = opt;
   let bm = editor.BlockManager;
-  //#region carousel panel
-  loadTraitCarousel(editor,c);
-  //NODE SAVE HTML $(".gjs-frame").contentDocument.querySelector("html")
-
-  //LONG-TP 2022-02-22 TEST TRAITS - ADD START
+  loadTraitCarousel(editor, c);
   const domc = editor.DomComponents;
   const defaultType = domc.getType("default");
-  const textType = domc.getType("text");
-  const defaultModel = defaultType.model;
-  const defaultView = defaultType.view;
-  const textModel = textType.model;
-  const textView = textType.view;
-  const sfx = opt.socialClssfx;
-  //THIS IS SETTING COMPONENT
   domc.addType("carousel", {
     model: {
       defaults: {
-        tagName: 'div',
         droppable: false,
         traits: [
           {
             type: "carousel-collection",
             name: "data",
-            label: "Banner Collection", // The label you will see in Settings
+            label: "Banner Collection",
           },
           {
-            type:"banner-text-color",
-            label:"Contents Style"
+            type: "banner-text-color",
+            label: "Contents Style"
           },
           {
-            type:"banner-text-display",
-            label:"Contents Display"
+            type: "banner-text-display",
+            label: "Contents Display"
           },
-         
+
         ],
-        // This is default attributes
         attributes: {
-          data: '1',
           "ez-mall-type": "carousel",
-          textColor:'white',
+          textColor: 'white',
           displayType: "middle"
         }
       },
-      // This function run when component created - we setup listen to change atri
 
       init() {
-        this.on('change:attributes:data', this.handleTypeChangeData);
-        this.on('change:attributes:placeholder', this.handleTypeChangePlaceHold);
+      },
 
-        // loadScripts(
-        //   ["http://localhost:5000/files/dist/js/template-default/carousel/carousel.js"]
-        //   , function () {
-        //     //console.log('carousel.js is loaded');
-        //   });
-      },
-      async Update(){
-        console.log($(this.view.el))
-        let carouselIndicators = $(this.view.el).find(`.carousel-indicators`)[0]
-        let carouselInner = $(this.view.el).find(`.carousel-inner`)[0];
- 
-        let categoryId = this.attributes.attributes.data
-        const response = await fetch(`http://localhost:5000/collections/category/${categoryId}`
-          , {
-            mode: 'cors',
-            headers: {
-              'Access-Control-Allow-Origin': '*'
-            }
-          });
-        let myJson = await response.json();
-        let data = myJson.data;
-        carouselIndicators.innerHTML = "";
-        carouselInner.innerHTML = "";
-        data.forEach((item, index) => {
-          let htmlButtonInsert = `
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="${index}" class = "${index == 0 ? "active" : ""}" aria-label="Slide ${index}"></button>
-        `
-        carouselIndicators.insertAdjacentHTML("beforeend", htmlButtonInsert);
-        let htmlCarouselItemInsert = `
-        <div class="carousel-item ${index == 0 ? "active" : ""}">
-          <img src="${item.image}" class="d-block w-100" alt="${item.image}">
-          <div class="carousel-caption d-none d-md-block">
-            <div class = "ezMall-carousel-contents">
-              <h2 class="bolder">${item.caption}</h2>
-              <p>${item.description}</p>
-              <a class="btn ezMall-btn bolder" href=${item.link} role="button">Shop Now</a>
-            </div>
-          </div>
-        </div>
-      `
-          carouselInner.insertAdjacentHTML("beforeend", htmlCarouselItemInsert)
-        })
-      },
-      async handleTypeChangeData() {
-        //console.log("Data")
-        const atributeData = this.attributes.attributes;
-        //console.log(document.querySelector(".gjs-frame").contentDocument.querySelector("html"))
-        // IMPORTAINT - this.view.el is root node => form 1 atribute change we can change front end by this
-        this.Update()
-      },
       initData() {
         //change uuid
         this.set({
@@ -112,35 +46,57 @@ export default function loadBlockCarousel(editor, opt = {}) {
             `A${uuidv4()}`
           ),
         });
-        this.Update()
-      },
-      handleTypeChangePlaceHold() {
-        console.log("placeHold");
-        const atributeData = this.attributes.attributes;
-        // IMPORTAINT - this.view.el is root node => form 1 atribute change we can change front end by this
-        //this.view.el.innerHTML = atributeData.data
       },
     },
     view: {
+      async Update() {
+        let carouselIndicators = $(this.el).find(`.carousel-indicators`)[0]
+        let carouselInner = $(this.el).find(`.carousel-inner`)[0];
+        let categoryId =this.model.attributes.attributes.data;
+        await fetch(`http://localhost:5000/collections/category/${categoryId}`
+          , {
+            mode: 'cors',
+            headers: {
+              'Access-Control-Allow-Origin': '*'
+            }
+          }).then(res => res.json()).then(myJson => myJson.data).then(
+            data => {
+              carouselIndicators.innerHTML = "";
+              carouselInner.innerHTML = "";
+              data.forEach((item, index) => {
+                let htmlButtonInsert = `
+              <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="${index}" class = "${index == 0 ? "active" : ""}" aria-label="Slide ${index}"></button>
+              `
+                carouselIndicators.insertAdjacentHTML("beforeend", htmlButtonInsert);
+                let htmlCarouselItemInsert = `
+              <div class="carousel-item ${index == 0 ? "active" : ""}">
+                <img src="${item.image}" class="d-block w-100" alt="${item.image}">
+                <div class="carousel-caption d-none d-md-block">
+                  <div class = "ezMall-carousel-contents">
+                    <h2 class="bolder">${item.caption}</h2>
+                    <p>${item.description}</p>
+                    <a class="btn ezMall-btn bolder" href=${item.link} role="button">Shop Now</a>
+                  </div>
+                </div>
+              </div>
+            `
+                carouselInner.insertAdjacentHTML("beforeend", htmlCarouselItemInsert)
+              })
+            }
+          );
+      },
       init() {
-        const attributes = this.model.attributes;
-        const rootElement = this.el;
+        this.listenTo(this.model, 'change:attributes:data', this.Update)
+        this.listenTo(this.model, 'change:attributes:placeholder',this.Update)
       },
-      // Event on layout
       events: {
-        // click: "handleClick",
-        // dblclick: function () {
-        //   alert("Hi!");
-        // },
-      },
-      handleClick: function (e) {
-        const attributes = this.model.attributes;
-        const rootElement = this.el;
       },
       render: function () {
-        // Extend the original render method
         defaultType.view.prototype.render.apply(this, arguments);
         return this;
+      },
+      onRender({ el }) {
+        this.Update()
       },
     },
   });
@@ -157,18 +113,14 @@ export default function loadBlockCarousel(editor, opt = {}) {
     content: [
       {
         name: "carousel",
-        attributes: { name: "banners",class: "carousel-text-white carousel-display-middle" },
+        attributes: { name: "banners", class: "carousel-text-white carousel-display-middle" },
         draggable: ".main-content",
-        //LONG-TP 2022-02-22 TEST TRAITS - ADD START
         type: "carousel",
-        //LONG-TP 2022-02-22 TEST TRAITS - ADD END
         content: `
-        <div id="myCarousel" class=" carousel slide ezMall-carousel" data-bs-ride="carousel" data-type = "banners" >
-            <div class="carousel-indicators">
-                
+        <div id="myCarousel" class=" carousel slide ezMall-carousel" data-bs-ride="carousel" data-type = "banners"  >
+            <div class="carousel-indicators"> 
             </div>
             <div class="carousel-inner">
-            
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -180,10 +132,7 @@ export default function loadBlockCarousel(editor, opt = {}) {
             </button>
         </div>
         `,
-        
       },
     ],
   });
-  //#endregion
-  //LONG-TP 2022-02-22 TEST TRAITS - ADD END 
 }

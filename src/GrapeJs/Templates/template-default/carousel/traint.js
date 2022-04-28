@@ -17,35 +17,16 @@ export default function loadTraitCarousel(editor, opt = {}) {
         });
         return response.json();
     };
-    //LONG-TP 2022-02-22 TEST TRAITS - ADD START
-    const domc = editor.DomComponents;
-    const defaultType = domc.getType("default");
-    const textType = domc.getType("text");
-    const defaultModel = defaultType.model;
-    const defaultView = defaultType.view;
-    const textModel = textType.model;
-    const textView = textType.view;
-    const sfx = opt.socialClssfx;
-    //THIS IS SETTING TRAIT
+ 
     editor.TraitManager.addType("banner-text-color", {
-        // Disbale label custom - set false for use createLabel below
         noLabel: false,
-        // Label custom for trait
         createLabel({ label }) {
             return `<div>
           ${label}
         </div>`;
         },
-        // Expects as return a simple HTML string or an HTML element
-        createInput({ trait,component }) {
-            // #1 Get data form api and pour to "data"
-            const data = JSON.parse(localStorage.getItem('crouselOptions'));
-            // #2 Convert data to trait option 
-            let traitOptionsData = [];
 
-            data.forEach(item => {
-                traitOptionsData.push({ id: item.id, name: item.name })
-            })
+        createInput({ trait }) {
             let textOptionsData = [
                 { id: "white", name: "White" },
                 { id: "black", name: "Black" },
@@ -76,28 +57,14 @@ export default function loadTraitCarousel(editor, opt = {}) {
 
             return el
         },
-        // THIS FUNCTION WORK WHEN USER CLICK TO TRAIT SETTING or NEXT OF onEvent function
         onUpdate({ elInput, component }) {
-            //#1 Get attribute data for update something
             const dataAttributeValues = component.getAttributes().data || "";
-
-            //#2 Update something here
-
             const inputTypeTextColor = elInput.querySelector(".options-carousel-text-color");
-
             inputTypeTextColor.dispatchEvent(new CustomEvent("change"));
         },
-        // IN MY OPINION THIS FUNCTION WORK WHEN USER CHANGE OPTION - IF U KNOW IT WORK PLS CMT HERE
         onEvent({ elInput, component, event }) {
-            const attributes = this.model.attributes;
-            const rootElementTrait = elInput;
-            const propertiesOfFrontComponet = component;
-
-            //#1 when option change we will get new option => change HTML following option
             let inputTextColor = elInput.querySelector(".options-carousel-text-color");
             let textColor = inputTextColor.value;
-
-            //#2 This function will set attribute data {nameAttribute:Value} => IMPORTAINT FOR COMPONENT LISTEN CHANGE ATTRIBUTE
             if (component.getAttributes().textColor != textColor) {
                 let oldType = component.getAttributes().textColor;
                 component.addAttributes({ textColor })

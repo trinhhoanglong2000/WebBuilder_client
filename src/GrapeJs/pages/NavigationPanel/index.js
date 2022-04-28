@@ -1,16 +1,12 @@
-import { useDispatch, useSelector } from "react-redux";
 import "./index.css";
 
-const NavigationPanel = ({listPagesId,setLoading,setSearchParams,pageId}) => {
-    const dispatch = useDispatch();
-    // const pageId = useSelector(state => state.page.pageId);
+const NavigationPanel = ({listPagesId, setLoading, setSearchParams,  pageId}) => {
 
     //=======================FUNCTION=========================
     const handleOnchangePage = (e) => {
         setLoading(true);
         
-        setSearchParams({pageId:e.target.value})
-        // dispatch(doSwitchPage(e.target.value));
+        setSearchParams({pageId:  e.target.value})
     }
 
     const renderPagesItem = () => {

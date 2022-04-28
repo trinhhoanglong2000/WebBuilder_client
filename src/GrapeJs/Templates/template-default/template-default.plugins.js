@@ -10,7 +10,7 @@ import loadImageWithText from "./imageWithText";
 import loadContactForm from "./contactForm";
 import loadBlockProductPage from "./productPage";
 import loadBlockMulticolumn from "./multicolumn";
-
+import loadVideo from "./video"
 
 export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
 
@@ -65,6 +65,7 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
   loadImageWithText(editor, config)
   loadContactForm(editor, config)
   loadBlockProductPage(editor,config)
+  loadVideo(editor,config)
   loadBlockMulticolumn(editor,config)
   //Long ADD END
 }

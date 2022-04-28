@@ -4,6 +4,7 @@ import Quill from "quill";
 export default function loadImageWithText(editor, opt = {}) {
     const c = opt;
     const bm = editor.BlockManager;
+    const dc = editor.DomComponents;
     const am = editor.AssetManager;
 
     editor.TraitManager.addType("imageWithText-heading", {
@@ -28,9 +29,6 @@ export default function loadImageWithText(editor, opt = {}) {
             const inputType = elInput.querySelector(".imageWithText-heading").value;
             const parent = component.get("components").models[0].get("components").models[1].get("components").models[0];
             const header = parent.get("components").models[0];
-
-
-            console.log(inputType)
 
             header.set({ content: inputType });
         },
@@ -277,7 +275,7 @@ export default function loadImageWithText(editor, opt = {}) {
         }
     });
 
-    editor.DomComponents.addType('imageWithText', {
+    dc.addType('imageWithText', {
         isComponent: el => el.tagName === 'imageWithText',
         model: {
             defaults: {

@@ -13,12 +13,13 @@ export default function loadBlockHeader(editor, opt = {}) {
 
         if (c.headerNavigation) {
             c.headerNavigation.forEach((element) => {
-                if (element.id != c.pageId) {
+                if (element.id !== c.pageId) {
                     navbar.push({
                         layerable: false,
                         draggable: false,
                         hoverable: false,
                         selectable: false,
+                        dropable: false,
                         tagName: "li",
                         attributes: { class: "nav-item" },
                         content: `<a href="#" class="nav-link p-1"> ${element.name}</a>`,
@@ -48,13 +49,16 @@ export default function loadBlockHeader(editor, opt = {}) {
                     draggable: false,
                     hoverable: false,
                     selectable: false,
+                    dropable: false,
                     tagName: "div",
                     attributes: { class: "container align-items-baseline" },
                     components: [
                         {
                             layerable: false,
                             draggable: false,
+                            highlightable: false,
                             hoverable: false,
+                            dropable: false,
                             tagName: "button",
                             attributes: { class: "navbar-toggler", type: "button", "data-bs-toggle": "collapse", "data-bs-target": "#navbarSupportedContent", "aria-controls": "navbarSupportedContent", "aria-expanded": "false", "aria-label": "Toggle navigation" },
                             content: `<i class="fa fa-bars"></i>`,
@@ -62,6 +66,7 @@ export default function loadBlockHeader(editor, opt = {}) {
                         {
                             layerable: false,
                             draggable: false,
+                            dropable: false,
                             hoverable: false,
                             tagName: "a",
                             attributes: { href: "#", class: "navbar-brand text-uppercase font-weight-bold" },
@@ -71,7 +76,9 @@ export default function loadBlockHeader(editor, opt = {}) {
                         {
                             layerable: false,
                             draggable: false,
+                            dropable: false,
                             hoverable: false,
+                            highlightable: false,
                             selectable: false,
                             tagName: "div",
                             attributes: { class: "d-block d-md-none" },
@@ -79,6 +86,7 @@ export default function loadBlockHeader(editor, opt = {}) {
                                 {
                                     layerable: false,
                                     draggable: false,
+                                    dropable: false,
                                     hoverable: false,
                                     selectable: false,
                                     tagName: "i",
@@ -86,6 +94,7 @@ export default function loadBlockHeader(editor, opt = {}) {
                                 },
                                 {
                                     layerable: false,
+                                    dropable: false,
                                     draggable: false,
                                     hoverable: false,
                                     selectable: false,
@@ -97,6 +106,8 @@ export default function loadBlockHeader(editor, opt = {}) {
                         {
                             layerable: false,
                             draggable: false,
+                            dropable: false,
+                            highlightable: false,
                             hoverable: false,
                             selectable: false,
                             tagName: "div",
@@ -106,6 +117,8 @@ export default function loadBlockHeader(editor, opt = {}) {
                                     layerable: false,
                                     draggable: false,
                                     hoverable: false,
+                                    dropable: false,
+                                    highlightable: false,
                                     selectable: false,
                                     tagName: "ul",
                                     attributes: { class: "navbar-nav" },
@@ -117,6 +130,8 @@ export default function loadBlockHeader(editor, opt = {}) {
                             layerable: false,
                             draggable: false,
                             hoverable: false,
+                            dropable: false,
+                            highlightable: false,
                             selectable: false,
                             tagName: "div",
                             attributes: { class: "d-none d-md-block" },
@@ -125,6 +140,7 @@ export default function loadBlockHeader(editor, opt = {}) {
                                     layerable: false,
                                     draggable: false,
                                     hoverable: false,
+                                    dropable: false,
                                     selectable: false,
                                     tagName: "i",
                                     attributes: { class: "fa fa-search icon-header" },
@@ -134,6 +150,7 @@ export default function loadBlockHeader(editor, opt = {}) {
                                     draggable: false,
                                     hoverable: false,
                                     selectable: false,
+                                    dropable: false,
                                     tagName: "i",
                                     attributes: { class: "fa fa-shopping-bag icon-header" },
                                 },
@@ -365,8 +382,8 @@ export default function loadBlockHeader(editor, opt = {}) {
                 traits: [
                     {
                         type: 'select',
-                        label: 'Theme color', // The label you will see in Settings
-                        name: 'theme', // The name of the attribute/property to use on component
+                        label: 'Theme color',
+                        name: 'theme',
                         options: [
                             { id: 'white', name: 'White' },
                             { id: 'black', name: 'Black' },
@@ -382,96 +399,105 @@ export default function loadBlockHeader(editor, opt = {}) {
                         name: 'logoImage',
                         src: c.logoURL?? 'https://dummyimage.com/600x400/55595c/fff',
                     },
+                    {
+                        type: 'select',
+                        label: 'Logo size', 
+                        name: 'logoSize', 
+                        options: [
+                            { id: 'small', name: 'Small' },
+                            { id: 'medium', name: 'Medium' },
+                            { id: 'large', name: 'Large' },
+                        ]
+                    },
                 ],
             },
 
             init() {
                 this.on('change:attributes:theme', this.handleThemeChange);
+                this.on('change:attributes:logoSize', this.handleLogoSizechange);
             },
             initData() {
                 
             },
 
-            handleThemeChange() {
-                let storeCssData = {};
 
-                if (this.getAttributes().theme === "white") {
-                    storeCssData["[name='header-navigation'].navbar"] = "{ background-color: white !important}";
-                    storeCssData["[name='header-navigation'].navbar a, [name='header-navigation'].navbar i, [name='header-navigation'].navbar a.navbar-brand:hover"] = "{ color: black !important }";
+            handleThemeChange() {
+
+                // if (this.getAttributes().theme === "white") {
+                //     storeCssData["[name='header-navigation'].navbar"] = "{ background-color: white}";
+                //     storeCssData["[name='header-navigation'].navbar a, [name='header-navigation'].navbar i, [name='header-navigation'].navbar a.navbar-brand:hover"] = "{ color: black }";
+                // } else if (this.getAttributes().theme === "black") {
+                //     storeCssData["[name='header-navigation'].navbar"] = "{ background-color: #121212}";
+                //     storeCssData["[name='header-navigation'].navbar a, [name='header-navigation'].navbar i, [name='header-navigation'].navbar a.navbar-brand:hover"] = "{ color: white }";
+
+                // } else if (this.getAttributes().theme === "lGreen") {
+                //     storeCssData["[name='header-navigation'].navbar"] = "{ background-color: #69c5a3 }";
+                //     storeCssData["[name='header-navigation'].navbar a, [name='header-navigation'].navbar i, [name='header-navigation'].navbar a.navbar-brand:hover"] = "{ color: black }";
+
+                // } else if (this.getAttributes().theme === "lBlue") {
+                //     storeCssData["[name='header-navigation'].navbar"] = "{ background-color: #c8e1e7 }";
+                //     storeCssData["[name='header-navigation'].navbar a, [name='header-navigation'].navbar i, [name='header-navigation'].navbar a.navbar-brand:hover"] = "{ color: black }";
+                // } else if (this.getAttributes().theme === "sand") {
+                //     storeCssData["[name='header-navigation'].navbar"] = "{ background-color: #f6d7b0 }";
+                //     storeCssData["[name='header-navigation'].navbar a, [name='header-navigation'].navbar i, [name='header-navigation'].navbar a.navbar-brand:hover"] = "{ color: black }";
+                // }
+
+                c.addCssStore({ "header-theme": this.getAttributes().theme });
+
+            },
+
+            handleLogoSizechange() {
+                c.addCssStore({ "header-logoSize": this.getAttributes().logoSize });
+            }
+        },
+    });
+}
+
 
                     // storeCssData[".offcanvas"] = "{ background-color: white, color: black !important }";
                     // storeCssData[".offcanvas .btn-close"] = "{ background-color: none }";
                     // storeCssData[".offcanvas a"] = "{ color: black !important }";
-
-                } else if (this.getAttributes().theme === "black") {
-                    storeCssData["[name='header-navigation'].navbar"] = "{ background-color: #121212 !important}";
-                    storeCssData["[name='header-navigation'].navbar a, [name='header-navigation'].navbar i, [name='header-navigation'].navbar a.navbar-brand:hover"] = "{ color: white !important }";
 
                     // editor.Css.setRule(
                     //     `.offcanvas`, { 
                     //         'background-color': '#121212',
                     //         'color': 'white !important'
                     //     });
-
                     // editor.Css.setRule(
                     //     `.offcanvas .btn-close`, { 
                     //         'background-color': 'white',
                     //     });
-
                     // editor.Css.setRule(
                     //     `.offcanvas a`, { 
                     //         'color': 'white !important'
                     //     });
-
-                } else if (this.getAttributes().theme === "lGreen") {
-                    storeCssData["[name='header-navigation'].navbar"] = "{ background-color: #69c5a3 !important}";
-                    storeCssData["[name='header-navigation'].navbar a, [name='header-navigation'].navbar i, [name='header-navigation'].navbar a.navbar-brand:hover"] = "{ color: black !important }";
 
                     // editor.Css.setRule(
                     //     `.offcanvas`, { 
                     //         'background-color': '#69c5a3',
                     //         'color': 'black !important'
                     //     });
-
                     // editor.Css.setRule(
                     //     `.offcanvas a`, { 
                     //         'color': 'black !important'
                     //     });
-
-                } else if (this.getAttributes().theme === "lBlue") {
-                    storeCssData["[name='header-navigation'].navbar"] = "{ background-color: #c8e1e7 !important}";
-                    storeCssData["[name='header-navigation'].navbar a, [name='header-navigation'].navbar i, [name='header-navigation'].navbar a.navbar-brand:hover"] = "{ color: black !important }";
 
                     // editor.Css.setRule(
                     //     `.offcanvas`, { 
                     //         'background-color': '#c8e1e7',
                     //         'color': 'back !important'
                     //     });
-
                     // editor.Css.setRule(
                     //     `.offcanvas a`, { 
                     //         'color': 'back !important'
                     //     });
-
-                } else if (this.getAttributes().theme === "sand") {
-                    storeCssData["[name='header-navigation'].navbar"] = "{ background-color: #f6d7b0 !important}";
-                    storeCssData["[name='header-navigation'].navbar a, [name='header-navigation'].navbar i, [name='header-navigation'].navbar a.navbar-brand:hover"] = "{ color: black !important }";
 
                     // editor.Css.setRule(
                     //     `.offcanvas`, { 
                     //         'background-color': '#f6d7b0',
                     //         'color': 'back !important'
                     //     });
-
                     // editor.Css.setRule(
                     //     `.offcanvas a`, { 
                     //         'color': 'back !important'
                     //     });
-                }
-
-                c.addCssStore(storeCssData);
-
-            },
-        },
-    });
-}

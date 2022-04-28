@@ -305,6 +305,7 @@
 .Modal-popup li.active .check-item{
   color:#07c507;
 }
+
 .gjs-field-checkbox input:checked+.gjs-chk-icon {
   border-color: black;
 }
@@ -317,4 +318,8 @@
 .gjs-am-add-asset button {
   background-color: #84dd9e;
   border: 1px solid black;
+}
+
+.gjs-trt-trait .gjs-field {
+  background-color: var(--theme) !important;
 }

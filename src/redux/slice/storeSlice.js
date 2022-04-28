@@ -14,22 +14,23 @@ export const storeSlice = createSlice({
     initialState: {
         logoURL: null,
         templateName: null,
-        storeCssData: {},
+        storeTraitData: {},
         listPagesId: [],
     },
     reducers: {
-        doSwitchStoreCssData(state, action) {
-            let newStoreCssData  = { ...state.storeCssData}
+        doAddStoreTraitData(state, action) {
+            let newStoreTraitData  = { ...state.storeTraitData}
             for (let key in action.payload) {
-                newStoreCssData[key] = action.payload[key];
+                newStoreTraitData[key] = action.payload[key];
             }
-            state.storeCssData = newStoreCssData;
+            state.storeTraitData = newStoreTraitData;
         },
         doSwitchLogoURL(state, action) {
             state.logoURL = action.payload;
         },
         doSaveStoreData(state, action) {
-            callAPIWithPostMethod("stores/css/" + action.payload.storeId, { data: state.storeCssData }, true);
+            callAPIWithPostMethod("stores/trait/" + action.payload.storeId, { traitData: state.storeTraitData }, true);
+            callAPIWithPostMethod("stores/logoUrl/" + action.payload.storeId, { logoUrl: action.payload.logoImage }, true);
         },
     },
     extraReducers: (builder) => {
@@ -39,7 +40,7 @@ export const storeSlice = createSlice({
         builder.addCase(getInitDataStore.fulfilled, (state, action) => {
             state.logoURL = action.payload.logoURL;
             state.listPagesId = action.payload.listPagesId;
-            state.storeCssData = action.payload.storeCssData;
+            state.storeTraitData = action.payload.storeTraitData;
             state.templateName = action.payload.template;
         })
         builder.addCase(getInitDataStore.rejected, (state, action) => {
@@ -49,5 +50,5 @@ export const storeSlice = createSlice({
 })
 
 const { actions, reducer } = storeSlice;
-export const { doSwitchStore, doSwitchStoreCssData, doSwitchLogoURL, doSwitchListPagesId, doSaveStoreData, doAddImageUpload } = actions;
+export const { doSwitchStore, doAddStoreTraitData, doSwitchLogoURL, doSwitchListPagesId, doSaveStoreData, doAddImageUpload } = actions;
 export default reducer;

@@ -9,8 +9,9 @@ export default function loadBlockMain(editor, opt = {}) {
         copyable :false,
         selectable :false,
         hoverable :false,
-        removable:false,
+        // removable:false,
         droppable: true,
+        editable :false,
       },
       init() {
       },

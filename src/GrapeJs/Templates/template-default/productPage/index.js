@@ -145,7 +145,14 @@ export default function loadBlockProductPage(editor, opt = {}) {
               </div>
           </div>
 
-      </div>
+        </div>
+        <div class="w-100 d-flex justify-content-center " style ="height: 50px;" >
+          <div class="dots d-none">
+            <div></div>
+            <div></div>
+            <div></div>
+          </div>
+        </div>
           `,
           attributes: {
             class:"new-arrivals-content",

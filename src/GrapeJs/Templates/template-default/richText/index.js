@@ -22,7 +22,7 @@ export default function loadBlockRichText(editor, opt = {}) {
         class: "Rich-Text",
         name: "rich-text",
       },
-      name: "RichText",
+      name: "Rich Text",
       draggable: ".main-content",
       type: "RichText",
       components: [

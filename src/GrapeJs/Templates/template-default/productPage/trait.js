@@ -8,7 +8,7 @@ export default function loadTraitProductPage(editor, opt = {}) {
         trait.target.attributes.attributes["data-ez-mall-numProducts"] || 8;
       el.innerHTML = `
           <div class="d-flex align-items-center gjs-one-bg">
-            <input type="range" id="cowbell" style = "appearance:auto;" class="p-0" name="numPRoduct" 
+            <input type="range" id="cowbell" style = "outline: none; background-color: #aaa; height: 3px; width: 100%; margin: 10px auto;" class="p-0" name="numPRoduct" 
                  min="8" max="24" value="${initValue}" step="4">
              <label class="m-0" for="numPRoduct">Cowbell</label>
             </div>

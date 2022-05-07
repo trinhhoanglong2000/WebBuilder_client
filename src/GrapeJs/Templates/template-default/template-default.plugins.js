@@ -23,7 +23,7 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
     multicolumn: "Multicolumn",
 
     //=======================|Block name|=======================
-    label_product_list: "Product collection",
+    label_product_list: "Product List",
     carouselBlkLabel: "Carousel",
     label_rich_text:"Rich text",
 

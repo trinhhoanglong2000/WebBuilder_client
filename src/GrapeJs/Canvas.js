@@ -201,6 +201,8 @@ function Canvas({ type }) {
                 addComponentCssNJs(editor, listCssFile);
                 // ========================== Load store css file ================================
                 loadStoreTraitEffect(editor);
+                editor.getWrapper().set({hoverable :false,selectable:false,highlightable :false})
+
                 const style = `strong{font-weight:bold;}`;
                 if (!editor.getCss().includes(style)) editor.addStyle(style);
               });

@@ -1,6 +1,9 @@
 :root {
   --theme: #f6faf6;
 }
+.gjs-layer-name{
+  pointer-events: none;
+}
 .gjs-pn-open-block {
   left: 0%;
   width: 15%;

@@ -115,7 +115,7 @@ export default function loadBlockProducts(editor, opt = {}) {
         class: "container product-section",
         name: "products-collections",
       },
-      name: "ProductList",
+      name: "Product List",
       draggable: ".main-content",
       type: "product-list",
       components: [

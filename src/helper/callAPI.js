@@ -55,7 +55,6 @@ const callAPIWithPostMethod = async(pathURL, data, bearTokenFlg) => {
         redirect: 'follow'
     };
 
-  
     let fetchResult;
     await fetch(process.env.REACT_APP_API_URL + pathURL, requestOptions)
         .then(response => {

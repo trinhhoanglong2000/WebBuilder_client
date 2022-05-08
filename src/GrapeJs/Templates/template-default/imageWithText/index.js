@@ -165,14 +165,8 @@ export default function loadImageWithText(editor, opt = {}) {
                     <div class="target-img">
                         <img src=${initValue?? trait.get('src')} class="card-img-top"/>
                     </div>
-                    <div class="row">
-                        <div class="col-6 col-md-12">
-                            <button type="button" class="change-btn">Change</button>
-                        </div>
-                        <div class="col">
-                            <button type="button" class="remove-btn">Remove</button>
-                        </div>
-                    </div>
+                    <button type="button" class="change-btn">Change</button>
+                    <button type="button" class="remove-btn">Remove</button>
                 </div>
             </div>
             `;
@@ -180,28 +174,33 @@ export default function loadImageWithText(editor, opt = {}) {
             const changeBtn = el.querySelector('.upload-image-area .card-body button.change-btn');
             const removeBtn = el.querySelector('.upload-image-area .card-body button.remove-btn');
             const inputImage = el.querySelector('.upload-image-area .card-body img');
+            const target = editor.getSelected().get("components").models[0].get("components").models[0];
+
             changeBtn.onclick = () => {
                 am.open({
                     select(asset, complete) {
-                        const selected = editor.getSelected();
-
                         inputImage.src = asset.getSrc();
 
-                        const image = selected.get("components").models[0].get("components").models[0];
-                        image.set('content', `<img src="${asset.getSrc()}" class="img-responsive img-fluid" alt="">`);
+                        target.set('content', `<img src="${asset.getSrc()}" class="img-responsive img-fluid">`);
                         
+                        if (!c.validURL(asset.getSrc())) {
+                            c.addTarget64Image({id: asset.cid, target: target})
+                        }
+
                         am.close();
                     },
 
                 });
             };
-            removeBtn.onClick = () => {
-            }
+
+            removeBtn.onclick = () => {
+                target.set('content', `<img src="${trait.get('src')}" class="img-responsive img-fluid">`);
+                inputImage.src = trait.get('src');
+            };
 
             return el;
         },
     });
-
 
     bm.add('imageWithText', {
         label: "Image With Text",
@@ -226,7 +225,7 @@ export default function loadImageWithText(editor, opt = {}) {
                             draggable: "[name='imageWithText'] .row",
                             tagName: "div",
                             attributes: { class: "col-sm-12 col-md-6 d-flex align-items-center justify-content-center" },
-                            content: `<img src="https://dummyimage.com/600x400/55595c/fff" class="img-responsive img-fluid" alt="">`
+                            content: `<img src="https://dummyimage.com/600x400/55595c/fff" class="img-responsive img-fluid">`
                         }, 
                         {
                             hoverable: false,
@@ -276,7 +275,6 @@ export default function loadImageWithText(editor, opt = {}) {
     });
 
     dc.addType('imageWithText', {
-        isComponent: el => el.tagName === 'imageWithText',
         model: {
             defaults: {
                 traits: [
@@ -302,7 +300,6 @@ export default function loadImageWithText(editor, opt = {}) {
                     {
                         type: "imageWithText-image",
                         label: "Image",
-                        placeholder: "Button label",
                         src: "https://dummyimage.com/230x150/55595c/fff",
                     }
                 ],

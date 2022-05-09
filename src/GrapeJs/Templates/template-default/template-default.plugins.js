@@ -34,7 +34,7 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
   // Example Data
   config.storeName = "Store name";
 
-  config.footerNavigation1 = [{
+  config.footerNavigation = [{
     name: "Search",
     link: "https://www.youtube.com/"
   }, {
@@ -46,10 +46,7 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
   }];
 
   // Example Data
-  config.footerNavigation2 = [{
-    name: "Share your store detail, promotion or brand contents",
-    link: "https://www.youtube.com/"
-  }];
+  config.footerHeading = "Share your store detail, promotion or brand contents with your customers.";
 
   // Add blocks
   //loadBlocks(editor, config);

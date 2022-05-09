@@ -14,41 +14,42 @@ export const storeSlice = createSlice({
     initialState: {
         logoURL: null,
         templateName: null,
-        storeTraitData: {},
+        storeComponents: {},
+        targetBase64Image: {},
         listPagesId: [],
     },
     reducers: {
-        doAddStoreTraitData(state, action) {
-            let newStoreTraitData  = { ...state.storeTraitData}
-            for (let key in action.payload) {
-                newStoreTraitData[key] = action.payload[key];
-            }
-            state.storeTraitData = newStoreTraitData;
-        },
         doSwitchLogoURL(state, action) {
             state.logoURL = action.payload;
         },
-        doSaveStoreData(state, action) {
-            callAPIWithPostMethod("stores/trait/" + action.payload.storeId, { traitData: state.storeTraitData }, true);
-            callAPIWithPostMethod("stores/logoUrl/" + action.payload.storeId, { logoUrl: action.payload.logoImage }, true);
+        doAddTargetImage(state, action) {
+            let targetBase64Image  = { ...state.targetBase64Image}
+            targetBase64Image[action.payload.id] = action.payload.target;
+
+            state.targetBase64Image = targetBase64Image;
         },
+        doSaveStoreData(state, action) {
+            callAPIWithPostMethod("stores/save-store-data/" + action.payload.storeId, { logoUrl: action.payload.logoSrc, storeComponents: action.payload.storeComponents}, true);
+        },
+        doRenderImage(state, action){
+            if (state.targetBase64Image[action.payload.id]) {
+                state.targetBase64Image[action.payload.id].set('content', `<img src="${action.payload.image}" class="img-responsive img-fluid"/>`)
+            }
+        }
+
     },
     extraReducers: (builder) => {
-        builder.addCase(getInitDataStore.pending, (state) => {
-            
-        })
         builder.addCase(getInitDataStore.fulfilled, (state, action) => {
-            state.logoURL = action.payload.logoURL;
-            state.listPagesId = action.payload.listPagesId;
-            state.storeTraitData = action.payload.storeTraitData;
-            state.templateName = action.payload.template;
-        })
-        builder.addCase(getInitDataStore.rejected, (state, action) => {
-            // Tat loader
+            if (action.payload) {
+                state.logoURL = action.payload.logoURL;
+                state.listPagesId = action.payload.listPagesId;
+                state.storeComponents = action.payload.storeComponents;
+                state.templateName = action.payload.template;
+            }
         })
     }
 })
 
 const { actions, reducer } = storeSlice;
-export const { doSwitchStore, doAddStoreTraitData, doSwitchLogoURL, doSwitchListPagesId, doSaveStoreData, doAddImageUpload } = actions;
+export const { doSwitchLogoURL, doAddTargetImage, doSaveStoreData, doRenderImage } = actions;
 export default reducer;

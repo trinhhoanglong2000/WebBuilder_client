@@ -14,11 +14,12 @@ import "./Templates/template-default/template-default.plugins";
 import AvatarLoad from '../components/AvatarLoad/AvatarLoad'
 import SaveLoad from '../components/SaveLoad/SaveLoad'
 import { readCookie } from './../helper/cookie';
-import { getTraitStoreEffect } from "../helper/utils";
+import { loadStoreComponents, validURL } from "../helper/utils";
 import {
-  doAddStoreTraitData,
   getInitDataStore,
   doSaveStoreData,
+  doAddTargetImage,
+  doRenderImage
 } from "../redux/slice/storeSlice";
 
 function Canvas({ type }) {
@@ -30,7 +31,6 @@ function Canvas({ type }) {
   const [isSaving, setIsSaving] = useState(false)
   const storeId = useParams().idStore;
   const listPagesId = useSelector(state => state.store.listPagesId);
-  const storeTraitData = useSelector((state) => state.store.storeTraitData);
   const logoURL = useSelector((state) => state.store.logoURL);
   const template = useSelector((state) => state.store.templateName)
   const token = readCookie('token');
@@ -57,14 +57,6 @@ function Canvas({ type }) {
     })
   }, [storeId]);
 
-  useEffect(() => {
-    loadStoreTraitEffect(editor);
-  }, [storeTraitData]);
-
-  const addNewStoreTrait = (newStoreTraitData) => {
-    dispatch(doAddStoreTraitData(newStoreTraitData));
-  };
-
   const addComponentCssNJs = (editor, listCssFile) => {
     listCssFile.forEach((ele) => { 
       let canvasDocument = editor.Canvas.getDocument();
@@ -90,27 +82,13 @@ function Canvas({ type }) {
     });
   }
 
-  const loadStoreTraitEffect = (e = null) => {
-    const editor = e ?? null;
-    if (!editor) {
-      return;
-    }
-
-    let domWrapper = editor.getWrapper().view;
-    if (!domWrapper) {
-      return;
-    }
-
-    let domStoreStyle = domWrapper.el.getElementsByClassName("storeCss")[0];
-    let cssContent = getTraitStoreEffect(domWrapper, storeTraitData);
-
-    if (domStoreStyle) {
-      domStoreStyle.innerHTML = cssContent;
-    } else {
-      domWrapper.el.insertAdjacentHTML("afterbegin", `<style class="storeCss"> ${cssContent} </style>`);
-    }
-  };
-
+  const addTarget64Image = (data) => {
+    dispatch(doAddTargetImage(data));
+  }
+  const renderImage = (data) => {
+    dispatch(doRenderImage(data));
+  }
+  
   return (
     <>
       {!loading ? (
@@ -124,10 +102,13 @@ function Canvas({ type }) {
                 logoURL: logoURL,
                 pageId: pageId,
                 headerNavigation: listPagesId,
-                addCssStore: addNewStoreTrait,
                 storeId: storeId,
-                
+                addTarget64Image: addTarget64Image,
+                validURL: validURL
               },
+              "Plugins-defaults": {
+                renderImage: renderImage
+              }
             }}
             styleManager={
               {
@@ -177,52 +158,61 @@ function Canvas({ type }) {
                 let componentCss = header.querySelector(`#${droppedComponent.attributes.name}`)
 
                 if (!componentCss) {
-                  addComponentCssNJs(editor, [componentCss]);
+                  addComponentCssNJs(editor, [droppedComponent.attributes.name]);
                 }
               });
 
               editor.onReady(() => {
-                // setEditor(editor);
-                setIsSaving(false)
-                // ========================== Load component css file ================================
-                const listComponents = editor.Components.getComponents().models;
-                
-                let listCssFile = [];
-                listComponents.forEach((ele) => {
-                  if (ele.attributes.name === "Main") {
-                    const mainComponent = ele.attributes.components.models;
-                    mainComponent.forEach((ele) => {
-                      listCssFile.push(ele.attributes.name);
-                    });
-                  } else {
-                    listCssFile.push(ele.attributes.name);
-                  }
-                });
-                addComponentCssNJs(editor, listCssFile);
-                // ========================== Load store css file ================================
-                loadStoreTraitEffect(editor);
-                editor.getWrapper().set({hoverable :false,selectable:false,highlightable :false})
+                const initStoreData = async() =>{
+                  await loadStoreComponents(editor, storeId)
 
-                const style = `strong{font-weight:bold;}`;
-                if (!editor.getCss().includes(style)) editor.addStyle(style);
+                  // ========================== Load component css file ================================
+                  const listComponents = editor.Components.getComponents().models;
+                  let listCssFile = [];
+                  listComponents.forEach((ele) => {
+                    if (ele.attributes.name === "Main") {
+                      const mainComponent = ele.attributes.components.models;
+                      mainComponent.forEach((ele) => {
+                        listCssFile.push(ele.attributes.name);
+                      });
+                    } else {
+                      listCssFile.push(ele.attributes.name);
+                    }
+                  });
+
+                  const style = `strong{font-weight:bold;}`;
+                  if (!editor.getCss().includes(style)) editor.addStyle(style);
+                  addComponentCssNJs(editor, listCssFile);
+                }
+
+                setIsSaving(false)
+                initStoreData();
               });
 
               editor.on("storage:start:store", async function () {
                 setIsSaving(true);
-                let domWrapper = editor.getWrapper().view.el;
-                let logoImage = domWrapper.querySelector(".navbar-brand img");
 
-                if (logoImage.src === logoURL) {
-                  logoImage = null;
+                let footer = editor.getComponents().where({ name: 'Footer' })[0];
+                let header = editor.getComponents().where({ name: 'Header' })[0];
+
+                let storeComponents = {
+                  'header': JSON.stringify(header), 
+                  'header-html': header.toHTML(),
+                  'footer': JSON.stringify(footer), 
+                  'footer-html': footer.toHTML(),
+                  'asset': JSON.stringify(editor.AssetManager.getAll().models),
                 }
 
-                dispatch(doSaveStoreData({storeId, logoImage}));
+                let domWrapper = editor.getWrapper().view.el;
+                let logoImage = domWrapper.querySelector(".navbar-brand img");
+                let logoSrc = (logoImage)? logoImage.src : null;
+
+                dispatch(doSaveStoreData({storeId, logoSrc, storeComponents}));
               });
 
               editor.on("storage:end:store", function () {
                 setIsSaving(false);
               });
-
 
             }}
             canvas={{

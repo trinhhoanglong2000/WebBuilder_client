@@ -28,7 +28,7 @@ export default function loadBlockMain(editor, opt = {}) {
     category: "Main",
     content: {
       name: "Main",
-      
+      tagName: "main",
       type: "Main",
 
       attributes: {

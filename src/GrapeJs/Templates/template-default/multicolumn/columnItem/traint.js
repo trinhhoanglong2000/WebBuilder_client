@@ -147,14 +147,8 @@ export default function loadTraitColumnItem(editor, opt = {}) {
                     <div class="target-img">
                         <img src=${initValue ?? trait.get('src')} class="card-img-top"/>
                     </div>
-                    <div class="row">
-                        <div class="col-6 col-md-12">
-                            <button type="button" class="change-btn">Change</button>
-                        </div>
-                        <div class="col">
-                            <button type="button" class="remove-btn">Remove</button>
-                        </div>
-                    </div>
+                    <button type="button" class="change-btn">Change</button>
+                    <button type="button" class="remove-btn">Remove</button>
                 </div>
             </div>
             `;

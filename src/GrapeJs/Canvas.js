@@ -80,7 +80,6 @@ function Canvas({ type }) {
 
         body.appendChild(script);
       }
-
       if (ele && ele !== "") {
         header.insertAdjacentHTML(
           "beforeend",
@@ -187,6 +186,7 @@ function Canvas({ type }) {
                 setIsSaving(false)
                 // ========================== Load component css file ================================
                 const listComponents = editor.Components.getComponents().models;
+                
                 let listCssFile = [];
                 listComponents.forEach((ele) => {
                   if (ele.attributes.name === "Main") {

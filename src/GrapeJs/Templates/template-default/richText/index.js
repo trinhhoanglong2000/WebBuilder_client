@@ -35,7 +35,7 @@ export default function loadBlockRichText(editor, opt = {}) {
 
           draggable: ".Rich-Text",
 
-          type: "product-text",
+          type: "RichText-Header",
         },
         {
           name: "Text",
@@ -85,7 +85,7 @@ export default function loadBlockRichText(editor, opt = {}) {
 
       draggable: ".Rich-Text",
 
-      type: "product-text",
+      type: "RichText-Header",
     },
   });
   bm.add("RichText-Text", {

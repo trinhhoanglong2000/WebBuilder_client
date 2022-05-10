@@ -3,6 +3,27 @@ export default function loadComponentsRichText(editor, opt = {}) {
 
   //#region productList
   const domc = editor.DomComponents;
+  domc.addType("RichText-Header", {
+    model: {
+      defaults: {
+        traits: [
+          {
+            type: "richtext-heading", // Type of the trait
+            label: "Description", // The label you will see in Settings
+          },
+          {
+            type: "richtext-heading-align",
+            label: "Alignment",
+          }
+        ],
+      },
+      init() {
+      },
+      initData() {},
+      handleTypeChangeData() {},
+      // This function run when component created - we setup listen to change atri
+    },
+  });
   domc.addType("RichText-Text", {
     model: {
       defaults: {
@@ -29,7 +50,7 @@ export default function loadComponentsRichText(editor, opt = {}) {
       defaults: {
         traits: [
           {
-            type: "product-heading", // Type of the trait
+            type: "richtext-heading", // Type of the trait
             label: "Label", // The label you will see in Settings
             placeholder:"Label"
           },

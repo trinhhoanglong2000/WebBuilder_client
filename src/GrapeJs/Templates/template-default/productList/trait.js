@@ -218,7 +218,7 @@ export default function loadTraitProduct(editor, opt = {}) {
     editor.TraitManager.addType("product-heading", {
       // Expects as return a simple HTML string or an HTML element
       createInput({ trait }) {
-        const initValue = trait.target.get("content") || "";
+        const initValue = trait.target.get('components').where({name:"Text"})[0].get("content") || "";
         const placeholder = trait.get("placeholder") || "";
         const el = document.createElement("div");
         el.innerHTML = `
@@ -241,8 +241,8 @@ export default function loadTraitProduct(editor, opt = {}) {
   
         let data = inputType.value;
         //#2 This function will set attribute data {nameAttribute:Value} => IMPORTAINT FOR COMPONENT LISTEN CHANGE ATTRIBUTE
-        if (component.get("content") !== data) {
-          component.set({ content: data });
+        if (component.get('components').where({name:"Text"})[0].get("content") !== data) {
+          component.get('components').where({name:"Text"})[0].set({ content: data });
         }
       },
     });
@@ -251,7 +251,7 @@ export default function loadTraitProduct(editor, opt = {}) {
       createInput({ trait }) {
         //.Radio-Group CSS in CAnvas CSS
   
-        const initValue = trait.target.getStyle()["text-align"] || "center";
+        const initValue = trait.target.get('components').where({name:"Text"})[0].getStyle()["text-align"] || "center";
         const el = document.createElement("div");
         el.innerHTML = `
   
@@ -287,7 +287,7 @@ export default function loadTraitProduct(editor, opt = {}) {
         let data = inputType.value;
         // editor.Selectors.setState('after');
         // console.log(editor.Selectors.getState())
-        component.setStyle({ ...component.getStyle(), "text-align": data });
+        component.get('components').where({name:"Text"})[0].setStyle({ ...component.get('components').where({name:"Text"})[0].getStyle(), "text-align": data });
       },
     });
     

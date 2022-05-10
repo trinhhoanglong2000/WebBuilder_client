@@ -2,143 +2,148 @@ import $ from "jquery";
 import { v4 as uuidv4 } from "uuid";
 import loadTraitProduct from "./trait";
 export default function loadBlockProducts(editor, opt = {}) {
-  const c = opt;
-  let bm = editor.BlockManager;
-  const domc = editor.DomComponents;
+    const c = opt;
+    let bm = editor.BlockManager;
+    const domc = editor.DomComponents;
 
-  const defaultType = domc.getType("default");
-  const defaultModel = defaultType.model;
-  const defaultView = defaultType.view;
-  loadTraitProduct(editor, opt);
+    const defaultType = domc.getType("default");
+    const defaultModel = defaultType.model;
+    const defaultView = defaultType.view;
+    loadTraitProduct(editor, opt);
 
 
-  domc.addType("product-text", {
-    model: {
-      defaults: {
-        traits: [
-          {
-            type: "product-heading", // Type of the trait
-            label: "Heading", // The label you will see in Settings
-            placeholder: "Header",
-          },
-          {
-            type: "product-heading-align",
-            label: "Alignment",
-          },
-        ],
-      },
-    },
-  });
-  domc.addType("product-list", {
-    model: {
-      defaults: {
-        traits: [
-          {
-            type: "product-collection",
-            label: "Collection", // The label you will see in Settings
-          },
-        ],
-      },
-      init() {
+    domc.addType("product-text", {
+        model: {
+            defaults: {
+                traits: [
 
-      },
-      initData() {
-        this.attributes.components.models.forEach(function (item) {
-          //check product//
-          if (item.attributes.name === "Products") {
-            item.set({
-              content: item.attributes.content.replace(
-                /myCarousel/g,
-                `A${uuidv4()}`
-              ),
-            });
-          }
-        });
-      },
-     
-
-      // This function run when component created - we setup listen to change atri
-    },
-    view:defaultView.extend( {
-        init() {
-            this.listenTo(this.model, "change:attributes:data-ez-mall-collection",this.Update);
+                ],
+            },
         },
-        onRender() {
-            this.Update()
+    });
+    domc.addType("product-list", {
+        model: {
+            defaults: {
+                traits: [
+                    {
+                        type: "product-collection",
+                        label: "Collection", // The label you will see in Settings
+                    },
+                    {
+                        type: "product-heading", // Type of the trait
+                        label: "Heading", // The label you will see in Settings
+                        placeholder: "Header",
+                    },
+                    {
+                        type: "product-heading-align",
+                        label: "Alignment",
+                    },
+                ],
+            },
+            init() {
+
+            },
+            initData() {
+                this.attributes.components.models.forEach(function (item) {
+                    //check product//
+                    if (item.attributes.name === "Products") {
+                        item.set({
+                            content: item.attributes.content.replace(
+                                /myCarousel/g,
+                                `A${uuidv4()}`
+                            ),
+                        });
+                    }
+                });
+            },
+
+
+            // This function run when component created - we setup listen to change atri
         },
-        async Update() {
-            let products_data = [
-              {
-                title: "Product Title",
-                price: "$100.00",
-                thumbnail: "https://dummyimage.com/600x400/55595c/fff",
-              },
-            ];
-            const id = this.model.attributes.attributes["data-ez-mall-collection"] || " ";
-            fetch(`http://localhost:5000/collections/product/${id}`)
-              .then((response) => response.json())
-              .then((data) => {
-                if (data.data[0].listProducts)
-                  products_data = data.data[0].listProducts;
-                $(this.el)
-                  .find(".thumb-wrapper")
-                  .each(function (index) {
-                    $(this)
-                      .find("h4")
-                      .text(products_data[index % products_data.length].title);
-                    $(this)
-                      .find(".item-price strike")
-                      .text(products_data[index % products_data.length].price);
-                    $(this)
-                      .find(".item-price span")
-                      .text(products_data[index % products_data.length].price);
-                    $(this)
-                      .find("img")
-                      .attr(
-                        "src",
-                        products_data[index % products_data.length].thumbnail
-                      );
-                  });
-              });
-          },
-      },
-    )
-    
-  });
-  bm.add("productList", {
-    label: `
+        view: defaultView.extend({
+            init() {
+                this.listenTo(this.model, "change:attributes:data-ez-mall-collection", this.Update);
+            },
+            onRender() {
+                this.Update()
+            },
+            async Update() {
+                let products_data = [
+                    {
+                        title: "Product Title",
+                        price: "$100.00",
+                        thumbnail: "https://dummyimage.com/600x400/55595c/fff",
+                    },
+                ];
+                const id = this.model.attributes.attributes["data-ez-mall-collection"] || " ";
+                fetch(`http://localhost:5000/collections/product/${id}`)
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data.data[0].listProducts)
+                            products_data = data.data[0].listProducts;
+                        $(this.el)
+                            .find(".thumb-wrapper")
+                            .each(function (index) {
+                                $(this)
+                                    .find("h4")
+                                    .text(products_data[index % products_data.length].title);
+                                $(this)
+                                    .find(".item-price strike")
+                                    .text(products_data[index % products_data.length].price);
+                                $(this)
+                                    .find(".item-price span")
+                                    .text(products_data[index % products_data.length].price);
+                                $(this)
+                                    .find("img")
+                                    .attr(
+                                        "src",
+                                        products_data[index % products_data.length].thumbnail
+                                    );
+                            });
+                    });
+            },
+        },
+        )
+
+    });
+    bm.add("productList", {
+        label: `
       <div>${c.label_product_list}</div> `,
-    category: c.catergory_product_list,
-    attributes: { class: "fa fa-cube" },
-    content: {
-      attributes: {
-        class: "container product-section",
-        name: "products-collections",
-      },
-      name: "Product List",
-      draggable: ".main-content",
-      type: "product-list",
-      components: [
-        {
-          name: "Text",
-          draggable: ".product-section",
-          tagName: "h2",
-          content: `Trending Products`,
-          editable: true,
-          droppable: false,
-          style: { "text-align": "center" },
-          type: "product-text",
-        },
-        {
-          removable: false,
-          name: "Products",
-          draggable: false,
-          droppable: false,
-          highlightable: false,
-          copyable: false,
-          selectable: false,
-          hoverable: false,
-          content: `                <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" data-type = "products-collections" >
+        category: c.catergory_product_list,
+        attributes: { class: "fa fa-cube" },
+        content: {
+            attributes: {
+                class: "container product-section",
+                name: "products-collections",
+            },
+            name: "Product List",
+            draggable: ".main-content",
+            type: "product-list",
+            components: [
+                {
+                    name: "Text",
+                    tagName: "h2",
+                    content: `Trending Products`,
+                    removable: false,
+                    draggable: false,
+                    droppable: false,
+                    highlightable: false,
+                    copyable: false,
+                    selectable: false,
+                    hoverable: false,
+                    style: { "text-align": "center" },
+                    type: "product-text",
+                },
+                {
+                    name: "Products",
+                    removable: false,
+                    draggable: false,
+                    droppable: false,
+                    highlightable: false,
+                    copyable: false,
+                    selectable: false,
+                    hoverable: false,
+                    content: `                <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" data-type = "products-collections" >
                     <!-- Carousel indicators -->
 
                     <!-- Wrapper for carousel items -->
@@ -430,9 +435,9 @@ export default function loadBlockProducts(editor, opt = {}) {
                         <i class="fa fa-angle-right"></i>
                       </button>
                 </div>`,
+                },
+            ],
         },
-      ],
-    },
-  });
-  //#endregion
+    });
+    //#endregion
 }

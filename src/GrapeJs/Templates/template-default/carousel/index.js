@@ -166,7 +166,7 @@ export default function loadBlockCarousel(editor, opt = {}) {
     content: [
       {
         name: "Carousel",
-        attributes: { name: "banners", class: "carousel-text-white carousel-display-bottom-center carousel-description-align-center carousel-height-medium carousel-description-background "},
+        attributes: { name: "banners", class: "carousel-text-white carousel-display-bottom-center carousel-description-align-center carousel-height-medium carousel-description-background"},
         draggable: ".main-content",
         type: "carousel",
         content: `

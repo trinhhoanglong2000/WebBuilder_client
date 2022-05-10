@@ -53,6 +53,37 @@ export default function loadTraitRichText(editor, opt = {}) {
       );
     },
   });
+  editor.TraitManager.addType("RichText-Button-heading", {
+    // Expects as return a simple HTML string or an HTML element
+    createInput({ trait }) {
+      const initValue = trait.target.get("content") || "";
+      const placeholder = trait.get("placeholder") || "";
+      const el = document.createElement("div");
+      el.innerHTML = `
+
+        <div class="gjs-field gjs-field-text">
+          <input class="Product-Heading"placeholder="${placeholder} " value="${initValue}" />
+         
+        </div>
+      `;
+
+      $(el)
+        .find("input")
+        .on("input", (ev) => this.onChange(ev));
+
+      return el;
+    },
+    onEvent({ elInput, component, event }) {
+      //#1 when option change we will get new option => change HTML following option
+      const inputType = elInput.querySelector(".Product-Heading");
+
+      let data = inputType.value;
+      //#2 This function will set attribute data {nameAttribute:Value} => IMPORTAINT FOR COMPONENT LISTEN CHANGE ATTRIBUTE
+      if (component.get("content") !== data) {
+        component.set({ content: data });
+      }
+    },
+  });
   editor.TraitManager.addType("RichText-Text-Trait", {
     // Expects as return a simple HTML string or an HTML element
     createInput({ trait }) {

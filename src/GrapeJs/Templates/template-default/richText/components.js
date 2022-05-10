@@ -29,7 +29,7 @@ export default function loadComponentsRichText(editor, opt = {}) {
       defaults: {
         traits: [
           {
-            type: "product-heading", // Type of the trait
+            type: "RichText-Button-heading", // Type of the trait
             label: "Label", // The label you will see in Settings
             placeholder:"Label"
           },

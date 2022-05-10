@@ -97,7 +97,7 @@ export default function loadBlockCarousel(editor, opt = {}) {
         let carouselIndicators = $(this.el).find(`.carousel-indicators`)[0]
         let carouselInner = $(this.el).find(`.carousel-inner`)[0];
         let categoryId = this.model.attributes.attributes.data;
-        debugger
+        
         if (typeof categoryId == "undefined") {
           await this.insertCarouselData(dataTemp, carouselIndicators, carouselInner)
         } else {

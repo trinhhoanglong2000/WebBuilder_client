@@ -13,7 +13,7 @@ export default function loadBlockColumnItem(editor, opt = {}) {
   const textType = domc.getType("text");
   //THIS IS SETTING COMPONENT
   
-  domc.addType("columnItem", {
+  domc.addType("ColumnItem", {
     model: {
       defaults: {
         droppable: false,
@@ -83,7 +83,7 @@ export default function loadBlockColumnItem(editor, opt = {}) {
       },
     },
   });
-  bm.add("columnItem", {
+  bm.add("ColumnItem", {
     label: `
     <svg height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg">
     <path d="M14 38h20V8H14v30zM4 34h8V12H4v22zm32-22v22h8V12h-8z"/><path d="M0 0h48v48H0z" fill="none"/>
@@ -93,9 +93,9 @@ export default function loadBlockColumnItem(editor, opt = {}) {
     content: [
       {
         droppable: false,
-        name: "columnItem",
+        name: "ColumnItem",
         attributes: { name: "columnItem", class: "ezMall-column-item card  container col-md-4 col-sm-6 " },
-        type: "columnItem",
+        type: "ColumnItem",
         draggable: ".ezMall-multicolumn",
         components: [
           {
@@ -147,7 +147,6 @@ export default function loadBlockColumnItem(editor, opt = {}) {
                 content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or
                 welcome customers to your store.</p>`,
               }]
-
           },
         ]
       },

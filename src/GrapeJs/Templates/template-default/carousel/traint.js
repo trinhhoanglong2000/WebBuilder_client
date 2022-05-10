@@ -17,7 +17,7 @@ export default function loadTraitCarousel(editor, opt = {}) {
         });
         return response.json();
     };
- 
+
     editor.TraitManager.addType("banner-text-color", {
         noLabel: false,
         createLabel({ label }) {
@@ -37,7 +37,7 @@ export default function loadTraitCarousel(editor, opt = {}) {
             el.innerHTML = `
         
         <div data-input="">
-        <select class="options-carousel-text-color" optionType="text-color">
+        <select class="options-carousel-description-align" optionType="text-color">
               ${textOptionsData.map(opt => opt.id == trait.target.attributes.attributes.textColor ?
                 `<option value="${opt.id}" selected>${opt.name}</option>`
                 : `<option value="${opt.id}" >${opt.name}</option>`).join('')}
@@ -51,7 +51,7 @@ export default function loadTraitCarousel(editor, opt = {}) {
             // #4 Add  event => when selected change =
 
 
-            const inputTypeTextColor = el.querySelector('.options-carousel-text-color');
+            const inputTypeTextColor = el.querySelector('.options-carousel-description-align');
             inputTypeTextColor.addEventListener('change', ev => {
             });
 
@@ -59,11 +59,11 @@ export default function loadTraitCarousel(editor, opt = {}) {
         },
         onUpdate({ elInput, component }) {
             const dataAttributeValues = component.getAttributes().data || "";
-            const inputTypeTextColor = elInput.querySelector(".options-carousel-text-color");
+            const inputTypeTextColor = elInput.querySelector(".options-carousel-description-align");
             inputTypeTextColor.dispatchEvent(new CustomEvent("change"));
         },
         onEvent({ elInput, component, event }) {
-            let inputTextColor = elInput.querySelector(".options-carousel-text-color");
+            let inputTextColor = elInput.querySelector(".options-carousel-description-align");
             let textColor = inputTextColor.value;
             if (component.getAttributes().textColor != textColor) {
                 let oldType = component.getAttributes().textColor;
@@ -90,9 +90,15 @@ export default function loadTraitCarousel(editor, opt = {}) {
             let traitOptionsData = [];
 
             let displayOptionsData = [
-                { id: "middle", name: "Middle" },
-                { id: "top", name: "Top" },
-                { id: "bottom", name: "Bottom" },
+                { id: "top-center", name: "Top Center" },
+                { id: "top-left", name: "Top Left" },
+                { id: "top-right", name: "Top Right" },
+                { id: "middle-center", name: "Middle Center" },
+                { id: "middle-left", name: "Middle Left" },
+                { id: "middle-right", name: "Middle Right" },
+                { id: "bottom-center", name: "Bottom Center" },
+                { id: "bottom-left", name: "Bottom Left" },
+                { id: "bottom-right", name: "Bottom Right" },
                 { id: "off", name: "Off" },
             ];
 
@@ -135,19 +141,16 @@ export default function loadTraitCarousel(editor, opt = {}) {
             const rootElementTrait = elInput;
             const propertiesOfFrontComponet = component;
             let optionType = event.target.getAttribute("optionType");
-            
+
             //#1 when option change we will get new option => change HTML following option
             let inputdisplayOptionsData = elInput.querySelector(".options-carousel-display");
             let displayType = inputdisplayOptionsData.value;
 
             //#2 This function will set attribute data {nameAttribute:Value} => IMPORTAINT FOR COMPONENT LISTEN CHANGE ATTRIBUTE
-            if (component.getAttributes().displayType != displayType) {
-                let oldType = component.getAttributes().displayType;
-                component.addAttributes({ displayType })
-                component.removeClass(`carousel-display-${oldType}`);
-                component.addClass(`carousel-display-${displayType}`);
-               
-            }
+            let oldType = component.getAttributes().displayType;
+            component.addAttributes({ displayType })
+            component.removeClass(`carousel-display-${oldType}`);
+            component.addClass(`carousel-display-${displayType}`);
         },
     });
     editor.TraitManager.addType("carousel-collection", {
@@ -215,9 +218,10 @@ export default function loadTraitCarousel(editor, opt = {}) {
                 });
             const GetItem = (name = "", flag = false) => {
                 GetRequest(
-                    `${process.env.REACT_APP_API_URL}collections/carousels?storeID=1`
+                    `${process.env.REACT_APP_API_URL}collections/banner`
                 ).then((myJson) => {
-                    let data = myJson.data.map((value) => { return { id: value.categoryId, name: value.name } });
+
+                    let data = myJson.data.map((value) => { return { id: value.id, name: value.name } });
                     let domdata = "";
                     data.forEach((element) => {
                         domdata += `<li data-value = "${element.id}" name="${element.name}" >
@@ -314,5 +318,147 @@ export default function loadTraitCarousel(editor, opt = {}) {
             //#1 when option change we will get new option => change HTML following option
         },
     });
+
+    editor.TraitManager.addType("banner-description-align", {
+        noLabel: false,
+        createLabel({ label }) {
+            return `<div>
+          ${label}
+        </div>`;
+        },
+
+        createInput({ trait }) {
+            let textOptionsData = [
+                { id: "center", name: "Align Center" },
+                { id: "left", name: "Align Left" },
+                { id: "right", name: "Align Right" },
+            ];
+
+            // #3 Create HTML selected for trait option 
+            const el = document.createElement('div');
+            el.innerHTML = `
+        
+        <div data-input="">
+        <select class="options-carousel-description-align" optionType="text-color">
+              ${textOptionsData.map(opt => opt.id == trait.target.attributes.attributes.descriptionAlign ?
+                `<option value="${opt.id}" selected>${opt.name}</option>`
+                : `<option value="${opt.id}" >${opt.name}</option>`).join('')}
+            </select>
+
+        </div>
+        <div class="gjs-sel-arrow">
+          <div class="gjs-d-s-arrow"></div>
+        </div>
+      `;
+            // #4 Add  event => when selected change =
+
+
+            const inputType = el.querySelector('.options-carousel-description-align');
+            inputType.addEventListener('change', ev => {
+            });
+
+            return el
+        },
+        onUpdate({ elInput, component }) {
+            const dataAttributeValues = component.getAttributes().data || "";
+            const inputType = elInput.querySelector(".options-carousel-description-align");
+            inputType.dispatchEvent(new CustomEvent("change"));
+        },
+        onEvent({ elInput, component, event }) {
+            let input = elInput.querySelector(".options-carousel-description-align");
+            let descriptionAlign = input.value;
+            let oldType = component.getAttributes().descriptionAlign;
+            component.addAttributes({ descriptionAlign })
+            component.removeClass(`carousel-description-align-${oldType}`);
+            component.addClass(`carousel-description-align-${descriptionAlign}`);
+        },
+    });
+
+    editor.TraitManager.addType("banner-height", {
+        noLabel: false,
+        createLabel({ label }) {
+            return `<div>
+          ${label}
+        </div>`;
+        },
+
+        createInput({ trait }) {
+            let textOptionsData = [
+                { id: "small", name: "Small" },
+                { id: "medium", name: "Medium" },
+                { id: "lager", name: "Lager" },
+            ];
+
+            // #3 Create HTML selected for trait option 
+            const el = document.createElement('div');
+            el.innerHTML = `
+        
+        <div data-input="">
+        <select class="options-carousel-height" optionType="text-color">
+              ${textOptionsData.map(opt => opt.id == trait.target.attributes.attributes.bannerHeight ?
+                `<option value="${opt.id}" selected>${opt.name}</option>`
+                : `<option value="${opt.id}" >${opt.name}</option>`).join('')}
+            </select>
+
+        </div>
+        <div class="gjs-sel-arrow">
+          <div class="gjs-d-s-arrow"></div>
+        </div>
+      `;
+            // #4 Add  event => when selected change =
+
+
+            const inputType = el.querySelector('.options-carousel-height');
+            inputType.addEventListener('change', ev => {
+            });
+
+            return el
+        },
+        onUpdate({ elInput, component }) {
+            const dataAttributeValues = component.getAttributes().data || "";
+            const inputType = elInput.querySelector(".options-carousel-height");
+            inputType.dispatchEvent(new CustomEvent("change"));
+        },
+        onEvent({ elInput, component, event }) {
+            let input = elInput.querySelector(".options-carousel-height");
+            let bannerHeight = input.value;
+            let oldType = component.getAttributes().bannerHeight;
+            component.addAttributes({ bannerHeight })
+            component.removeClass(`carousel-height-${oldType}`);
+            component.addClass(`carousel-height-${bannerHeight}`);
+        },
+    });
+
+
+    editor.TraitManager.addType("banner-description-background", {
+        // Expects as return a simple HTML string or an HTML element
+        createInput({ trait }) {
+          const initValue =  trait.target.attributes.attributes.descriptionBackground ? true : false;
+          const el = document.createElement("div");
+          el.innerHTML = `
+          <div class="gjs-one-bg">
+            <label class="checkbox-product gjs-label-wrp" for="border" >
+              <input class ="checkbox-input" type="checkbox" id="border" name="border" ${ initValue ? "checked" : "" } >
+              <div class="checkbox_box"></div>
+              Show
+            <label/>
+          </div>
+          `;
     
+          $(el).find(`input`).prop("checked", initValue );
+    
+          return el;
+        },
+        onEvent({ elInput, component, event }) {
+          //#1 when option change we will get new option => change HTML following option
+          const inputType = elInput.querySelector("input"); 
+          let descriptionBackground = inputType.checked;
+          component.addAttributes({ descriptionBackground })
+          if (inputType.checked) {
+            component.addClass(`carousel-description-background`);
+          } else {
+            component.removeClass(`carousel-description-background`);
+          }
+        },
+      });
 }

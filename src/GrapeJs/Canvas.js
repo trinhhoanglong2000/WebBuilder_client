@@ -72,7 +72,6 @@ function Canvas({ type }) {
 
         body.appendChild(script);
       }
-
       if (ele && ele !== "") {
         header.insertAdjacentHTML(
           "beforeend",

@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import $ from "jquery";
 import loadTraitCarousel from "./traint"
 
-const dataTemp = [
+const defaultData = [
   {
     image: "https://dummyimage.com/1980x1080/55595c/ffffff",
     caption: "Image banner",
@@ -22,7 +22,33 @@ const dataTemp = [
     link: "/",
   }
 ]
-
+function insertCarouselData(data, carouselIndicators, carouselInner) {
+  carouselIndicators.innerHTML = "";
+  carouselInner.innerHTML = "";
+  data.forEach((item, index) => {
+    let htmlButtonInsert = `
+  <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="${index}" class = "${index == 0 ? "active" : ""}" aria-label="Slide ${index}"></button>
+  `
+    carouselIndicators.insertAdjacentHTML("beforeend", htmlButtonInsert);
+    let htmlCarouselItemInsert = `
+  <div class="carousel-item ${index == 0 ? "active" : ""}">
+    <div  class="d-block w-100 image-container">
+      <img src="${item.image}"  alt="${item.image}">
+    </div>
+    <div class="carousel-caption">
+      <div class = "ezMall-carousel-contents">
+        <div class="ezMall-carousel-text-container d-block">
+          <h2 class="bolder">${item.caption}</h2>
+          <p>${item.description}</p>
+          <a class="btn ezMall-btn bolder" href=${item.link} role="button">Shop Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+`
+    carouselInner.insertAdjacentHTML("beforeend", htmlCarouselItemInsert)
+  })
+}
 export default function loadBlockCarousel(editor, opt = {}) {
   const c = opt;
   let bm = editor.BlockManager;
@@ -47,12 +73,27 @@ export default function loadBlockCarousel(editor, opt = {}) {
             type: "banner-text-display",
             label: "Contents Display"
           },
+          {
+            type: "banner-description-align",
+            label: "Align Description"
+          },
+          {
+            type: "banner-height",
+            label: "Banner Height"
+          },
+          {
+            type: "banner-description-background",
+            label: "Description background"
+          },
 
         ],
         attributes: {
           "ez-mall-type": "carousel",
           textColor: 'white',
-          displayType: "middle"
+          displayType: "bottom-center",
+          descriptionAlign: "center",
+          bannerHeight: "medium",
+          descriptionBackground: "true"
         }
       },
 
@@ -70,38 +111,17 @@ export default function loadBlockCarousel(editor, opt = {}) {
       },
     },
     view: {
-      async insertCarouselData(data, carouselIndicators, carouselInner) {
-        carouselIndicators.innerHTML = "";
-        carouselInner.innerHTML = "";
-        data.forEach((item, index) => {
-          let htmlButtonInsert = `
-        <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="${index}" class = "${index == 0 ? "active" : ""}" aria-label="Slide ${index}"></button>
-        `
-          carouselIndicators.insertAdjacentHTML("beforeend", htmlButtonInsert);
-          let htmlCarouselItemInsert = `
-        <div class="carousel-item ${index == 0 ? "active" : ""}">
-          <img src="${item.image}" class="d-block w-100" alt="${item.image}">
-          <div class="carousel-caption d-none d-md-block">
-            <div class = "ezMall-carousel-contents">
-              <h2 class="bolder">${item.caption}</h2>
-              <p>${item.description}</p>
-              <a class="btn ezMall-btn bolder" href=${item.link} role="button">Shop Now</a>
-            </div>
-          </div>
-        </div>
-      `
-          carouselInner.insertAdjacentHTML("beforeend", htmlCarouselItemInsert)
-        })
-      },
+      
       async Update() {
         let carouselIndicators = $(this.el).find(`.carousel-indicators`)[0]
         let carouselInner = $(this.el).find(`.carousel-inner`)[0];
         let categoryId = this.model.attributes.attributes.data;
-        
         if (typeof categoryId == "undefined") {
-          await this.insertCarouselData(dataTemp, carouselIndicators, carouselInner)
+          debugger
+          insertCarouselData(defaultData, carouselIndicators, carouselInner)
         } else {
-          await fetch(`http://localhost:5000/collections/category/${categoryId}`
+          debugger
+          await fetch(`http://localhost:5000/collections/banner/${categoryId}`
             , {
               mode: 'cors',
               headers: {
@@ -109,10 +129,11 @@ export default function loadBlockCarousel(editor, opt = {}) {
               }
             }).then(res => res.json()).then(myJson => myJson.data).then(
               data => {
-                if (data.length == 0) {
-                  data = [...dataTemp]
+                let listBanners = data.listBanners;
+                if (listBanners.length == 0) {
+                  listBanners = [...defaultData]
                 } 
-                this.insertCarouselData(data, carouselIndicators, carouselInner)
+                insertCarouselData(listBanners, carouselIndicators, carouselInner)
               }
             );
         }
@@ -121,6 +142,7 @@ export default function loadBlockCarousel(editor, opt = {}) {
       init() {
         this.listenTo(this.model, 'change:attributes:data', this.Update)
         this.listenTo(this.model, 'change:attributes:placeholder', this.Update)
+  
       },
       events: {
       },
@@ -128,7 +150,7 @@ export default function loadBlockCarousel(editor, opt = {}) {
         defaultType.view.prototype.render.apply(this, arguments);
         return this;
       },
-      onRender({ el }) {
+      onRender() {
         this.Update()
       },
     },
@@ -146,15 +168,14 @@ export default function loadBlockCarousel(editor, opt = {}) {
     content: [
       {
         name: "Carousel",
-        attributes: { name: "banners", class: "carousel-text-white carousel-display-middle" },
+        attributes: { name: "banners", class: "carousel-text-white carousel-display-bottom-center carousel-description-align-center carousel-height-medium carousel-description-background "},
         draggable: ".main-content",
         type: "carousel",
         content: `
         <div id="myCarousel" class=" carousel slide ezMall-carousel" data-bs-ride="carousel" data-type="banners">
         <div class="carousel-indicators">
-      
-          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active"
-            aria-label="Slide 0"></button>
+          <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-label="Slide 0"
+            aria-current="true"></button>
       
           <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" class="" aria-label="Slide 1"></button>
       
@@ -162,37 +183,46 @@ export default function loadBlockCarousel(editor, opt = {}) {
         </div>
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img src="https://dummyimage.com/1980x1080/55595c/ffffff" class="d-block w-100"
-              alt="https://dummyimage.com/1980x1080/55595c/ffffff">
-            <div class="carousel-caption d-none d-md-block">
+            <div class="d-block w-100 image-container">
+              <img src="https://dummyimage.com/1980x1080/55595c/ffffff" alt="https://dummyimage.com/1980x1080/55595c/ffffff">
+            </div>
+            <div class="carousel-caption">
               <div class="ezMall-carousel-contents">
-                <h2 class="bolder">Image banner</h2>
-                <p>Give customers details about the banner image(s) or content on the template.</p>
-                <a class="btn ezMall-btn bolder" href="/" role="button">Shop Now</a>
+                <div class="ezMall-carousel-text-container d-block">
+                  <h2 class="bolder">Image banner</h2>
+                  <p>Give customers details about the banner image(s) or content on the template.</p>
+                  <a class="btn ezMall-btn bolder" href="/" role="button">Shop Now</a>
+                </div>
               </div>
             </div>
           </div>
       
-          <div class="carousel-item ">
-            <img src="https://dummyimage.com/1980x1080/55595c/ffffff" class="d-block w-100"
-              alt="https://dummyimage.com/1980x1080/55595c/ffffff">
-            <div class="carousel-caption d-none d-md-block">
+          <div class="carousel-item">
+            <div class="d-block w-100 image-container">
+              <img src="https://dummyimage.com/1980x1080/55595c/ffffff" alt="https://dummyimage.com/1980x1080/55595c/ffffff">
+            </div>
+            <div class="carousel-caption">
               <div class="ezMall-carousel-contents">
-                <h2 class="bolder">Image banner</h2>
-                <p>Give customers details about the banner image(s) or content on the template.</p>
-                <a class="btn ezMall-btn bolder" href="/" role="button">Shop Now</a>
+                <div class="ezMall-carousel-text-container d-block">
+                  <h2 class="bolder">Image banner</h2>
+                  <p>Give customers details about the banner image(s) or content on the template.</p>
+                  <a class="btn ezMall-btn bolder" href="/" role="button">Shop Now</a>
+                </div>
               </div>
             </div>
           </div>
       
-          <div class="carousel-item ">
-            <img src="https://dummyimage.com/1980x1080/55595c/ffffff" class="d-block w-100"
-              alt="https://dummyimage.com/1980x1080/55595c/ffffff">
-            <div class="carousel-caption d-none d-md-block">
+          <div class="carousel-item">
+            <div class="d-block w-100 image-container">
+              <img src="https://dummyimage.com/1980x1080/55595c/ffffff" alt="https://dummyimage.com/1980x1080/55595c/ffffff">
+            </div>
+            <div class="carousel-caption">
               <div class="ezMall-carousel-contents">
-                <h2 class="bolder">Image banner</h2>
-                <p>Give customers details about the banner image(s) or content on the template.</p>
-                <a class="btn ezMall-btn bolder" href="/" role="button">Shop Now</a>
+                <div class="ezMall-carousel-text-container d-block">
+                  <h2 class="bolder">Image banner</h2>
+                  <p>Give customers details about the banner image(s) or content on the template.</p>
+                  <a class="btn ezMall-btn bolder" href="/" role="button">Shop Now</a>
+                </div>
               </div>
             </div>
           </div>

@@ -16,7 +16,7 @@ export default function loadBlockProducts(editor, opt = {}) {
         model: {
             defaults: {
                 traits: [
-                   
+
                 ],
             },
         },

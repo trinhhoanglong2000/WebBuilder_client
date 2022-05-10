@@ -117,10 +117,8 @@ export default function loadBlockCarousel(editor, opt = {}) {
         let carouselInner = $(this.el).find(`.carousel-inner`)[0];
         let categoryId = this.model.attributes.attributes.data;
         if (typeof categoryId == "undefined") {
-          debugger
           insertCarouselData(defaultData, carouselIndicators, carouselInner)
         } else {
-          debugger
           await fetch(`http://localhost:5000/collections/banner/${categoryId}`
             , {
               mode: 'cors',

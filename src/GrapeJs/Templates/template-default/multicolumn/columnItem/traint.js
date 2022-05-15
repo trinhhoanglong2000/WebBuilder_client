@@ -162,7 +162,7 @@ export default function loadTraitColumnItem(editor, opt = {}) {
                         const selected = editor.getSelected();
                         inputImage.src = asset.getSrc();
                         const image = selected.get("components").models[0];
-                        image.set('content', `<img src="${asset.getSrc()}" class="img-responsive img-fluid" alt="">`);
+                        image.set('content', ` <img src="${asset.getSrc()}" class="img-responsive img-fluid" alt="">`);
                         am.close();
                     },
                 });
@@ -173,4 +173,26 @@ export default function loadTraitColumnItem(editor, opt = {}) {
         },
     });
 
+    editor.TraitManager.addType("column-item-link", {
+        // Expects as return a simple HTML string or an HTML element
+        createInput({ trait }) {
+            const initValue = trait.target.attributes.attributes.href ? trait.target.attributes.attributes.href : "";
+            const placeholder = trait.get("placeholder") || "";
+            const el = document.createElement("div");
+            el.innerHTML = `
+            <div class="gjs-field gjs-field-text">
+              <input class="column-item-link"placeholder="${placeholder} " value="${initValue}" />
+            </div>
+          `;
+            $(el)
+                .find("input")
+                .on("input", (ev) => this.onChange(ev));
+            return el;
+        },
+        onEvent({ elInput, component, event }) {
+            const inputType = elInput.querySelector(".column-item-link");
+            let href = inputType.value;
+            component.addAttributes({ href })
+        },
+    });
 }

@@ -27,9 +27,6 @@ export default function loadTraitProductPage(editor, opt = {}) {
       const value = $(elInput).find("input")[0].value;
       $(elInput).find("label").text(value);
       component.setAttributes({...component.getAttributes(),'data-ez-mall-numProducts':value});
-
-      
-
     },
   });
 }

@@ -47,7 +47,7 @@ export default function loadBlockHeader(editor, opt = {}) {
             components: [
                 {
                     layerable: false,
-                    draggable: false,
+                    draggable: true,
                     hoverable: false,
                     selectable: false,
                     droppable: false,

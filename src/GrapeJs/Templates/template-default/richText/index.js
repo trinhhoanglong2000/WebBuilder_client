@@ -24,6 +24,8 @@ export default function loadBlockRichText(editor, opt = {}) {
       },
       name: "Rich Text",
       draggable: ".main-content",
+      copyable: false,
+
       type: "RichText",
       components: [
         {
@@ -32,6 +34,7 @@ export default function loadBlockRichText(editor, opt = {}) {
           content: `Talk about your brand `,
           editable: true,
           droppable: false,
+          copyable: false,
 
           draggable: ".Rich-Text",
 
@@ -47,6 +50,8 @@ export default function loadBlockRichText(editor, opt = {}) {
     
           editable: true,
           droppable: false,
+          copyable: false,
+
           draggable: ".Rich-Text",
     
           content: `<p>Share information about your brand with your customers. Describe a product, make announcements, or
@@ -59,6 +64,8 @@ export default function loadBlockRichText(editor, opt = {}) {
           content: `Button Link`,
           editable: true,
           droppable: false,
+          copyable: false,
+
           draggable: ".Rich-Text",
 
           attributes: {
@@ -82,6 +89,7 @@ export default function loadBlockRichText(editor, opt = {}) {
       content: `Talk about your brand `,
       editable: true,
       droppable: false,
+      copyable: false,
 
       draggable: ".Rich-Text",
 
@@ -104,6 +112,8 @@ export default function loadBlockRichText(editor, opt = {}) {
 
       editable: true,
       droppable: false,
+      copyable: false,
+
       draggable: ".Rich-Text",
 
       content: `<p>Share information about your brand with your customers. Describe a product, make announcements, or
@@ -124,6 +134,8 @@ export default function loadBlockRichText(editor, opt = {}) {
       content: `Button Link`,
       editable: true,
       droppable: false,
+      copyable: false,
+
       draggable: ".Rich-Text",
 
       attributes: {

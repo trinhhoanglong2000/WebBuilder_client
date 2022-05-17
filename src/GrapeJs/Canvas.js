@@ -179,12 +179,12 @@ function Canvas({ type }) {
                       listCssFile.push(ele.attributes.name);
                     }
                   });
+                  editor.getWrapper().set({hoverable :false,selectable:false,highlightable :false})
 
                   const style = `strong{font-weight:bold;}`;
                   if (!editor.getCss().includes(style)) editor.addStyle(style);
                   addComponentCssNJs(editor, listCssFile);
                 }
-
                 setIsSaving(false)
                 initStoreData();
               });

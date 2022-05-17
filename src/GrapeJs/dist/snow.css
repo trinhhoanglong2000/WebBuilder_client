@@ -544,6 +544,7 @@
 .ql-snow .ql-tooltip {
   position: absolute;
   transform: translateY(10px);
+  z-index: 999;
 }
 .ql-snow .ql-tooltip a {
   cursor: pointer;

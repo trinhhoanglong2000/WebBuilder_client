@@ -34,6 +34,10 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
             label: "Number Items per row",
             type: "multicolumn-numCols",
           },
+          {
+            label: "Padding",
+            type: "padding-setting",
+          },
         ],
         // This is default attributes
         attributes: {

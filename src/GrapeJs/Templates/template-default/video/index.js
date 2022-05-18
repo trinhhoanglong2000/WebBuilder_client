@@ -5,8 +5,8 @@ export default function loadVideo(editor, opt = {}) {
     const bm = editor.BlockManager;
     const dc = editor.DomComponents;
 
-    bm.add('video2', {
-        label: "Video2",
+    bm.add('video', {
+        label: "Video",
         category: "Media",
         // attributes
         content: {
@@ -20,7 +20,7 @@ export default function loadVideo(editor, opt = {}) {
                     layerable: false,
                     hoverable: false,
                     selectable: false,
-                    attributes: { width: "560", height: "315", src:"https://www.youtube.com/embed/?", title: "YouTube video player", frameborder: "0", allow:"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture", "allowfullscreen":"" },
+                    attributes: { width: "100%", height: "600", src:"https://www.youtube.com/embed/?", title: "YouTube video player", frameborder: "0", allow:"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture", "allowfullscreen":"" },
                     content: `<iframe ></iframe>`
                 }
             ]
@@ -53,61 +53,115 @@ export default function loadVideo(editor, opt = {}) {
 
             const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
             const match = inputSrc.match(regExp);
-            const youtubeId = (match&&match[7].length==11)? match[7] : false;
-            const embedLink = `https://www.youtube.com/embed/${youtubeId}`
+            const youtubeId = (match&&match[7].length === 11)? match[7] : false;
+            if (youtubeId) {
+                const embedLink = `https://www.youtube.com/embed/${youtubeId}?`
 
-            if (attributes.src != embedLink) {
-                attributes.src = embedLink
-                component.get('components').models[0].view.el.src = embedLink;
+                if (attributes.src !== embedLink) {
+                    attributes.src = embedLink;
+                    component.get('components').models[0].view.el.src = embedLink;
+                }
             }
         },
     });
 
-    editor.TraitManager.addType("video-auto-play", {
+    editor.TraitManager.addType("video-advance-setting", {
         createInput({ trait }) {
             const initValue = trait.target.view.el.querySelector("iframe").src || "";
-            const regExp = /(\?|\&)([^=]+)\=([^&]+)/;
-            const param = initValue.match(regExp);
-            const isAuto = param && param.includes("autoplay=1")
-            console.log(isAuto)
+            const isAuto = (initValue && initValue.includes("autoplay=1"))
+            const isLoop = (initValue && initValue.includes("loop=1"))
+            const isControls = (initValue && initValue.includes("controls=1"))
+// 
             const el = document.createElement("div");
             el.innerHTML = `
-                <div class="gjs-field-wrp gjs-field-wrp--checkbox">
-                    <label class="gjs-field gjs-field-checkbox">
-                        <input type="checkbox" class= "auto-play" value="0">
-                        <i class="gjs-chk-icon"></i>
+                <div class="gjs-one-bg">
+                    <label class="checkbox-product gjs-label-wrp">
+                        <input class ="checkbox-input video-fullwidth" type="checkbox" id="border">
+                        <div class="checkbox_box"></div>
+                        Full width
+                    <label/>
+                </div>
+
+                <div class="gjs-one-bg">
+                    <label class="checkbox-product gjs-label-wrp">
+                        <input class="checkbox-input video-auto-play" type="checkbox" id="border"> 
+                        <div class="checkbox_box"></div>
+                        Auto play
+                    </label>
+                </div>
+            
+                <div class="gjs-one-bg">
+                    <label class="checkbox-product gjs-label-wrp">
+                        <input class="checkbox-input video-loop" type="checkbox" id="border"> 
+                        <div class="checkbox_box"></div>
+                        Loop
+                    </label>
+                </div>
+            
+                <div class="gjs-one-bg">
+                    <label class="checkbox-product gjs-label-wrp">
+                        <input class="checkbox-input video-control" type="checkbox" id="border">  
+                        <div class="checkbox_box"></div>
+                        Control
                     </label>
                 </div>
             `;
 
-            // $(el)
-            //     .find("input")
-            //     .on("input", (ev) => this.onChange(ev));
+            $(el)
+                .find("input.video-auto-play")
+                .prop('checked', isAuto?? false)
+
+            $(el)
+                .find("input.video-auto-play")
+                .prop('checked', isAuto?? false)
+
+            $(el)
+                .find("input.video-loop")
+                .prop('checked', isLoop?? false)
+
+            $(el)
+                .find("input.video-control")
+                .prop('checked', isControls?? false)
 
             return el;
         },
 
         onEvent({ elInput, component, event }) {
-            // const inputSrc = elInput.querySelector('.video-src').value;
-            // const video = component.get('components').models[0];
-            // const attributes = video.get('attributes');
+            // autoplay loop control
+            const autoplay = elInput.querySelector('.video-auto-play').checked;
+            const loop = elInput.querySelector('.video-loop').checked;
+            const control = elInput.querySelector('.video-control').checked;
 
-            // var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-            // var match = inputSrc.match(regExp);
-            // var youtubeId = (match&&match[7].length==11)? match[7] : false;
-            // var embedLink = `https://www.youtube.com/embed/${youtubeId}`
+            const video = component.get('components').models[0];
+            const attributes = video.get('attributes');
 
-            // if (attributes.src != embedLink) {
-            //     attributes.src = embedLink
-            //     component.get('components').models[0].view.el.src = embedLink;
-            // }
+            const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+            const match = attributes.src.match(regExp);
+            const youtubeId = (match&&match[7].length === 11)? match[7] : false;
+            let embedLink = `https://www.youtube.com/embed/${youtubeId}?`
+
+            embedLink += `&autoplay=${(autoplay)? '1' : '0'}`;
+            embedLink += `&loop=${(loop)? '1' : '0'}` + `&playlist=${youtubeId}`;
+            embedLink += `&controls=${(control)? '1' : '0'}`;
+
+            if (attributes.src !== embedLink) {
+                attributes.src = embedLink;
+                component.get('components').models[0].view.el.src = embedLink; 
+            }
+
+            // full width 
+            const fullwidth = elInput.querySelector('.video-fullwidth').checked;
+            if (fullwidth) {
+                
+            } else {
+            
+            }
         },
     });
 
     dc.addType('videoCustomType', {
         model: {
             defaults: {
-                attributes: { 'theme': 'white' },
                 traits: [
                     {
                         type: 'video-src',
@@ -115,9 +169,9 @@ export default function loadVideo(editor, opt = {}) {
                         placeholder: 'https://www.youtube.com/...',
                     },
                     {
-                        type: 'video-auto-play',
-                        label: 'Autoplay',
-                    },
+                        type: 'video-advance-setting',
+                        label: 'Advance Setting',
+                    }
                 ],
             },
 

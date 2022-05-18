@@ -281,7 +281,7 @@
 }
 .Modal-popup{
   height: calc(100vh - 42px); 
-  width:114%;
+  width:110%;
   position:absolute;
   background-color:white;
   top: -72px;

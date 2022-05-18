@@ -76,11 +76,11 @@ export default function loadBlockProducts(editor, opt = {}) {
                     },
                 ];
                 const id = this.model.attributes.attributes["data-ez-mall-collection"] || " ";
-                fetch(`http://localhost:5000/collections/product/${id}`)
+                fetch(`${process.env.REACT_APP_API_URL}collections/product/${id}`)
                     .then((response) => response.json())
                     .then((data) => {
-                        if (data.data.product)
-                            products_data = data.data.product;
+                        if (data.data.products)
+                            products_data = data.data.products;
                         $(this.el)
                             .find(".thumb-wrapper")
                             .each(function (index) {

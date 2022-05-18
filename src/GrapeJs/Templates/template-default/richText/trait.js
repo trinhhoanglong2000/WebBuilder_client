@@ -118,6 +118,8 @@ export default function loadTraitRichText(editor, opt = {}) {
         }
       });
       $(el).find('.ql-action').addClass('btn')
+      $(el).find('.ql-remove').addClass('btn')
+
       $(el).find('.ql-tooltip input').on("input", function (ev) {
         const expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
         const regex = new RegExp(expression);
@@ -128,7 +130,12 @@ export default function loadTraitRichText(editor, opt = {}) {
           $(el).find('.ql-action').addClass('disabled-btn')
         }
       } );
-      
+      var newdiv = document.createElement( "div" )
+      newdiv.id = "tool-bar-custom"
+      $(el).find('.ql-tooltip').append(newdiv)
+      $(el).find('.ql-action').appendTo($(el).find('#tool-bar-custom'))
+      $(el).find('.ql-remove').appendTo($(el).find('#tool-bar-custom'))
+
       // $(el).find(`#${initValue}`).prop('checked', true);
 
       return el;

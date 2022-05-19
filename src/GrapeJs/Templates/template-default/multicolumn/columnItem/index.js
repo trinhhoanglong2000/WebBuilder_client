@@ -23,6 +23,10 @@ export default function loadBlockColumnItem(editor, opt = {}) {
             type: "Column-Item-Image",
           },
           {
+            label: "Link",
+            type: "column-item-link",
+          },
+          {
             label: "Heading",
             type: "Column-Item-Heading",
           },
@@ -90,11 +94,13 @@ export default function loadBlockColumnItem(editor, opt = {}) {
     </svg>
     <div>Column Item</div> `,
     category: c.multicolumn,
+ 
     content: [
       {
+        tagName: "a",
         droppable: false,
         name: "ColumnItem",
-        attributes: { name: "columnItem", class: "ezMall-column-item card  container col-md-4 col-sm-6 " },
+        attributes: { name: "columnItem", class: "ezMall-column-item card  container ezMall-col" },
         type: "ColumnItem",
         draggable: ".ezMall-multicolumn",
         components: [
@@ -117,7 +123,6 @@ export default function loadBlockColumnItem(editor, opt = {}) {
             hoverable: false,
             selectable: false,
             highlightable: false,
-            droppable: false,
             draggable:false,
             components: [
               {

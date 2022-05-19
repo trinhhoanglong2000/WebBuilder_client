@@ -1,11 +1,11 @@
-import { v4 as uuidv4 } from "uuid";
-import $ from "jquery";
 // import loadTraitMolumnLink from "./trait"
-import loadBlockColumnItem from "./columnItem"
+import loadBlockColumnItem from "./columnItem";
+import loadTraitMulticolumnItem from "./trait";
 export default function loadBlockMulticolumn(editor, opt = {}) {
   const c = opt;
   let bm = editor.BlockManager;
   loadBlockColumnItem(editor,c)
+  loadTraitMulticolumnItem(editor,c)
   const domc = editor.DomComponents;
   const defaultType = domc.getType("default");
   const textType = domc.getType("text");
@@ -17,10 +17,32 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
         tagName: 'div',
         droppable: false,
         traits: [
+          {
+            label: "Align",
+            type: "multicolumn-padding-mode",
+          },
+          {
+            label: "Heading",
+            type: "multicolumn-heading",
+            placeholder:"Label"
+          },
+          {
+            label: false,
+            type: "multicolumn-heading-align",
+          },
+          {
+            label: "Number Items per row",
+            type: "multicolumn-numCols",
+          },
+          {
+            label: "Padding",
+            type: "padding-setting",
+          },
         ],
         // This is default attributes
         attributes: {
           "ez-mall-type": "multicolumn",
+          numCols: 3
         }
       },
       // This function run when component created - we setup listen to change atri
@@ -73,202 +95,212 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
     draggable: ".main-content",
     content: [
       { 
-        name: 'multicolumn',
-        attributes: {class: "row ezMall-multicolumn"},
+        name: 'Multicolumn',
+        type: "multicolumn",
+        attributes: {class: "multicolumn-numCols-3"},
         components: [{
-          attributes: { class: "", style: "" },
+          attributes: { class: "" },
+          tagName: "h2",
           name: "Multicolumn Tittle",
-          style: { "text-align": "center" },
-          content: `Card Titke`,
+          style: { "text-align": "center", "padding": "0px" },
+          content: `Card Title`,
           layerable: false,
           hoverable: false,
           selectable: false,
           highlightable: false,
           droppable: false,
           draggable:false,
+        },
+        {
+          name: 'multicolumn',
+          layerable: false,
+          hoverable: false,
+          selectable: false,
+          highlightable: false,
+          draggable:false,
+          attributes: {class: "row ezMall-multicolumn"},
+          components: [
+            {
+              tagName: "a",
+              droppable: false,
+              name: "ColumnItem",
+              attributes: { name: "columnItem", class: "ezMall-column-item card  container ezMall-col" },
+              type: "ColumnItem",
+              draggable: ".ezMall-multicolumn",
+              components: [
+                {
+                  attributes: { class: "column-item-image" },
+                  name: "columnItem-image",
+                  layerable: false,
+                  hoverable: false,
+                  selectable: false,
+                  highlightable: false,
+                  droppable: false,
+                  draggable:false,
+                  content: `
+                  <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
+                `,
+                },
+                {
+                  attributes: { class: "card-body" },
+                  layerable: false,
+                  hoverable: false,
+                  selectable: false,
+                  highlightable: false,
+                  draggable:false,
+                  components: [
+                    {
+                      attributes: { class: "card-title", style: "text-decoration: none;" },
+                      name: "columnItem-title",
+                      style: { "text-align": "center" },
+                      content: `Card title`,
+                      layerable: false,
+                      hoverable: false,
+                      selectable: false,
+                      highlightable: false,
+                      droppable: false,
+                      draggable:false,
+                    }
+                    , {
+                      removable: false,
+                      name: "Text",
+                      layerable: false,
+                      hoverable: false,
+                      selectable: false,
+                      highlightable: false,
+                      style: { "font-size": "medium" },
+                      editable: true,
+                      droppable: false,
+                      draggable:false,
+                      draggable: ".Rich-Text",
+                      content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or
+                      welcome customers to your store.</p>`,
+                    }]
+                },
+              ]
+            },
+            {
+              tagName: "a",
+              droppable: false,
+              name: "ColumnItem",
+              attributes: { name: "columnItem", class: "ezMall-column-item card  container ezMall-col" },
+              type: "ColumnItem",
+              draggable: ".ezMall-multicolumn",
+              components: [
+                {
+                  attributes: { class: "column-item-image" },
+                  name: "columnItem-image",
+                  layerable: false,
+                  hoverable: false,
+                  selectable: false,
+                  highlightable: false,
+                  droppable: false,
+                  draggable:false,
+                  content: `
+                  <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
+                `,
+                },
+                {
+                  attributes: { class: "card-body" },
+                  layerable: false,
+                  hoverable: false,
+                  selectable: false,
+                  highlightable: false,
+                  draggable:false,
+                  components: [
+                    {
+                      attributes: { class: "card-title", style: "text-decoration: none;" },
+                      name: "columnItem-title",
+                      style: { "text-align": "center" },
+                      content: `Card title`,
+                      layerable: false,
+                      hoverable: false,
+                      selectable: false,
+                      highlightable: false,
+                      droppable: false,
+                      draggable:false,
+                    }
+                    , {
+                      removable: false,
+                      name: "Text",
+                      layerable: false,
+                      hoverable: false,
+                      selectable: false,
+                      highlightable: false,
+                      style: { "font-size": "medium" },
+                      editable: true,
+                      droppable: false,
+                      draggable:false,
+                      draggable: ".Rich-Text",
+                      content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or
+                      welcome customers to your store.</p>`,
+                    }]
+                },
+              ]
+            },
+            {
+              tagName: "a",
+              droppable: false,
+              name: "ColumnItem",
+              attributes: { name: "columnItem", class: "ezMall-column-item card  container ezMall-col" },
+              type: "ColumnItem",
+              draggable: ".ezMall-multicolumn",
+              components: [
+                {
+                  attributes: { class: "column-item-image" },
+                  name: "columnItem-image",
+                  layerable: false,
+                  hoverable: false,
+                  selectable: false,
+                  highlightable: false,
+                  droppable: false,
+                  draggable:false,
+                  content: `
+                  <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
+                `,
+                },
+                {
+                  attributes: { class: "card-body" },
+                  layerable: false,
+                  hoverable: false,
+                  selectable: false,
+                  highlightable: false,
+                  draggable:false,
+                  components: [
+                    {
+                      attributes: { class: "card-title", style: "text-decoration: none;" },
+                      name: "columnItem-title",
+                      style: { "text-align": "center" },
+                      content: `Card title`,
+                      layerable: false,
+                      hoverable: false,
+                      selectable: false,
+                      highlightable: false,
+                      droppable: false,
+                      draggable:false,
+                    }
+                    , {
+                      removable: false,
+                      name: "Text",
+                      layerable: false,
+                      hoverable: false,
+                      selectable: false,
+                      highlightable: false,
+                      style: { "font-size": "medium" },
+                      editable: true,
+                      droppable: false,
+                      draggable:false,
+                      draggable: ".Rich-Text",
+                      content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or
+                      welcome customers to your store.</p>`,
+                    }]
+                },
+              ]
+            },
+          ]
         }]
     },
-    {
-      name: 'multicolumn',
-      attributes: {class: "row ezMall-multicolumn"},
-      components: [
-        {
-          droppable: false,
-          name: "ColumnItem",
-          attributes: { name: "columnItem", class: "ezMall-column-item card  container col-md-4 col-sm-6 " },
-          type: "ColumnItem",
-          draggable: ".ezMall-multicolumn",
-          components: [
-            {
-              attributes: { class: "column-item-image" },
-              name: "columnItem-image",
-              layerable: false,
-              hoverable: false,
-              selectable: false,
-              highlightable: false,
-              droppable: false,
-              draggable:false,
-              content: `
-              <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
-            `,
-            },
-            {
-              attributes: { class: "card-body" },
-              layerable: false,
-              hoverable: false,
-              selectable: false,
-              highlightable: false,
-              droppable: false,
-              draggable:false,
-              components: [
-                {
-                  attributes: { class: "card-title", style: "text-decoration: none;" },
-                  name: "columnItem-title",
-                  style: { "text-align": "center" },
-                  content: `Card title`,
-                  layerable: false,
-                  hoverable: false,
-                  selectable: false,
-                  highlightable: false,
-                  droppable: false,
-                  draggable:false,
-                }
-                , {
-                  removable: false,
-                  name: "Text",
-                  layerable: false,
-                  hoverable: false,
-                  selectable: false,
-                  highlightable: false,
-                  style: { "font-size": "medium" },
-                  editable: true,
-                  droppable: false,
-                  draggable:false,
-                  draggable: ".Rich-Text",
-                  content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or
-                  welcome customers to your store.</p>`,
-                }]
-            },
-          ]
-        },  {
-          droppable: false,
-          name: "ColumnItem",
-          attributes: { name: "columnItem", class: "ezMall-column-item card  container col-md-4 col-sm-6 " },
-          type: "ColumnItem",
-          draggable: ".ezMall-multicolumn",
-          components: [
-            {
-              attributes: { class: "column-item-image" },
-              name: "columnItem-image",
-              layerable: false,
-              hoverable: false,
-              selectable: false,
-              highlightable: false,
-              droppable: false,
-              draggable:false,
-              content: `
-              <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
-            `,
-            },
-            {
-              attributes: { class: "card-body" },
-              layerable: false,
-              hoverable: false,
-              selectable: false,
-              highlightable: false,
-              droppable: false,
-              draggable:false,
-              components: [
-                {
-                  attributes: { class: "card-title", style: "text-decoration: none;" },
-                  name: "columnItem-title",
-                  style: { "text-align": "center" },
-                  content: `Card title`,
-                  layerable: false,
-                  hoverable: false,
-                  selectable: false,
-                  highlightable: false,
-                  droppable: false,
-                  draggable:false,
-                }
-                , {
-                  removable: false,
-                  name: "Text",
-                  layerable: false,
-                  hoverable: false,
-                  selectable: false,
-                  highlightable: false,
-                  style: { "font-size": "medium" },
-                  editable: true,
-                  droppable: false,
-                  draggable:false,
-                  draggable: ".Rich-Text",
-                  content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or
-                  welcome customers to your store.</p>`,
-                }]
-            },
-          ]
-        },  {
-          droppable: false,
-          name: "ColumnItem",
-          attributes: { name: "columnItem", class: "ezMall-column-item card  container col-md-4 col-sm-6 " },
-          type: "ColumnItem",
-          draggable: ".ezMall-multicolumn",
-          components: [
-            {
-              attributes: { class: "column-item-image" },
-              name: "columnItem-image",
-              layerable: false,
-              hoverable: false,
-              selectable: false,
-              highlightable: false,
-              droppable: false,
-              draggable:false,
-              content: `
-              <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
-            `,
-            },
-            {
-              attributes: { class: "card-body" },
-              layerable: false,
-              hoverable: false,
-              selectable: false,
-              highlightable: false,
-              droppable: false,
-              draggable:false,
-              components: [
-                {
-                  attributes: { class: "card-title", style: "text-decoration: none;" },
-                  name: "columnItem-title",
-                  style: { "text-align": "center" },
-                  content: `Card title`,
-                  layerable: false,
-                  hoverable: false,
-                  selectable: false,
-                  highlightable: false,
-                  droppable: false,
-                  draggable:false,
-                }
-                , {
-                  removable: false,
-                  name: "Text",
-                  layerable: false,
-                  hoverable: false,
-                  selectable: false,
-                  highlightable: false,
-                  style: { "font-size": "medium" },
-                  editable: true,
-                  droppable: false,
-                  draggable:false,
-                  draggable: ".Rich-Text",
-                  content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or
-                  welcome customers to your store.</p>`,
-                }]
-            },
-          ]
-        },
-      ]
-    }
+  
   ]
   });
   //#endregion

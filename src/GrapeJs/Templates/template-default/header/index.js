@@ -1,3 +1,5 @@
+import $ from "jquery";
+
 export default function loadBlockHeader(editor, opt = {}) {
     const c = opt;
     let bm = editor.BlockManager;
@@ -373,11 +375,42 @@ export default function loadBlockHeader(editor, opt = {}) {
         },
     });
 
+    editor.TraitManager.addType("header-advance-setting", {
+        createInput({ trait }) {
+
+            const el = document.createElement("div");
+            el.innerHTML = `
+                <div class="gjs-field-wrp gjs-field-wrp--checkbox">
+                    <label class="gjs-field gjs-field-checkbox">
+                        <div style="padding-left: 25px; min-width: 100px;"> Enable sticky header </div>
+                        <input class="header-setting-sticky-top" type="checkbox"> 
+                        <i class="gjs-chk-icon" style="margin-top: -19px"></i>
+                    </label>
+                </div>
+            `;
+
+            $(el)
+                .find("input")
+                .prop('checked', trait.get('isSticky')?? false)
+
+            return el;
+        },
+
+        onEvent({ elInput, component, event }) {
+            const isSticky = elInput.querySelector('.header-setting-sticky-top').checked;
+
+            if (isSticky) {
+                component.setAttributes({...component.getAttributes(), 'class': 'navbar navbar-expand-md border-bottom border-dark sticky-top'})
+            } else {
+                component.setAttributes({...component.getAttributes(), 'class': 'navbar navbar-expand-md border-bottom border-dark'})
+            }
+        },
+    });
+
     dc.addType('navbar', {
-        isComponent: el => el.tagName === 'NAVBAR',
         model: {
             defaults: {
-                attributes: { 'theme': 'white' },
+                attributes: { 'theme': 'white', 'logosize': 'medium' },
                 traits: [
                     {
                         type: 'select',
@@ -410,10 +443,16 @@ export default function loadBlockHeader(editor, opt = {}) {
                             { id: 'large', name: 'Large' },
                         ]
                     },
+                    {
+                        type: 'header-advance-setting',
+                        label: 'Advance setting', 
+                        isSticky: false,
+                    },
                 ],
             },
 
             init() {
+
             },
             initData() {
                 

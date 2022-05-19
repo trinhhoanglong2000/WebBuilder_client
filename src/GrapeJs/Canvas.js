@@ -166,6 +166,11 @@ function Canvas({ type }) {
                 const initStoreData = async() =>{
                   await loadStoreComponents(editor, storeId)
 
+                  // ============================= Wrapper =============================================
+                  editor.getWrapper().view.el.className = 'wrapper';
+                  editor.getWrapper().view.el.style.overflow = 'initial';
+                  editor.getWrapper().view.el.style.overflowX = 'initial';
+                  
                   // ========================== Load component css file ================================
                   const listComponents = editor.Components.getComponents().models;
                   let listCssFile = [];

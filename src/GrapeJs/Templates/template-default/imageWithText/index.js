@@ -155,7 +155,7 @@ export default function loadImageWithText(editor, opt = {}) {
         },
     });
 
-    editor.TraitManager.addType('imageWithText-image', {
+    editor.TraitManager.addType('imageWithText-upload-image', {
         createInput({ trait }) {
             const initValue = trait.target.view.el.querySelector("img").src;
             const el = document.createElement('div');
@@ -279,6 +279,11 @@ export default function loadImageWithText(editor, opt = {}) {
             defaults: {
                 traits: [
                     {
+                        type: "imageWithText-upload-image",
+                        label: "Image",
+                        src: "https://dummyimage.com/230x150/55595c/fff",
+                    },
+                    {
                         type: "imageWithText-heading",
                         label: "Heading",
                         placeholder: "Header",
@@ -296,11 +301,6 @@ export default function loadImageWithText(editor, opt = {}) {
                         type: "imageWithText-button-label",
                         label: "Button label",
                         placeholder: "Button label",
-                    }, 
-                    {
-                        type: "imageWithText-image",
-                        label: "Image",
-                        src: "https://dummyimage.com/230x150/55595c/fff",
                     }
                 ],
             },

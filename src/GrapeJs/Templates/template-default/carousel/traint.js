@@ -172,7 +172,7 @@ export default function loadTraitCarousel(editor, opt = {}) {
                   <i class="fas fa-times"></i>
                 </button>
               </div>
-              <div class="input-group" style="overflow-y: scroll;">
+              <div class="input-group" >
                 <div class="form-outline d-flex w-100 border rounded  ml-1 mr-2 mt-1" >
                     <input type="search" id="form1" class="form-control pr-0" style="border:none" placeholder = "Search"/>
                     <button type="button " class="btn">

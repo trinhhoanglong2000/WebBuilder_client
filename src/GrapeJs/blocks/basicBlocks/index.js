@@ -9,8 +9,6 @@ export default grapesjs.plugins.add('gjs-blocks-basic', (editor, opts = {}) => {
       'column3-7',
       'text',
       'link',
-      'image',
-      'video',
       'button',
       'divider',
 
@@ -27,12 +25,8 @@ export default grapesjs.plugins.add('gjs-blocks-basic', (editor, opts = {}) => {
     labelColumn37_category: 'Layout',
     labelText_category: 'Typography',
     labelLink_category: 'Navigation',
-    labelImage_category: 'Media',
-    labelVideo_category: 'Media',
     Button_category: "Extras",
     divider_category: "Layout",
-
-
 
     // labelVideo_category: 'Media',
     // labelMap_category: 'Extras',
@@ -44,12 +38,8 @@ export default grapesjs.plugins.add('gjs-blocks-basic', (editor, opts = {}) => {
     labelColumn37: '2 Columns 3/7',
     labelText: 'Text',
     labelLink: 'Link',
-    labelImage: 'Image',
-    labelVideo: 'Video',
     buttonBlkLabel :'Button',
     dividerBlkLabel: "Divider",
-    
-
 
     // labelVideo: 'Video',
     // labelMap: 'Map',

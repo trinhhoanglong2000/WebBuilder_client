@@ -16,3 +16,8 @@ body {
 strong {
   font-weight: bold;
 }
+.disabled-btn{
+  pointer-events: none;
+  cursor: default;
+  opacity: .65;
+}

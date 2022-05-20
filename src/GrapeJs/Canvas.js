@@ -66,7 +66,7 @@ function Canvas({ type }) {
       let addScript = function (componentName) {
         let script = document.createElement("script");
         script.type = "text/javascript";
-        script.src = `http://localhost:5000/files/dist/js/${template}/${componentName}.js`; // use this for linked script
+        script.src = `${process.env.REACT_APP_API_URL}files/dist/js/${template}/${componentName}.js`; // use this for linked script
         script.id = componentName;
         script.className = "ScriptClass";
 
@@ -75,7 +75,7 @@ function Canvas({ type }) {
       if (ele && ele !== "") {
         header.insertAdjacentHTML(
           "beforeend",
-          `<link id="${ele}" href="http://localhost:5000/files/dist/css/${template}/${ele}.css" rel="stylesheet">`
+          `<link id="${ele}" href="${process.env.REACT_APP_API_URL}files/dist/css/${template}/${ele}.css" rel="stylesheet">`
         );
         addScript(ele);
       }
@@ -166,6 +166,11 @@ function Canvas({ type }) {
                 const initStoreData = async() =>{
                   await loadStoreComponents(editor, storeId)
 
+                  // ============================= Wrapper =============================================
+                  editor.getWrapper().view.el.className = 'wrapper';
+                  editor.getWrapper().view.el.style.overflow = 'initial';
+                  editor.getWrapper().view.el.style.overflowX = 'initial';
+                  
                   // ========================== Load component css file ================================
                   const listComponents = editor.Components.getComponents().models;
                   let listCssFile = [];
@@ -179,12 +184,12 @@ function Canvas({ type }) {
                       listCssFile.push(ele.attributes.name);
                     }
                   });
+                  editor.getWrapper().set({hoverable :false,selectable:false,highlightable :false})
 
                   const style = `strong{font-weight:bold;}`;
                   if (!editor.getCss().includes(style)) editor.addStyle(style);
                   addComponentCssNJs(editor, listCssFile);
                 }
-
                 setIsSaving(false)
                 initStoreData();
               });

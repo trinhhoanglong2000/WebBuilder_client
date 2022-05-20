@@ -111,18 +111,29 @@ export default function loadTraitRichText(editor, opt = {}) {
         },
         theme: "snow",
       });
+      //COPY FROM HERE
       quill.on("text-change", (delta, oldDelta, source) => {
-        if (source == "api") {
-        } else if (source == "user") {
-          this.onChange();
-        }
+        this.onChange();
+        // if (source == "api") {
+        // } else if (source == "user") {
+        //   this.onChange();
+        // }
       });
+      const expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+      const regex = new RegExp(expression);
       $(el).find('.ql-action').addClass('btn')
       $(el).find('.ql-remove').addClass('btn')
-
+      $(el).find('.ql-link').on('click',()=>{
+        $(el).find('.ql-tooltip input').val("")
+        if ($(el).find('.ql-tooltip input').val().match(regex)){
+          $(el).find('.ql-action').removeClass('disabled-btn')
+        }
+        else{
+          $(el).find('.ql-action').addClass('disabled-btn')
+        }
+      })
       $(el).find('.ql-tooltip input').on("input", function (ev) {
-        const expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
-        const regex = new RegExp(expression);
+        
         if ($(this).val().match(regex)){
           $(el).find('.ql-action').removeClass('disabled-btn')
         }
@@ -135,7 +146,7 @@ export default function loadTraitRichText(editor, opt = {}) {
       $(el).find('.ql-tooltip').append(newdiv)
       $(el).find('.ql-action').appendTo($(el).find('#tool-bar-custom'))
       $(el).find('.ql-remove').appendTo($(el).find('#tool-bar-custom'))
-
+      //TO HERE
       // $(el).find(`#${initValue}`).prop('checked', true);
 
       return el;

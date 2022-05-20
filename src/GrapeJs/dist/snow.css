@@ -534,7 +534,8 @@
   box-sizing: border-box;
 }
 .ql-snow .ql-hidden {
-  display: none;
+  visibility: hidden!important;
+  opacity: 0!important;
 }
 .ql-snow .ql-out-bottom,
 .ql-snow .ql-out-top {
@@ -905,8 +906,11 @@
   left: -1px !important;
   top: -52px !important;
   width: calc(100% + 2px);
-  height: 300px;
+  /* height: 300px; */
   font-size: 12px;
+  opacity: 1;
+  visibility: visible;
+  transition: 0.2s;
 }
 .ql-snow .ql-tooltip::before {
   content: "Visit URL:";

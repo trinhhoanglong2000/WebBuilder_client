@@ -4,8 +4,8 @@ import loadTraitMulticolumnItem from "./trait";
 export default function loadBlockMulticolumn(editor, opt = {}) {
   const c = opt;
   let bm = editor.BlockManager;
-  loadBlockColumnItem(editor,c)
   loadTraitMulticolumnItem(editor,c)
+  loadBlockColumnItem(editor,c)
   const domc = editor.DomComponents;
   const defaultType = domc.getType("default");
   const textType = domc.getType("text");
@@ -35,8 +35,24 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
             type: "multicolumn-numCols",
           },
           {
-            label: "Padding",
+            label: "Padding Top",
             type: "padding-setting",
+            typeSetting: "padding-top"
+          },
+          {
+            label: "Padding Bottom",
+            type: "padding-setting",
+            typeSetting: "padding-bottom"
+          },
+          {
+            label: "Padding Left",
+            type: "padding-setting",
+            typeSetting: "padding-left"
+          },
+          {
+            label: "Padding Right",
+            type: "padding-setting",
+            typeSetting: "padding-right"
           },
         ],
         // This is default attributes
@@ -172,7 +188,6 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                       editable: true,
                       droppable: false,
                       draggable:false,
-                      draggable: ".Rich-Text",
                       content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or
                       welcome customers to your store.</p>`,
                     }]
@@ -231,7 +246,6 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                       editable: true,
                       droppable: false,
                       draggable:false,
-                      draggable: ".Rich-Text",
                       content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or
                       welcome customers to your store.</p>`,
                     }]
@@ -290,7 +304,6 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                       editable: true,
                       droppable: false,
                       draggable:false,
-                      draggable: ".Rich-Text",
                       content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or
                       welcome customers to your store.</p>`,
                     }]

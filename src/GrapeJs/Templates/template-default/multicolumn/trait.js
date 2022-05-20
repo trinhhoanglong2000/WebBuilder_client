@@ -136,10 +136,6 @@ export default function loadTraitMulticolumnItem(editor, opt = {}) {
     // Expects as return a simple HTML string or an HTML element
     createInput({ trait }) {
       const el = document.createElement("div");
-      console.log(trait.target.get("components")["padding"])
-      console.log(trait.target.get("style"))
-      console.log(trait.target)
-      console.log(trait.target.getStyle()[trait.get("typeSetting")])
       const initValue =trait.target.getStyle()[trait.get("typeSetting")]? trait.target.getStyle()[trait.get("typeSetting")].replace("px","") : "0";
       el.innerHTML = `
           <div class="d-flex align-items-center gjs-one-bg">
@@ -160,10 +156,8 @@ export default function loadTraitMulticolumnItem(editor, opt = {}) {
     onEvent({ elInput, component, event }) {
       const inputType = $(elInput).find("input")[0].value;
       $(elInput).find("label").text(`${inputType}px`);
-      console.log($(elInput).find("input")[0].getAttribute("ezMallType"))
       let cssType = {};
       cssType[$(elInput).find("input")[0].getAttribute("ezMallType")] =`${inputType}px` 
-      
       component.setStyle({ ...component.getStyle(), ...cssType });
     },
   });

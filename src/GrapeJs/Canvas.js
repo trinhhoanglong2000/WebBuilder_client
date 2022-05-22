@@ -66,7 +66,7 @@ function Canvas({ type }) {
       let addScript = function (componentName) {
         let script = document.createElement("script");
         script.type = "text/javascript";
-        script.src = `${process.env.REACT_APP_API_URL}files/dist/js/${template}/${componentName}.js`; // use this for linked script
+        script.src = `${process.env.REACT_APP_API_URL}js/${template}/${componentName}.js`; // use this for linked script
         script.id = componentName;
         script.className = "ScriptClass";
 
@@ -75,7 +75,7 @@ function Canvas({ type }) {
       if (ele && ele !== "") {
         header.insertAdjacentHTML(
           "beforeend",
-          `<link id="${ele}" href="${process.env.REACT_APP_API_URL}files/dist/css/${template}/${ele}.css" rel="stylesheet">`
+          `<link id="${ele}" href="${process.env.REACT_APP_API_URL}css/${template}/${ele}.css" rel="stylesheet">`
         );
         addScript(ele);
       }

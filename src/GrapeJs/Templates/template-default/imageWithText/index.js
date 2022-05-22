@@ -7,6 +7,90 @@ export default function loadImageWithText(editor, opt = {}) {
     const dc = editor.DomComponents;
     const am = editor.AssetManager;
 
+    bm.add('imageWithText', {
+        label: "Image With Text",
+        category: "Image With Text",
+        content: {
+            name: 'ImageWithText',
+            type: 'imageWithText',
+            draggable: ".main-content",
+            attributes: { class: "container", name: 'imageWithText' },
+            components: [
+                {
+                    tagName: 'div',
+                    attributes: { class: "row" },
+                    layerable: false,
+                    hoverable: false,
+                    selectable: false,
+                    draggable: false,
+                    droppable: false,
+                    components: [
+                        {
+                            hoverable: false,
+                            selectable: false,
+                            draggable: false,
+                            droppable: false,
+                            tagName: "div",
+                            attributes: { class: "col-sm-12 col-md-6 d-flex align-items-center justify-content-center" },
+                            components: [
+                                {
+                                    tagName: 'img',
+                                    layerable: false,
+                                    hoverable: false,
+                                    selectable: false,
+                                    draggable:  false,
+                                    attributes: { class: "img-thumbnail", src: "https://dummyimage.com/600x400/55595c/fff" },
+                                }
+                            ]
+                        }, 
+                        {
+                            hoverable: false,
+                            selectable: false,
+                            draggable: false,
+                            droppable: false,
+                            tagName: "div",
+                            attributes: { class: "col text-part d-flex align-items-center" },
+                            components: [
+                                {
+                                    draggable: false,
+                                    selectable: false,
+                                    hoverable: false,
+                                    tagName: "div",
+                                    components: [
+                                        {
+                                            draggable: false,
+                                            selectable: false,
+                                            hoverable: false,
+                                            tagName: "h1",
+                                            style:{"text-align":"left"},
+                                            content: `Picture header`
+                                        }, 
+                                        {
+                                            draggable: false,
+                                            selectable: false,
+                                            hoverable: false,
+                                            tagName: "p",
+                                            content:`Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or event privide review.`  
+                                        }, 
+                                        {
+                                            draggable: false,
+                                            selectable: false,
+                                            hoverable: false,
+                                            attributes: { class: "text-center" },
+                                            tagName: "div",
+                                            content:`<button class="btn">Button label</button>`  
+                                        }
+                                    ]
+                                },
+                            ]
+                        }
+                    ]
+                }
+            ]
+
+        }
+    });
+
     editor.TraitManager.addType("imageWithText-heading", {
         createInput({ trait }) {
             const initValue = trait.target.view.el.querySelector("h1").innerHTML || "";
@@ -136,9 +220,7 @@ export default function loadImageWithText(editor, opt = {}) {
                 </div>
             `;
 
-            $(el)
-                .find("input")
-                .on("input", (ev) => this.onChange(ev));
+            $(el).find("input").on("input", (ev) => this.onChange(ev));
 
             return el;
         },
@@ -174,14 +256,14 @@ export default function loadImageWithText(editor, opt = {}) {
             const changeBtn = el.querySelector('.upload-image-area .card-body button.change-btn');
             const removeBtn = el.querySelector('.upload-image-area .card-body button.remove-btn');
             const inputImage = el.querySelector('.upload-image-area .card-body img');
-            const target = editor.getSelected().get("components").models[0].get("components").models[0];
+            const target = editor.getSelected().get("components").models[0].get("components").models[0].get("components").models[0];
 
             changeBtn.onclick = () => {
                 am.open({
                     select(asset, complete) {
                         inputImage.src = asset.getSrc();
 
-                        target.set('content', `<img src="${asset.getSrc()}" class="img-responsive img-fluid">`);
+                        target.setAttributes({...target.getAttributes(), 'src': inputImage.src  })
                         
                         if (!c.validURL(asset.getSrc())) {
                             c.addTarget64Image({id: asset.cid, target: target})
@@ -194,7 +276,7 @@ export default function loadImageWithText(editor, opt = {}) {
             };
 
             removeBtn.onclick = () => {
-                target.set('content', `<img src="${trait.get('src')}" class="img-responsive img-fluid">`);
+                target.setAttributes({...target.getAttributes(), 'src': trait.src })
                 inputImage.src = trait.get('src');
             };
 
@@ -202,81 +284,81 @@ export default function loadImageWithText(editor, opt = {}) {
         },
     });
 
-    bm.add('imageWithText', {
-        label: "Image With Text",
-        category: "Image With Text",
-        // attributes
-        content: {
-            name: 'imageWithText',
-            type: 'imageWithText',
-            draggable: ".main-content",
-            attributes: { class: "container", name: 'imageWithText' },
-            components: [
-                {
-                    tagName: 'div',
-                    attributes: { class: "row" },
-                    layerable: false,
-                    hoverable: false,
-                    selectable: false,
-                    components: [
-                        {
-                            hoverable: false,
-                            selectable: false,
-                            draggable: "[name='imageWithText'] .row",
-                            tagName: "div",
-                            attributes: { class: "col-sm-12 col-md-6 d-flex align-items-center justify-content-center" },
-                            content: `<img src="https://dummyimage.com/600x400/55595c/fff" class="img-responsive img-fluid">`
-                        }, 
-                        {
-                            hoverable: false,
-                            selectable: false,
-                            tagName: "div",
-                            attributes: { class: "col text-part d-flex align-items-center" },
-                            draggable: "[name='imageWithText'] .row",
-                            components: [
-                                {
-                                    draggable: false,
-                                    selectable: false,
-                                    hoverable: false,
-                                    tagName: "div",
-                                    components: [
-                                        {
-                                            draggable: false,
-                                            selectable: false,
-                                            hoverable: false,
-                                            tagName: "h1",
-                                            style:{"text-align":"left"},
-                                            content: `Picture header`
-                                        }, 
-                                        {
-                                            draggable: false,
-                                            selectable: false,
-                                            hoverable: false,
-                                            tagName: "p",
-                                            content:`Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or event privide review.`  
-                                        }, 
-                                        {
-                                            draggable: false,
-                                            selectable: false,
-                                            hoverable: false,
-                                            attributes: { class: "text-center" },
-                                            tagName: "div",
-                                            content:`<button class="btn">Button label</button>`  
-                                        }
-                                    ]
-                                },
-                            ]
-                        }
-                    ]
-                }
-            ]
+    editor.TraitManager.addType("imageWithText-advance-setting", {
+        createInput({ trait }) {
+            const el = document.createElement("div");  
+            const isFullWidth = trait.target.getAttributes().class.includes("fluid");
+            const textPart = trait.target.get("components").models[0].get("components").models[1]
+            const parent = textPart.get("components").models[0];
+            const isHideButton = parent.get("components").models[2].getStyle()["display"];
+            const isHideBorderText =  textPart.getStyle()["border"];
 
-        }
+            el.innerHTML = `
+                <div class="gjs-one-bg">
+                    <label class="checkbox-product gjs-label-wrp">
+                        <input class ="checkbox-input imageWithText-fullwidth" type="checkbox" id="border">
+                        <div class="checkbox_box"></div>
+                        Full width
+                    <label/>
+                </div>
+                <div class="gjs-one-bg">
+                    <label class="checkbox-product gjs-label-wrp">
+                        <input class ="checkbox-input imageWithText-hideButton" type="checkbox" id="border">
+                        <div class="checkbox_box"></div>
+                        Hide button
+                    <label/>
+                </div>
+                <div class="gjs-one-bg">
+                    <label class="checkbox-product gjs-label-wrp">
+                        <input class ="checkbox-input imageWithText-hideBorderText" type="checkbox" id="border">
+                        <div class="checkbox_box"></div>
+                        Hide Border Out Side Text
+                    <label/>
+                </div>
+            `;
+
+            $(el).find("input.imageWithText-fullwidth").prop('checked', isFullWidth)
+
+            $(el).find("input.imageWithText-hideButton").prop('checked', (isHideButton == "none"))
+
+            $(el).find("input.imageWithText-hideBorderText").prop('checked', (isHideBorderText == "initial"))
+
+            return el;
+        },
+
+        onEvent({ elInput, component, event }) {
+            const value = elInput.querySelector('input.imageWithText-fullwidth').checked;
+            const textPart = component.get("components").models[0].get("components").models[1];
+            const parent = textPart.get("components").models[0];
+            const button = parent.get("components").models[2];
+
+            if (value) {
+                component.setAttributes({...component.getAttributes(), 'class': 'container-fluid' })
+            } else {
+                component.setAttributes({...component.getAttributes(), 'class': 'container' })
+            }
+
+            const isHideButton = elInput.querySelector('input.imageWithText-hideButton').checked;
+            if (isHideButton) {
+                button.setStyle({...button.getStyle(), 'display': 'none' })
+            } else {
+                button.setStyle({...button.getStyle(), 'display': 'initial' })
+            }
+
+            const isHideBorderText = elInput.querySelector('input.imageWithText-hideBorderText').checked;
+            console.log(textPart)
+            if (isHideBorderText) {
+                textPart.setStyle({...textPart.getStyle(), 'border': 'initial' })
+            } else {
+                textPart.setStyle({...textPart.getStyle(), 'border': '2px solid lightgray;' })
+            }
+        },
     });
 
     dc.addType('imageWithText', {
         model: {
             defaults: {
+                attributes: { 'iPosition': 'left' },
                 traits: [
                     {
                         type: "imageWithText-upload-image",
@@ -301,7 +383,20 @@ export default function loadImageWithText(editor, opt = {}) {
                         type: "imageWithText-button-label",
                         label: "Button label",
                         placeholder: "Button label",
-                    }
+                    },
+                    {
+                        type: "select",
+                        label: "Image position",
+                        name: 'iPosition',
+                        options: [
+                            { id: 'left', name: 'Left' },
+                            { id: 'right', name: 'Right' },
+                        ]
+                    },
+                    {
+                        name: 'setting',
+                        type: 'imageWithText-advance-setting',
+                    },
                 ],
             },
 

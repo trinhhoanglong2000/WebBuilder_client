@@ -131,8 +131,8 @@ export default function loadBlockFooter(editor, opt = {}) {
           traits: [
             {
               type: 'select',
-              label: 'Theme', // The label you will see in Settings
-              name: 'theme', // The name of the attribute/property to use on component
+              label: 'Theme', 
+              name: 'theme', 
               options: [
                 { id: 'white', name: 'White'},
                 { id: 'black', name: 'Black'},

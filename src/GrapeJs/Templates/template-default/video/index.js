@@ -1,7 +1,6 @@
 import $ from "jquery";
 
 export default function loadVideo(editor, opt = {}) {
-    const c = opt;
     const bm = editor.BlockManager;
     const dc = editor.DomComponents;
 
@@ -71,7 +70,7 @@ export default function loadVideo(editor, opt = {}) {
             const isAuto = (initValue && initValue.includes("autoplay=1"))
             const isLoop = (initValue && initValue.includes("loop=1"))
             const isControls = (initValue && initValue.includes("controls=1"))
-// 
+
             const el = document.createElement("div");
             el.innerHTML = `
                 <div class="gjs-one-bg">
@@ -109,7 +108,7 @@ export default function loadVideo(editor, opt = {}) {
 
             $(el)
                 .find("input.video-auto-play")
-                .prop('checked', isAuto?? false)
+                .prop('checked', trait.get('fullwidth'))
 
             $(el)
                 .find("input.video-auto-play")
@@ -141,7 +140,7 @@ export default function loadVideo(editor, opt = {}) {
             let embedLink = `https://www.youtube.com/embed/${youtubeId}?`
 
             embedLink += `&autoplay=${(autoplay)? '1' : '0'}`;
-            embedLink += `&loop=${(loop)? '1' : '0'}` + `&playlist=${youtubeId}`;
+            embedLink += `&loop=${(loop)? '1' : '0'}&playlist=${youtubeId}`;
             embedLink += `&controls=${(control)? '1' : '0'}`;
 
             if (attributes.src !== embedLink) {
@@ -152,7 +151,7 @@ export default function loadVideo(editor, opt = {}) {
             // full width 
             const fullwidth = elInput.querySelector('.video-fullwidth').checked;
             if (fullwidth) {
-                
+                // component.setStyle
             } else {
             
             }
@@ -171,6 +170,7 @@ export default function loadVideo(editor, opt = {}) {
                     {
                         type: 'video-advance-setting',
                         label: 'Advance Setting',
+                        fullwidth: false,
                     }
                 ],
             },

@@ -4,8 +4,8 @@ import loadTraitMulticolumnItem from "./trait";
 export default function loadBlockMulticolumn(editor, opt = {}) {
   const c = opt;
   let bm = editor.BlockManager;
-  loadTraitMulticolumnItem(editor,c)
-  loadBlockColumnItem(editor,c)
+  loadTraitMulticolumnItem(editor, c)
+  loadBlockColumnItem(editor, c)
   const domc = editor.DomComponents;
   const defaultType = domc.getType("default");
   const textType = domc.getType("text");
@@ -24,7 +24,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
           {
             label: "Heading",
             type: "multicolumn-heading",
-            placeholder:"Label"
+            placeholder: "Label"
           },
           {
             label: false,
@@ -103,29 +103,31 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
   bm.add("multicolumn", {
     // THIS IS HTML DISPLAY ON THE LEFT (BLOCK BAR)
     label: `
-    <svg height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg">
-    <path d="M14 38h20V8H14v30zM4 34h8V12H4v22zm32-22v22h8V12h-8z"/><path d="M0 0h48v48H0z" fill="none"/>
-    </svg>
+    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" width="48" height="48" style="padding-left: 3px;">
+<path id="XMLID_469_" d="M315,30H15C6.716,30,0,36.716,0,45v60v180c0,8.284,6.716,15,15,15h300c8.284,0,15-6.716,15-15V105V45
+	C330,36.716,323.284,30,315,30z M150,120v60H30v-60H150z M180,120h120v60H180V120z M30,210h120v60H30V210z M180,270v-60h120v60H180z
+	"></path>
+</svg>
     <div>Multicolumn</div> `,
     category: c.multicolumn,
     draggable: ".main-content",
     content: [
-      { 
+      {
         name: 'Multicolumn',
         type: "multicolumn",
-        attributes: {class: "multicolumn-numCols-3"},
+        attributes: { class: "multicolumn-numCols-3" },
         components: [{
           attributes: { class: "" },
           tagName: "h2",
           name: "Multicolumn Tittle",
-          style: { "text-align": "center", "padding": "0px" },
+          style: { "text-align": "center", "font-weight": "bold", "padding": "0px" },
           content: `Card Title`,
           layerable: false,
           hoverable: false,
           selectable: false,
           highlightable: false,
           droppable: false,
-          draggable:false,
+          draggable: false,
         },
         {
           name: 'multicolumn',
@@ -133,8 +135,9 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
           hoverable: false,
           selectable: false,
           highlightable: false,
-          draggable:false,
-          attributes: {class: "row ezMall-multicolumn"},
+          draggable: false,
+          attributes: { class: "row ezMall-multicolumn" },
+
           components: [
             {
               tagName: "a",
@@ -152,7 +155,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                   selectable: false,
                   highlightable: false,
                   droppable: false,
-                  draggable:false,
+                  draggable: false,
                   content: `
                   <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
                 `,
@@ -163,7 +166,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                   hoverable: false,
                   selectable: false,
                   highlightable: false,
-                  draggable:false,
+                  draggable: false,
                   components: [
                     {
                       attributes: { class: "card-title", style: "text-decoration: none;" },
@@ -175,7 +178,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                       selectable: false,
                       highlightable: false,
                       droppable: false,
-                      draggable:false,
+                      draggable: false,
                     }
                     , {
                       removable: false,
@@ -187,7 +190,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                       style: { "font-size": "medium" },
                       editable: true,
                       droppable: false,
-                      draggable:false,
+                      draggable: false,
                       content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or
                       welcome customers to your store.</p>`,
                     }]
@@ -210,7 +213,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                   selectable: false,
                   highlightable: false,
                   droppable: false,
-                  draggable:false,
+                  draggable: false,
                   content: `
                   <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
                 `,
@@ -221,7 +224,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                   hoverable: false,
                   selectable: false,
                   highlightable: false,
-                  draggable:false,
+                  draggable: false,
                   components: [
                     {
                       attributes: { class: "card-title", style: "text-decoration: none;" },
@@ -233,7 +236,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                       selectable: false,
                       highlightable: false,
                       droppable: false,
-                      draggable:false,
+                      draggable: false,
                     }
                     , {
                       removable: false,
@@ -245,7 +248,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                       style: { "font-size": "medium" },
                       editable: true,
                       droppable: false,
-                      draggable:false,
+                      draggable: false,
                       content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or
                       welcome customers to your store.</p>`,
                     }]
@@ -268,7 +271,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                   selectable: false,
                   highlightable: false,
                   droppable: false,
-                  draggable:false,
+                  draggable: false,
                   content: `
                   <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
                 `,
@@ -279,7 +282,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                   hoverable: false,
                   selectable: false,
                   highlightable: false,
-                  draggable:false,
+                  draggable: false,
                   components: [
                     {
                       attributes: { class: "card-title", style: "text-decoration: none;" },
@@ -291,7 +294,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                       selectable: false,
                       highlightable: false,
                       droppable: false,
-                      draggable:false,
+                      draggable: false,
                     }
                     , {
                       removable: false,
@@ -303,7 +306,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                       style: { "font-size": "medium" },
                       editable: true,
                       droppable: false,
-                      draggable:false,
+                      draggable: false,
                       content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or
                       welcome customers to your store.</p>`,
                     }]
@@ -312,9 +315,9 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
             },
           ]
         }]
-    },
-  
-  ]
+      },
+
+    ]
   });
   //#endregion
   //LONG-TP 2022-02-22 TEST TRAITS - ADD END 

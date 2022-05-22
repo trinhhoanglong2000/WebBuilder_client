@@ -12,7 +12,7 @@ export default function loadBlockColumnItem(editor, opt = {}) {
   const defaultType = domc.getType("default");
   const textType = domc.getType("text");
   //THIS IS SETTING COMPONENT
-  
+
   domc.addType("ColumnItem", {
     model: {
       defaults: {
@@ -89,12 +89,14 @@ export default function loadBlockColumnItem(editor, opt = {}) {
   });
   bm.add("ColumnItem", {
     label: `
-    <svg height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg">
-    <path d="M14 38h20V8H14v30zM4 34h8V12H4v22zm32-22v22h8V12h-8z"/><path d="M0 0h48v48H0z" fill="none"/>
-    </svg>
+    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" style="height: 48px;padding: 7px;"
+    viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+     <path d="M68.267,0v512h375.467V0H68.267z M375.467,238.933H136.533v-51.2h238.933V238.933z M375.467,136.533H136.533v-51.2
+     h238.933V136.533z"/>
+ </svg>
     <div>Column Item</div> `,
     category: c.multicolumn,
- 
+
     content: [
       {
         tagName: "a",
@@ -112,7 +114,7 @@ export default function loadBlockColumnItem(editor, opt = {}) {
             selectable: false,
             highlightable: false,
             droppable: false,
-            draggable:false,
+            draggable: false,
             content: `
             <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
           `,
@@ -123,7 +125,7 @@ export default function loadBlockColumnItem(editor, opt = {}) {
             hoverable: false,
             selectable: false,
             highlightable: false,
-            draggable:false,
+            draggable: false,
             components: [
               {
                 attributes: { class: "card-title", style: "text-decoration: none;" },
@@ -135,7 +137,7 @@ export default function loadBlockColumnItem(editor, opt = {}) {
                 selectable: false,
                 highlightable: false,
                 droppable: false,
-                draggable:false,
+                draggable: false,
               }
               , {
                 removable: false,
@@ -147,7 +149,7 @@ export default function loadBlockColumnItem(editor, opt = {}) {
                 style: { "font-size": "medium" },
                 editable: true,
                 droppable: false,
-                draggable:false,
+                draggable: false,
                 draggable: ".Rich-Text",
                 content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or
                 welcome customers to your store.</p>`,

@@ -33,7 +33,7 @@ export const storeSlice = createSlice({
         },
         doRenderImage(state, action){
             if (state.targetBase64Image[action.payload.id]) {
-                state.targetBase64Image[action.payload.id].set('content', `<img src="${action.payload.image}" class="img-responsive img-fluid"/>`)
+                state.targetBase64Image[action.payload.id].setAttributes({...state.targetBase64Image[action.payload.id].getAttributes(), 'src': action.payload.image })
             }
         }
 

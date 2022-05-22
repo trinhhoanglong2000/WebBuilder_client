@@ -7,6 +7,9 @@ export default function loadBlockFooterItem(editor, opt = {}) {
   const dc = editor.DomComponents;
   const am = editor.AssetManager;
 
+  const defaultType = dc.getType("default");
+  const defaultView = defaultType.view;
+
   let controller;
   var GetRequest = async (url) => {
     controller = new AbortController();
@@ -141,34 +144,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
     },
   });
 
-  // editor.TraitManager.addType("footer-select-menu", {
-  //   createInput({ trait }) {
-  //     const el = document.createElement("div");
-  //     el.innerHTML = `
-  //           <select>
-  //             <option value="white">White</option>
-  //             <option value="black">Black</option>
-  //           </select>
-  //         `;
-
-  //     $(el)
-  //       .find("select")
-  //       .on("input", (ev) => this.onChange(ev));
-
-  //     return el;
-  //   },
-
-  //   onEvent({ elInput, component, event }) {
-  //     // const inputType = elInput.querySelector(".footer-heading").value;
-  //     // const header = component.get("components").models[0];
-
-  //     // header.set({ content: inputType });
-  //     console.log("change")
-  //   },
-  // });
-
   editor.TraitManager.addType("footer-menu-collection", {
-    // Expects as return a simple HTML string or an HTML element
     createInput({ trait }) {
       const el = document.createElement("div");
       let initValue = trait.target.attributes.attributes['menu-collection'] || "";
@@ -177,52 +153,49 @@ export default function loadBlockFooterItem(editor, opt = {}) {
         <div class="Modal-popup dnone" style="">
           <div class ="d-flex border-bottom mb-3 p-3">
             <h5 class="flex-grow-1">
-              Select menu
+            Select menu
             </h5> 
             <button type="button" class="btn close-btn">
               <i class="fas fa-times"></i>
             </button>
           </div>
           <div class="input-group" >
-            <div class="form-outline d-flex w-100 border rounded  ml-1 mr-2 mt-1" >
-                <input type="search" id="form1" class="form-control pr-0" style="border:none" placeholder = "Search"/>
+            <div class="form-outline d-flex w-100 border rounded ml-1 mr-2 mt-1" >
+                <input type="search" id="form1" class="form-control pr-0" style="border:none" placeholder="Search"/>
                 <button type="button " class="btn">
                 <i class="fas fa-search"></i>
               </button>
             </div>
           </div>
-
           <div>
             <ul style="list-style: none;padding:0" > 
             </ul>
           </div>
         </div>
-
         <div class="card">
           <div class= "card-body" >
             <div class="Collection-content d-lg-flex mb-3">
-              <div style="font-size: 24px;margin-right: 20px;">
-                <i class="fa fa-tags" aria-hidden="true"></i>
-              </div>
-              <div class="name-collection" style="overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2; /* number of lines to show */ line-clamp: 2;-webkit-box-orient: vertical;" >
-              </div>
+            <div style="font-size: 24px;margin-right: 20px;">
+              <i class="fa fa-tags" aria-hidden="true"></i>
+            </div>
+            <div class="name-collection" style="overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2; line-clamp: 2;-webkit-box-orient: vertical;">              
+            </div>
             </div>
             <div class="type-collection" style="color:rgb(109, 113, 117)">
-              Menu
+               Menu
             </div>
           </div>         
           <div style = "border-top: 1px solid #0000004d"class= "card-body" >
-            <a style="width: 100%;font-size: 100%;" class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Change
-            </a>
-            <div style="width: 100%;font-size: 120%; margin-top:10px" class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item" href="#"><span style="font-size:16px">
-              <i style ="width:20px" class="fa fa-pencil-square-o" aria-hidden="true"></i></span> Change 
-            </a>
-            <a class="dropdown-item" href="#"><span style="font-size:16px">
-              <i style ="width:20px" class="fa fa-trash-o" aria-hidden="true"></i></span>  Delete 
-            </a>
-          </div>       
+          <a style="width: 100%;font-size: 100%;" class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Change
+          </a>
+          <div style="width: 100%;font-size: 120%; margin-top:10px" class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <a class="dropdown-item" href="#"><span style="font-size:16px"><i style ="width:20px"class="fa fa-pencil-square-o" aria-hidden="true"></i></span> Change 
+          </a>
+          <a class="dropdown-item" href="#"> <span style ="font-size:16px"><i style ="width:20px" class="fa fa-trash-o" aria-hidden="true"></i></span> Delete 
+          </a>
+          </div>
+          </div>         
         </div>
       `;
       el.style = "position:relative";
@@ -235,7 +208,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
         .find(".dropdown-item")
         .each( (i) =>{
           let func;
-          if (i == 0) {
+          if (i === 0) {
             func = function () {
               $(el).find(".Modal-popup").toggle(200);
             };
@@ -254,41 +227,36 @@ export default function loadBlockFooterItem(editor, opt = {}) {
         });
       const GetItem = (name ="",flag=false) => {
         GetRequest(
-          `${process.env.REACT_APP_API_URL}stores/${opt.storeId}/collections/product?name=${name.trim()}`
+          `${process.env.REACT_APP_API_URL}stores/${opt.storeId}/menu?name=${name.trim()}`
         ).then((data) => {
-          let domdata = "";
           initValue = trait.target.attributes.attributes['menu-collection'] || "";
+          let domdata = "";
+
           data.data.forEach((element) => {
-            domdata += `<li data-value = "${element.id}" name="${element.name}" >
+            domdata += `<li data-value = "${element.id}" name="${element.title}" >
             <div style="width: 100%;display: flex;align-items: center;" class="btn border-bottom py-3">
-            
               <div class="Picture" >
                 <img style= "width: 32px;height: 32px;" src="${
                   element.thumbnail
                     ? element.thumbnai
                     : "https://img.icons8.com/fluency-systems-regular/48/000000/image.png"
                 }"/>
-
-
               </div>
-              <div style ="text-align:left;flex-grow:1;font-size:12px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2; /* number of lines to show */ line-clamp: 2;-webkit-box-orient: vertical;
-              " >
-              ${element.name}
-
+              <div style ="text-align:left;flex-grow:1;font-size:12px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2; line-clamp: 2;-webkit-box-orient: vertical;">
+              ${element.title}
               </div>
               <div class="check-item mr-2">
               <i class="far fa-check-circle"></i>
               </div>
             </div>  
-            
             </li>`;
           });
+
           //  Item section
           if (!flag)
             $(el).find(".Modal-popup ul").append(domdata);
           else
             $(el).find(".Modal-popup ul").empty().append(domdata);
-
 
           $(el).find(".Modal-popup ul li").find(".check-item").fadeOut(0);
           //init
@@ -332,8 +300,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
         }).catch(function(e) {
         });;
       };
-      GetItem()
-      //  INPUT
+      GetItem();
       $(el)
         .find(".Modal-popup input")
         .on("input", function () {
@@ -345,13 +312,11 @@ export default function loadBlockFooterItem(editor, opt = {}) {
       return el;
     },
     onEvent({ elInput, component, event }) {
-      if (event.type =='change') return
-      const data = $(elInput).find('.Modal-popup ul li.active').data('value') || ""
-      component.setAttributes({...component.getAttributes(),'menu-collection':data});
-
-      //#1 when option change we will get new option => change HTML following option
+      if (event.type === 'change') return
+      const data = $(elInput).find('.Modal-popup ul li.active').data('value') || "";
+      component.setAttributes({...component.getAttributes(), 'menu-collection':data});
     },
-  });
+  })
 
   editor.TraitManager.addType('footer-image', {
     createInput({ trait }) {
@@ -404,19 +369,63 @@ export default function loadBlockFooterItem(editor, opt = {}) {
       defaults: {
         traits: [
           {
+            type: "footer-menu-collection",
+            label: "Menu"
+          },
+          {
             type: "footer-heading",
             label: "Quick link heading",
             placeholder: "Heading"
-          },
-          {
-            type: "footer-menu-collection",
-            label: "Menu"
           }
         ],
       },
       init() {
       },
       initData() { },
+      view: defaultView.extend({
+        init() {
+            this.listenTo(this.model, "change:attributes:menu-collection", this.Update);
+        },
+        onRender() {
+            this.Update()
+        },
+        async Update() {
+            let products_data = [
+                {
+                    title: "Product Title",
+                    price: "$100.00",
+                    thumbnail: "https://dummyimage.com/600x400/55595c/fff",
+                },
+            ];
+            const id = this.model.attributes.attributes["menu-collection"] || " ";
+            fetch(`${process.env.REACT_APP_API_URL}stores/menu-item/${id}`)
+                .then((response) => response.json())
+                .then((data) => {
+                  console.log(data)
+                    // if (data.data.products)
+                    //     products_data = data.data.products;
+                    // $(this.el)
+                    //     .find(".thumb-wrapper")
+                    //     .each(function (index) {
+                    //       $(this)
+                    //           .find("h4")
+                    //           .text(products_data[index % products_data.length].title);
+                    //       $(this)
+                    //           .find(".item-price strike")
+                    //           .text(products_data[index % products_data.length].price);
+                    //       $(this)
+                    //           .find(".item-price span")
+                    //           .text(products_data[index % products_data.length].price);
+                    //       $(this)
+                    //           .find("img")
+                    //           .attr(
+                    //               "src",
+                    //               products_data[index % products_data.length].thumbnail
+                    //           );
+                    //     });
+                });
+        },
+      })
     },
   });
 

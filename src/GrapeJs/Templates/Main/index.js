@@ -23,19 +23,19 @@ export default function loadBlockMain(editor, opt = {}) {
       // This function run when component created - we setup listen to change atri
     },
   });
-  editor.BlockManager.add("Main", {
-    label: "Main",
-    category: "Main",
-    content: {
-      name: "Main",
-      tagName: "main",
-      type: "Main",
+  // editor.BlockManager.add("Main", {
+  //   label: "Main",
+  //   category: "Main",
+  //   content: {
+  //     name: "Main",
+  //     tagName: "main",
+  //     type: "Main",
 
-      attributes: {
-        class: "main-content",
-        style: "min-height:100px;width:100%",
-      },
-    },
-  });
+  //     attributes: {
+  //       class: "main-content",
+  //       style: "min-height:100px;width:100%",
+  //     },
+  //   },
+  // });
   //#endregion
 }

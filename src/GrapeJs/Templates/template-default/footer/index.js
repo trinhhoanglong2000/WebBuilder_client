@@ -19,110 +19,112 @@ export default function loadBlockFooter(editor, opt = {}) {
     return navbar;
   }
 
-  bm.add('footer', {
-    label: "Footer",
-    category: "Footer",
-    // attributes
-    content: {
-        name: "Footer",
-        type: "footer",
-        tagName: "footer",
-        content: <div></div>,
-        attributes: { class: "footer-section", name:  "footer" },
-        droppable: false,
-        components: [
-        {
-          layerable : false,
-          draggable: false,
-          selectable: false,
-          droppable: false,
-          tagName: "hr",
-        },
-        {
-          name: "Footer Navigation",
-          draggable: ".footer-section",
-          tagName: "div",
-          attributes: { class: "row footer-navigation" },
-          components: [
-            {
-              name: "QuickLink",
-              draggable: ".footer-navigation",
-              tagName: "div",
-              attributes: { class: "col-md" },
-              type: "footer-quick-link",
-              droppable: false,
-              components: [
-                {                                            
-                  layerable: false,
-                  draggable: false,
-                  hoverable: false,
-                  selectable: false,
-                  droppable: false,
-                  tagName: "h5",
-                  content: "Quick links"
-                }, {
-                  layerable: false,
-                  draggable: false,
-                  hoverable: false,
-                  selectable: false,
-                  droppable: false,
-                  tagName: "ul",
-                  content: getFooterNavigationButton(c.footerNavigation)
-                }
-              ],
-            },
-            {
-              name: "TextMenu",
-              draggable: ".footer-navigation",
-              droppable: false,
-              tagName: "div",
-              attributes: { class: "col-md" },
-              type: "footer-text-menu",
-              components: [
-                {                                            
-                  layerable: false,
-                  draggable: false,
-                  hoverable: false,
-                  selectable: false,
-                  droppable: false,
-                  tagName: "h5",
-                  content: "Heading"
-                }, {
-                  layerable: false,
-                  draggable: false,
-                  hoverable: false,
-                  selectable: false,
-                  droppable: false,
-                  tagName: "ul",
-                  content: c.footerHeading
-                }
-              ],
-            }
-          ]
-        },     
-        {
-          layerable : false,
-          draggable: false,
-          selectable: false,
-          droppable: false,
-          tagName: "hr",
-        },     
-        {
-          name: "Social Navigation",
-          tagName: "div",
-          draggable: false,
-          selectable: false,
-          droppable: false,
-          attributes: { class: "text-center text-md-start pb-2" },
-          content: `
-          <i class="fa fa-linkedin-square" aria-hidden="true"></i>
-          <i class="fa fa-envelope-o" aria-hidden="true"></i>
-          <i class="fa fa-facebook-square" aria-hidden="true"></i>
-          `
-        },
-        ],
-    }
-  });
+  // bm.add('footer', {
+  //   label: "Footer",
+  //   category: "Footer",
+  //   attributes: { class: "fa fa-footer" },
+  //   // attributes
+  //   content: {
+  //       name: "Footer",
+  //       type: "footer",
+  //       tagName: "footer",
+  //       content: <div></div>,
+  //       attributes: { class: "footer-section", name:  "footer" },
+  //       droppable: false,
+  //       components: [
+  //       {
+  //         layerable : false,
+  //         draggable: false,
+  //         selectable: false,
+  //         droppable: false,
+  //         tagName: "hr",
+  //       },
+  //       {
+  //         name: "Footer Navigation",
+  //         draggable: ".footer-section",
+  //         tagName: "div",
+  //         attributes: { class: "row footer-navigation" },
+  //         components: [
+  //           {
+  //             name: "QuickLink",
+  //             draggable: ".footer-navigation",
+  //             tagName: "div",
+  //             attributes: { class: "col-md" },
+  //             type: "footer-quick-link",
+  //             droppable: false,
+  //             components: [
+  //               {                                            
+  //                 layerable: false,
+  //                 draggable: false,
+  //                 hoverable: false,
+  //                 selectable: false,
+  //                 droppable: false,
+  //                 tagName: "h5",
+  //                 content: "Quick links"
+  //               }, {
+  //                 layerable: false,
+  //                 draggable: false,
+  //                 hoverable: false,
+  //                 selectable: false,
+  //                 droppable: false,
+  //                 attributes: { class: "quicklinks-menu" },
+  //                 tagName: "ul",
+  //                 content: getFooterNavigationButton(c.footerNavigation)
+  //               }
+  //             ],
+  //           },
+  //           {
+  //             name: "TextMenu",
+  //             draggable: ".footer-navigation",
+  //             droppable: false,
+  //             tagName: "div",
+  //             attributes: { class: "col-md" },
+  //             type: "footer-text",
+  //             components: [
+  //               {                                            
+  //                 layerable: false,
+  //                 draggable: false,
+  //                 hoverable: false,
+  //                 selectable: false,
+  //                 droppable: false,
+  //                 tagName: "h5",
+  //                 content: "Heading"
+  //               }, {
+  //                 layerable: false,
+  //                 draggable: false,
+  //                 hoverable: false,
+  //                 selectable: false,
+  //                 droppable: false,
+  //                 tagName: "p",
+  //                 content: c.footerHeading
+  //               }
+  //             ],
+  //           }
+  //         ]
+  //       },     
+  //       {
+  //         layerable : false,
+  //         draggable: false,
+  //         selectable: false,
+  //         droppable: false,
+  //         tagName: "hr",
+  //       },     
+  //       {
+  //         name: "Social Navigation",
+  //         tagName: "div",
+  //         draggable: false,
+  //         selectable: false,
+  //         droppable: false,
+  //         attributes: { class: "text-center text-md-start pb-2" },
+  //         content: `
+  //         <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+  //         <i class="fa fa-envelope-o" aria-hidden="true"></i>
+  //         <i class="fa fa-facebook-square" aria-hidden="true"></i>
+  //         `
+  //       },
+  //       ],
+  //   }
+  // });
 
   dc.addType('footer', {
       model: {

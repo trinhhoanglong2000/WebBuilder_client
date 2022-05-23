@@ -6,10 +6,7 @@ export default function loadBlockHeader(editor, opt = {}) {
     const am = editor.AssetManager;
     const dc = editor.DomComponents;
 
-    const getHeaderLogo = () => {
-        return c.logoURL ? `<img src=${c.logoURL}>` : `<h4>${c.storeName}</h4>`;
-    }
-
+    const isHaveLogo = c.logoURL? true : false;
     const getHeaderNavigationButton = () => {
         let navbar = [];
 
@@ -36,134 +33,307 @@ export default function loadBlockHeader(editor, opt = {}) {
         return navbar;
     }
 
-    bm.add('header', {
-        label: "Header",
-        category: "Header",
-        attributes: { class: "fa fa-header" },
-        content: {
-            droppable: false,
-            name: "Header",
-            tagName: "header",
-            type: "navbar",
-            attributes: { class: "navbar navbar-expand-md border-bottom border-dark", name: "header", 'store-id': c.storeId },
-            components: [
-                {
-                    layerable: false,
-                    draggable: true,
-                    hoverable: false,
-                    selectable: false,
-                    droppable: false,
-                    tagName: "div",
-                    attributes: { class: "container align-items-baseline" },
-                    components: [
-                        {
-                            layerable: false,
-                            draggable: false,
-                            highlightable: false,
-                            hoverable: false,
-                            droppable: false,
-                            tagName: "button",
-                            attributes: { class: "navbar-toggler", type: "button", "data-bs-toggle": "collapse", "data-bs-target": "#navbarSupportedContent", "aria-controls": "navbarSupportedContent", "aria-expanded": "false", "aria-label": "Toggle navigation" },
-                            content: `<i class="fa fa-bars"></i>`,
-                        },
-                        {
-                            layerable: false,
-                            draggable: false,
-                            droppable: false,
-                            hoverable: false,
-                            tagName: "a",
-                            attributes: { href: "#", class: "navbar-brand text-uppercase font-weight-bold" },
-                            selectable: false,
-                            content: getHeaderLogo(),
-                        },
-                        {
-                            layerable: false,
-                            draggable: false,
-                            droppable: false,
-                            hoverable: false,
-                            highlightable: false,
-                            selectable: false,
-                            tagName: "div",
-                            attributes: { class: "d-block d-md-none" },
-                            components: [
-                                {
-                                    layerable: false,
-                                    draggable: false,
-                                    droppable: false,
-                                    hoverable: false,
-                                    selectable: false,
-                                    tagName: "i",
-                                    attributes: { class: "fa fa-search" },
-                                },
-                                {
-                                    layerable: false,
-                                    droppable: false,
-                                    draggable: false,
-                                    hoverable: false,
-                                    selectable: false,
-                                    tagName: "i",
-                                    attributes: { class: "fa fa-shopping-bag" },
-                                },
-                            ],
-                        },
-                        {
-                            layerable: false,
-                            draggable: false,
-                            droppable: false,
-                            highlightable: false,
-                            hoverable: false,
-                            selectable: false,
-                            tagName: "div",
-                            attributes: { id: "navbarSupportedContent", class: "collapse navbar-collapse" },
-                            components: [
-                                {
-                                    layerable: false,
-                                    draggable: false,
-                                    hoverable: false,
-                                    droppable: false,
-                                    highlightable: false,
-                                    selectable: false,
-                                    tagName: "ul",
-                                    attributes: { class: "navbar-nav" },
-                                    components: getHeaderNavigationButton()
-                                },
-                            ],
-                        },
-                        {
-                            layerable: false,
-                            draggable: false,
-                            hoverable: false,
-                            droppable: false,
-                            highlightable: false,
-                            selectable: false,
-                            tagName: "div",
-                            attributes: { class: "d-none d-md-block" },
-                            components: [
-                                {
-                                    layerable: false,
-                                    draggable: false,
-                                    hoverable: false,
-                                    droppable: false,
-                                    selectable: false,
-                                    tagName: "i",
-                                    attributes: { class: "fa fa-search icon-header" },
-                                },
-                                {
-                                    layerable: false,
-                                    draggable: false,
-                                    hoverable: false,
-                                    selectable: false,
-                                    droppable: false,
-                                    tagName: "i",
-                                    attributes: { class: "fa fa-shopping-bag icon-header" },
-                                },
-                            ],
-                        },
-                    ]
-                },
-            ],
-        }
+    // real header
+    // bm.add('header', {
+    //     label: "Header",
+    //     category: "Header",
+    //     attributes: { class: "fa fa-header" },
+    //     content: {
+    //         droppable: false,
+    //         name: "Header",
+    //         tagName: "nav",
+    //         type: "navbar",
+    //         attributes: { class: "navbar navbar-expand-md border-bottom border-dark", name: "header", 'store-id': c.storeId },
+    //         components: [
+    //             {
+    //                 layerable: false,
+    //                 draggable: true,
+    //                 hoverable: false,
+    //                 selectable: false,
+    //                 droppable: false,
+    //                 tagName: "div",
+    //                 attributes: { class: "container-fluid align-items-center" },
+    //                 components: [
+    //                     {
+    //                         layerable: false,
+    //                         draggable: false,
+    //                         highlightable: false,
+    //                         hoverable: false,
+    //                         droppable: false,
+    //                         tagName: "button",
+    //                         attributes: { class: "navbar-toggler", type: "button", "data-bs-toggle": "collapse", "data-bs-target": "#navbarSupportedContent", "aria-controls": "navbarSupportedContent", "aria-expanded": "false", "aria-label": "Toggle navigation" },
+    //                         content: `<i class="fa fa-bars"></i>`,
+    //                     },
+    //                     {
+    //                         layerable: false,
+    //                         draggable: false,
+    //                         droppable: false,
+    //                         hoverable: false,
+    //                         tagName: "a",
+    //                         attributes: { href: "#", class: "navbar-brand text-uppercase font-weight-bold" },
+    //                         selectable: false,
+    //                         components: [
+    //                             {
+    //                                 tagName: 'img',
+    //                                 layerable: false,
+    //                                 hoverable: false,
+    //                                 selectable: false,
+    //                                 draggable:  false,
+    //                                 attributes: { class: `img-thumbnail ${(isHaveLogo)? "": "d-none"}`, src: c.logoURL?? "https://dummyimage.com/600x400/55595c/fff" },
+    //                             },
+    //                             {
+    //                                 tagName: 'h4',
+    //                                 layerable: false,
+    //                                 hoverable: false,
+    //                                 selectable: false,
+    //                                 draggable:  false,
+    //                                 attributes: { class: `${(isHaveLogo)? "d-none": ""}` },
+    //                                 content: c.storeName,
+    //                             }
+    //                         ]
+    //                     },
+    //                     {
+    //                         layerable: false,
+    //                         draggable: false,
+    //                         droppable: false,
+    //                         hoverable: false,
+    //                         highlightable: false,
+    //                         selectable: false,
+    //                         tagName: "div",
+    //                         attributes: { class: "d-block d-md-none" },
+    //                         components: [
+    //                             {
+    //                                 layerable: false,
+    //                                 draggable: false,
+    //                                 droppable: false,
+    //                                 hoverable: false,
+    //                                 selectable: false,
+    //                                 tagName: "i",
+    //                                 attributes: { class: "fa fa-search" },
+    //                             },
+    //                             {
+    //                                 layerable: false,
+    //                                 droppable: false,
+    //                                 draggable: false,
+    //                                 hoverable: false,
+    //                                 selectable: false,
+    //                                 tagName: "i",
+    //                                 attributes: { class: "fa fa-shopping-bag" },
+    //                             },
+    //                         ],
+    //                     },
+    //                     {
+    //                         layerable: false,
+    //                         draggable: false,
+    //                         droppable: false,
+    //                         highlightable: false,
+    //                         hoverable: false,
+    //                         selectable: false,
+    //                         tagName: "div",
+    //                         attributes: { id: "navbarSupportedContent", class: "collapse navbar-collapse" },
+    //                         components: [
+    //                             {
+    //                                 layerable: false,
+    //                                 draggable: false,
+    //                                 hoverable: false,
+    //                                 droppable: false,
+    //                                 highlightable: false,
+    //                                 selectable: false,
+    //                                 tagName: "ul",
+    //                                 attributes: { class: "navbar-nav" },
+    //                                 components: getHeaderNavigationButton()
+    //                             },
+    //                         ],
+    //                     },
+    //                     {
+    //                         layerable: false,
+    //                         draggable: false,
+    //                         hoverable: false,
+    //                         droppable: false,
+    //                         highlightable: false,
+    //                         selectable: false,
+    //                         tagName: "div",
+    //                         attributes: { class: "d-none d-md-block" },
+    //                         components: [
+    //                             {
+    //                                 layerable: false,
+    //                                 draggable: false,
+    //                                 hoverable: false,
+    //                                 droppable: false,
+    //                                 selectable: false,
+    //                                 tagName: "i",
+    //                                 attributes: { class: "fa fa-search icon-header" },
+    //                             },
+    //                             {
+    //                                 layerable: false,
+    //                                 draggable: false,
+    //                                 hoverable: false,
+    //                                 selectable: false,
+    //                                 droppable: false,
+    //                                 tagName: "i",
+    //                                 attributes: { class: "fa fa-shopping-bag icon-header" },
+    //                             },
+    //                         ],
+    //                     },
+    //                 ]
+    //             },
+    //         ],
+    //     }
+    // });
+
+    editor.TraitManager.addType('header-upload-image', {
+        createInput({ trait }) {
+            const el = document.createElement('div');
+            el.innerHTML = `
+            <div class="card upload-image-area">
+                <div class="card-body">
+                    <div class="target-img">
+                        <img src=${c.logoURL ?? trait.get('srcDefault')} class="card-img-top"/>
+                    </div>
+                    <button type="button" class="change-btn">Change</button>
+                    <button type="button" class="remove-btn">Remove</button>
+                </div>
+            </div>
+            `;
+
+            const changeBtn = el.querySelector('.upload-image-area .card-body button.change-btn');
+            const removeBtn = el.querySelector('.upload-image-area .card-body button.remove-btn');
+            const inputImage = el.querySelector('.upload-image-area .card-body img');
+            const logoImage = editor.getSelected().get("components").models[0].get("components").models[1].get("components").models[0];
+            const logoBrand = editor.getSelected().get("components").models[0].get("components").models[1].get("components").models[1];
+
+            changeBtn.onclick = () => {
+                am.open({
+                    select(asset, complete) {
+                        inputImage.src = asset.getSrc();
+                        logoImage.setAttributes({ ...logoImage.getAttributes(), 'src': asset.getSrc(), 'class': 'img-thumbnail'})
+                        logoBrand.setAttributes({ ...logoBrand.getAttributes(), 'class': 'd-none'})
+
+                        if (!c.validURL(asset.getSrc())) {
+                            c.addTarget64Image({id: asset.cid, target: logoImage})
+                        }
+
+                        am.close();
+                    },
+
+                });
+            };
+
+            removeBtn.onclick = () => {
+                logoImage.setAttributes({ ...logoImage.getAttributes(), 'src': trait.get('srcDefault'), 'class': 'img-thumbnail d-none'})
+                logoBrand.setAttributes({ ...logoBrand.getAttributes(), 'class': ''});
+
+                inputImage.src = trait.get('srcDefault');
+            };
+
+            return el;
+        },
     });
+
+    editor.TraitManager.addType("header-advance-setting", {
+        createInput({ trait }) {
+
+            const el = document.createElement("div");
+            el.innerHTML = `
+                <div class="gjs-field-wrp gjs-field-wrp--checkbox">
+                    <label class="gjs-field gjs-field-checkbox">
+                        <div style="padding-left: 25px; min-width: 100px;"> Enable sticky header </div>
+                        <input class="header-setting-sticky-top" type="checkbox"> 
+                        <i class="gjs-chk-icon" style="margin-top: -19px"></i>
+                    </label>
+                </div>
+            `;
+
+            $(el)
+                .find("input")
+                .prop('checked', trait.get('isSticky')?? false)
+
+            return el;
+        },
+    });
+
+    editor.TraitManager.addType("header-advance-setting", {
+        createInput({ trait }) {
+            const el = document.createElement("div");  
+            const isFullWidth = trait.target.getAttributes().class.includes("sticky-top");
+
+            el.innerHTML = `
+                <div class="gjs-one-bg">
+                    <label class="checkbox-product gjs-label-wrp">
+                        <input class ="checkbox-input header-sticky-top" type="checkbox" id="border">
+                        <div class="checkbox_box"></div>
+                        Enable sticky header
+                    <label/>
+                </div>
+            `;
+
+            $(el).find("input.header-sticky-top").prop('checked', isFullWidth)
+
+            return el;
+        },
+
+        onEvent({ elInput, component, event }) {
+            const isSticky = elInput.querySelector('input.header-sticky-top').checked;
+
+            if (isSticky) {
+                component.setAttributes({...component.getAttributes(), 'class': 'navbar navbar-expand-md border-bottom border-dark sticky-top'})
+            } else {
+                component.setAttributes({...component.getAttributes(), 'class': 'navbar navbar-expand-md border-bottom border-dark'})
+            }
+        },
+    });
+
+    dc.addType('navbar', {
+        model: {
+            defaults: {
+                attributes: { 'theme': 'white', 'logoSize': 'medium' },
+                traits: [
+                    {
+                        type: 'select',
+                        label: 'Theme color',
+                        name: 'theme',
+                        options: [
+                            { id: 'white', name: 'White' },
+                            { id: 'black', name: 'Black' },
+                            { id: 'lGreen', name: 'Light Green' },
+                            { id: 'lBlue', name: 'Light Blue' },
+                            { id: 'sand', name: 'Sand' },
+                        ]
+                    },
+                    {
+                        type: 'header-upload-image',
+                        changeProp: 1,
+                        label: 'Logo image',
+                        name: 'logoImage',
+                        srcDefault: 'https://dummyimage.com/600x400/55595c/fff',
+                    },
+                    {
+                        type: 'select',
+                        label: 'Logo size', 
+                        name: 'logoSize', 
+                        options: [
+                            { id: 'small', name: 'Small' },
+                            { id: 'medium', name: 'Medium' },
+                            { id: 'large', name: 'Large' },
+                        ]
+                    },
+                    {
+                        type: 'header-advance-setting',
+                        label: 'Advance setting', 
+                        isSticky: false,
+                    },
+                ],
+            },
+
+            init() {
+
+            },
+            initData() {
+                
+            },
+        },
+    });
+}
 
     // bm.add('header2', {
     //     label: "Header2",
@@ -329,137 +499,6 @@ export default function loadBlockHeader(editor, opt = {}) {
     //         ]
     //     },
     // });
-
-    editor.TraitManager.addType('header-upload-image', {
-        createInput({ trait }) {
-            const el = document.createElement('div');
-            el.innerHTML = `
-            <div class="card upload-image-area">
-                <div class="card-body">
-                    <div class="target-img">
-                        <img src=${trait.get('src') ?? trait.get('srcDefault')} class="card-img-top"/>
-                    </div>
-                    <button type="button" class="change-btn">Change</button>
-                    <button type="button" class="remove-btn">Remove</button>
-                </div>
-            </div>
-            `;
-
-            const changeBtn = el.querySelector('.upload-image-area .card-body button.change-btn');
-            const removeBtn = el.querySelector('.upload-image-area .card-body button.remove-btn');
-            const inputImage = el.querySelector('.upload-image-area .card-body img');
-            const target = editor.getSelected().get("components").models[0].get("components").models[1];
-
-            changeBtn.onclick = () => {
-                am.open({
-                    select(asset, complete) {
-                        inputImage.src = asset.getSrc();
-                        target.set('content', `<img src="${asset.getSrc()}"/>`);
-                
-                        if (!c.validURL(asset.getSrc())) {
-                            c.addTarget64Image({id: asset.cid, target: target})
-                        }
-
-                        am.close();
-                    },
-
-                });
-            };
-
-            removeBtn.onclick = () => {
-                target.set('content', `<h4>${trait.get('storeName')}</h4>`);
-                inputImage.src = trait.get('srcDefault');
-            };
-
-            return el;
-        },
-    });
-
-    editor.TraitManager.addType("header-advance-setting", {
-        createInput({ trait }) {
-
-            const el = document.createElement("div");
-            el.innerHTML = `
-                <div class="gjs-field-wrp gjs-field-wrp--checkbox">
-                    <label class="gjs-field gjs-field-checkbox">
-                        <div style="padding-left: 25px; min-width: 100px;"> Enable sticky header </div>
-                        <input class="header-setting-sticky-top" type="checkbox"> 
-                        <i class="gjs-chk-icon" style="margin-top: -19px"></i>
-                    </label>
-                </div>
-            `;
-
-            $(el)
-                .find("input")
-                .prop('checked', trait.get('isSticky')?? false)
-
-            return el;
-        },
-
-        onEvent({ elInput, component, event }) {
-            const isSticky = elInput.querySelector('.header-setting-sticky-top').checked;
-
-            if (isSticky) {
-                component.setAttributes({...component.getAttributes(), 'class': 'navbar navbar-expand-md border-bottom border-dark sticky-top'})
-            } else {
-                component.setAttributes({...component.getAttributes(), 'class': 'navbar navbar-expand-md border-bottom border-dark'})
-            }
-        },
-    });
-
-    dc.addType('navbar', {
-        model: {
-            defaults: {
-                attributes: { 'theme': 'white', 'logosize': 'medium' },
-                traits: [
-                    {
-                        type: 'select',
-                        label: 'Theme color',
-                        name: 'theme',
-                        options: [
-                            { id: 'white', name: 'White' },
-                            { id: 'black', name: 'Black' },
-                            { id: 'lGreen', name: 'Light Green' },
-                            { id: 'lBlue', name: 'Light Blue' },
-                            { id: 'sand', name: 'Sand' },
-                        ]
-                    },
-                    {
-                        type: 'header-upload-image',
-                        changeProp: 1,
-                        label: 'Logo image',
-                        name: 'logoImage',
-                        src: c.logoURL,
-                        srcDefault: 'https://dummyimage.com/600x400/55595c/fff',
-                        storeName: c.storeName
-                    },
-                    {
-                        type: 'select',
-                        label: 'Logo size', 
-                        name: 'logoSize', 
-                        options: [
-                            { id: 'small', name: 'Small' },
-                            { id: 'medium', name: 'Medium' },
-                            { id: 'large', name: 'Large' },
-                        ]
-                    },
-                    {
-                        type: 'header-advance-setting',
-                        label: 'Advance setting', 
-                        isSticky: false,
-                    },
-                ],
-            },
-
-            init() {
-
-            },
-            initData() {
-                
-            },
-        },
-    });
-}
 
 
                     // storeCssData[".offcanvas"] = "{ background-color: white, color: black !important }";

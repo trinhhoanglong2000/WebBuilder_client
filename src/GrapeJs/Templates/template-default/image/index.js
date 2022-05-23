@@ -1,4 +1,3 @@
-import { ContentCutOutlined } from "@mui/icons-material";
 import $ from "jquery";
 
 export default function loadImage(editor, opt = {}) {
@@ -9,8 +8,8 @@ export default function loadImage(editor, opt = {}) {
 
     bm.add('image', {
         label: "Image",
+        attributes: { class: "fa fa-picture-o" },
         category: "Media",
-        // attributes
         content: {
             name: 'image',
             type: 'imageCustomType',
@@ -56,7 +55,7 @@ export default function loadImage(editor, opt = {}) {
                     select(asset, complete) {
                         inputImage.src = asset.getSrc();
 
-                        target.setAttributes({...target.getAttributes(), 'src': inputImage.src  })
+                        target.setAttributes({...target.getAttributes(), 'src': asset.getSrc()  })
                         
                         if (!c.validURL(asset.getSrc())) {
                             c.addTarget64Image({id: asset.cid, target: target})
@@ -69,7 +68,8 @@ export default function loadImage(editor, opt = {}) {
             };
 
             removeBtn.onclick = () => {
-                target.setAttributes({...target.getAttributes(), 'src': trait.src })
+                target.setAttributes({...target.getAttributes(), 'src': trait.get('src') });
+                inputImage.src = trait.get('src');
             };
 
             return el;

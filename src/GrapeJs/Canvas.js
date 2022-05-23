@@ -36,7 +36,8 @@ function Canvas({ type }) {
   const token = readCookie('token');
 
   const getPlugins = () => {
-    return ["Plugins-defaults", "template-default", "gjs-blocks-basic"];
+    return ["Plugins-defaults", "template-default"];
+    // return ["Plugins-defaults", "template-default", "gjs-blocks-basic"];
   };
 
   useEffect(() => {

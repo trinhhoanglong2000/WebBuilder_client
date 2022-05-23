@@ -1,4 +1,5 @@
 import $ from "jquery";
+import Quill from "quill";
 import { readCookie } from "../../../../../helper/cookie";
 
 export default function loadBlockFooterItem(editor, opt = {}) {
@@ -41,6 +42,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
   bm.add('footerQuickLink', {
     label: "Quick Links",
     category: "Footer",
+    attributes: { class: "fa fa-link" },
     // attributes
     content: {
       name: "QuickLink",
@@ -63,6 +65,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
           hoverable: false,
           selectable: false,
           droppable: false,
+          attributes: { class: "quicklinks-menu" },
           tagName: "ul",
           content: getFooterNavigationButton(c.footerNavigation)
         }
@@ -73,6 +76,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
   bm.add('footerText', {
     label: "Text",
     category: "Footer",
+    attributes: { class: "fa fa-file-text" },
     // attributes
     content: {
       name: "Text",
@@ -96,7 +100,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
           hoverable: false,
           selectable: false,
           droppable: false,
-          tagName: "ul",
+          tagName: "p",
           content: c.footerHeading
         }
       ],
@@ -105,8 +109,8 @@ export default function loadBlockFooterItem(editor, opt = {}) {
 
   bm.add('footerImage', {
     label: "Image",
+    attributes: { class: "fa fa-picture-o" },
     category: "Footer",
-    // attributes
     content: {
       name: "Image",
       draggable: ".footer-navigation",
@@ -114,7 +118,16 @@ export default function loadBlockFooterItem(editor, opt = {}) {
       tagName: "div",
       attributes: { class: "col-md text-center d-flex align-items-center justify-content-center" },
       type: "footer-image",
-      content: '<img src="https://dummyimage.com/600x400/55595c/fff" class="img-responsive img-fluid">'
+      components: [
+        {
+            tagName: 'img',
+            layerable: false,
+            hoverable: false,
+            selectable: false,
+            draggable:  false,
+            attributes: { class: "img-thumbnail", src: "https://dummyimage.com/600x400/55595c/fff" },
+        }
+      ]
     }
   });
 
@@ -143,6 +156,53 @@ export default function loadBlockFooterItem(editor, opt = {}) {
       header.set({ content: inputType });
     },
   });
+
+  editor.TraitManager.addType("footer-content", {
+    createInput({ trait }) {
+      const initValue = trait.target.view.el.querySelector("p").innerHTML || "";
+      const placeholder = trait.get('placeholder') || "";
+      const el = document.createElement("div");
+
+      el.innerHTML = `
+          <div class="imageWithText-content" style="font-size:12px;">
+              ${(initValue === "")? placeholder: initValue}
+          </div>
+      `;
+
+      const container = $(el).find(".imageWithText-content").get(0);
+
+      let quill = new Quill(container, {
+        modules: {
+          toolbar: [
+            "bold",
+            "italic",
+            "underline",
+            "link",
+            
+            { script: "sub" },
+            { script: "super" },
+            { size: "small" },
+          ],
+        },
+        theme: "snow",
+      });
+      quill.on("text-change", (delta, oldDelta, source) => {
+        if (source === "api") {
+          console.log("An API call triggered this change.");
+        } else if (source === "user") {
+          this.onChange();
+        }
+      });
+
+      return el;
+    },
+    onEvent({ elInput, component, event }) {
+      const inputType = elInput.querySelector(".footer-heading").value;
+      const content = component.get("components").models[0];
+
+      content.set({ content: inputType });
+    },
+});
 
   editor.TraitManager.addType("footer-menu-collection", {
     createInput({ trait }) {
@@ -184,8 +244,8 @@ export default function loadBlockFooterItem(editor, opt = {}) {
             <div class="type-collection" style="color:rgb(109, 113, 117)">
                Menu
             </div>
-          </div>         
-          <div style = "border-top: 1px solid #0000004d"class= "card-body" >
+          </div>
+          <div style = "border-top: 1px solid #0000004d"class= "card-body">
           <a style="width: 100%;font-size: 100%;" class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Change
           </a>
@@ -195,7 +255,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
           <a class="dropdown-item" href="#"> <span style ="font-size:16px"><i style ="width:20px" class="fa fa-trash-o" aria-hidden="true"></i></span> Delete 
           </a>
           </div>
-          </div>         
+          </div>
         </div>
       `;
       el.style = "position:relative";
@@ -214,7 +274,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
             };
           } else {
             func =  (ev) =>{
-              // trait.target.setAttributes({...trait.target.getAttributes(),['data-ez-mall-collection']:""})
+              trait.target.setAttributes({...trait.target.getAttributes(),['menu-collection']:""})
               $(".Modal-popup ul li").removeClass("active");
               $(el).find(".Modal-popup ul li").find(".check-item").fadeOut(0);
               $(el).find(".name-collection").text("")
@@ -227,12 +287,12 @@ export default function loadBlockFooterItem(editor, opt = {}) {
         });
       const GetItem = (name ="",flag=false) => {
         GetRequest(
-          `${process.env.REACT_APP_API_URL}stores/${opt.storeId}/menu?name=${name.trim()}`
-        ).then((data) => {
+          `${process.env.REACT_APP_API_URL}stores/${opt.storeId}/menu?title=${name.trim()}`
+        ).then((response) => {
           initValue = trait.target.attributes.attributes['menu-collection'] || "";
           let domdata = "";
 
-          data.data.forEach((element) => {
+          response.data.forEach((element) => {
             domdata += `<li data-value = "${element.id}" name="${element.title}" >
             <div style="width: 100%;display: flex;align-items: center;" class="btn border-bottom py-3">
               <div class="Picture" >
@@ -318,7 +378,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
     },
   })
 
-  editor.TraitManager.addType('footer-image', {
+  editor.TraitManager.addType('footer-upload-image', {
     createInput({ trait }) {
       const initValue = trait.target.view.el.querySelector("img").src;
       const el = document.createElement('div');
@@ -337,13 +397,13 @@ export default function loadBlockFooterItem(editor, opt = {}) {
       const changeBtn = el.querySelector('.upload-image-area .card-body button.change-btn');
       const removeBtn = el.querySelector('.upload-image-area .card-body button.remove-btn');
       const inputImage = el.querySelector('.upload-image-area .card-body img');
-      const target = editor.getSelected();
+      const target = editor.getSelected().get("components").models[0];
 
       changeBtn.onclick = () => {
         am.open({
           select(asset, complete) {
             inputImage.src = asset.getSrc();
-            target.set('content', `<img src="${asset.getSrc()}" class="img-responsive img-fluid">`)
+            target.setAttributes({...target.getAttributes(), 'src': asset.getSrc() })
 
             if (!c.validURL(asset.getSrc())) {
               c.addTarget64Image({id: asset.cid, target: target})
@@ -351,12 +411,12 @@ export default function loadBlockFooterItem(editor, opt = {}) {
 
             am.close();
           },
-
+          
         });
       };
 
       removeBtn.onclick = () => {
-        target.set('content', `<img src="${trait.get('src')}" class="img-responsive img-fluid">`);
+        target.setAttributes({...target.getAttributes(), 'src': trait.get('src') })
         inputImage.src = trait.get('src');
       };
 
@@ -382,51 +442,43 @@ export default function loadBlockFooterItem(editor, opt = {}) {
       init() {
       },
       initData() { },
-      view: defaultView.extend({
-        init() {
-            this.listenTo(this.model, "change:attributes:menu-collection", this.Update);
-        },
-        onRender() {
-            this.Update()
-        },
-        async Update() {
-            let products_data = [
-                {
-                    title: "Product Title",
-                    price: "$100.00",
-                    thumbnail: "https://dummyimage.com/600x400/55595c/fff",
-                },
-            ];
-            const id = this.model.attributes.attributes["menu-collection"] || " ";
-            fetch(`${process.env.REACT_APP_API_URL}stores/menu-item/${id}`)
-                .then((response) => response.json())
-                .then((data) => {
-                  console.log(data)
-                    // if (data.data.products)
-                    //     products_data = data.data.products;
-                    // $(this.el)
-                    //     .find(".thumb-wrapper")
-                    //     .each(function (index) {
-                    //       $(this)
-                    //           .find("h4")
-                    //           .text(products_data[index % products_data.length].title);
-                    //       $(this)
-                    //           .find(".item-price strike")
-                    //           .text(products_data[index % products_data.length].price);
-                    //       $(this)
-                    //           .find(".item-price span")
-                    //           .text(products_data[index % products_data.length].price);
-                    //       $(this)
-                    //           .find("img")
-                    //           .attr(
-                    //               "src",
-                    //               products_data[index % products_data.length].thumbnail
-                    //           );
-                    //     });
-                });
-        },
-      })
     },
+    view: defaultView.extend({
+      init() {
+          this.listenTo(this.model, "change:attributes:menu-collection", this.Update);
+      },
+      onRender() {
+          this.Update();
+      },
+      async Update() {
+          let menu_data = [
+              {
+                name: "Search",
+                link: "a",
+              },
+              {
+                name: "Terms of service",
+                link: "a",
+              },
+              {
+                name: "Refund policy",
+                link: "a",
+              },
+          ];
+          const id = this.model.attributes.attributes["menu-collection"] || " ";
+          fetch(`${process.env.REACT_APP_API_URL}menu/${id}`)
+              .then((response) => response.json())
+              .then((response) => {
+                if (response.data?.listMenuItem)
+                    menu_data = response.data.listMenuItem;
+
+                let data = "";
+                menu_data.forEach(element => data += `<li><a href="${element.link}">${element.name}</a></li>`);
+                
+                $(this.el).find(".quicklinks-menu").html(data);
+              });
+      },
+    })
   });
 
   dc.addType("footer-text", {
@@ -434,9 +486,14 @@ export default function loadBlockFooterItem(editor, opt = {}) {
       defaults: {
         traits: [
           {
-            type: "footer-heading", // Type of the trait
-            label: "Quick link heading", // The label you will see in Settings
+            type: "footer-heading",
+            label: "Heading",
             placeholder: "Heading"
+          },
+          {
+            type: "footer-content",
+            label: "Content",
+            placeholder: "Content",
           },
         ],
       },
@@ -452,7 +509,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
       defaults: {
         traits: [
           {
-            type: "footer-image", // Type of the trait
+            type: "footer-upload-image", // Type of the trait
             label: "Image",
             src: "https://dummyimage.com/230x150/55595c/fff",
           },

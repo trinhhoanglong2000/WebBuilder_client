@@ -48,7 +48,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
       name: "QuickLink",
       draggable: ".footer-navigation",
       tagName: "div",
-      attributes: { class: "col-md" },
+      attributes: { class: "col-md", name: "QuickLink" },
       type: "footer-quick-link",
       components: [
         {
@@ -287,13 +287,13 @@ export default function loadBlockFooterItem(editor, opt = {}) {
         });
       const GetItem = (name ="",flag=false) => {
         GetRequest(
-          `${process.env.REACT_APP_API_URL}stores/${opt.storeId}/menu?title=${name.trim()}`
+          `${process.env.REACT_APP_API_URL}stores/${opt.storeId}/menu?name=${name.trim()}`
         ).then((response) => {
           initValue = trait.target.attributes.attributes['menu-collection'] || "";
           let domdata = "";
 
           response.data.forEach((element) => {
-            domdata += `<li data-value = "${element.id}" name="${element.title}" >
+            domdata += `<li data-value = "${element.id}" name="${element.name}" >
             <div style="width: 100%;display: flex;align-items: center;" class="btn border-bottom py-3">
               <div class="Picture" >
                 <img style= "width: 32px;height: 32px;" src="${
@@ -303,7 +303,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
                 }"/>
               </div>
               <div style ="text-align:left;flex-grow:1;font-size:12px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2; line-clamp: 2;-webkit-box-orient: vertical;">
-              ${element.title}
+              ${element.name}
               </div>
               <div class="check-item mr-2">
               <i class="far fa-check-circle"></i>
@@ -469,8 +469,9 @@ export default function loadBlockFooterItem(editor, opt = {}) {
           fetch(`${process.env.REACT_APP_API_URL}menu/${id}`)
               .then((response) => response.json())
               .then((response) => {
-                if (response.data?.listMenuItem)
+                if (response.data?.listMenuItem) {
                     menu_data = response.data.listMenuItem;
+                }
 
                 let data = "";
                 menu_data.forEach(element => data += `<li><a href="${element.link}">${element.name}</a></li>`);
@@ -520,5 +521,4 @@ export default function loadBlockFooterItem(editor, opt = {}) {
       initData() { },
     },
   });
-
 }

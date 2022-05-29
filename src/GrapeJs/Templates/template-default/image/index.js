@@ -49,7 +49,7 @@ export default function loadImage(editor, opt = {}) {
             const removeBtn = el.querySelector('.upload-image-area .card-body button.remove-btn');
             const inputImage = el.querySelector('.upload-image-area .card-body img');
             const target = editor.getSelected().get("components").models[0];
-            console.log(target)
+
             changeBtn.onclick = () => {
                 am.open({
                     select(asset, complete) {

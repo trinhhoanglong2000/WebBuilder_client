@@ -33,153 +33,125 @@ export default function loadBlockHeader(editor, opt = {}) {
         return navbar;
     }
 
-    // real header
-    // bm.add('header', {
-    //     label: "Header",
-    //     category: "Header",
-    //     attributes: { class: "fa fa-header" },
-    //     content: {
-    //         droppable: false,
-    //         name: "Header",
-    //         tagName: "nav",
-    //         type: "navbar",
-    //         attributes: { class: "navbar navbar-expand-md border-bottom border-dark", name: "header", 'store-id': c.storeId },
-    //         components: [
-    //             {
-    //                 layerable: false,
-    //                 draggable: true,
-    //                 hoverable: false,
-    //                 selectable: false,
-    //                 droppable: false,
-    //                 tagName: "div",
-    //                 attributes: { class: "container-fluid align-items-center" },
-    //                 components: [
-    //                     {
-    //                         layerable: false,
-    //                         draggable: false,
-    //                         highlightable: false,
-    //                         hoverable: false,
-    //                         droppable: false,
-    //                         tagName: "button",
-    //                         attributes: { class: "navbar-toggler", type: "button", "data-bs-toggle": "collapse", "data-bs-target": "#navbarSupportedContent", "aria-controls": "navbarSupportedContent", "aria-expanded": "false", "aria-label": "Toggle navigation" },
-    //                         content: `<i class="fa fa-bars"></i>`,
-    //                     },
-    //                     {
-    //                         layerable: false,
-    //                         draggable: false,
-    //                         droppable: false,
-    //                         hoverable: false,
-    //                         tagName: "a",
-    //                         attributes: { href: "#", class: "navbar-brand text-uppercase font-weight-bold" },
-    //                         selectable: false,
-    //                         components: [
-    //                             {
-    //                                 tagName: 'img',
-    //                                 layerable: false,
-    //                                 hoverable: false,
-    //                                 selectable: false,
-    //                                 draggable:  false,
-    //                                 attributes: { class: `img-thumbnail ${(isHaveLogo)? "": "d-none"}`, src: c.logoURL?? "https://dummyimage.com/600x400/55595c/fff" },
-    //                             },
-    //                             {
-    //                                 tagName: 'h4',
-    //                                 layerable: false,
-    //                                 hoverable: false,
-    //                                 selectable: false,
-    //                                 draggable:  false,
-    //                                 attributes: { class: `${(isHaveLogo)? "d-none": ""}` },
-    //                                 content: c.storeName,
-    //                             }
-    //                         ]
-    //                     },
-    //                     {
-    //                         layerable: false,
-    //                         draggable: false,
-    //                         droppable: false,
-    //                         hoverable: false,
-    //                         highlightable: false,
-    //                         selectable: false,
-    //                         tagName: "div",
-    //                         attributes: { class: "d-block d-md-none" },
-    //                         components: [
-    //                             {
-    //                                 layerable: false,
-    //                                 draggable: false,
-    //                                 droppable: false,
-    //                                 hoverable: false,
-    //                                 selectable: false,
-    //                                 tagName: "i",
-    //                                 attributes: { class: "fa fa-search" },
-    //                             },
-    //                             {
-    //                                 layerable: false,
-    //                                 droppable: false,
-    //                                 draggable: false,
-    //                                 hoverable: false,
-    //                                 selectable: false,
-    //                                 tagName: "i",
-    //                                 attributes: { class: "fa fa-shopping-bag" },
-    //                             },
-    //                         ],
-    //                     },
-    //                     {
-    //                         layerable: false,
-    //                         draggable: false,
-    //                         droppable: false,
-    //                         highlightable: false,
-    //                         hoverable: false,
-    //                         selectable: false,
-    //                         tagName: "div",
-    //                         attributes: { id: "navbarSupportedContent", class: "collapse navbar-collapse" },
-    //                         components: [
-    //                             {
-    //                                 layerable: false,
-    //                                 draggable: false,
-    //                                 hoverable: false,
-    //                                 droppable: false,
-    //                                 highlightable: false,
-    //                                 selectable: false,
-    //                                 tagName: "ul",
-    //                                 attributes: { class: "navbar-nav" },
-    //                                 components: getHeaderNavigationButton()
-    //                             },
-    //                         ],
-    //                     },
-    //                     {
-    //                         layerable: false,
-    //                         draggable: false,
-    //                         hoverable: false,
-    //                         droppable: false,
-    //                         highlightable: false,
-    //                         selectable: false,
-    //                         tagName: "div",
-    //                         attributes: { class: "d-none d-md-block" },
-    //                         components: [
-    //                             {
-    //                                 layerable: false,
-    //                                 draggable: false,
-    //                                 hoverable: false,
-    //                                 droppable: false,
-    //                                 selectable: false,
-    //                                 tagName: "i",
-    //                                 attributes: { class: "fa fa-search icon-header" },
-    //                             },
-    //                             {
-    //                                 layerable: false,
-    //                                 draggable: false,
-    //                                 hoverable: false,
-    //                                 selectable: false,
-    //                                 droppable: false,
-    //                                 tagName: "i",
-    //                                 attributes: { class: "fa fa-shopping-bag icon-header" },
-    //                             },
-    //                         ],
-    //                     },
-    //                 ]
-    //             },
-    //         ],
-    //     }
-    // });
+    bm.add('header', {
+        label: "Header",
+        category: "Header",
+        attributes: { class: "fa fa-header" },
+        content: {
+            droppable: false,
+            name: "Header",
+            tagName: "nav",
+            type: "navbar",
+            attributes: { class: "navbar navbar-expand-md border-bottom border-dark", name: "header", 'store-id': c.storeId },
+            components: [
+                {
+                    layerable: false,
+                    draggable: false,
+                    hoverable: false,
+                    selectable: false,
+                    droppable: false,
+                    tagName: "div",
+                    attributes: { class: "container-fluid align-items-center" },
+                    components: [
+                        {
+                            layerable: false,
+                            draggable: false,
+                            highlightable: false,
+                            hoverable: false,
+                            droppable: false,
+                            tagName: "button",
+                            attributes: { class: "navbar-toggler order-0", type: "button", "data-bs-toggle": "collapse", "data-bs-target": "#navbarSupportedContent", "aria-controls": "navbarSupportedContent", "aria-expanded": "false", "aria-label": "Toggle navigation" },
+                            content: `<i class="fa fa-bars"></i>`,
+                        },
+                        {
+                            layerable: false,
+                            draggable: false,
+                            droppable: false,
+                            hoverable: false,
+                            tagName: "a",
+                            attributes: { href: "#", class: "navbar-brand text-uppercase font-weight-bold order-1" },
+                            selectable: false,
+                            components: [
+                                {
+                                    tagName: 'img',
+                                    layerable: false,
+                                    hoverable: false,
+                                    selectable: false,
+                                    draggable:  false,
+                                    attributes: { class: `img-thumbnail ${(isHaveLogo)? "": "d-none"}`, src: c.logoURL?? "https://dummyimage.com/600x400/55595c/fff" },
+                                },
+                                {
+                                    tagName: 'h4',
+                                    layerable: false,
+                                    hoverable: false,
+                                    selectable: false,
+                                    draggable:  false,
+                                    attributes: { class: `${(isHaveLogo)? "d-none": ""}` },
+                                    content: c.storeName,
+                                }
+                            ]
+                        },
+                        {
+                            layerable: false,
+                            draggable: false,
+                            droppable: false,
+                            highlightable: false,
+                            hoverable: false,
+                            selectable: false,
+                            tagName: "div",
+                            attributes: { id: "navbarSupportedContent", class: "collapse navbar-collapse order-3 order-sm-2" },
+                            components: [
+                                {
+                                    layerable: false,
+                                    draggable: false,
+                                    hoverable: false,
+                                    droppable: false,
+                                    highlightable: false,
+                                    selectable: false,
+                                    tagName: "ul",
+                                    attributes: { class: "navbar-nav" },
+                                    components: getHeaderNavigationButton()
+                                },
+                            ],
+                        },
+                        {
+                            layerable: false,
+                            draggable: false,
+                            hoverable: false,
+                            droppable: false,
+                            highlightable: false,
+                            selectable: false,
+                            tagName: "div",
+                            attributes: { class: "order-2" },
+                            components: [
+                                {
+                                    layerable: false,
+                                    draggable: false,
+                                    hoverable: false,
+                                    selectable: false,
+                                    droppable: false,
+                                    tagName: "i",
+                                    attributes: { class: "fa fa-shopping-bag icon-header" },
+                                    content: `<span class="position-absolute translate-middle badge rounded-pill bg-danger">
+                                        <span id="numberSelectedProduct">2</span>
+                                    </span>`
+                                },
+                                {
+                                    layerable: false,
+                                    draggable: false,
+                                    hoverable: false,
+                                    droppable: false,
+                                    selectable: false,
+                                    tagName: "i",
+                                    attributes: { class: "fa fa-search icon-header" },
+                                },
+                            ],
+                        },
+                    ]
+                },
+            ],
+        }
+    });
 
     editor.TraitManager.addType('header-upload-image', {
         createInput({ trait }) {
@@ -220,33 +192,11 @@ export default function loadBlockHeader(editor, opt = {}) {
             };
 
             removeBtn.onclick = () => {
-                logoImage.setAttributes({ ...logoImage.getAttributes(), 'src': trait.get('srcDefault'), 'class': 'img-thumbnail d-none'})
-                logoBrand.setAttributes({ ...logoBrand.getAttributes(), 'class': ''});
+                logoImage.setAttributes({ ...logoImage.getAttributes(), 'src': ' ', 'class': 'img-thumbnail d-none'})
+                logoBrand.setAttributes({ ...logoBrand.getAttributes(), 'class': ' '});
 
                 inputImage.src = trait.get('srcDefault');
             };
-
-            return el;
-        },
-    });
-
-    editor.TraitManager.addType("header-advance-setting", {
-        createInput({ trait }) {
-
-            const el = document.createElement("div");
-            el.innerHTML = `
-                <div class="gjs-field-wrp gjs-field-wrp--checkbox">
-                    <label class="gjs-field gjs-field-checkbox">
-                        <div style="padding-left: 25px; min-width: 100px;"> Enable sticky header </div>
-                        <input class="header-setting-sticky-top" type="checkbox"> 
-                        <i class="gjs-chk-icon" style="margin-top: -19px"></i>
-                    </label>
-                </div>
-            `;
-
-            $(el)
-                .find("input")
-                .prop('checked', trait.get('isSticky')?? false)
 
             return el;
         },

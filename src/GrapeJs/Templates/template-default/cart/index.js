@@ -1,5 +1,6 @@
 import loadTraitCart from "./trait";
-import loadCommonTrait from "../common/trait"
+import loadCommonTrait from "../common/trait";
+import $ from "jquery";
 export default function loadBlockCart(editor, opt = {}) {
     const c = opt;
     let bm = editor.BlockManager;
@@ -8,6 +9,135 @@ export default function loadBlockCart(editor, opt = {}) {
     const domc = editor.DomComponents;
     const defaultType = domc.getType("default");
 
+    const defaultData = [
+        {
+            image: "https://dummyimage.com/150x150/000/fff",
+            name: "Vans old school",
+            description: "Give customers details about the banner image(s) or content on the template.",
+            price: 300,
+            quantity: 2,
+            productVariantId: "1",
+            productVariantName: "Size 43"
+        },
+        {  
+            image: "https://dummyimage.com/150x150/000/fff",
+            name: "Converse Chuck",
+            description: "Give customers details about the banner image(s) or content on the template.",
+            price: 200,
+            quantity: 1,
+            productVariantId: "2",
+            productVariantName: "Size 42"
+        },
+        {
+            image: "https://dummyimage.com/150x150/000/fff",
+            name: "Image banner 3",
+            description: "Give customers details about the banner image(s) or content on the template.",
+            price: 100,
+            quantity: 1,
+            productVariantId: "3",
+            productVariantName: "Size 40"
+        }
+    ]
+
+    function insertData(data,tableHead, tableBody,ezMallSumary) {
+        let headHtml = 
+        `
+        <tr>
+            <th scope="col">
+                <div class="form-check">
+                    <div class="row">
+                        <div class="col-auto d-flex align-items-center">
+                            <input class="form-check-input" type="checkbox" value="">
+                        </div>
+
+                        Tất cả sản phẩm
+
+                    </div>
+                </div>
+            </th>
+            <th scope="col">
+                <div class="d-flex align-items-center justify-content-center"> Đơn giá</div>
+
+            </th>
+            <th scope="col">
+                <div class="d-flex align-items-center justify-content-center">Số lượng</div>
+            </th>
+            <th scope="col">
+                <div class="d-flex align-items-center justify-content-center">Thành tiền</div>
+            </th>
+            <th scope="col">
+                <div class="d-flex justify-content-center align-items-center" style="">
+                    <button type="button" class="btn fa fa-trash  text-danger" data-toggle="button"
+                        aria-pressed="false" autocomplete="off" style="height: 29px;padding: 0px 10px;">
+                    </button>
+                </div>
+            </th>
+        </tr>                           
+        `
+        tableHead.insertAdjacentHTML("beforeend", headHtml);
+
+         $(tableHead).find("button").click(()=>{
+             $(tableBody).html("")
+         });
+
+        data.forEach(element => {
+            let totalPrice = (Number)(element.quantity) * (Number)(element.price) 
+            const rowHtml = 
+            `
+            <tr id  = ${element.productVariantId} >
+                <th class="name">
+                    <div class="form-check">
+                        <div class="row">
+                            <div class="col-auto d-flex align-items-center">
+                                <input class="form-check-input" type="checkbox" value="">
+                            </div>
+                            <div class="col-md-11 col-8">
+                                <div class="row">
+                                    <div class="col-xl-4 row d-flex justify-content-center">
+                                        <img src=${element.image} alt="Image"
+                                            style="width: 100px;">
+                                    </div>
+                                    <div class="col-xl-8 row d-flex flex-column justify-content-center">
+                                        <div class="p-0 justify-content-center text-center"> ${element.name}</div>
+                                        <div class="p-0 justify-content-center text-center"> ${element.description}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th>
+                <td class="price">
+                    <div class="d-flex justify-content-center align-items-center" style="height:100px">
+                        ${element.price}
+                    </div>
+                </td>
+                <td class="quantity">
+                    <div class=" d-flex justify-content-center align-items-center" style="height:100px">
+                        <input type="number" id=${ "val-" + element.productVariantId} class="form-control" value=${element.quantity}
+                            style="min-width: 70px; width: 70px;" />
+                    </div>
+                </td>
+                <td class="total  justify-content-center align-items-center">
+                    <div class="d-flex justify-content-center align-items-center" style="height:100px">${totalPrice}</div>
+                </td>
+                <th scope="col">
+                    <div class="d-flex justify-content-center align-items-center" style="height:100px">
+                        <button type="button" onClick=removeBtn(${element.productVariantId}) class="btn fa fa-trash" data-toggle="button" aria-pressed="false"
+                            autocomplete="off" style="height: 29px;padding: 0px 10px;">
+                        </button>
+                    </div>
+                </th>
+            </tr>                           
+                                    
+            `
+            tableBody.insertAdjacentHTML("beforeend", rowHtml);
+            $(tableBody).find( `#${element.productVariantId} input`).change(()=>{
+                debugger
+                let currentQuantity = $(tableBody).find( `input#val-${element.productVariantId}`).val()
+                $(tableBody).find( `#${element.productVariantId} .total div`).html((Number)(element.price)* currentQuantity)
+            });
+        });  
+    }
     //THIS IS SETTING COMPONENT
     domc.addType("Cart", {
         model: {
@@ -60,22 +190,31 @@ export default function loadBlockCart(editor, opt = {}) {
 
             },
         },
-        view: {
-            init() {
-                const attributes = this.model.attributes;
-                const rootElement = this.el;
+        view: { 
+            async Update() {
+                
+                let table = $(this.el).find(`table `)[0]
+                let tableHead = $(this.el).find(`table thead`)[0];
+                let tableBody = $(this.el).find(`table tbody`)[0];
+                let ezMallSumary = $(this.el).find(`.ezMallSumary`)[0];
+                console.log(table);
+                console.log(tableHead)
+                console.log(tableBody)
+                insertData(defaultData,tableHead, tableBody,ezMallSumary)
             },
-            events: {
+            init() {
+                this.listenTo(this.model, 'change:attributes:data', this.Update)
+                this.listenTo(this.model, 'change:attributes:placeholder', this.Update)
 
             },
-            handleClick: function (e) {
-                const attributes = this.model.attributes;
-                const rootElement = this.el;
+            events: {
             },
             render: function () {
-                // Extend the original render method
                 defaultType.view.prototype.render.apply(this, arguments);
                 return this;
+            },
+            onRender() {
+                this.Update()
             },
         },
     });
@@ -124,181 +263,18 @@ export default function loadBlockCart(editor, opt = {}) {
                         highlightable: false,
                         droppable: false,
                         draggable: false,
-                        content: 
-                        `
-                        <table class="table">
+                        content:
+                            `
+                        <table class="table ezMallCart">
                             <thead>
-                                <tr>
-                                    <th scope="col">
-                                        <div class="form-check">
-                                            <div class="row">
-                                                <div class="col-auto d-flex align-items-center">
-                                                    <input class="form-check-input" type="checkbox" value="" id="1">
-                                                </div>
-
-                                                Tất cả sản phẩm
-
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <th scope="col">
-                                        <div class="d-flex align-items-center justify-content-center"> Đơn giá</div>
-
-                                    </th>
-                                    <th scope="col">
-                                        <div class="d-flex align-items-center justify-content-center">Số lượng</div>
-                                    </th>
-                                    <th scope="col">
-                                        <div class="d-flex align-items-center justify-content-center">Thành tiền</div>
-                                    </th>
-                                    <th scope="col">
-                                        <div class="d-flex justify-content-center align-items-center" style="">
-                                            <button type="button" class="btn fa fa-trash  text-danger" data-toggle="button"
-                                                aria-pressed="false" autocomplete="off" style="height: 29px;padding: 0px 10px;">
-                                            </button>
-                                        </div>
-                                    </th>
-                                </tr>
+                                
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th class="name">
-                                        <div class="form-check">
-                                            <div class="row">
-                                                <div class="col-auto d-flex align-items-center">
-                                                    <input class="form-check-input" type="checkbox" value="" id="1">
-                                                </div>
-                                                <div class="col-md-11 col-8">
-                                                    <div class="row">
-                                                        <div class="col-xl-4 row d-flex justify-content-center">
-                                                            <img src="https://dummyimage.com/150x150/000/fff" alt="Image"
-                                                                style="width: 100px;">
-                                                        </div>
-                                                        <div class="col-xl-8 row d-flex flex-column justify-content-center">
-                                                            <div class="p-0 justify-content-center text-center"> Tên của sản phẩm 1</div>
-                                                            <div class="p-0 justify-content-center text-center"> Loại của sản phẩm 1</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <td class="price">
-                                        <div class="d-flex justify-content-center align-items-center" style="height:100px">
-                                            100
-                                        </div>
-                                    </td>
-                                    <td class="quantity">
-                                        <div class=" d-flex justify-content-center align-items-center" style="height:100px">
-                                            <input type="number" id="typeNumber" class="form-control" value="1"
-                                                style="min-width: 70px; width: 70px;" />
-                                        </div>
-                                    </td>
-                                    <td class="total  justify-content-center align-items-center">
-                                        <div class="d-flex justify-content-center align-items-center" style="height:100px">xxx</div>
-                                    </td>
-                                    <th scope="col">
-                                        <div class="d-flex justify-content-center align-items-center" style="height:100px">
-                                            <button type="button" class="btn fa fa-trash" data-toggle="button" aria-pressed="false"
-                                                autocomplete="off" style="height: 29px;padding: 0px 10px;">
-                                            </button>
-                                        </div>
-                                    </th>
-                                </tr>
                                 
-                                <tr>
-                                    <th class="name">
-                                        <div class="form-check">
-                                            <div class="row">
-                                                <div class="col-auto d-flex align-items-center">
-                                                    <input class="form-check-input" type="checkbox" value="" id="1">
-                                                </div>
-                                                <div class="col-md-11 col-8">
-                                                    <div class="row">
-                                                        <div class="col-xl-4 row d-flex justify-content-center">
-                                                            <img src="https://dummyimage.com/150x150/000/fff" alt="Image"
-                                                                style="width: 100px;">
-                                                        </div>
-                                                        <div class="col-xl-8 row d-flex flex-column justify-content-center">
-                                                            <div class="p-0 justify-content-center text-center"> Tên của sản phẩm 1</div>
-                                                            <div class="p-0 justify-content-center text-center"> Loại của sản phẩm 1</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <td class="price">
-                                        <div class="d-flex justify-content-center align-items-center" style="height:100px">
-                                            100
-                                        </div>
-                                    </td>
-                                    <td class="quantity">
-                                        <div class=" d-flex justify-content-center align-items-center" style="height:100px">
-                                            <input type="number" id="typeNumber" class="form-control" value="1"
-                                                style="min-width: 70px; width: 70px;" />
-                                        </div>
-                                    </td>
-                                    <td class="total  justify-content-center align-items-center">
-                                        <div class="d-flex justify-content-center align-items-center" style="height:100px">xxx</div>
-                                    </td>
-                                    <th scope="col">
-                                        <div class="d-flex justify-content-center align-items-center" style="height:100px">
-                                            <button type="button" class="btn fa fa-trash" data-toggle="button" aria-pressed="false"
-                                                autocomplete="off" style="height: 29px;padding: 0px 10px;">
-                                            </button>
-                                        </div>
-                                    </th>
-                                </tr>
-                                
-                                <tr>
-                                    <th class="name">
-                                        <div class="form-check">
-                                            <div class="row">
-                                                <div class="col-auto d-flex align-items-center">
-                                                    <input class="form-check-input" type="checkbox" value="" id="1">
-                                                </div>
-                                                <div class="col-md-11 col-8">
-                                                    <div class="row">
-                                                        <div class="col-xl-4 row d-flex justify-content-center">
-                                                            <img src="https://dummyimage.com/150x150/000/fff" alt="Image"
-                                                                style="width: 100px;">
-                                                        </div>
-                                                        <div class="col-xl-8 row d-flex flex-column justify-content-center">
-                                                            <div class="p-0 justify-content-center text-center"> Tên của sản phẩm 1</div>
-                                                            <div class="p-0 justify-content-center text-center"> Loại của sản phẩm 1</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </th>
-                                    <td class="price">
-                                        <div class="d-flex justify-content-center align-items-center" style="height:100px">
-                                            100
-                                        </div>
-                                    </td>
-                                    <td class="quantity">
-                                        <div class=" d-flex justify-content-center align-items-center" style="height:100px">
-                                            <input type="number" id="typeNumber" class="form-control" value="1"
-                                                style="min-width: 70px; width: 70px;" />
-                                        </div>
-                                    </td>
-                                    <td class="total  justify-content-center align-items-center">
-                                        <div class="d-flex justify-content-center align-items-center" style="height:100px">xxx</div>
-                                    </td>
-                                    <th scope="col">
-                                        <div class="d-flex justify-content-center align-items-center" style="height:100px">
-                                            <button type="button" class="btn fa fa-trash" data-toggle="button" aria-pressed="false"
-                                                autocomplete="off" style="height: 29px;padding: 0px 10px;">
-                                            </button>
-                                        </div>
-                                    </th>
-                                </tr>
                             </tbody>
                         </table>
                         <hr>
-                        <div class="row px-2 py-3" style="font-size: 16px; font-family: "Segoe UI";">
+                        <div class="ezMallSumary row px-2 py-3" style="font-size: 16px; font-family: "Segoe UI";">
                             <div class="col-3  d-flex align-items-center">
                                 <div class="form-check">
                                     <div class="row font-weight-bold  d-flex align-items-center">
@@ -315,7 +291,7 @@ export default function loadBlockCart(editor, opt = {}) {
                                         BỎ CHỌN
                                     </button>
                             </div>
-                            <div class="col-4 d-flex align-items-center font-weight-bold  justify-content-center">
+                            <div class="ezMallSumary-Total col-4 d-flex align-items-center font-weight-bold  justify-content-center">
                                 Tổng: XXX . XXX . XXX
                             </div>
                             <div class="col-3  d-flex align-items-center justify-content-end ">

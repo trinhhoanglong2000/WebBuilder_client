@@ -370,8 +370,8 @@ export default function loadTraitRichText(editor, opt = {}) {
     createInput({ trait }) {
       //.Radio-Group CSS in CAnvas CSS
 
-      const initValue = trait.target.getStyle()["text-align"] || "center";
       const el = document.createElement("div");
+      let previousValue = ""
       const defaultMenu_Collection = `
      
         <li data-value ="Collection" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px">
@@ -407,52 +407,44 @@ export default function loadTraitRichText(editor, opt = {}) {
           </span>
         </li>         
         `
-      const Backbutton = ` <li class="btn d-none" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex;justify-content: space-between; align-items:center">
+      const Backbutton = ` <li id="Back-btn"class="btn d-none  " style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex;justify-content: space-between; align-items:center">
       <span>
       <svg style =" width:20px;height:20px;" 
       xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>
       Back
       </span>
-      <span class="d-none d-xl-inline" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px;font-size: 10px;font-style: italic">
+      <span id="result" class="d-none d-xl-inline" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px;font-size: 10px;font-style: italic">
         3 results
       </span>
     </li>`
       el.innerHTML = `
       <div id= "Link-combo" class="combo gjs-field gjs-field-text">
-        <input type="text" id="state" value="" size="10" placeholder="Enter Link" autocomplete="off">
+        <input type="text" id="state" value="" size="10" placeholder="Paste a link or search" autocomplete="off">
         <ul class="combobox-hidden">
          ${Backbutton}
          <div id="Link-menu">
-         ${defaultMenu_Collection}
-         ${defaultMenu_Products}
-         ${defaultMenu_Pages}
-         ${defaultMenu_Privacy}
+         
          </div>
         </ul>
       </div>       
       `;
       let State = "Main-Menu"
-      $(el).find('#Link-menu li').on('click', function () {
-        if ($(this).data('value') == "Collection") {
-          console.log("HEHE")
-        }
-        else if ($(this).data('value') == "Products") {
-
-        }
-        else if ($(this).data('value') == "Pages") {
-
-        }
-        else if (($(this).data('value') == "Privacy")) {
-
-        }
+      $(el).find('#Back-btn').on('click', function () {
+        State = "Main-Menu"
+        $(el).find('#Back-btn').addClass('d-none')
+        // $(el).find('input').val(previousValue)
+        $(el).find('input').focus()
+        GetItem()
       })
+
       const GetItem = (name = "", flag = false) => {
+        name = name.trim()
         if (State == "Main-Menu") {
           const arr = ["Collection", "Products", "Pages", "Privacy"]
           let domdata = "";
           const regex = new RegExp(`.*${name.toUpperCase()}.*`, 'g');
           arr.forEach((ele, index) => {
-            if (regex.test(ele.toUpperCase()) || name=="") {
+            if (regex.test(ele.toUpperCase()) || name == "") {
               if (index == 0) {
                 domdata += defaultMenu_Collection
               }
@@ -468,57 +460,112 @@ export default function loadTraitRichText(editor, opt = {}) {
 
             }
           })
+          if (domdata === "") {
+            domdata += `
+            <li data-value ="Products" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;pointer-events:none">
+            <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
+              No results
+            </span>
+          </li>
+          `
+          }
           $(el).find("#Link-menu").empty().append(domdata);
+
+          $(el).find('#Link-menu li').on('click', function () {
+            State = $(this).data('value')
+            // $(el).find('input').val("")
+            $(el).find('input').focus()
+            GetItem()
+          })
         }
         else {
+          let url = ""
+          if (State == "Collection") {
+            url = `stores/${opt.storeId}/collections/product?name=${name.trim()}`
+          }
+          else if (State == "Products") {
+
+          }
+          else if (State == "Pages") {
+
+          }
+          else if (State == "Privacy") {
+
+          }
           GetRequest(
-            `${process.env.REACT_APP_API_URL}stores/${opt.storeId}/collections/product?name=${name.trim()}`
+            `${process.env.REACT_APP_API_URL}${url}`
           ).then((data) => {
+            let _data = []
+            if (State == "Collection") {
+              _data = data.data.map(ele => {
+                return {
+                  name: ele.name,
+                  id: ele.id,
+                  thumbnail: ele.thumbnail
+                }
+              })
+            }
             let domdata = "";
-            initValue = trait.target.attributes.attributes['data-ez-mall-collection'] || "";
-            data.data.forEach((element) => {
-              domdata += `<li data-value = "${element.id}" name="${element.name}" >
-              <div style="width: 100%;display: flex;align-items: center;" class="btn border-bottom py-3">
-              
-                <div class="Picture" >
-                  <img style= "width: 32px;height: 32px;" src="${element.thumbnail
-                  ? element.thumbnai
-                  : "https://img.icons8.com/fluency-systems-regular/48/000000/image.png"
-                }"/>
-  
-  
-                </div>
-                <div style ="text-align:left;flex-grow:1;font-size:12px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2; /* number of lines to show */ line-clamp: 2;-webkit-box-orient: vertical;
-                " >
-                ${element.name}
-  
-                </div>
-                <div class="check-item mr-2">
-                <i class="far fa-check-circle"></i>
-                </div>
-              </div>  
-              
-              </li>`;
+            _data.forEach((element) => {
+              const img = element.thumbnail ? `
+              <img style= "width:25px;height:25px;" src="${element.thumbnail}">
+              `: `
+              <svg style =" width:25px;height:25px;" 
+                viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path fill-rule="evenodd" d="M1 2.5a1.5 1.5 0 0 1 1.5-1.5h15a1.5 1.5 0 0 1 1.5 1.5v12a1.5 1.5 0 0 1-1.5 1.5h-15a1.5 1.5 0 0 1-1.5-1.5v-12zm8 2.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm6.57 9h-11.143c-.351 0-.548-.368-.343-.632l3.046-3.24a.448.448 0 0 1 .617-.009l1.396 1.481 2.623-3.825a.446.446 0 0 1 .72.016l3.462 5.609c.154.272-.052.6-.377.6z"></path><path d="M6 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm5-1a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path></svg>
+                
+              `
+              domdata += `
+                <li data-value ="Collection/${element.id}" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px">
+                ${img}
+                <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
+                    ${element.name}
+                </span>
+                </li>    
+              `;
             });
-
-
+            if (domdata === "") {
+              domdata += `
+              <li data-value ="Products" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;pointer-events:none">
+              <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
+                No results
+              </span>
+            </li>
+            `
+            }
+            $(el).find('#result').text(`${_data.length} results`)
+            $(el).find("#Link-menu").empty().append(domdata);
+            $(el).find('#Back-btn').removeClass('d-none')
+            $(el).find('#Link-menu li').on('click', function () {
+              const text = $(this).find('span').text().trim()
+              $(el).find('input').val(text)
+              // $(el).find('input').focus()
+              $(el).find('ul').removeClass('combobox-hidden')
+              State = "Main-Menu"
+              $(el).find('#Back-btn').addClass('d-none')
+              previousValue = text
+              GetItem()
+            })
 
           }).catch(function (e) {
           });
         }
 
       };
-
+      GetItem()
       $(el).find('input').focusin(function () {
         $(el).find('ul').removeClass('combobox-hidden')
+        
       })
-      $(el).find('input').focusout(function () {
+      $(el).find('input').focusout(function (e) {
         $(el).find('ul').addClass('combobox-hidden')
+        //$(el).find('input').val(previousValue)
+        //GetItem()
+
       })
       $(el).find('input').on("input", function (ev) {
         if (controller)
           controller.abort();
-        GetItem($(this)[0].value,true)
+        GetItem($(this)[0].value, true)
       })
       return el;
     },

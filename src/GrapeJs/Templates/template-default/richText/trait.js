@@ -371,12 +371,24 @@ export default function loadTraitRichText(editor, opt = {}) {
       //.Radio-Group CSS in CAnvas CSS
 
       const el = document.createElement("div");
+      let clicked= false
       let previousValue = ""
+      const Collection_icon= `<svg style =" width:25px;height:25px;" 
+      viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path d="M6.948.001c.394 0 .772.159 1.052.439l1.477 1.68-3.638 4.12a3.568 3.568 0 0 0-.872 2.33v9.43h-2.48a1.48 1.48 0 0 1-1.051-.44 1.507 1.507 0 0 1-.436-1.06v-9.88a1.497 1.497 0 0 1 .377-1l3.48-4 1.04-1.18a1.48 1.48 0 0 1 1.052-.439zm7.092 2.439 4.58 5.13c.247.275.383.631.381 1v9.93c0 .399-.159.78-.441 1.062a1.51 1.51 0 0 1-1.065.439h-9.039a1.509 1.509 0 0 1-1.033-.457 1.497 1.497 0 0 1-.423-1.044v-9.88a1.487 1.487 0 0 1 .382-1l3.524-4.001 1.005-1.18a1.51 1.51 0 0 1 2.128 0zm-1.9 5.807a1.51 1.51 0 0 0 1.901-.186 1.497 1.497 0 0 0-.489-2.447 1.512 1.512 0 0 0-1.641.325 1.498 1.498 0 0 0 .228 2.308z"></path></svg>          
+      `
+      const Products_icon = `<svg style =" width:25px;height:25px;" 
+      viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path d="M10.293 1.293a1 1 0 0 1 .707-.293h7a1 1 0 0 1 1 1v7a1 1 0 0 1-.293.707l-9 9a1 1 0 0 1-1.414 0l-7-7a1 1 0 0 1 0-1.414l9-9zm5.207 4.707a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"></path></svg>
+      `
+      const Pages_icon = `<svg  style =" width:25px;height:25px;" 
+      viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path d="M12.44.44a1.5 1.5 0 0 0-1.062-.44h-6.878a1.5 1.5 0 0 0-1.5 1.5v17a1.5 1.5 0 0 0 1.5 1.5h11a1.5 1.5 0 0 0 1.5-1.5v-12.879a1.5 1.5 0 0 0-.44-1.06l-4.12-4.122z"></path></svg>
+      `
+      const Privacy_icon = `<svg style =" width:25px;height:25px;" 
+      viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path d="M7 5h5v2h-5v-2zm5 4h-5v2h5v-2z"></path><path fill-rule="evenodd" d="M16 17a3 3 0 0 1-3 3h-10a3 3 0 0 1-3-3v-1.5a1.5 1.5 0 0 1 1.5-1.5h1.5v-10a3 3 0 0 1 3-3h11a3 3 0 1 1 0 6h-1v10zm-11-13a1 1 0 0 1 1-1h8.17c-.11.313-.17.65-.17 1v13a1 1 0 1 1-2 0v-3h-7v-10zm12-1a1 1 0 0 0-1 1v1h1a1 1 0 1 0 0-2zm-7 14c0 .35.06.687.17 1h-7.17a1 1 0 0 1-1-1v-1h8v1z"></path></svg>
+      `
       const defaultMenu_Collection = `
-     
+      
         <li data-value ="Collection" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px">
-          <svg style =" width:25px;height:25px;" 
-          viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path d="M6.948.001c.394 0 .772.159 1.052.439l1.477 1.68-3.638 4.12a3.568 3.568 0 0 0-.872 2.33v9.43h-2.48a1.48 1.48 0 0 1-1.051-.44 1.507 1.507 0 0 1-.436-1.06v-9.88a1.497 1.497 0 0 1 .377-1l3.48-4 1.04-1.18a1.48 1.48 0 0 1 1.052-.439zm7.092 2.439 4.58 5.13c.247.275.383.631.381 1v9.93c0 .399-.159.78-.441 1.062a1.51 1.51 0 0 1-1.065.439h-9.039a1.509 1.509 0 0 1-1.033-.457 1.497 1.497 0 0 1-.423-1.044v-9.88a1.487 1.487 0 0 1 .382-1l3.524-4.001 1.005-1.18a1.51 1.51 0 0 1 2.128 0zm-1.9 5.807a1.51 1.51 0 0 0 1.901-.186 1.497 1.497 0 0 0-.489-2.447 1.512 1.512 0 0 0-1.641.325 1.498 1.498 0 0 0 .228 2.308z"></path></svg>          
+          ${Collection_icon}
           <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
             Collections
           </span>
@@ -384,25 +396,22 @@ export default function loadTraitRichText(editor, opt = {}) {
       `
       const defaultMenu_Products = `
         <li data-value ="Products" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px">
-          <svg style =" width:25px;height:25px;" 
-          viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path d="M10.293 1.293a1 1 0 0 1 .707-.293h7a1 1 0 0 1 1 1v7a1 1 0 0 1-.293.707l-9 9a1 1 0 0 1-1.414 0l-7-7a1 1 0 0 1 0-1.414l9-9zm5.207 4.707a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"></path></svg>
-          <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
+        ${Products_icon}  
+        <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
             Products
           </span>
         </li>`
       const defaultMenu_Pages = `
         <li data-value ="Pages" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px">
-          <svg  style =" width:25px;height:25px;" 
-          viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path d="M12.44.44a1.5 1.5 0 0 0-1.062-.44h-6.878a1.5 1.5 0 0 0-1.5 1.5v17a1.5 1.5 0 0 0 1.5 1.5h11a1.5 1.5 0 0 0 1.5-1.5v-12.879a1.5 1.5 0 0 0-.44-1.06l-4.12-4.122z"></path></svg>
-          <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
+        ${Pages_icon}  
+        <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
             Pages
           </span>
         </li>    `
       const defaultMenu_Privacy = ` 
         <li data-value ="Privacy" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px">
-        <svg style =" width:25px;height:25px;" 
-        viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path d="M7 5h5v2h-5v-2zm5 4h-5v2h5v-2z"></path><path fill-rule="evenodd" d="M16 17a3 3 0 0 1-3 3h-10a3 3 0 0 1-3-3v-1.5a1.5 1.5 0 0 1 1.5-1.5h1.5v-10a3 3 0 0 1 3-3h11a3 3 0 1 1 0 6h-1v10zm-11-13a1 1 0 0 1 1-1h8.17c-.11.313-.17.65-.17 1v13a1 1 0 1 1-2 0v-3h-7v-10zm12-1a1 1 0 0 0-1 1v1h1a1 1 0 1 0 0-2zm-7 14c0 .35.06.687.17 1h-7.17a1 1 0 0 1-1-1v-1h8v1z"></path></svg>
-          <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
+        ${Privacy_icon}
+        <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
             Privacy Policy
           </span>
         </li>         
@@ -419,7 +428,14 @@ export default function loadTraitRichText(editor, opt = {}) {
     </li>`
       el.innerHTML = `
       <div id= "Link-combo" class="combo gjs-field gjs-field-text">
-        <input type="text" id="state" value="" size="10" placeholder="Paste a link or search" autocomplete="off">
+        <div style="width:100%;display:flex;align-items:center;position:relative;">
+          <div id="icons" style = "position: absolute;z-index: 2;margin-left: 10px;${previousValue===''?'display:none':''}">
+          <svg  style =" width:25px;height:25px;" 
+          viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path d="M12.44.44a1.5 1.5 0 0 0-1.062-.44h-6.878a1.5 1.5 0 0 0-1.5 1.5v17a1.5 1.5 0 0 0 1.5 1.5h11a1.5 1.5 0 0 0 1.5-1.5v-12.879a1.5 1.5 0 0 0-.44-1.06l-4.12-4.122z"></path></svg>
+          
+          </div>
+          <input style = "${previousValue===''?'':'padding-left: 39px;'}" type="text" id="state" value="" size="10" placeholder="Paste a link or search" autocomplete="off">
+        </div>
         <ul class="combobox-hidden">
          ${Backbutton}
          <div id="Link-menu">
@@ -432,8 +448,8 @@ export default function loadTraitRichText(editor, opt = {}) {
       $(el).find('#Back-btn').on('click', function () {
         State = "Main-Menu"
         $(el).find('#Back-btn').addClass('d-none')
-        // $(el).find('input').val(previousValue)
         $(el).find('input').focus()
+        clicked = false
         GetItem()
       })
 
@@ -472,9 +488,12 @@ export default function loadTraitRichText(editor, opt = {}) {
           $(el).find("#Link-menu").empty().append(domdata);
 
           $(el).find('#Link-menu li').on('click', function () {
+            clicked = true
+            console.log(clicked)
             State = $(this).data('value')
             // $(el).find('input').val("")
             $(el).find('input').focus()
+            
             GetItem()
           })
         }
@@ -538,12 +557,34 @@ export default function loadTraitRichText(editor, opt = {}) {
             $(el).find('#Link-menu li').on('click', function () {
               const text = $(this).find('span').text().trim()
               $(el).find('input').val(text)
+              
               // $(el).find('input').focus()
-              $(el).find('ul').removeClass('combobox-hidden')
-              State = "Main-Menu"
+              $(el).find('ul').addClass('combobox-hidden')
               $(el).find('#Back-btn').addClass('d-none')
               previousValue = text
-              GetItem()
+              if (previousValue!==""){
+                $(el).find('input').css('padding-left','39px');
+                $(el).find('#icons').css("display","block")
+                if (State == "Collection") {
+                  $(el).find('#icons').empty().append(Collection_icon)
+                }
+                else if (State == "Products") {
+      
+                }
+                else if (State == "Pages") {
+      
+                }
+                else if (State == "Privacy") {
+      
+                }
+              }
+              else{
+                $(el).find('input').css('padding-left','');
+                $(el).find('#icons').css("display","none")
+              }
+              State = "Main-Menu"
+
+              clicked = false
             })
 
           }).catch(function (e) {
@@ -558,7 +599,23 @@ export default function loadTraitRichText(editor, opt = {}) {
       })
       $(el).find('input').focusout(function (e) {
         $(el).find('ul').addClass('combobox-hidden')
-        //$(el).find('input').val(previousValue)
+        setTimeout(()=>{
+          if (!clicked){
+            GetItem()
+          }else{
+            clicked=false;
+          }
+        },200)
+
+        $(el).find('input').val(previousValue)
+        // if (previousValue!==""){
+        //   $(el).find('input').css('padding-left','39px');
+        //   $(el).find('#icons').css("display","block")
+        // }
+        // else{
+        //   $(el).find('input').css('padding-left','');
+        //   $(el).find('#icons').css("display","none")
+        // }
         //GetItem()
 
       })

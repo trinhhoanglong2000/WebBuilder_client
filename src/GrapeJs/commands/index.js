@@ -20,7 +20,7 @@ export default function LoadCommands(editor, config) {
     //====Add transition
     element[0].classList.add("trans")
     elementCanvas[0].classList.add("trans")
-
+    
     for (var i = 0; i < element.length; i++) {
       element[i].classList.toggle("active-block");
     }

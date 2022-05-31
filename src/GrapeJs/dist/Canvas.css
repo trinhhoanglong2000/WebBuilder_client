@@ -360,3 +360,6 @@
   visibility: hidden!important;
   opacity: 0!important;
 }
+.btn:hover{
+  background-color: #dddada;
+}

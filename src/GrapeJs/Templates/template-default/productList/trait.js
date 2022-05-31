@@ -28,7 +28,7 @@ export default function loadTraitProduct(editor, opt = {}) {
           <div class="Modal-popup dnone" style="">
   
             <div class ="d-flex border-bottom mb-3 p-3">
-              <h5 class="flex-grow-1">
+              <h5 class="flex-grow-1" style="margin-bottom:0;display:flex;align-items:center">
               Select collection
               </h5> 
               <button type="button" class="btn close-btn">

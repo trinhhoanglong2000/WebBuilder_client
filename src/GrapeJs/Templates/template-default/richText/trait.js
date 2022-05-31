@@ -21,7 +21,7 @@ export default function loadTraitRichText(editor, opt = {}) {
   };
   editor.TraitManager.addType("RichText-Button-Color", {
     // Expects as return a simple HTML string or an HTML element
-    
+
     createInput({ trait }) {
       const data = [
         "primary",
@@ -372,7 +372,7 @@ export default function loadTraitRichText(editor, opt = {}) {
 
       const initValue = trait.target.getStyle()["text-align"] || "center";
       const el = document.createElement("div");
-      const defaultMenu = `
+      const defaultMenu_Collection = `
      
         <li data-value ="Collection" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px">
           <svg style =" width:25px;height:25px;" 
@@ -381,20 +381,24 @@ export default function loadTraitRichText(editor, opt = {}) {
             Collections
           </span>
         </li>
+      `
+      const defaultMenu_Products = `
         <li data-value ="Products" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px">
           <svg style =" width:25px;height:25px;" 
           viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path d="M10.293 1.293a1 1 0 0 1 .707-.293h7a1 1 0 0 1 1 1v7a1 1 0 0 1-.293.707l-9 9a1 1 0 0 1-1.414 0l-7-7a1 1 0 0 1 0-1.414l9-9zm5.207 4.707a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"></path></svg>
           <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
             Products
           </span>
-        </li>
+        </li>`
+      const defaultMenu_Pages = `
         <li data-value ="Pages" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px">
           <svg  style =" width:25px;height:25px;" 
           viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path d="M12.44.44a1.5 1.5 0 0 0-1.062-.44h-6.878a1.5 1.5 0 0 0-1.5 1.5v17a1.5 1.5 0 0 0 1.5 1.5h11a1.5 1.5 0 0 0 1.5-1.5v-12.879a1.5 1.5 0 0 0-.44-1.06l-4.12-4.122z"></path></svg>
           <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
             Pages
           </span>
-        </li>     
+        </li>    `
+      const defaultMenu_Privacy = ` 
         <li data-value ="Privacy" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px">
         <svg style =" width:25px;height:25px;" 
         viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path d="M7 5h5v2h-5v-2zm5 4h-5v2h5v-2z"></path><path fill-rule="evenodd" d="M16 17a3 3 0 0 1-3 3h-10a3 3 0 0 1-3-3v-1.5a1.5 1.5 0 0 1 1.5-1.5h1.5v-10a3 3 0 0 1 3-3h11a3 3 0 1 1 0 6h-1v10zm-11-13a1 1 0 0 1 1-1h8.17c-.11.313-.17.65-.17 1v13a1 1 0 1 1-2 0v-3h-7v-10zm12-1a1 1 0 0 0-1 1v1h1a1 1 0 1 0 0-2zm-7 14c0 .35.06.687.17 1h-7.17a1 1 0 0 1-1-1v-1h8v1z"></path></svg>
@@ -403,7 +407,7 @@ export default function loadTraitRichText(editor, opt = {}) {
           </span>
         </li>         
         `
-      const Backbutton= ` <li class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex;justify-content: space-between; align-items:center">
+      const Backbutton = ` <li class="btn d-none" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex;justify-content: space-between; align-items:center">
       <span>
       <svg style =" width:20px;height:20px;" 
       xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>
@@ -419,64 +423,92 @@ export default function loadTraitRichText(editor, opt = {}) {
         <ul class="combobox-hidden">
          ${Backbutton}
          <div id="Link-menu">
-         ${defaultMenu}
+         ${defaultMenu_Collection}
+         ${defaultMenu_Products}
+         ${defaultMenu_Pages}
+         ${defaultMenu_Privacy}
          </div>
         </ul>
       </div>       
       `;
       let State = "Main-Menu"
-      $(el).find('#Link-menu li').on('click',function(){
-        if ($(this).data('value')=="Collection"){
+      $(el).find('#Link-menu li').on('click', function () {
+        if ($(this).data('value') == "Collection") {
           console.log("HEHE")
         }
-        else if ($(this).data('value')=="Products"){
+        else if ($(this).data('value') == "Products") {
 
         }
-        else if ($(this).data('value')=="Pages"){
+        else if ($(this).data('value') == "Pages") {
 
         }
-        else if (($(this).data('value')=="Privacy")){
+        else if (($(this).data('value') == "Privacy")) {
 
         }
       })
-      const GetItem = (name ="",flag=false) => {
-        GetRequest(
-          `${process.env.REACT_APP_API_URL}stores/${opt.storeId}/collections/product?name=${name.trim()}`
-        ).then((data) => {
+      const GetItem = (name = "", flag = false) => {
+        if (State == "Main-Menu") {
+          const arr = ["Collection", "Products", "Pages", "Privacy"]
           let domdata = "";
-          initValue = trait.target.attributes.attributes['data-ez-mall-collection'] || "";
-          data.data.forEach((element) => {
-            domdata += `<li data-value = "${element.id}" name="${element.name}" >
-            <div style="width: 100%;display: flex;align-items: center;" class="btn border-bottom py-3">
-            
-              <div class="Picture" >
-                <img style= "width: 32px;height: 32px;" src="${
-                  element.thumbnail
-                    ? element.thumbnai
-                    : "https://img.icons8.com/fluency-systems-regular/48/000000/image.png"
+          const regex = new RegExp(`.*${name.toUpperCase()}.*`, 'g');
+          arr.forEach((ele, index) => {
+            if (regex.test(ele.toUpperCase()) || name=="") {
+              if (index == 0) {
+                domdata += defaultMenu_Collection
+              }
+              else if (index == 1) {
+                domdata += defaultMenu_Products
+              }
+              else if (index == 2) {
+                domdata += defaultMenu_Pages
+              }
+              else if (index == 3) {
+                domdata += defaultMenu_Privacy
+              }
+
+            }
+          })
+          $(el).find("#Link-menu").empty().append(domdata);
+        }
+        else {
+          GetRequest(
+            `${process.env.REACT_APP_API_URL}stores/${opt.storeId}/collections/product?name=${name.trim()}`
+          ).then((data) => {
+            let domdata = "";
+            initValue = trait.target.attributes.attributes['data-ez-mall-collection'] || "";
+            data.data.forEach((element) => {
+              domdata += `<li data-value = "${element.id}" name="${element.name}" >
+              <div style="width: 100%;display: flex;align-items: center;" class="btn border-bottom py-3">
+              
+                <div class="Picture" >
+                  <img style= "width: 32px;height: 32px;" src="${element.thumbnail
+                  ? element.thumbnai
+                  : "https://img.icons8.com/fluency-systems-regular/48/000000/image.png"
                 }"/>
+  
+  
+                </div>
+                <div style ="text-align:left;flex-grow:1;font-size:12px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2; /* number of lines to show */ line-clamp: 2;-webkit-box-orient: vertical;
+                " >
+                ${element.name}
+  
+                </div>
+                <div class="check-item mr-2">
+                <i class="far fa-check-circle"></i>
+                </div>
+              </div>  
+              
+              </li>`;
+            });
 
 
-              </div>
-              <div style ="text-align:left;flex-grow:1;font-size:12px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2; /* number of lines to show */ line-clamp: 2;-webkit-box-orient: vertical;
-              " >
-              ${element.name}
 
-              </div>
-              <div class="check-item mr-2">
-              <i class="far fa-check-circle"></i>
-              </div>
-            </div>  
-            
-            </li>`;
+          }).catch(function (e) {
           });
+        }
 
-
-
-        }).catch(function(e) {
-        });;
       };
-      
+
       $(el).find('input').focusin(function () {
         $(el).find('ul').removeClass('combobox-hidden')
       })
@@ -484,9 +516,9 @@ export default function loadTraitRichText(editor, opt = {}) {
         $(el).find('ul').addClass('combobox-hidden')
       })
       $(el).find('input').on("input", function (ev) {
-        if (State == "Main-Menu"){
-          
-        }
+        if (controller)
+          controller.abort();
+        GetItem($(this)[0].value,true)
       })
       return el;
     },

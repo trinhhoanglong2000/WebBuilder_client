@@ -212,7 +212,7 @@ function Canvas({ type }) {
                 let domWrapper = editor.getWrapper().view.el;
                 let logoImage = domWrapper.querySelector(".navbar-brand img");
                 let logoSrc = (logoImage)? logoImage.src : null;
-
+                logoSrc = (logoSrc === "data:,")? null : logoSrc; 
                 dispatch(doSaveStoreData({storeId, logoSrc, storeComponents}));
               });
 

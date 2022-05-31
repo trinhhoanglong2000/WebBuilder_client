@@ -48,11 +48,13 @@ export default function loadBlockFooterItem(editor, opt = {}) {
       name: "QuickLink",
       draggable: ".footer-navigation",
       tagName: "div",
+      copyable: false,
       attributes: { class: "col-md", name: "QuickLink" },
       type: "footer-quick-link",
       components: [
         {
           layerable: false,
+          copyable: false,
           draggable: false,
           hoverable: false,
           selectable: false,
@@ -61,6 +63,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
           content: "Quick links"
         }, {
           layerable: false,
+          copyable: false,
           draggable: false,
           hoverable: false,
           selectable: false,
@@ -82,12 +85,14 @@ export default function loadBlockFooterItem(editor, opt = {}) {
       name: "Text",
       draggable: ".footer-navigation",
       droppable: false,
+      copyable: false,
       tagName: "div",
       attributes: { class: "col-md" },
       type: "footer-text",
       components: [
         {
           layerable: false,
+          copyable: false,
           draggable: false,
           hoverable: false,
           selectable: false,
@@ -96,6 +101,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
           content: "Heading"
         }, {
           layerable: false,
+          copyable: false,
           draggable: false,
           hoverable: false,
           selectable: false,
@@ -115,17 +121,19 @@ export default function loadBlockFooterItem(editor, opt = {}) {
       name: "Image",
       draggable: ".footer-navigation",
       droppable: false,
+      copyable: false,
       tagName: "div",
       attributes: { class: "col-md text-center d-flex align-items-center justify-content-center" },
       type: "footer-image",
       components: [
         {
-            tagName: 'img',
-            layerable: false,
-            hoverable: false,
-            selectable: false,
-            draggable:  false,
-            attributes: { class: "img-thumbnail", src: "https://dummyimage.com/600x400/55595c/fff" },
+          tagName: 'img',
+          layerable: false,
+          copyable: false,
+          hoverable: false,
+          selectable: false,
+          draggable: false,
+          attributes: { class: "img-thumbnail", src: "https://dummyimage.com/600x400/55595c/fff" },
         }
       ]
     }
@@ -165,7 +173,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
 
       el.innerHTML = `
           <div class="imageWithText-content" style="font-size:12px;">
-              ${(initValue === "")? placeholder: initValue}
+              ${(initValue === "") ? placeholder : initValue}
           </div>
       `;
 
@@ -178,7 +186,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
             "italic",
             "underline",
             "link",
-            
+
             { script: "sub" },
             { script: "super" },
             { size: "small" },
@@ -202,7 +210,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
 
       content.set({ content: inputType });
     },
-});
+  });
 
   editor.TraitManager.addType("footer-menu-collection", {
     createInput({ trait }) {
@@ -266,15 +274,15 @@ export default function loadBlockFooterItem(editor, opt = {}) {
         });
       $(el)
         .find(".dropdown-item")
-        .each( (i) =>{
+        .each((i) => {
           let func;
           if (i === 0) {
             func = function () {
               $(el).find(".Modal-popup").toggle(200);
             };
           } else {
-            func =  (ev) =>{
-              trait.target.setAttributes({...trait.target.getAttributes(),['menu-collection']:""})
+            func = (ev) => {
+              trait.target.setAttributes({ ...trait.target.getAttributes(), ['menu-collection'] : "" })
               $(".Modal-popup ul li").removeClass("active");
               $(el).find(".Modal-popup ul li").find(".check-item").fadeOut(0);
               $(el).find(".name-collection").text("")
@@ -283,9 +291,9 @@ export default function loadBlockFooterItem(editor, opt = {}) {
           }
 
           $($(el)
-          .find(".dropdown-item").get(i)).on("click", func);
+            .find(".dropdown-item").get(i)).on("click", func);
         });
-      const GetItem = (name ="",flag=false) => {
+      const GetItem = (name = "", flag = false) => {
         GetRequest(
           `${process.env.REACT_APP_API_URL}stores/${opt.storeId}/menu?name=${name.trim()}`
         ).then((response) => {
@@ -296,11 +304,10 @@ export default function loadBlockFooterItem(editor, opt = {}) {
             domdata += `<li data-value = "${element.id}" name="${element.name}" >
             <div style="width: 100%;display: flex;align-items: center;" class="btn border-bottom py-3">
               <div class="Picture" >
-                <img style= "width: 32px;height: 32px;" src="${
-                  element.thumbnail
-                    ? element.thumbnai
-                    : "https://img.icons8.com/fluency-systems-regular/48/000000/image.png"
-                }"/>
+                <img style= "width: 32px;height: 32px;" src="${element.thumbnail
+                ? element.thumbnai
+                : "https://img.icons8.com/fluency-systems-regular/48/000000/image.png"
+              }"/>
               </div>
               <div style ="text-align:left;flex-grow:1;font-size:12px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2; line-clamp: 2;-webkit-box-orient: vertical;">
               ${element.name}
@@ -352,12 +359,12 @@ export default function loadBlockFooterItem(editor, opt = {}) {
 
           // 
           $(el)
-          .find(".Modal-popup ul li")
-          .on("click", (ev) =>{
-            this.onChange(ev)
-          });
+            .find(".Modal-popup ul li")
+            .on("click", (ev) => {
+              this.onChange(ev)
+            });
 
-        }).catch(function(e) {
+        }).catch(function (e) {
         });;
       };
       GetItem();
@@ -366,7 +373,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
         .on("input", function () {
           controller.abort();
 
-          GetItem($(this)[0].value,true)
+          GetItem($(this)[0].value, true)
         });
 
       return el;
@@ -374,7 +381,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
     onEvent({ elInput, component, event }) {
       if (event.type === 'change') return
       const data = $(elInput).find('.Modal-popup ul li.active').data('value') || "";
-      component.setAttributes({...component.getAttributes(), 'menu-collection':data});
+      component.setAttributes({ ...component.getAttributes(), 'menu-collection': data });
     },
   })
 
@@ -403,20 +410,20 @@ export default function loadBlockFooterItem(editor, opt = {}) {
         am.open({
           select(asset, complete) {
             inputImage.src = asset.getSrc();
-            target.setAttributes({...target.getAttributes(), 'src': asset.getSrc() })
+            target.setAttributes({ ...target.getAttributes(), 'src': asset.getSrc() })
 
             if (!c.validURL(asset.getSrc())) {
-              c.addTarget64Image({id: asset.cid, target: target})
+              c.addTarget64Image({ id: asset.cid, target: target })
             }
 
             am.close();
           },
-          
+
         });
       };
 
       removeBtn.onclick = () => {
-        target.setAttributes({...target.getAttributes(), 'src': trait.get('src') })
+        target.setAttributes({ ...target.getAttributes(), 'src': trait.get('src') })
         inputImage.src = trait.get('src');
       };
 
@@ -445,39 +452,40 @@ export default function loadBlockFooterItem(editor, opt = {}) {
     },
     view: defaultView.extend({
       init() {
-          this.listenTo(this.model, "change:attributes:menu-collection", this.Update);
+        this.listenTo(this.model, "change:attributes:menu-collection", this.Update);
       },
       onRender() {
-          this.Update();
+        this.Update();
       },
       async Update() {
-          let menu_data = [
-              {
-                name: "Search",
-                link: "a",
-              },
-              {
-                name: "Terms of service",
-                link: "a",
-              },
-              {
-                name: "Refund policy",
-                link: "a",
-              },
-          ];
-          const id = this.model.attributes.attributes["menu-collection"] || " ";
-          fetch(`${process.env.REACT_APP_API_URL}menu/${id}`)
-              .then((response) => response.json())
-              .then((response) => {
-                if (response.data?.listMenuItem) {
-                    menu_data = response.data.listMenuItem;
-                }
+        let menu_data = [
+          {
+            name: "Search",
+            link: "a",
+          },
+          {
+            name: "Terms of service",
+            link: "a",
+          },
+          {
+            name: "Refund policy",
+            link: "a",
+          },
+        ];
+        const id = this.model.attributes.attributes["menu-collection"];
+        if (!id) return;
+        fetch(`${process.env.REACT_APP_API_URL}menu/${id}`)
+          .then((response) => response.json())
+          .then((response) => {
+            if (response.data?.listMenuItem) {
+              menu_data = response.data.listMenuItem;
+            }
 
-                let data = "";
-                menu_data.forEach(element => data += `<li><a href="${element.link}">${element.name}</a></li>`);
-                
-                $(this.el).find(".quicklinks-menu").html(data);
-              });
+            let data = "";
+            menu_data.forEach(element => data += `<li><a href="${element.link}">${element.name}</a></li>`);
+
+            $(this.el).find(".quicklinks-menu").html(data);
+          });
       },
     })
   });

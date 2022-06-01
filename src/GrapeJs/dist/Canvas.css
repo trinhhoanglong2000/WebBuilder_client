@@ -329,7 +329,6 @@
 #Link-combo.combo {
   position: relative;
   text-align: left;
-
 }
 #Link-combo.combo label {
   display: block;
@@ -347,7 +346,7 @@
   left: 0px;
   top: 44px;
   z-index: 1;
-  border-radius : 5px;
+  border-radius: 5px;
   opacity: 1;
   visibility: visible;
   transition: 0.2s;
@@ -356,10 +355,32 @@
   display: block;
   width: 100%;
 }
-.combobox-hidden{
-  visibility: hidden!important;
-  opacity: 0!important;
+.combobox-hidden {
+  visibility: hidden !important;
+  opacity: 0 !important;
 }
-.btn:hover{
+.btn:hover {
   background-color: #dddada;
+}
+
+/* animation loading */
+div#loadingDiv div {
+  border: 3px solid hsla(185, 100%, 62%, 0.2);
+  border-top-color: #3cefff;
+  border-radius: 50%;
+  width: 3.5em;
+  height: 3.5em;
+  animation: spin1 1s linear infinite;
+}
+div#loadingDiv {
+  display: flex;
+  justify-content: center;
+  height: 100px;
+  align-items: center;
+}
+
+@keyframes spin1 {
+  to {
+    transform: rotate(360deg);
+  }
 }

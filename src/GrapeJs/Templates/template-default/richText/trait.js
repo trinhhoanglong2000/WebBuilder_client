@@ -347,8 +347,6 @@ export default function loadTraitRichText(editor, opt = {}) {
       );
 
       let data = inputType.value;
-      // editor.Selectors.setState('after');
-      // console.log(editor.Selectors.getState())
       component.setStyle({ ...component.getStyle(), "text-align": data });
     },
   });
@@ -761,9 +759,7 @@ export default function loadTraitRichText(editor, opt = {}) {
       const value = event.valueHref ? event.valueHref : '#'
       component.setAttributes({ ...component.getAttributes(), 'href': value })
       component.set('traitValue', event.traitValue)
-      console.log(elInput)
-      console.log(component)
-      console.log(event)
+
     },
   });
 }

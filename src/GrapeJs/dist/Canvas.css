@@ -357,7 +357,7 @@
 }
 #Link-combo.combo ul{
   overflow-y: auto;
-    height: 270px;
+  max-height: 270px;
 }
 #Link-combo.combo ul::-webkit-scrollbar-thumb {
   background: rgb(106, 106, 106)

@@ -381,7 +381,7 @@ export default function loadTraitRichText(editor, opt = {}) {
 
       }, 200)
       const _this = this;
-      const initValue = trait.target.attributes.traitValue.split(';') || "";
+      const initValue = trait.target.attributes.traitValue.split(/;(.*)/s) || "";
       let defaultIcons = ""
       const el = document.createElement("div");
       let clicked = false

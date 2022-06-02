@@ -1,6 +1,7 @@
 import $ from "jquery";
 import { v4 as uuidv4 } from "uuid";
 import loadTraitProduct from "./trait";
+import { validURL } from "../../../../helper/utils.js";
 export default function loadBlockProducts(editor, opt = {}) {
     const c = opt;
     let bm = editor.BlockManager;

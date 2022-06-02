@@ -355,6 +355,18 @@
   display: block;
   width: 100%;
 }
+#Link-combo.combo ul{
+  overflow-y: auto;
+    height: 270px;
+}
+#Link-combo.combo ul::-webkit-scrollbar-thumb {
+  background: rgb(106, 106, 106)
+}
+
+/* Handle on hover */
+#Link-combo.combo ul::-webkit-scrollbar-thumb:hover {
+  background: rgb(87, 87, 87)
+}
 .combobox-hidden {
   visibility: hidden !important;
   opacity: 0 !important;

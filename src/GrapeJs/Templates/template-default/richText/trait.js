@@ -2,6 +2,7 @@ import $ from "jquery";
 import Quill from "quill";
 import AbortController from "abort-controller";
 import { readCookie } from "../../../../helper/cookie";
+import { validURL } from "../../../../helper/utils";
 
 export default function loadTraitRichText(editor, opt = {}) {
 
@@ -383,40 +384,47 @@ export default function loadTraitRichText(editor, opt = {}) {
       }, 200)
       const _this = this;
       const initValue = trait.target.attributes.traitValue.split(';') || "";
-      let defaultIcons=""
+      let defaultIcons = ""
       const el = document.createElement("div");
       let clicked = false
       let previousValue = initValue[1] || ""
-      const Collection_icon = `<svg style =" width:25px;height:25px;" 
+      const Collection_icon = `<svg style =" width:25px;height:25px;min-width:25px;" 
       viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path d="M6.948.001c.394 0 .772.159 1.052.439l1.477 1.68-3.638 4.12a3.568 3.568 0 0 0-.872 2.33v9.43h-2.48a1.48 1.48 0 0 1-1.051-.44 1.507 1.507 0 0 1-.436-1.06v-9.88a1.497 1.497 0 0 1 .377-1l3.48-4 1.04-1.18a1.48 1.48 0 0 1 1.052-.439zm7.092 2.439 4.58 5.13c.247.275.383.631.381 1v9.93c0 .399-.159.78-.441 1.062a1.51 1.51 0 0 1-1.065.439h-9.039a1.509 1.509 0 0 1-1.033-.457 1.497 1.497 0 0 1-.423-1.044v-9.88a1.487 1.487 0 0 1 .382-1l3.524-4.001 1.005-1.18a1.51 1.51 0 0 1 2.128 0zm-1.9 5.807a1.51 1.51 0 0 0 1.901-.186 1.497 1.497 0 0 0-.489-2.447 1.512 1.512 0 0 0-1.641.325 1.498 1.498 0 0 0 .228 2.308z"></path></svg>          
       `
-      const Products_icon = `<svg style =" width:25px;height:25px;" 
+      const Products_icon = `<svg style =" width:25px;height:25px;min-width:25px;" 
       viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path d="M10.293 1.293a1 1 0 0 1 .707-.293h7a1 1 0 0 1 1 1v7a1 1 0 0 1-.293.707l-9 9a1 1 0 0 1-1.414 0l-7-7a1 1 0 0 1 0-1.414l9-9zm5.207 4.707a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"></path></svg>
       `
-      const Pages_icon = `<svg  style =" width:25px;height:25px;" 
+      const Pages_icon = `<svg  style =" width:25px;height:25px;min-width:25px;" 
       viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path d="M12.44.44a1.5 1.5 0 0 0-1.062-.44h-6.878a1.5 1.5 0 0 0-1.5 1.5v17a1.5 1.5 0 0 0 1.5 1.5h11a1.5 1.5 0 0 0 1.5-1.5v-12.879a1.5 1.5 0 0 0-.44-1.06l-4.12-4.122z"></path></svg>
       `
-      const Privacy_icon = `<svg style =" width:25px;height:25px;" 
+      const Privacy_icon = `<svg style =" width:25px;height:25px;min-width:25px;" 
       viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path d="M7 5h5v2h-5v-2zm5 4h-5v2h5v-2z"></path><path fill-rule="evenodd" d="M16 17a3 3 0 0 1-3 3h-10a3 3 0 0 1-3-3v-1.5a1.5 1.5 0 0 1 1.5-1.5h1.5v-10a3 3 0 0 1 3-3h11a3 3 0 1 1 0 6h-1v10zm-11-13a1 1 0 0 1 1-1h8.17c-.11.313-.17.65-.17 1v13a1 1 0 1 1-2 0v-3h-7v-10zm12-1a1 1 0 0 0-1 1v1h1a1 1 0 1 0 0-2zm-7 14c0 .35.06.687.17 1h-7.17a1 1 0 0 1-1-1v-1h8v1z"></path></svg>
       `
+      const URL_icon =`<svg style =" width:25px;height:25px;min-width:25px;" 
+      viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path d="M11 4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v4a1 1 0 1 1-2 0v-1.586l-5.293 5.293a1 1 0 0 1-1.414-1.414l5.293-5.293h-1.586a1 1 0 0 1-1-1zm-8 2.5a1.5 1.5 0 0 1 1.5-1.5h3.5a1 1 0 0 1 0 2h-3v8h8v-3a1 1 0 1 1 2 0v3.5a1.5 1.5 0 0 1-1.5 1.5h-9a1.5 1.5 0 0 1-1.5-1.5v-9z"></path></svg>`
+      
       if (initValue[0] == "Collections") {
-        defaultIcons =Collection_icon
+        defaultIcons = Collection_icon
       }
       else if (initValue[0] == "Products") {
-        defaultIcons =Products_icon
+        defaultIcons = Products_icon
 
       }
       else if (initValue[0] == "Pages") {
-        defaultIcons =Pages_icon
+        defaultIcons = Pages_icon
 
       }
       else if (initValue[0] == "Privacy") {
-        defaultIcons =Privacy_icon
+        defaultIcons = Privacy_icon
 
+      }
+      else if (initValue[0]=="_URL_LINK")
+      {
+        defaultIcons =URL_icon
       }
       const defaultMenu_Collection = `
       
-        <li data-value ="Collections" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px">
+        <li data-value ="Collections" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
           ${Collection_icon}
           <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
             Collections
@@ -424,21 +432,21 @@ export default function loadTraitRichText(editor, opt = {}) {
         </li>
       `
       const defaultMenu_Products = `
-        <li data-value ="Products" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px">
+        <li data-value ="Products" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
         ${Products_icon}  
         <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
             Products
           </span>
         </li>`
       const defaultMenu_Pages = `
-        <li data-value ="Pages" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px">
+        <li data-value ="Pages" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
         ${Pages_icon}  
         <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
             Pages
           </span>
         </li>    `
       const defaultMenu_Privacy = ` 
-        <li data-value ="Privacy" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px">
+        <li data-value ="Privacy" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
         ${Privacy_icon}
         <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
             Privacy Policy
@@ -487,7 +495,51 @@ export default function loadTraitRichText(editor, opt = {}) {
 
       const GetItem = async (name = "", flag = false) => {
         name = name.trim()
-        if (State == "Main-Menu") {
+        if (validURL(name)) {
+          let domdata = "";
+          domdata += `
+          <li data-value ="${1}" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
+          ${URL_icon}
+          <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
+              ${name}
+          </span>
+          </li>    
+        `
+          $(el).find('#result').text(`${1} results`)
+          $(el).find("#Link-menu").empty().append(domdata);
+
+          $(el).find('#Link-menu li').on('click', function () {
+            const text = $(this).find('span').text().trim()
+            $(el).find('input').val(text)
+
+            // $(el).find('input').focus()
+            $(el).find('ul').addClass('combobox-hidden')
+            $(el).find('#Back-btn').addClass('d-none')
+            previousValue = text
+            if (previousValue !== "") {
+              $(el).find('input').css('padding-left', '39px');
+              $(el).find('#icons').css("display", "block")
+
+              $(el).find('input').css('padding-right', '25px');
+              $(el).find('#delete_icon').css("display", "block")
+
+            }
+            else {
+              $(el).find('input').css('padding-left', '');
+              $(el).find('#icons').css("display", "none")
+
+              $(el).find('input').css('padding-left', '');
+              $(el).find('#delete_icon').css("display", "none")
+            }
+            $(el).find('#icons').empty().append(URL_icon)
+
+            _this.onChange({ valueHref: name, traitValue: `${"_URL_LINK"};${previousValue}` })
+
+            State = "Main-Menu"
+            clicked = false
+          })
+        }
+        else if (State == "Main-Menu") {
           const arr = ["Collections", "Products", "Pages", "Privacy"]
           let domdata = "";
           const regex = new RegExp(`.*${name.toUpperCase()}.*`, 'g');
@@ -510,7 +562,7 @@ export default function loadTraitRichText(editor, opt = {}) {
           })
           if (domdata === "") {
             domdata += `
-            <li data-value ="Products" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;pointer-events:none">
+            <li data-value ="" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex;pointer-events:none">
             <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
               No results
             </span>
@@ -541,7 +593,7 @@ export default function loadTraitRichText(editor, opt = {}) {
             url = `stores/${opt.storeId}/collections/product?name=${name.trim()}`
           }
           else if (State == "Products") {
-
+            url = `stores/${opt.storeId}/products?title=${name.trim()}`
           }
           else if (State == "Pages") {
 
@@ -568,17 +620,26 @@ export default function loadTraitRichText(editor, opt = {}) {
             }
           })
         }
+        else if (State=="Products"){
+          _data = data.data.map(ele => {
+            return {
+              name: ele.title,
+              id: ele.id,
+              thumbnail: ele.thumbnail
+            }
+          })
+        }
         let domdata = "";
         _data.forEach((element) => {
           const img = element.thumbnail ? `
-        <img style= "width:25px;height:25px;" src="${element.thumbnail}">
+        <img style= "width:25px;height:25px;min-width:25px;" src="${element.thumbnail}">
         `: `
-        <svg style =" width:25px;height:25px;" 
+        <svg style =" width:25px;height:25px;min-width:25px;" 
           viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path fill-rule="evenodd" d="M1 2.5a1.5 1.5 0 0 1 1.5-1.5h15a1.5 1.5 0 0 1 1.5 1.5v12a1.5 1.5 0 0 1-1.5 1.5h-15a1.5 1.5 0 0 1-1.5-1.5v-12zm8 2.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm6.57 9h-11.143c-.351 0-.548-.368-.343-.632l3.046-3.24a.448.448 0 0 1 .617-.009l1.396 1.481 2.623-3.825a.446.446 0 0 1 .72.016l3.462 5.609c.154.272-.052.6-.377.6z"></path><path d="M6 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm5-1a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path></svg>
           
         `
           domdata += `
-          <li data-value ="${State.toLowerCase()}/${element.id}" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px">
+          <li data-value ="${State.toLowerCase()}/${element.id}" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
           ${img}
           <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
               ${element.name}
@@ -588,7 +649,7 @@ export default function loadTraitRichText(editor, opt = {}) {
         });
         if (domdata === "") {
           domdata += `
-        <li data-value ="Products" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;pointer-events:none">
+        <li data-value ="Products" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex;pointer-events:none">
         <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
           No results
         </span>
@@ -598,7 +659,7 @@ export default function loadTraitRichText(editor, opt = {}) {
         $(el).find('#result').text(`${_data.length} results`)
         $(el).find("#Link-menu").empty().append(domdata);
 
-        $(el).find('#Link-menu li').on('click',  function () {
+        $(el).find('#Link-menu li').on('click', function () {
           const text = $(this).find('span').text().trim()
           $(el).find('input').val(text)
 
@@ -609,7 +670,7 @@ export default function loadTraitRichText(editor, opt = {}) {
           if (previousValue !== "") {
             $(el).find('input').css('padding-left', '39px');
             $(el).find('#icons').css("display", "block")
-            
+
             $(el).find('input').css('padding-right', '25px');
             $(el).find('#delete_icon').css("display", "block")
 
@@ -636,7 +697,7 @@ export default function loadTraitRichText(editor, opt = {}) {
             $(el).find('input').css('padding-left', '');
             $(el).find('#delete_icon').css("display", "none")
           }
-          _this.onChange({valueHref:$(this).data('value'),traitValue:`${State};${previousValue}`})
+          _this.onChange({ valueHref: $(this).data('value'), traitValue: `${State};${previousValue}` })
 
           State = "Main-Menu"
           clicked = false
@@ -644,7 +705,7 @@ export default function loadTraitRichText(editor, opt = {}) {
 
       }
       // ==============================
-      $(el).find('#delete_icon').on('click',function(){
+      $(el).find('#delete_icon').on('click', function () {
         const text = ""
         $(el).find('input').val(text)
         $(el).find('ul').addClass('combobox-hidden')
@@ -657,7 +718,7 @@ export default function loadTraitRichText(editor, opt = {}) {
         $(el).find('#delete_icon').css("display", "none")
         State = "Main-Menu"
         clicked = false
-        _this.onChange({valueHref:"",traitValue:""})
+        _this.onChange({ valueHref: "", traitValue: "" })
       })
       GetItem()
       $(el).find('input').focusin(function () {
@@ -675,29 +736,31 @@ export default function loadTraitRichText(editor, opt = {}) {
         }, 200)
 
         $(el).find('input').val(previousValue)
-       
+
       })
 
       $(el).find('input').on("input", function (ev) {
-        if ($(this)[0].value){
+        const valueInput = $(this)[0].value
+        if (valueInput) {
           $(el).find('input').css('padding-right', '25px');
           $(el).find('#delete_icon').css("display", "block")
         }
-        else{
+        else {
           $(el).find('input').css('padding-right', '');
           $(el).find('#delete_icon').css("display", "none")
         }
-        GetItem($(this)[0].value, true)
+
+        GetItem(valueInput)
       })
       return el;
     },
     onEvent({ elInput, component, event }) {
-      if (event.type){
+      if (event.type) {
         return
       }
       const value = event.valueHref ? event.valueHref : '#'
       component.setAttributes({ ...component.getAttributes(), 'href': value })
-      component.set('traitValue',event.traitValue)
+      component.set('traitValue', event.traitValue)
       console.log(elInput)
       console.log(component)
       console.log(event)

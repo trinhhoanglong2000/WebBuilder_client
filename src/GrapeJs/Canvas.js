@@ -36,7 +36,8 @@ function Canvas({ type }) {
   const token = readCookie('token');
 
   const getPlugins = () => {
-    return ["Plugins-defaults", "template-default", "gjs-blocks-basic"];
+    return ["Plugins-defaults", "template-default"];
+    // return ["Plugins-defaults", "template-default", "gjs-blocks-basic"];
   };
 
   useEffect(() => {
@@ -211,7 +212,7 @@ function Canvas({ type }) {
                 let domWrapper = editor.getWrapper().view.el;
                 let logoImage = domWrapper.querySelector(".navbar-brand img");
                 let logoSrc = (logoImage)? logoImage.src : null;
-
+                logoSrc = (logoSrc === "data:,")? null : logoSrc; 
                 dispatch(doSaveStoreData({storeId, logoSrc, storeComponents}));
               });
 

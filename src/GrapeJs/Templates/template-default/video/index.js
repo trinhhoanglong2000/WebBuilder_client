@@ -7,6 +7,7 @@ export default function loadVideo(editor, opt = {}) {
     bm.add('video', {
         label: "Video",
         category: "Media",
+        attributes: {class: "fa fa-youtube-play" },
         // attributes
         content: {
             name: 'video',

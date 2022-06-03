@@ -47,11 +47,9 @@ export default function loadBlockCart(editor, opt = {}) {
                 <div class="form-check">
                     <div class="row">
                         <div class="col-auto d-flex align-items-center">
-                            <input class="form-check-input" type="checkbox" value="">
+                            <input id="cart-select-all-product" class="form-check-input" type="checkbox" value="">
                         </div>
-
                         Tất cả sản phẩm
-
                     </div>
                 </div>
             </th>

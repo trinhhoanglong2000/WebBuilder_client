@@ -1,7 +1,7 @@
 :root {
   --theme: #f6faf6;
 }
-.gjs-layer-name{
+.gjs-layer-name {
   pointer-events: none;
 }
 .gjs-pn-open-block {
@@ -251,19 +251,19 @@
   cursor: pointer;
 }
 /* .CheckBOx for Product-Heading*/
-.checkbox-product{
+.checkbox-product {
   display: inline-flex;
   align-items: center;
   cursor: pointer;
   padding-left: 0;
 }
-.checkbox-product #border{
-  display:none;
+.checkbox-product #border {
+  display: none;
 }
-.checkbox-product .checkbox_box{
+.checkbox-product .checkbox_box {
   width: 1.25em;
   height: 1.25em;
-  border:2px solid #cccccc;
+  border: 2px solid #cccccc;
   margin-right: 10px;
   flex-shrink: 0;
   border-radius: 3px;
@@ -271,45 +271,44 @@
   align-items: center;
   justify-content: center;
 }
-.checkbox-product .checkbox_box::after{
-  content: '\2714';
-  color:var(--theme);
+.checkbox-product .checkbox_box::after {
+  content: "\2714";
+  color: var(--theme);
 }
-.checkbox-input:checked + .checkbox_box{
+.checkbox-input:checked + .checkbox_box {
   background-color: #2266dc;
   border-color: #2266dc;
 }
-.Modal-popup{
-  height: calc(100vh - 42px); 
-  width:110%;
-  position:absolute;
-  background-color:white;
+.Modal-popup {
+  height: calc(100vh - 42px);
+  width: 110%;
+  position: absolute;
+  background-color: white;
   top: -72px;
   left: -10px;
   z-index: 9999;
-
 }
 @media only screen and (max-width: 900px) {
-  .Modal-popup{
-    top:-90px;
-
+  .Modal-popup {
+    top: -90px;
   }
 }
-.Modal-popup input:focus, .Modal-popup .btn:focus{
+.Modal-popup input:focus,
+.Modal-popup .btn:focus {
   outline: none;
   border-color: inherit;
   -webkit-box-shadow: none;
   box-shadow: none;
   border: none;
 }
-.Modal-popup .btn{
+.Modal-popup .btn {
   border: none;
 }
-.Modal-popup li.active .check-item{
-  color:#07c507;
+.Modal-popup li.active .check-item {
+  color: #07c507;
 }
 
-.gjs-field-checkbox input:checked+.gjs-chk-icon {
+.gjs-field-checkbox input:checked + .gjs-chk-icon {
   border-color: black;
 }
 
@@ -325,4 +324,75 @@
 
 .gjs-trt-trait .gjs-field {
   background-color: var(--theme) !important;
+}
+
+#Link-combo.combo {
+  position: relative;
+  text-align: left;
+}
+#Link-combo.combo label {
+  display: block;
+  float: left;
+  width: 92px;
+  text-align: right;
+}
+
+#Link-combo.combo ul {
+  padding: 1px;
+  border: 2px solid #ccc;
+  width: 100%;
+  background-color: white;
+  position: absolute;
+  left: 0px;
+  top: 44px;
+  z-index: 1;
+  border-radius: 5px;
+  opacity: 1;
+  visibility: visible;
+  transition: 0.2s;
+}
+#Link-combo.combo li {
+  display: block;
+  width: 100%;
+}
+#Link-combo.combo ul{
+  overflow-y: auto;
+  max-height: 270px;
+}
+#Link-combo.combo ul::-webkit-scrollbar-thumb {
+  background: rgb(106, 106, 106)
+}
+
+/* Handle on hover */
+#Link-combo.combo ul::-webkit-scrollbar-thumb:hover {
+  background: rgb(87, 87, 87)
+}
+.combobox-hidden {
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+.btn:hover {
+  background-color: #dddada;
+}
+
+/* animation loading */
+div#loadingDiv div {
+  border: 3px solid hsla(185, 100%, 62%, 0.2);
+  border-top-color: #3cefff;
+  border-radius: 50%;
+  width: 3.5em;
+  height: 3.5em;
+  animation: spin1 1s linear infinite;
+}
+div#loadingDiv {
+  display: flex;
+  justify-content: center;
+  height: 100px;
+  align-items: center;
+}
+
+@keyframes spin1 {
+  to {
+    transform: rotate(360deg);
+  }
 }

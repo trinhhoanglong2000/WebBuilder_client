@@ -1,6 +1,7 @@
 import $ from "jquery";
 import { v4 as uuidv4 } from "uuid";
 import loadTraitProduct from "./trait";
+import { validURL } from "../../../../helper/utils.js";
 export default function loadBlockProducts(editor, opt = {}) {
     const c = opt;
     let bm = editor.BlockManager;
@@ -68,19 +69,24 @@ export default function loadBlockProducts(editor, opt = {}) {
                 this.Update()
             },
             async Update() {
-                let products_data = [
-                    {
-                        title: "Product Title",
-                        price: "$100.00",
-                        thumbnail: "https://dummyimage.com/600x400/55595c/fff",
-                    },
+                let products_data=[];
+                let products_data_default = [
+                  {
+                    title: "Product Title",
+                    price: "$100.00",
+                    thumbnail: "https://dummyimage.com/600x400/55595c/fff",
+                  },
                 ];
                 const id = this.model.attributes.attributes["data-ez-mall-collection"] || " ";
                 fetch(`${process.env.REACT_APP_API_URL}collections/product/${id}`)
                     .then((response) => response.json())
                     .then((data) => {
-                        if (data.data.products)
+                        if (data.data.products.length!=0) {
                             products_data = data.data.products;
+                          }
+                          else{
+                            products_data = products_data_default
+                          }
                         $(this.el)
                             .find(".thumb-wrapper")
                             .each(function (index) {

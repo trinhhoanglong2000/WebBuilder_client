@@ -57,6 +57,10 @@ export default function loadComponentsRichText(editor, opt = {}) {
           {
             type:"RichText-Button-Color",
             label:"Button color"
+          },
+          {
+            type:"richtext-Btn-Link",
+            label:"Link"
           }
         ],
       },

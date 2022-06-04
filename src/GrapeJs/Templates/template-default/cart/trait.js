@@ -16,4 +16,27 @@ export default function loadTraitCart(editor, opt = {}) {
         });
         return response.json();
     };
+
+    editor.TraitManager.addType("Heading", {
+        // Expects as return a simple HTML string or an HTML element
+        createInput({ trait }) {
+            const initValue = trait.target.get("components").models[0].get("content") || "";
+            const placeholder = trait.get("placeholder") || "";
+            const el = document.createElement("div");
+            el.innerHTML = `
+            <div class="gjs-field gjs-field-text">
+              <input class="Product-Heading"placeholder="${placeholder} " value="${initValue}" />
+            </div>
+          `;
+            $(el)
+                .find("input")
+                .on("input", (ev) => this.onChange(ev));
+            return el;
+        },
+        onEvent({ elInput, component, event }) {
+            const inputType = elInput.querySelector(".Product-Heading");
+            let data = inputType.value;
+            component.get("components").models[0].set({ content: data });
+        },
+    });
 }

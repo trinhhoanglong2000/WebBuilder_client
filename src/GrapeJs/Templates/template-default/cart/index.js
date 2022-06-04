@@ -19,7 +19,7 @@ export default function loadBlockCart(editor, opt = {}) {
             productVariantId: "1",
             productVariantName: "Size 43"
         },
-        {  
+        {
             image: "https://dummyimage.com/150x150/000/fff",
             name: "Converse Chuck",
             description: "Give customers details about the banner image(s) or content on the template.",
@@ -38,56 +38,73 @@ export default function loadBlockCart(editor, opt = {}) {
             productVariantName: "Size 40"
         }
     ]
+    function calculateTotal(tableBody, tableHead, ezMallSumary, rootEle) {
 
-    function insertData(data,tableHead, tableBody,ezMallSumary) {
-        let headHtml = 
-        `
-        <tr>
-            <th scope="col">
-                <div class="form-check">
-                    <div class="row">
-                        <div class="col-auto d-flex align-items-center">
-                            <input id="cart-select-all-product" class="form-check-input" type="checkbox" value="">
-                        </div>
-                        Tất cả sản phẩm
-                    </div>
-                </div>
-            </th>
-            <th scope="col">
-                <div class="d-flex align-items-center justify-content-center"> Đơn giá</div>
+        let totalCost = 0;
+        let items = $(tableBody).find(".ezMall-cart-item ");
+        let checkedInput = $(tableBody).find(".ezMall-cart-item .ezMall-cart-item-check:checked ")
+        if (items.length == 0) {
+            $(rootEle).find("#ezMall-cart-zero-item").show().addClass("d-flex");
+            $(rootEle).find("table").hide();
+            $(ezMallSumary).hide();
+            $(tableHead).find("#cart-select-all-product").prop("checked", false)
+        }
+        else {
+            $(rootEle).find("#ezMall-cart-zero-item").hide().removeClass("d-flex");
+            $(rootEle).find("table").show();
+            $(ezMallSumary).show();
+            if (checkedInput.length == items.length) {
+                $(tableHead).find("#cart-select-all-product").prop("checked", true)
+            }
+        }
+        for (let i = 0; i < items.length; i++) {
+            let quantity = $(items[i]).find(".ezMall-item-quantity").val();
+            let price = $(items[i]).find(".ezMall-item-price").html();
+            let isCheck = $(items[i]).find(".ezMall-cart-item-check").is(':checked');
+            if (isCheck) {
+                totalCost += (Number)(price) * quantity;
+            } else {
+                $(tableHead).find("#cart-select-all-product").prop("checked", false)
+            }
+        }
+        $(ezMallSumary).find(".ezMallSumary-total-cost").html(totalCost);
+    }
+    function insertData(data, tableHead, tableBody, ezMallSumary, rootEle) {
 
-            </th>
-            <th scope="col">
-                <div class="d-flex align-items-center justify-content-center">Số lượng</div>
-            </th>
-            <th scope="col">
-                <div class="d-flex align-items-center justify-content-center">Thành tiền</div>
-            </th>
-            <th scope="col">
-                <div class="d-flex justify-content-center align-items-center" style="">
-                    <button type="button" class="btn fa fa-trash  text-danger" data-toggle="button"
-                        aria-pressed="false" autocomplete="off" style="height: 29px;padding: 0px 10px;">
-                    </button>
-                </div>
-            </th>
-        </tr>                           
-        `
-        tableHead.insertAdjacentHTML("beforeend", headHtml);
+        $(ezMallSumary).find("#ezMall-cart-sumary-unchecked-all").click(() => {
+            let checkedInput = $(tableBody).find(".ezMall-cart-item .ezMall-cart-item-check:checked ")
+            for (let i = 0; i < checkedInput.length; i++) {
+                $(checkedInput[i]).prop("checked", false);
+            }
+            calculateTotal(tableBody, tableHead, ezMallSumary, rootEle);
+        })
 
-         $(tableHead).find("button").click(()=>{
-             $(tableBody).html("")
-         });
+        $(tableHead).find(".ezMall-head-remove-all-items").click(() => {
+            $(tableBody).html("")
+            $(tableHead).find("#cart-select-all-product").prop('checked', false);
+            calculateTotal(tableBody, tableHead, ezMallSumary, rootEle);
+        });
 
+        $(tableHead).find("#cart-select-all-product").click((e) => {
+            var checkBox = $(tableBody).find(".ezMall-cart-item .ezMall-cart-item-check");
+            for (let i = 0; i < checkBox.length; i++) {
+                $(checkBox[i]).prop('checked', e.target.checked)
+            }
+            calculateTotal(tableBody, tableHead, ezMallSumary, rootEle)
+        })
+
+        let totalCostInit = 0;
         data.forEach(element => {
-            let totalPrice = (Number)(element.quantity) * (Number)(element.price) 
-            const rowHtml = 
-            `
-            <tr id  = ${element.productVariantId} >
+            let totalPrice = (Number)(element.quantity) * (Number)(element.price)
+            totalCostInit += totalPrice;
+            const rowHtml =
+                `
+            <tr id  = ${element.productVariantId} class= "ezMall-cart-item" >
                 <th class="name">
                     <div class="form-check">
                         <div class="row">
                             <div class="col-auto d-flex align-items-center">
-                                <input class="form-check-input" type="checkbox" value="">
+                                <input class="form-check-input ezMall-cart-item-check" type="checkbox" id=${"check-" + element.productVariantId} name=${"check-" + element.productVariantId} value="">
                             </div>
                             <div class="col-md-11 col-8">
                                 <div class="row">
@@ -96,7 +113,7 @@ export default function loadBlockCart(editor, opt = {}) {
                                             style="width: 100px;">
                                     </div>
                                     <div class="col-xl-8 row d-flex flex-column justify-content-center">
-                                        <div class="p-0 justify-content-center text-center"> ${element.name}</div>
+                                        <div class="p-0 justify-content-center text-center my-3"> ${element.name}</div>
                                         <div class="p-0 justify-content-center text-center"> ${element.description}</div>
                                     </div>
                                 </div>
@@ -105,22 +122,27 @@ export default function loadBlockCart(editor, opt = {}) {
                     </div>
                 </th>
                 <td class="price">
-                    <div class="d-flex justify-content-center align-items-center" style="height:100px">
-                        ${element.price}
+                    <div class=" d-flex justify-content-center align-items-center " style="height:100px">
+                    <div class="ezMall-item-price px-1"> ${element.price} </div>    
+                    <div class= "ezMall-item-price-type">
+                        USD
                     </div>
+                    
                 </td>
                 <td class="quantity">
                     <div class=" d-flex justify-content-center align-items-center" style="height:100px">
-                        <input type="number" id=${ "val-" + element.productVariantId} class="form-control" value=${element.quantity}
+                        <input type="number" min="0" id=${"val-" + element.productVariantId} class="form-control ezMall-item-quantity" value=${element.quantity}
                             style="min-width: 70px; width: 70px;" />
+
                     </div>
                 </td>
-                <td class="total  justify-content-center align-items-center">
-                    <div class="d-flex justify-content-center align-items-center" style="height:100px">${totalPrice}</div>
+                <td class="ezMall-item-total justify-content-center align-items-center">
+                    <div class="d-flex justify-content-center align-items-center" style="height:100px">${totalPrice} USD</div>
+                    
                 </td>
                 <th scope="col">
                     <div class="d-flex justify-content-center align-items-center" style="height:100px">
-                        <button type="button" onClick=removeBtn(${element.productVariantId}) class="btn fa fa-trash" data-toggle="button" aria-pressed="false"
+                        <button type="button"  class="ezMall-cart-item-delete btn fa fa-trash" data-toggle="button" aria-pressed="false"
                             autocomplete="off" style="height: 29px;padding: 0px 10px;">
                         </button>
                     </div>
@@ -128,13 +150,30 @@ export default function loadBlockCart(editor, opt = {}) {
             </tr>                           
                                     
             `
+
             tableBody.insertAdjacentHTML("beforeend", rowHtml);
-            $(tableBody).find( `#${element.productVariantId} input`).change(()=>{
-                debugger
-                let currentQuantity = $(tableBody).find( `input#val-${element.productVariantId}`).val()
-                $(tableBody).find( `#${element.productVariantId} .total div`).html((Number)(element.price)* currentQuantity)
+
+
+            $(tableBody).find(`#${element.productVariantId} button.ezMall-cart-item-delete`).click(() => {
+                let itemRemove = $(tableBody).find(`#${element.productVariantId}`)
+                $(itemRemove).fadeOut(200).remove();
+                let totalCost = 0;
+                let items = $(tableBody).find(".ezMall-cart-item ");
+                calculateTotal(tableBody, tableHead, ezMallSumary, rootEle)
+            })
+
+            $(tableBody).find(`#${element.productVariantId} input.ezMall-item-quantity`).change(() => {
+                let currentQuantity = $(tableBody).find(`input#val-${element.productVariantId}`).val()
+                $(tableBody).find(`#${element.productVariantId} .ezMall-item-total div`).html((Number)(element.price) * currentQuantity + " USD")
+                let items = $(tableBody).find(".ezMall-cart-item ");
+                let totalCost = 0;
+                calculateTotal(tableBody, tableHead, ezMallSumary, rootEle)
             });
-        });  
+
+            $(tableBody).find(`#${element.productVariantId} input.ezMall-cart-item-check`).change(() => {
+                calculateTotal(tableBody, tableHead, ezMallSumary, rootEle)
+            });
+        });
     }
     //THIS IS SETTING COMPONENT
     domc.addType("Cart", {
@@ -163,6 +202,10 @@ export default function loadBlockCart(editor, opt = {}) {
                         type: "padding-setting",
                         typeSetting: "padding-right"
                     },
+                    {
+                        label: "Heading",
+                        type: "Heading"
+                    }
                 ],
                 // This is default attributes
                 attributes: {
@@ -188,17 +231,18 @@ export default function loadBlockCart(editor, opt = {}) {
 
             },
         },
-        view: { 
+        view: {
             async Update() {
-                
-                let table = $(this.el).find(`table `)[0]
+
+                let rootEle = $(this.el)
                 let tableHead = $(this.el).find(`table thead`)[0];
                 let tableBody = $(this.el).find(`table tbody`)[0];
                 let ezMallSumary = $(this.el).find(`.ezMallSumary`)[0];
-                console.log(table);
-                console.log(tableHead)
-                console.log(tableBody)
-                insertData(defaultData,tableHead, tableBody,ezMallSumary)
+
+                insertData(defaultData, tableHead, tableBody, ezMallSumary, rootEle)
+
+
+
             },
             init() {
                 this.listenTo(this.model, 'change:attributes:data', this.Update)
@@ -212,7 +256,9 @@ export default function loadBlockCart(editor, opt = {}) {
                 return this;
             },
             onRender() {
+
                 this.Update()
+
             },
         },
     });
@@ -235,14 +281,14 @@ export default function loadBlockCart(editor, opt = {}) {
             {
                 name: 'Cart',
                 type: "Cart",
-                attributes: { class: "" },
+                attributes: { class: ""},
                 components: [
                     {
-                        attributes: { class: "" },
+                        attributes: { class: "container" },
                         tagName: "h2",
                         name: "Cart Tittle",
                         style: { "text-align": "center", "font-weight": "bold", "padding": "0px" },
-                        content: `SHOPPING CART`,
+                        content: `SHOCARTPPING `,
                         layerable: false,
                         hoverable: false,
                         selectable: false,
@@ -262,38 +308,70 @@ export default function loadBlockCart(editor, opt = {}) {
                         droppable: false,
                         draggable: false,
                         content:
-                            `
+                        `
+                        <hr> 
+                        <div  class=" flex-column justify-content-center align-items-center" id="ezMall-cart-zero-item" style = "display:none; height:70vh">
+                            <h3>
+                                Bạn đang không có sản phẩm nào>
+                            </h3>
+                            <button class = "btn btn-lg btn-primary mt-2"> 
+                                Shopping now
+                            </button>
+                        </div>
                         <table class="table ezMallCart">
                             <thead>
-                                
+                                <tr>
+                                    <th scope="col">
+                                        <div class="form-check">
+                                            <div class="row">
+                                                <div class="col-auto d-flex align-items-center">
+                                                    <input id="cart-select-all-product" class="form-check-input" type="checkbox" value="">
+                                                </div>
+                                                Tất cả sản phẩm
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="d-flex align-items-center justify-content-center"> Đơn giá</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="d-flex align-items-center justify-content-center">Số lượng</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="d-flex align-items-center justify-content-center">Thành tiền</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="d-flex justify-content-center align-items-center" style="">
+                                            <a type="button" class="ezMall-head-remove-all-items btn fa fa-trash  text-danger" data-toggle="button"
+                                                aria-pressed="false" autocomplete="off">
+                                            </a>
+                                        </div>
+                                    </th>
+                                </tr>   
                             </thead>
                             <tbody>
                                 
                             </tbody>
                         </table>
-                        <hr>
+        
                         <div class="ezMallSumary row px-2 py-3" style="font-size: 16px; font-family: "Segoe UI";">
-                            <div class="col-3  d-flex align-items-center">
-                                <div class="form-check">
-                                    <div class="row font-weight-bold  d-flex align-items-center">
-                                        <div class="col-auto d-flex align-items-center">
-                                            <input class="form-check-input" type="checkbox" value="" id="1">
-                                        </div>
-                                        CHỌN TẤT CẢ
-                                    </div>
+                            <div class="col-4 font-weight-bold d-flex align-items-center ">
+                                <a class = "btn " id = "ezMall-cart-sumary-unchecked-all">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                    <span style = "font-weight: bold"> 
+                                        Bỏ chọn tất cả
+                                    </span>
+                                </a>
+                            </div>
+                            <div class="col-4 d-flex align-items-center font-weight-bold  justify-content-center">
+                                Tổng: 
+                                <span class="ezMallSumary-total-cost px-2"> 0</span>
+                                <div class= "ezMall-item-price-type">
+                                    USD
                                 </div>
                             </div>
-                            <div class="col-2 font-weight-bold d-flex align-items-center ">
-                                    <button type="button" class="btn fa fa-trash font-weight-bold" data-toggle="button" aria-pressed="false"
-                                        autocomplete="off" style="height: 29px;padding: 0px 10px;">
-                                        BỎ CHỌN
-                                    </button>
-                            </div>
-                            <div class="ezMallSumary-Total col-4 d-flex align-items-center font-weight-bold  justify-content-center">
-                                Tổng: XXX . XXX . XXX
-                            </div>
-                            <div class="col-3  d-flex align-items-center justify-content-end ">
-                                <button type="button" class="btn btn-warning btn-lg text-light font-weight-bolder">Mua hàng</button>
+                            <div class="col-4  d-flex align-items-center justify-content-end ">
+                                <button type="button" class="btn btn-warning btn-lg text-light font-weight-bold">Thanh toán</button>
                             </div>
                         </div>
                         <hr>

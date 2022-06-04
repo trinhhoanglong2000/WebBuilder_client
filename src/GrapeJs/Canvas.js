@@ -21,6 +21,7 @@ import {
   doAddTargetImage,
   doRenderImage
 } from "../redux/slice/storeSlice";
+import Swal from 'sweetalert2'
 
 function Canvas({ type }) {
   const dispatch = useDispatch();
@@ -35,6 +36,8 @@ function Canvas({ type }) {
   const template = useSelector((state) => state.store.templateName)
   const token = readCookie('token');
 
+  const Swal = require('sweetalert2')
+  
   const getPlugins = () => {
     return ["Plugins-defaults", "template-default"];
     // return ["Plugins-defaults", "template-default", "gjs-blocks-basic"];
@@ -219,7 +222,21 @@ function Canvas({ type }) {
               editor.on("storage:end:store", function () {
                 setIsSaving(false);
               });
-
+              
+              editor.on("asset:add", (asset, b, c) => {
+                let isImage = asset.get('src').includes('data:image');
+                if (!isImage) {
+                  editor.AssetManager.close()
+                  editor.AssetManager.remove(asset.get('src'))
+                  Swal.fire({
+                    icon: 'error',
+                    title: 'File  Error',
+                    text: 'This file is not image!',
+                  }).then((result) => {
+                    editor.AssetManager.open()
+                  })
+                } 
+              });
             }}
             canvas={{
               styles: [

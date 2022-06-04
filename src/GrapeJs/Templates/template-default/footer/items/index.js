@@ -385,6 +385,45 @@ export default function loadBlockFooterItem(editor, opt = {}) {
     },
   })
 
+  editor.TraitManager.addType("footer-menu-advance-setting", {
+    createInput({ trait }) {
+      const el = document.createElement("div");
+      const isOneRow = trait.target
+        .getAttributes()
+        .class.includes('one-row');
+
+      el.innerHTML = `
+                <div class="gjs-one-bg">
+                    <label class="checkbox-product gjs-label-wrp">
+                        <input class ="checkbox-input footer-menu-one-row" type="checkbox" id="border">
+                        <div class="checkbox_box"></div>
+                        Display this menu  in one row
+                    <label/>
+                </div>
+            `;
+
+      $(el).find("input.footer-menu-one-row").prop("checked", isOneRow);
+
+      return el;
+    },
+
+    onEvent({ elInput, component, event }) {
+      const isOneRow = elInput.querySelector("input.footer-menu-one-row").checked;
+
+      if (isOneRow) {
+        component.setAttributes({
+          ...component.getAttributes(),
+          class: "one-row",
+        });
+      } else {
+        component.setAttributes({
+          ...component.getAttributes(),
+          class: "col-md",
+        });
+      }
+    },
+  });
+
   editor.TraitManager.addType('footer-upload-image', {
     createInput({ trait }) {
       const initValue = trait.target.view.el.querySelector("img").src;
@@ -434,6 +473,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
   dc.addType("footer-quick-link", {
     model: {
       defaults: {
+        attributes: { oneRow: false },
         traits: [
           {
             type: "footer-menu-collection",
@@ -443,6 +483,10 @@ export default function loadBlockFooterItem(editor, opt = {}) {
             type: "footer-heading",
             label: "Quick link heading",
             placeholder: "Heading"
+          },
+          {
+            type: "footer-menu-advance-setting",
+            label: "Advance setting",
           }
         ],
       },
@@ -473,8 +517,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
           },
         ];
         const id = this.model.attributes.attributes["menu-collection"];
-        if (!id) return;
-        fetch(`${process.env.REACT_APP_API_URL}menu/${id}`)
+        id && fetch(`${process.env.REACT_APP_API_URL}menu/${id}`)
           .then((response) => response.json())
           .then((response) => {
             if (response.data?.listMenuItem) {

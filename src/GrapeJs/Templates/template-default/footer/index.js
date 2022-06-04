@@ -1,10 +1,13 @@
 import $ from "jquery";
 import loadBlockFooterItem from "./items";
+import Swal from 'sweetalert2'
 
 export default function loadBlockFooter(editor, opt = {}) {
   const c = opt;
   const bm = editor.BlockManager;
   const dc = editor.DomComponents;
+
+  const Swal = require('sweetalert2')
 
   loadBlockFooterItem(editor, opt);
 
@@ -270,7 +273,19 @@ export default function loadBlockFooter(editor, opt = {}) {
       const instagram = editor.getSelected().get("components").models[1];
       $(el).find("input.footer-instagram-link").on('input', function () {
         const value = $(this).val();
-        instagram.setAttributes({ ...instagram.getAttributes(), 'href': value })
+        
+        let regex = new RegExp("((http|https)://)?(www[.])?instagram.com/.+");
+        let isInstagramLink = !!regex.test(value);
+
+        if (isInstagramLink) {
+          instagram.setAttributes({ ...instagram.getAttributes(), 'href': value })
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Link  Error',
+            text: 'This is not a instagram link!',
+          })
+        }
       });
 
       $(el).find("input.footer-instagram-check").prop('checked', initValue);
@@ -317,7 +332,19 @@ export default function loadBlockFooter(editor, opt = {}) {
       const facebook = editor.getSelected().get("components").models[2];
       $(el).find("input.footer-facebook-link").on('input', function () {
         const value = $(this).val();
-        facebook.setAttributes({ ...facebook.getAttributes(), 'href': value })
+
+        let regex = new RegExp("((http|https)://)?(www[.])?facebook.com/.+");
+        let isFacebookLink = !!regex.test(value);
+
+        if (isFacebookLink) {
+          facebook.setAttributes({ ...facebook.getAttributes(), 'href': value })
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Link  Error',
+            text: 'This is not a facebook link!',
+          })
+        }
       });
 
       $(el).find("input.footer-facebook-check").prop('checked', initValue);

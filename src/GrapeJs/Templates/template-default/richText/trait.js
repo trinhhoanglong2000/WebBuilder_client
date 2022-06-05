@@ -609,6 +609,9 @@ export default function loadTraitRichText(editor, opt = {}) {
 
       const updateUI = (data) => {
         let _data = []
+        let domdata = "";
+        let count =0;
+
         if (State == "Collections") {
           _data = data.data.map(ele => {
             return {
@@ -617,6 +620,17 @@ export default function loadTraitRichText(editor, opt = {}) {
               thumbnail: ele.thumbnail
             }
           })
+          if (_data.length!==0) {
+            count=1;
+            domdata+=`
+            <li data-value ="${State.toLowerCase()}" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
+            ${Collection_icon}
+            <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
+            ${`All collections`}
+            </span>
+            </li>    
+            `
+          }
         }
         else if (State=="Products"){
           _data = data.data.map(ele => {
@@ -626,8 +640,18 @@ export default function loadTraitRichText(editor, opt = {}) {
               thumbnail: ele.thumbnail
             }
           })
+          if (_data.length!=0) {
+            count=1;
+            domdata+=`
+            <li data-value ="${State.toLowerCase()}" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
+            ${Products_icon}
+            <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
+            ${`All products`}
+            </span>
+            </li>    
+            `
+          }
         }
-        let domdata = "";
         _data.forEach((element) => {
           const img = element.thumbnail ? `
         <img style= "width:25px;height:25px;min-width:25px;" src="${element.thumbnail}">
@@ -654,7 +678,7 @@ export default function loadTraitRichText(editor, opt = {}) {
       </li>
       `
         }
-        $(el).find('#result').text(`${_data.length} results`)
+        $(el).find('#result').text(`${_data.length+count} results`)
         $(el).find("#Link-menu").empty().append(domdata);
 
         $(el).find('#Link-menu li').on('click', function () {
@@ -724,6 +748,12 @@ export default function loadTraitRichText(editor, opt = {}) {
 
       })
       $(el).find('input').focusout(function (e) {
+        if (previousValue=="")
+        {
+          $(el).find('input').css('padding-left', '');
+          $(el).find('#delete_icon').css("display", "none")
+        }
+
         $(el).find('ul').addClass('combobox-hidden')
         setTimeout(() => {
           if (!clicked) {
@@ -757,7 +787,7 @@ export default function loadTraitRichText(editor, opt = {}) {
         return
       }
       const value = event.valueHref ? event.valueHref : '#'
-      component.setAttributes({ ...component.getAttributes(), 'href': value })
+      component.setAttributes({ ...component.getAttributes(), 'href': `/${value}` })
       component.set('traitValue', event.traitValue)
 
     },

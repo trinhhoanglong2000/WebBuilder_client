@@ -1,6 +1,7 @@
-// import loadTraitMolumnLink from "./trait"
 import loadBlockColumnItem from "./columnItem";
 import loadTraitMulticolumnItem from "./trait";
+import { MULTICOLUMN_LABEL } from "../../../../asset/icon/svg";
+
 export default function loadBlockMulticolumn(editor, opt = {}) {
   const c = opt;
   let bm = editor.BlockManager;
@@ -103,33 +104,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
   bm.add("multicolumn", {
     // THIS IS HTML DISPLAY ON THE LEFT (BLOCK BAR)
     label: `
-    <svg width="45" height="45" viewBox="0 0 280 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <mask id="path-1-inside-1_1130_99" fill="white">
-      <rect x="31" y="31" width="218" height="217" rx="2"/>
-      </mask>
-      <rect x="31" y="31" width="218" height="217" rx="2" fill="white" stroke="black" stroke-width="12" mask="url(#path-1-inside-1_1130_99)"/>
-      <mask id="path-2-inside-2_1130_99" fill="white">
-      <rect x="57" y="82" width="76" height="67" rx="2"/>
-      </mask>
-      <rect x="57" y="82" width="76" height="67" rx="2" fill="white" stroke="black" stroke-width="12" mask="url(#path-2-inside-2_1130_99)"/>
-      <mask id="path-3-inside-3_1130_99" fill="white">
-      <rect x="57" y="166" width="76" height="67" rx="2"/>
-      </mask>
-      <rect x="57" y="166" width="76" height="67" rx="2" fill="white" stroke="black" stroke-width="12" mask="url(#path-3-inside-3_1130_99)"/>
-      <mask id="path-4-inside-4_1130_99" fill="white">
-      <rect x="148" y="82" width="76" height="67" rx="2"/>
-      </mask>
-      <rect x="148" y="82" width="76" height="67" rx="2" fill="white" stroke="black" stroke-width="12" mask="url(#path-4-inside-4_1130_99)"/>
-      <mask id="path-5-inside-5_1130_99" fill="white">
-      <rect x="148" y="166" width="76" height="67" rx="2"/>
-      </mask>
-      <rect x="148" y="166" width="76" height="67" rx="2" fill="white" stroke="black" stroke-width="12" mask="url(#path-5-inside-5_1130_99)"/>
-      <mask id="path-6-inside-6_1130_99" fill="white">
-      <rect x="84" y="53" width="112" height="12" rx="5"/>
-      </mask>
-      <rect x="84" y="53" width="112" height="12" rx="5" fill="#171717" stroke="black" stroke-width="12" mask="url(#path-6-inside-6_1130_99)"/>
-      <line x1="220" y1="212" x2="220" y2="232" stroke="black" stroke-width="6"/>
-    </svg>
+    ${MULTICOLUMN_LABEL}
     <div>Multicolumn</div> `,
     category: c.multicolumn,
     draggable: ".main-content",

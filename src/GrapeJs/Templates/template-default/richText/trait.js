@@ -1,8 +1,15 @@
 import $ from "jquery";
 import Quill from "quill";
-import AbortController from "abort-controller";
 import { readCookie } from "../../../../helper/cookie";
 import { validURL } from "../../../../helper/utils";
+import { COLLECTION_ICON,
+  PRODUCTS_ICON,
+  PAGES_ICON,
+  PRIVACY_ICON,
+  URL_ICON, 
+  BACK_BUTTON_ICON,
+  DELETE_BUTTON_ICON,
+  NO_IMAGE_ICON } from "../../../../asset/icon/svg";
 
 export default function loadTraitRichText(editor, opt = {}) {
 
@@ -381,49 +388,35 @@ export default function loadTraitRichText(editor, opt = {}) {
 
       }, 200)
       const _this = this;
-      const initValue = trait.target.attributes.traitValue.split(/;(.*)/s) || "";
+      const initValue = trait.target.attributes.traitValue?.split(/;(.*)/s) || "";
       let defaultIcons = ""
       const el = document.createElement("div");
       let clicked = false
       let previousValue = initValue[1] || ""
-      const Collection_icon = `<svg style =" width:25px;height:25px;min-width:25px;" 
-      viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path d="M6.948.001c.394 0 .772.159 1.052.439l1.477 1.68-3.638 4.12a3.568 3.568 0 0 0-.872 2.33v9.43h-2.48a1.48 1.48 0 0 1-1.051-.44 1.507 1.507 0 0 1-.436-1.06v-9.88a1.497 1.497 0 0 1 .377-1l3.48-4 1.04-1.18a1.48 1.48 0 0 1 1.052-.439zm7.092 2.439 4.58 5.13c.247.275.383.631.381 1v9.93c0 .399-.159.78-.441 1.062a1.51 1.51 0 0 1-1.065.439h-9.039a1.509 1.509 0 0 1-1.033-.457 1.497 1.497 0 0 1-.423-1.044v-9.88a1.487 1.487 0 0 1 .382-1l3.524-4.001 1.005-1.18a1.51 1.51 0 0 1 2.128 0zm-1.9 5.807a1.51 1.51 0 0 0 1.901-.186 1.497 1.497 0 0 0-.489-2.447 1.512 1.512 0 0 0-1.641.325 1.498 1.498 0 0 0 .228 2.308z"></path></svg>          
-      `
-      const Products_icon = `<svg style =" width:25px;height:25px;min-width:25px;" 
-      viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path d="M10.293 1.293a1 1 0 0 1 .707-.293h7a1 1 0 0 1 1 1v7a1 1 0 0 1-.293.707l-9 9a1 1 0 0 1-1.414 0l-7-7a1 1 0 0 1 0-1.414l9-9zm5.207 4.707a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"></path></svg>
-      `
-      const Pages_icon = `<svg  style =" width:25px;height:25px;min-width:25px;" 
-      viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path d="M12.44.44a1.5 1.5 0 0 0-1.062-.44h-6.878a1.5 1.5 0 0 0-1.5 1.5v17a1.5 1.5 0 0 0 1.5 1.5h11a1.5 1.5 0 0 0 1.5-1.5v-12.879a1.5 1.5 0 0 0-.44-1.06l-4.12-4.122z"></path></svg>
-      `
-      const Privacy_icon = `<svg style =" width:25px;height:25px;min-width:25px;" 
-      viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path d="M7 5h5v2h-5v-2zm5 4h-5v2h5v-2z"></path><path fill-rule="evenodd" d="M16 17a3 3 0 0 1-3 3h-10a3 3 0 0 1-3-3v-1.5a1.5 1.5 0 0 1 1.5-1.5h1.5v-10a3 3 0 0 1 3-3h11a3 3 0 1 1 0 6h-1v10zm-11-13a1 1 0 0 1 1-1h8.17c-.11.313-.17.65-.17 1v13a1 1 0 1 1-2 0v-3h-7v-10zm12-1a1 1 0 0 0-1 1v1h1a1 1 0 1 0 0-2zm-7 14c0 .35.06.687.17 1h-7.17a1 1 0 0 1-1-1v-1h8v1z"></path></svg>
-      `
-      const URL_icon =`<svg style =" width:25px;height:25px;min-width:25px;" 
-      viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path d="M11 4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v4a1 1 0 1 1-2 0v-1.586l-5.293 5.293a1 1 0 0 1-1.414-1.414l5.293-5.293h-1.586a1 1 0 0 1-1-1zm-8 2.5a1.5 1.5 0 0 1 1.5-1.5h3.5a1 1 0 0 1 0 2h-3v8h8v-3a1 1 0 1 1 2 0v3.5a1.5 1.5 0 0 1-1.5 1.5h-9a1.5 1.5 0 0 1-1.5-1.5v-9z"></path></svg>`
-      
+
       if (initValue[0] == "Collections") {
-        defaultIcons = Collection_icon
+        defaultIcons = COLLECTION_ICON
       }
       else if (initValue[0] == "Products") {
-        defaultIcons = Products_icon
+        defaultIcons = PRODUCTS_ICON
 
       }
       else if (initValue[0] == "Pages") {
-        defaultIcons = Pages_icon
+        defaultIcons = PAGES_ICON
 
       }
       else if (initValue[0] == "Privacy") {
-        defaultIcons = Privacy_icon
+        defaultIcons = PRIVACY_ICON
 
       }
       else if (initValue[0]=="_URL_LINK")
       {
-        defaultIcons =URL_icon
+        defaultIcons =URL_ICON
       }
       const defaultMenu_Collection = `
       
         <li data-value ="Collections" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
-          ${Collection_icon}
+          ${COLLECTION_ICON}
           <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
             Collections
           </span>
@@ -431,21 +424,21 @@ export default function loadTraitRichText(editor, opt = {}) {
       `
       const defaultMenu_Products = `
         <li data-value ="Products" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
-        ${Products_icon}  
+        ${PRODUCTS_ICON}  
         <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
             Products
           </span>
         </li>`
       const defaultMenu_Pages = `
         <li data-value ="Pages" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
-        ${Pages_icon}  
+        ${PAGES_ICON}  
         <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
             Pages
           </span>
         </li>    `
       const defaultMenu_Privacy = ` 
         <li data-value ="Privacy" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
-        ${Privacy_icon}
+        ${PRIVACY_ICON}
         <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
             Privacy Policy
           </span>
@@ -453,8 +446,7 @@ export default function loadTraitRichText(editor, opt = {}) {
         `
       const Backbutton = ` <li id="Back-btn"class="btn d-none  " style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex;justify-content: space-between; align-items:center">
       <span>
-      <svg style =" width:20px;height:20px;" 
-      xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M31.7 239l136-136c9.4-9.4 24.6-9.4 33.9 0l22.6 22.6c9.4 9.4 9.4 24.6 0 33.9L127.9 256l96.4 96.4c9.4 9.4 9.4 24.6 0 33.9L201.7 409c-9.4 9.4-24.6 9.4-33.9 0l-136-136c-9.5-9.4-9.5-24.6-.1-34z"/></svg>
+      ${BACK_BUTTON_ICON}
       Back
       </span>
       <span id="result" class="d-none d-xl-inline" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px;font-size: 10px;font-style: italic">
@@ -469,8 +461,7 @@ export default function loadTraitRichText(editor, opt = {}) {
           </div>
           <input style = "${previousValue === '' ? '' : 'padding-left: 39px;padding-right:25px'}" type="text" id="state" value="${previousValue}" size="10" placeholder="Paste a link or search" autocomplete="off">
           <div id="delete_icon" class="" style= " z-index: 2; position: absolute; right: 0;margin-right: 5px;${previousValue === '' ? 'display:none' : ''}" >
-          <svg  style =" width:20px;height:20px;" 
-          viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path fill-rule="evenodd" d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm-2.293 4.293a1 1 0 0 0-1.414 1.414l2.293 2.293-2.293 2.293a1 1 0 1 0 1.414 1.414l2.293-2.293 2.293 2.293a1 1 0 1 0 1.414-1.414l-2.293-2.293 2.293-2.293a1 1 0 0 0-1.414-1.414l-2.293 2.293-2.293-2.293z"></path></svg>
+          ${DELETE_BUTTON_ICON}
           </div>
         </div>
         <ul class="combobox-hidden">
@@ -497,7 +488,7 @@ export default function loadTraitRichText(editor, opt = {}) {
           let domdata = "";
           domdata += `
           <li data-value ="${1}" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
-          ${URL_icon}
+          ${URL_ICON}
           <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
               ${name}
           </span>
@@ -529,7 +520,7 @@ export default function loadTraitRichText(editor, opt = {}) {
               $(el).find('input').css('padding-left', '');
               $(el).find('#delete_icon').css("display", "none")
             }
-            $(el).find('#icons').empty().append(URL_icon)
+            $(el).find('#icons').empty().append(URL_ICON)
 
             _this.onChange({ valueHref: name, traitValue: `${"_URL_LINK"};${previousValue}` })
 
@@ -631,11 +622,8 @@ export default function loadTraitRichText(editor, opt = {}) {
         _data.forEach((element) => {
           const img = element.thumbnail ? `
         <img style= "width:25px;height:25px;min-width:25px;" src="${element.thumbnail}">
-        `: `
-        <svg style =" width:25px;height:25px;min-width:25px;" 
-          viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path fill-rule="evenodd" d="M1 2.5a1.5 1.5 0 0 1 1.5-1.5h15a1.5 1.5 0 0 1 1.5 1.5v12a1.5 1.5 0 0 1-1.5 1.5h-15a1.5 1.5 0 0 1-1.5-1.5v-12zm8 2.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm6.57 9h-11.143c-.351 0-.548-.368-.343-.632l3.046-3.24a.448.448 0 0 1 .617-.009l1.396 1.481 2.623-3.825a.446.446 0 0 1 .72.016l3.462 5.609c.154.272-.052.6-.377.6z"></path><path d="M6 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm5-1a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path></svg>
-          
-        `
+        `: NO_IMAGE_ICON
+
           domdata += `
           <li data-value ="${State.toLowerCase()}/${element.id}" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
           ${img}
@@ -673,18 +661,18 @@ export default function loadTraitRichText(editor, opt = {}) {
             $(el).find('#delete_icon').css("display", "block")
 
             if (State == "Collections") {
-              $(el).find('#icons').empty().append(Collection_icon)
+              $(el).find('#icons').empty().append(COLLECTION_ICON)
             }
             else if (State == "Products") {
-              $(el).find('#icons').empty().append(Products_icon)
+              $(el).find('#icons').empty().append(PRODUCTS_ICON)
 
             }
             else if (State == "Pages") {
-              $(el).find('#icons').empty().append(Pages_icon)
+              $(el).find('#icons').empty().append(PAGES_ICON)
 
             }
             else if (State == "Privacy") {
-              $(el).find('#icons').empty().append(Privacy_icon)
+              $(el).find('#icons').empty().append(PRIVACY_ICON)
 
             }
           }

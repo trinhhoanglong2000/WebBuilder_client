@@ -594,7 +594,7 @@ export default function loadTraitRichText(editor, opt = {}) {
             url = `stores/${opt.storeId}/products?title=${name.trim()}`
           }
           else if (State == "Pages") {
-
+            url = `stores/${opt.storeId}/pages?is_default=false&name=${name.trim()}`
           }
           else if (State == "Privacy") {
 
@@ -611,7 +611,6 @@ export default function loadTraitRichText(editor, opt = {}) {
         let _data = []
         let domdata = "";
         let count =0;
-
         if (State == "Collections") {
           _data = data.data.map(ele => {
             return {
@@ -652,6 +651,16 @@ export default function loadTraitRichText(editor, opt = {}) {
             `
           }
         }
+        else if (State=="Pages"){
+          _data = data.data.map(ele => {
+            return {
+              name: ele.name,
+              url : ele.page_url,
+            }
+          })
+
+        }
+        
         _data.forEach((element) => {
           const img = element.thumbnail ? `
         <img style= "width:25px;height:25px;min-width:25px;" src="${element.thumbnail}">
@@ -660,9 +669,11 @@ export default function loadTraitRichText(editor, opt = {}) {
           viewBox="0 0 20 20" class="Polaris-Icon__Svg_375hu" focusable="false" aria-hidden="true"><path fill-rule="evenodd" d="M1 2.5a1.5 1.5 0 0 1 1.5-1.5h15a1.5 1.5 0 0 1 1.5 1.5v12a1.5 1.5 0 0 1-1.5 1.5h-15a1.5 1.5 0 0 1-1.5-1.5v-12zm8 2.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm6.57 9h-11.143c-.351 0-.548-.368-.343-.632l3.046-3.24a.448.448 0 0 1 .617-.009l1.396 1.481 2.623-3.825a.446.446 0 0 1 .72.016l3.462 5.609c.154.272-.052.6-.377.6z"></path><path d="M6 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm5-1a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path></svg>
           
         `
+
+        const url = element.url ? element.url.slice(1) : `${State.toLowerCase()}/${element.id}`
           domdata += `
-          <li data-value ="${State.toLowerCase()}/${element.id}" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
-          ${img}
+          <li data-value ="${url}" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
+          ${element.thumbnail !== undefined? img:""}
           <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
               ${element.name}
           </span>

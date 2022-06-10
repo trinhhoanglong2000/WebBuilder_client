@@ -21,7 +21,9 @@ import {
   doAddTargetImage,
   doRenderImage
 } from "../redux/slice/storeSlice";
+import { Customize_icon } from "../asset/icon/svg"
 import Swal from 'sweetalert2'
+import { ContactSupportOutlined } from "@mui/icons-material";
 
 function Canvas({ type }) {
   const dispatch = useDispatch();
@@ -37,7 +39,7 @@ function Canvas({ type }) {
   const token = readCookie('token');
 
   const Swal = require('sweetalert2')
-  
+
   const getPlugins = () => {
     return ["Plugins-defaults", "template-default"];
     // return ["Plugins-defaults", "template-default", "gjs-blocks-basic"];
@@ -56,13 +58,13 @@ function Canvas({ type }) {
   }, []);
 
   useEffect(() => {
-    dispatch(getInitDataStore(storeId)).then(()=>{
+    dispatch(getInitDataStore(storeId)).then(() => {
       setLoading(false);
     })
   }, [storeId]);
 
   const addComponentCssNJs = (editor, listCssFile) => {
-    listCssFile.forEach((ele) => { 
+    listCssFile.forEach((ele) => {
       let canvasDocument = editor.Canvas.getDocument();
       let header = canvasDocument.head;
       let body = canvasDocument.body;
@@ -92,7 +94,7 @@ function Canvas({ type }) {
   const renderImage = (data) => {
     dispatch(doRenderImage(data));
   }
-  
+
   return (
     <>
       {!loading ? (
@@ -145,6 +147,22 @@ function Canvas({ type }) {
             //===============|Do the event listen here|===============
             onInit={(editor) => {
               setEditor(editor);
+              editor.on('undo', (some, argument) => {
+                // do something
+                if (editor.getSelected()) {
+                  editor.getSelected().getTraits().forEach(ele => {
+                    ele.view.onUpdate({ elInput: ele.el, component: editor.getSelected() })
+                  })
+                }
+              })
+              editor.on('redo', (some, argument) => {
+                // do something
+                if (editor.getSelected()) {
+                  editor.getSelected().getTraits().forEach(ele => {
+                    ele.view.onUpdate({ elInput: ele.el, component: editor.getSelected() })
+                  })
+                }
+              })
               editor.on("block:drag:stop", function (dropped_Component) {
                 let droppedComponent = dropped_Component;
 
@@ -167,14 +185,29 @@ function Canvas({ type }) {
               });
 
               editor.onReady(() => {
-                const initStoreData = async() =>{
+                const initStoreData = async () => {
                   await loadStoreComponents(editor, storeId)
-
+                  // ============================= | | =========================== 
+                  const initTraitManger = `
+                  <div class="d-flex flex-column pt-2">
+                    ${Customize_icon}
+                    <div style="border-bottom: 1px solid black;" >
+                    <p class="text-left" style="font-weight:bold; font-size:18px" >Customize your templates</p>
+                    
+                    <p class="text-left" style="font-size:14px;margin-bottom:0.5rem">
+                    Select and drag a block in the sidebar to start.</p >
+                    <p class="text-left" style="font-size:14px"  > Select a component in Canvas to start editing. </p>
+                    </div>
+                  </div>
+                  <div>
+                  </div>
+                  `
+                  $('.gjs-pn-views-container .gjs-trt-header').empty().append(initTraitManger)
                   // ============================= Wrapper =============================================
                   editor.getWrapper().view.el.className = 'wrapper';
                   editor.getWrapper().view.el.style.overflow = 'initial';
                   editor.getWrapper().view.el.style.overflowX = 'initial';
-                  
+
                   // ========================== Load component css file ================================
                   const listComponents = editor.Components.getComponents().models;
                   let listCssFile = [];
@@ -188,7 +221,7 @@ function Canvas({ type }) {
                       listCssFile.push(ele.attributes.name);
                     }
                   });
-                  editor.getWrapper().set({hoverable :false,selectable:false,highlightable :false})
+                  editor.getWrapper().set({ hoverable: false, selectable: false, highlightable: false })
 
                   const style = `strong{font-weight:bold;}`;
                   if (!editor.getCss().includes(style)) editor.addStyle(style);
@@ -205,24 +238,24 @@ function Canvas({ type }) {
                 let header = editor.getComponents().where({ name: 'Header' })[0];
 
                 let storeComponents = {
-                  'header': JSON.stringify(header), 
+                  'header': JSON.stringify(header),
                   'header-html': header.toHTML(),
-                  'footer': JSON.stringify(footer), 
+                  'footer': JSON.stringify(footer),
                   'footer-html': footer.toHTML(),
                   'asset': JSON.stringify(editor.AssetManager.getAll().models),
                 }
 
                 let domWrapper = editor.getWrapper().view.el;
                 let logoImage = domWrapper.querySelector(".navbar-brand img");
-                let logoSrc = (logoImage)? logoImage.src : null;
-                logoSrc = (logoSrc === "data:,")? null : logoSrc; 
-                dispatch(doSaveStoreData({storeId, logoSrc, storeComponents}));
+                let logoSrc = (logoImage) ? logoImage.src : null;
+                logoSrc = (logoSrc === "data:,") ? null : logoSrc;
+                dispatch(doSaveStoreData({ storeId, logoSrc, storeComponents }));
               });
 
               editor.on("storage:end:store", function () {
                 setIsSaving(false);
               });
-              
+
               editor.on("asset:add", (asset, b, c) => {
                 let isImage = asset.get('src').includes('data:image');
                 if (!isImage) {
@@ -235,7 +268,7 @@ function Canvas({ type }) {
                   }).then((result) => {
                     editor.AssetManager.open()
                   })
-                } 
+                }
               });
             }}
             canvas={{
@@ -251,7 +284,7 @@ function Canvas({ type }) {
               ],
             }}
           />
-          {editor && <NavigationPanel setLoading={setIsSaving} listPagesId={listPagesId} setSearchParams={setSearchParams} pageId={pageId}/>}
+          {editor && <NavigationPanel setLoading={setIsSaving} listPagesId={listPagesId} setSearchParams={setSearchParams} pageId={pageId} />}
           {isSaving && <SaveLoad open={isSaving} />}
         </>
       ) : <AvatarLoad load={true}></AvatarLoad>}

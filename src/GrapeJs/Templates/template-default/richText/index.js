@@ -4,9 +4,9 @@ export default function loadBlockRichText(editor, opt = {}) {
   const c = opt;
   let bm = editor.BlockManager;
   //#region productList
-  loadTraitRichText(editor,c)
-  loadComponentsRichText(editor,c)
-  
+  loadTraitRichText(editor, c)
+  loadComponentsRichText(editor, c)
+
 
   bm.add("RichText", {
     label: `
@@ -14,9 +14,9 @@ export default function loadBlockRichText(editor, opt = {}) {
     category: c.label_rich_text,
     attributes: { class: "fa fa-file-text" },
     content: {
-      style:{
-        'background-color':'white',
-        'color':'rgb(33, 37, 41)',
+      style: {
+        'background-color': 'white',
+        'color': 'rgb(33, 37, 41)',
       },
       attributes: {
         class: "Rich-Text",
@@ -46,14 +46,14 @@ export default function loadBlockRichText(editor, opt = {}) {
           attributes: {
             class: "rich-text-field",
           },
-          style:{"font-size":"small"},
-    
+          style: { "font-size": "small" },
+
           editable: true,
           droppable: false,
           copyable: false,
 
           draggable: ".Rich-Text",
-    
+
           content: `<p>Share information about your brand with your customers. Describe a product, make announcements, or
           welcome customers to your store.</p>`,
         },
@@ -70,9 +70,16 @@ export default function loadBlockRichText(editor, opt = {}) {
 
           attributes: {
             class:
-              "btn btn-primary align-self-center d-inline-flex justify-content-center align-items-center",
+              "btn align-self-center d-inline-flex justify-content-center align-items-center",
           },
-          style: { "min-width": "7rem", "min-height": "2.5rem" },
+          style: {
+            "min-width": "7rem",
+            "min-height": "2.5rem",
+            'background-color': '#0d6efd',
+            'color': '#fff',
+            'border': '#0d6efd'
+          },
+
         },
       ],
     },
@@ -83,7 +90,7 @@ export default function loadBlockRichText(editor, opt = {}) {
     category: c.label_rich_text,
 
     attributes: { class: "fa fa-header " },
-    content:  {
+    content: {
       name: "Header",
       tagName: "h1",
       content: `Talk about your brand `,
@@ -102,13 +109,13 @@ export default function loadBlockRichText(editor, opt = {}) {
     category: c.label_rich_text,
 
     attributes: { class: "gjs-fonts gjs-f-text" },
-    content:  {
+    content: {
       name: "Text",
       type: "RichText-Text",
       attributes: {
         class: "rich-text-field",
       },
-      style:{"font-size":"small"},
+      style: { "font-size": "small" },
 
       editable: true,
       droppable: false,
@@ -127,7 +134,7 @@ export default function loadBlockRichText(editor, opt = {}) {
     category: c.label_rich_text,
 
     attributes: { class: "gjs-fonts gjs-f-button" },
-    content:   {
+    content: {
       name: "Button",
       type: "RichText-Button",
       tagName: "a",
@@ -140,9 +147,16 @@ export default function loadBlockRichText(editor, opt = {}) {
 
       attributes: {
         class:
-          "btn btn-primary align-self-center d-inline-flex justify-content-center align-items-center",
+          "btn align-self-center d-inline-flex justify-content-center align-items-center",
       },
-      style: { "min-width": "7rem", "min-height": "2.5rem" },
+      style: {
+        "min-width": "7rem",
+        "min-height": "2.5rem",
+        'background-color': '#0d6efd',
+        'color': '#fff',
+        'border': '#0d6efd'
+      },
+
     },
   });
   //#endregion

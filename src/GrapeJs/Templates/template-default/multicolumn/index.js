@@ -1,6 +1,7 @@
-// import loadTraitMolumnLink from "./trait"
 import loadBlockColumnItem from "./columnItem";
 import loadTraitMulticolumnItem from "./trait";
+import { MULTICOLUMN_LABEL } from "../../../../asset/icon/svg";
+
 export default function loadBlockMulticolumn(editor, opt = {}) {
   const c = opt;
   let bm = editor.BlockManager;
@@ -103,11 +104,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
   bm.add("multicolumn", {
     // THIS IS HTML DISPLAY ON THE LEFT (BLOCK BAR)
     label: `
-    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" width="48" height="48" style="padding-left: 3px;">
-<path id="XMLID_469_" d="M315,30H15C6.716,30,0,36.716,0,45v60v180c0,8.284,6.716,15,15,15h300c8.284,0,15-6.716,15-15V105V45
-	C330,36.716,323.284,30,315,30z M150,120v60H30v-60H150z M180,120h120v60H180V120z M30,210h120v60H30V210z M180,270v-60h120v60H180z
-	"></path>
-</svg>
+    ${MULTICOLUMN_LABEL}
     <div>Multicolumn</div> `,
     category: c.multicolumn,
     draggable: ".main-content",

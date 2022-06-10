@@ -1,11 +1,9 @@
-import { v4 as uuidv4 } from "uuid";
-import $ from "jquery";
 import loadTraitColumnItem from "./traint"
+import { COLUMN_ITEM_LABEL } from "../../../../../asset/icon/svg";
 
 export default function loadBlockColumnItem(editor, opt = {}) {
   const c = opt;
   let bm = editor.BlockManager;
-
 
   //LONG-TP 2022-02-22 TEST TRAITS - ADD START
   const domc = editor.DomComponents;
@@ -89,11 +87,7 @@ export default function loadBlockColumnItem(editor, opt = {}) {
   });
   bm.add("ColumnItem", {
     label: `
-    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" style="height: 48px;padding: 7px;"
-    viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
-     <path d="M68.267,0v512h375.467V0H68.267z M375.467,238.933H136.533v-51.2h238.933V238.933z M375.467,136.533H136.533v-51.2
-     h238.933V136.533z"/>
- </svg>
+    ${COLUMN_ITEM_LABEL}
     <div>Column Item</div> `,
     category: c.multicolumn,
 

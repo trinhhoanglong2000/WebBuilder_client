@@ -48,7 +48,7 @@ export default function loadBlockProductPage(editor, opt = {}) {
           content: `
           <div class="Form-input form-outline d-flex w-100 border rounded  ml-1 mr-2 mt-1">
 
-				<input type="search" id="form1" class="form-control pr-0" style="border:none" placeholder="Search" />
+				<input type="search" id="form1" class="form-control pr-0" style="border:none" placeholder="Search" autocomplete="off" />
 				<button type="button" class="btn disabled" aria-disabled="true" class="btn">
 					<i class="fa fa-search" aria-hidden="true"></i>
 				</button>

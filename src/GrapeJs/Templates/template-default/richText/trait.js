@@ -585,7 +585,7 @@ export default function loadTraitRichText(editor, opt = {}) {
             url = `stores/${opt.storeId}/products?title=${name.trim()}`
           }
           else if (State == "Pages") {
-
+            url = `stores/${opt.storeId}/pages?is_default=false&name=${name.trim()}`
           }
           else if (State == "Privacy") {
 
@@ -618,15 +618,26 @@ export default function loadTraitRichText(editor, opt = {}) {
             }
           })
         }
+        else if (State=="Pages"){
+          _data = data.data.map(ele => {
+            return {
+              name: ele.name,
+              url : ele.page_url,
+            }
+          })
+
+        }
         let domdata = "";
         _data.forEach((element) => {
+          const url = element.url ? element.url.slice(1) : `${State.toLowerCase()}/${element.id}`
+
           const img = element.thumbnail ? `
         <img style= "width:25px;height:25px;min-width:25px;" src="${element.thumbnail}">
         `: NO_IMAGE_ICON
 
           domdata += `
-          <li data-value ="${State.toLowerCase()}/${element.id}" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
-          ${img}
+          <li data-value ="${url}" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
+          ${element.thumbnail !== undefined? img:""}
           <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
               ${element.name}
           </span>

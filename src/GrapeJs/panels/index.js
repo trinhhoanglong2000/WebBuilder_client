@@ -1,10 +1,10 @@
-import { callAPIWithPostMethod } from "../../helper/callAPI.js";
-import { validURL } from "../../helper/utils.js";
+
 import {
   cmdDeviceDesktop,
   cmdDeviceTablet,
   cmdDeviceMobile,
   openBlock,
+  save
 } from "../const.js";
 
 
@@ -26,28 +26,7 @@ export default function LoadPanels(editor, config) {
 
   eConfig.showDevices = 0;
 
-  const beforeSaveData = async() => {
-    const asset = editor.AssetManager.getAll().models;
-    const imagesUpload = [];
-    const target = [];
-  
-    asset.forEach((element, index) => {
-      if (!validURL(element.get("src"))) {
-        imagesUpload.push(element.get("src"));
-        target.push(index);
-      } 
-    })
 
-    if (imagesUpload.length > 0) {
-      const response = await callAPIWithPostMethod("files/upload-image-to-s3", { data: imagesUpload }, false);
-  
-      response && response.data && response.data.forEach( (element, index) => {
-        editor.AssetManager.getAll().models[target[index]].set("src", element);
-        
-        config.renderImage({id: asset[target[index]].cid, image: element})
-      }) 
-    }
-  }
 
   pn.getPanels().reset([
     {
@@ -114,11 +93,7 @@ export default function LoadPanels(editor, config) {
         {
           id: "save",
           className: "fa fa-save",
-          command: async(e) => {
-            await beforeSaveData();
-
-            e.store();
-          },
+          command: (e) => e.runCommand(save),
           attributes: { title: 'Save'},
         },
       ],

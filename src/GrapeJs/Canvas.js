@@ -24,7 +24,10 @@ import {
 import { Customize_icon } from "../asset/icon/svg"
 import Swal from 'sweetalert2'
 import { ContactSupportOutlined } from "@mui/icons-material";
+import {
 
+  save
+} from "./const";
 function Canvas({ type }) {
   const dispatch = useDispatch();
   let [searchParams, setSearchParams] = useSearchParams();
@@ -47,6 +50,11 @@ function Canvas({ type }) {
 
   useEffect(() => {
     $(document).ready(function () {
+      document.addEventListener("keydown", function (event) {
+        if (event.ctrlKey) {
+          event.preventDefault();
+        }
+      });
       $(document).on("DOMNodeInserted", function (e) {
         if ($(e.target).hasClass("gjs-off-prv")) {
           $(e.target).click(function () {
@@ -123,6 +131,51 @@ function Canvas({ type }) {
             }
             width="100%"
             height="100vh"
+            keymaps={{
+              defaults: {
+                'core:undo': {
+                  keys: '⌘+z, ctrl+z',
+                  handler: 'core:undo',
+                },
+                'core:redo': {
+                  keys: '⌘+y, ctrl+y',
+                  handler: 'core:redo',
+                },
+                'core:copy': {
+                  keys: '⌘+c, ctrl+c',
+                  handler: 'core:copy',
+                },
+                'core:paste': {
+                  keys: '⌘+v, ctrl+v',
+                  handler: 'core:paste',
+                },
+                'core:save': {
+                  keys: '⌘+s, ctrl+s',
+                  handler: save,
+                },
+                'core:component-next': {
+                  keys: 's',
+                  handler: 'core:component-next',
+                },
+                'core:component-prev': {
+                  keys: 'w',
+                  handler: 'core:component-prev',
+                },
+                'core:component-enter': {
+                  keys: 'd',
+                  handler: 'core:component-enter',
+                },
+                'core:component-exit': {
+                  keys: 'a',
+                  handler: 'core:component-exit',
+                },
+                'core:component-delete': {
+                  keys: 'backspace, delete',
+                  handler: 'core:component-delete',
+                  opts: { prevent: 1 },
+                },
+              },
+            }}
             storageManager={{
               type: "remote",
 
@@ -199,7 +252,12 @@ function Canvas({ type }) {
                     <p class="text-left" style="font-size:14px"  > Select a component in Canvas to start editing. </p>
                     </div>
                   </div>
-                  <div>
+                  <div class = "pt-2">
+                    <p class="text-left" style="font-weight:bold; font-size:18px" >Short cut keys</p>
+                    <p class="text-left" style="font-size: 16px;"> <kbd>Ctrl</kbd> + <kbd>Z</kbd>, <kbd>⌘</kbd> + <kbd>Z</kbd>     Undo</p>
+                    <p class="text-left" style="font-size: 16px;"> <kbd>Ctrl</kbd> + <kbd>Y</kbd>, <kbd>⌘</kbd> + <kbd>Y</kbd>     Redo</p>
+                    <p class="text-left" style="font-size: 16px;"> <kbd>Ctrl</kbd> + <kbd>S</kbd>, <kbd>⌘</kbd> + <kbd>S</kbd>     Save</p>
+
                   </div>
                   `
                   $('.gjs-pn-views-container .gjs-trt-header').empty().append(initTraitManger)

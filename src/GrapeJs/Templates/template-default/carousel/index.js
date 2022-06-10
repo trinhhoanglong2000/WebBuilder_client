@@ -128,13 +128,21 @@ export default function loadBlockCarousel(editor, opt = {}) {
               }
             }).then(res => res.json()).then(myJson => myJson.data).then(
               data => {
-                let listBanners = data.listBanners;
-                if (listBanners.length == 0) {
+                let listBanners = [...defaultData]
+                try{
+                    listBanners = data.listBanners;
+                  if (listBanners.length == 0) {
+                    listBanners = [...defaultData]
+                  } 
+                }catch(e){
                   listBanners = [...defaultData]
-                } 
+                }
                 insertCarouselData(listBanners, carouselIndicators, carouselInner)
               }
-            );
+            ).catch(error => {
+              console.log(error)
+              insertCarouselData(defaultData, carouselIndicators, carouselInner)
+          });
         }
 
       },

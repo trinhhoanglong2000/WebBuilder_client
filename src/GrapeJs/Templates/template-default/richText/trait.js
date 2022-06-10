@@ -17,22 +17,21 @@ export default function loadTraitRichText(editor, opt = {}) {
     // Expects as return a simple HTML string or an HTML element
 
     createInput({ trait }) {
+
       const data = [
-        "primary",
-        "secondary ",
-        "success",
-        "danger",
-        "warning",
-        "info",
-        "light",
-        "dark",
-        "link",
+        { name: "Primary", value: "#0d6efd/#fff/#0d6efd" },
+        { name: "Secondary", value: "#6c757d/#fff/#6c757d" },
+        { name: "Success", value: "#198754/#fff/#198754" },
+        { name: "Danger", value: "#dc3545/#fff/#dc3545" },
+        { name: "Warning", value: "#ffc107/#000/#ffc107" },
+        { name: "Info", value: "#0dcaf0/#000/#0dcaf0" },
+        { name: "Light", value: "#f8f9fa/#fff/#f8f9fa" },
+        { name: "Dark", value: "#212529/#fff/#212529" },
+        { name: "Link", value: "transparent/##0d6efd/none" },
+
+
       ];
-      const classes = trait.target.getClasses();
-      for (var i = 0; i < classes.length; i++) {
-        if (classes[i].match(/(?<=btn-).*/g)) break;
-      }
-      const initValue = classes[i].match(/(?<=btn-).*/g)[0] || "primary";
+      
       const el = document.createElement("div");
       el.innerHTML = `
           <div data-input="">
@@ -40,7 +39,7 @@ export default function loadTraitRichText(editor, opt = {}) {
           ${data
           .map(
             (opt) =>
-              `<option class="bg-${opt}" id = "${opt}Color" value="${opt}">${opt}</option>`
+              `<option id = "${opt.name}Color" value="${opt.value}">${opt.name}</option>`
           )
           .join("")}
             </select>
@@ -51,31 +50,31 @@ export default function loadTraitRichText(editor, opt = {}) {
           </div>
         
           `;
-      $(el).find(`#${initValue}Color`).prop("selected", true);
 
       return el;
     },
     onEvent({ elInput, component, event }) {
+      //#1 when option change we will get new option => change HTML following option
       const inputType = elInput.querySelector("option:checked");
+      let data = inputType.value.split('\/');
+      component.setStyle({ ...component.getStyle(), "background-color": data[0], "color": data[1],"border": data[2] });
+    },
+    onUpdate({ elInput, component }) {
+      const initValue = (`${component.getStyle()["background-color"]}/${component.getStyle()["color"]}/${component.getStyle()["border"]}`) || "#0d6efd/#fff/#0d6efd";
+      $(elInput).find(`[value="${initValue}"]`).prop("selected", true);
 
-      const data = inputType.value;
 
-      //component.removeClass(`btn-${data}`)
-      component.setClass(
-        `btn btn-${data} align-self-center d-inline-flex justify-content-center align-items-center`
-      );
     },
   });
   editor.TraitManager.addType("RichText-Button-heading", {
     // Expects as return a simple HTML string or an HTML element
     createInput({ trait }) {
-      const initValue = trait.target.get("content") || "";
       const placeholder = trait.get("placeholder") || "";
       const el = document.createElement("div");
       el.innerHTML = `
 
         <div class="gjs-field gjs-field-text">
-          <input class="Product-Heading"placeholder="${placeholder} " value="${initValue}" />
+          <input class="Product-Heading"placeholder="${placeholder} " />
          
         </div>
       `;
@@ -96,15 +95,24 @@ export default function loadTraitRichText(editor, opt = {}) {
         component.set({ content: data });
       }
     },
+    onUpdate({ elInput, component }) {
+      const initValue = component.get("content") || "";
+      $(elInput).find('input').val(initValue)
+
+    },
   });
   editor.TraitManager.addType("RichText-Text-Trait", {
     // Expects as return a simple HTML string or an HTML element
     createInput({ trait }) {
+      // const initValue = trait.target.get("content");
       const el = document.createElement("div");
-      const initValue = trait.target.get("content");
-      el.innerHTML = `
+      // el.innerHTML = `
+      //   <div id="editor" style="font-size:12px;">
+      //   ${initValue}
+      //   </div>
+      //   `;
+        el.innerHTML = `
         <div id="editor" style="font-size:12px;">
-        ${initValue}
         </div>
         `;
       const container = $(el).find("#editor").get(0);
@@ -170,13 +178,16 @@ export default function loadTraitRichText(editor, opt = {}) {
 
       component.set({ content: inputType });
     },
+    onUpdate({ elInput, component }) {
+      const initValue = component.get("content");
+      $(elInput).find('#editor .ql-editor').empty().append(initValue)
+    },
   });
 
   editor.TraitManager.addType("RichText-TextFontSize-Trait", {
     // Expects as return a simple HTML string or an HTML element
     createInput({ trait }) {
-      const data = ["small", "medium", "large"];
-      const initValue = trait.target.getStyle()["font-size"] || "small";
+      const data = ["Small", "Medium", "Large"];
       const el = document.createElement("div");
       el.innerHTML = `
           <div data-input="">
@@ -196,7 +207,6 @@ export default function loadTraitRichText(editor, opt = {}) {
         
           `;
 
-      $(el).find(`#${initValue}FontSize`).prop("selected", true);
 
       return el;
     },
@@ -204,7 +214,11 @@ export default function loadTraitRichText(editor, opt = {}) {
       //#1 when option change we will get new option => change HTML following option
       const inputType = elInput.querySelector("option:checked");
       let data = inputType.value;
-      component.setStyle({ ...component.getStyle(), "font-size": data });
+      component.setStyle({ ...component.getStyle(), "font-size": data.toLowerCase() });
+    },
+    onUpdate({ elInput, component }) {
+      const initValue = component.getStyle()["font-size"] || "small";
+      $(elInput).find(`#${initValue}FontSize`).prop("selected", true);
     },
   });
   editor.TraitManager.addType("RichText-Color-Trait", {
@@ -216,7 +230,6 @@ export default function loadTraitRichText(editor, opt = {}) {
         { name: "Blue", value: "rgb(51, 79, 180)/rgba(255, 255, 255, 0.75)" },
         { name: "Gray", value: "rgb(243, 243, 243)/rgba(18, 18, 18, 0.75)" },
       ];
-      const initValue = (`${trait.target.getStyle()["background-color"]}/${trait.target.getStyle()["color"]}`) || "white/rgb(33, 37, 41)";
       const el = document.createElement("div");
       el.innerHTML = `
           <div data-input="">
@@ -235,7 +248,6 @@ export default function loadTraitRichText(editor, opt = {}) {
           </div>
         
           `;
-      $(el).find(`[value="${initValue}"]`).prop("selected", true);
 
       return el;
     },
@@ -245,11 +257,16 @@ export default function loadTraitRichText(editor, opt = {}) {
       let data = inputType.value.split('\/');
       component.setStyle({ ...component.getStyle(), "background-color": data[0], "color": data[1] });
     },
+    onUpdate({ elInput, component }) {
+      const initValue = (`${component.getStyle()["background-color"]}/${component.getStyle()["color"]}`) || "white/rgb(33, 37, 41)";
+      $(elInput).find(`[value="${initValue}"]`).prop("selected", true);
+
+
+    },
   });
   editor.TraitManager.addType("RichText-FullWidth-Trait", {
     // Expects as return a simple HTML string or an HTML element
     createInput({ trait }) {
-      const initValue = trait.target.getStyle()["width"] ? true : false;
       const el = document.createElement("div");
       el.innerHTML = `
       <div class="gjs-one-bg">
@@ -261,7 +278,6 @@ export default function loadTraitRichText(editor, opt = {}) {
       </div>
       `;
 
-      $(el).find(`input`).prop("checked", initValue);
 
       return el;
     },
@@ -283,17 +299,20 @@ export default function loadTraitRichText(editor, opt = {}) {
         component.setStyle(tmp);
       }
     },
+    onUpdate({ elInput, component }) {
+      const initValue = component.getStyle()["width"] ? true : false;
+      $(elInput).find(`input`).prop("checked", initValue);
+    },
   });
   editor.TraitManager.addType("richtext-heading", {
     // Expects as return a simple HTML string or an HTML element
     createInput({ trait }) {
-      const initValue = trait.target.get("content") || "";
       const placeholder = trait.target.get("placeholder") || "";
       const el = document.createElement("div");
       el.innerHTML = `
 
         <div class="gjs-field gjs-field-text">
-          <input class="Product-Heading"placeholder="${placeholder} " value="${initValue}" />
+          <input class="Product-Heading"placeholder="${placeholder} " />
          
         </div>
       `;
@@ -314,13 +333,17 @@ export default function loadTraitRichText(editor, opt = {}) {
         component.set({ content: data });
       }
     },
+    onUpdate({ elInput, component }) {
+      const initValue = component.get("content") || "";
+      $(elInput).find('input').val(initValue)
+
+    },
   });
   editor.TraitManager.addType("richtext-heading-align", {
+    
     // Expects as return a simple HTML string or an HTML element
     createInput({ trait }) {
       //.Radio-Group CSS in CAnvas CSS
-
-      const initValue = trait.target.getStyle()["text-align"] || "center";
       const el = document.createElement("div");
       el.innerHTML = `
 
@@ -343,10 +366,16 @@ export default function loadTraitRichText(editor, opt = {}) {
             </label>
         </div>
       `;
-      $(el).find(`#${initValue}`).prop("checked", true);
+      // $(el).find(`#${initValue}`).prop("checked", true);
 
       return el;
     },
+    onUpdate({ elInput, component }) {
+      const initValue = component.getStyle()["text-align"] || "center";
+      $(elInput).find(`#${initValue}`).prop("checked", true);
+
+    },
+
     onEvent({ elInput, component, event }) {
       //#1 when option change we will get new option => change HTML following option
       const inputType = elInput.querySelector(
@@ -359,6 +388,55 @@ export default function loadTraitRichText(editor, opt = {}) {
   });
   editor.TraitManager.addType("richtext-Btn-Link", {
     // Expects as return a simple HTML string or an HTML element
+    onUpdate({ elInput, component }) {
+      let initValue = component.attributes.traitValue?.split(/;(.*)/s) || "";
+
+      let previousValue = initValue[1] || ""
+      if (!component.get('attributes').href) {
+        initValue=""
+        previousValue =""
+        component.set('traitValue','')
+      }
+      let defaultIcons = ""
+      if (initValue[0] == "Collections") {
+        defaultIcons = COLLECTION_ICON
+      }
+      else if (initValue[0] == "Products") {
+        defaultIcons = PRODUCTS_ICON
+
+      }
+      else if (initValue[0] == "Pages") {
+        defaultIcons = PAGES_ICON
+
+      }
+      else if (initValue[0] == "Privacy") {
+        defaultIcons = PRIVACY_ICON
+
+      }
+      else if (initValue[0]=="_URL_LINK")
+      {
+        defaultIcons =URL_ICON
+      }
+
+      if (previousValue !== "") {
+        $(elInput).find('input').css('padding-left', '39px');
+        $(elInput).find('#icons').css("display", "block")
+
+        $(elInput).find('input').css('padding-right', '25px');
+        $(elInput).find('#delete_icon').css("display", "block")
+
+      }
+      else {
+        $(elInput).find('input').css('padding-left', '');
+        $(elInput).find('#icons').css("display", "none")
+
+        $(elInput).find('input').css('padding-left', '');
+        $(elInput).find('#delete_icon').css("display", "none")
+      }
+      $(elInput).find('input').val(previousValue)
+      $(elInput).find('#icons').empty().append(defaultIcons)
+     
+    },
     createInput({ trait }) {
 
       const debounce = (fn, delay = 1000) => {
@@ -388,12 +466,12 @@ export default function loadTraitRichText(editor, opt = {}) {
 
       }, 200)
       const _this = this;
-      const initValue = trait.target.attributes.traitValue?.split(/;(.*)/s) || "";
       let defaultIcons = ""
       const el = document.createElement("div");
       let clicked = false
+      
+      const initValue = trait.target.attributes.traitValue?.split(/;(.*)/s) || "";
       let previousValue = initValue[1] || ""
-
       if (initValue[0] == "Collections") {
         defaultIcons = COLLECTION_ICON
       }
@@ -731,8 +809,9 @@ export default function loadTraitRichText(editor, opt = {}) {
             clicked = false;
           }
         }, 200)
-
-        $(el).find('input').val(previousValue)
+        // const value = trait.target.attributes.traitValue?.split(/;(.*)/s) || "";
+        const value = _this.target.get('traitValue') ? _this.target.attributes.traitValue?.split(/;(.*)/s)[1] : ''
+        $(el).find('input').val(value)
 
       })
 
@@ -756,9 +835,15 @@ export default function loadTraitRichText(editor, opt = {}) {
         return
       }
       const value = event.valueHref ? event.valueHref : '#'
-      component.setAttributes({ ...component.getAttributes(), 'href': value })
+      component.set('attributes',{
+        ...component.get('attributes'),
+        'href':value
+      })
       component.set('traitValue', event.traitValue)
 
+      // component.setAttributes({ ...component.getAttributes(), 'href': value })
+
     },
+    
   });
 }

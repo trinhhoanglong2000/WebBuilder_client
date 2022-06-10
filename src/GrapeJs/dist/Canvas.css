@@ -301,6 +301,7 @@
   box-shadow: none;
   border: none;
 }
+
 .Modal-popup .btn {
   border: none;
 }
@@ -371,7 +372,7 @@
   visibility: hidden !important;
   opacity: 0 !important;
 }
-.btn:hover {
+#Link-combo .btn:hover {
   background-color: #dddada;
 }
 

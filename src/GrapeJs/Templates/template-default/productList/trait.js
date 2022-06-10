@@ -218,13 +218,12 @@ export default function loadTraitProduct(editor, opt = {}) {
     editor.TraitManager.addType("product-heading", {
       // Expects as return a simple HTML string or an HTML element
       createInput({ trait }) {
-        const initValue = trait.target.get('components').where({name:"Text"})[0].get("content") || "";
         const placeholder = trait.get("placeholder") || "";
         const el = document.createElement("div");
         el.innerHTML = `
   
           <div class="gjs-field gjs-field-text">
-            <input class="Product-Heading"placeholder="${placeholder} " value="${initValue}" />
+            <input class="Product-Heading"placeholder="${placeholder} "  />
            
           </div>
         `;
@@ -245,13 +244,17 @@ export default function loadTraitProduct(editor, opt = {}) {
           component.get('components').where({name:"Text"})[0].set({ content: data });
         }
       },
+      onUpdate({ elInput, component }) {
+        const initValue = component.get('components').where({name:"Text"})[0].get("content") || "";
+        $(elInput).find(`input`).val(initValue);
+  
+      },
     });
     editor.TraitManager.addType("product-heading-align", {
       // Expects as return a simple HTML string or an HTML element
       createInput({ trait }) {
         //.Radio-Group CSS in CAnvas CSS
   
-        const initValue = trait.target.get('components').where({name:"Text"})[0].getStyle()["text-align"] || "center";
         const el = document.createElement("div");
         el.innerHTML = `
   
@@ -274,7 +277,6 @@ export default function loadTraitProduct(editor, opt = {}) {
               </label>
           </div>
         `;
-        $(el).find(`#${initValue}`).prop("checked", true);
   
         return el;
       },
@@ -288,6 +290,11 @@ export default function loadTraitProduct(editor, opt = {}) {
         // editor.Selectors.setState('after');
         // console.log(editor.Selectors.getState())
         component.get('components').where({name:"Text"})[0].setStyle({ ...component.get('components').where({name:"Text"})[0].getStyle(), "text-align": data });
+      },
+      onUpdate({ elInput, component }) {
+        const initValue = component.get('components').where({name:"Text"})[0].getStyle()["text-align"] || "center";
+        $(elInput).find(`#${initValue}`).prop("checked", true);
+
       },
     });
     

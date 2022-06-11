@@ -253,7 +253,7 @@ function Canvas({ type }) {
                     </div>
                   </div>
                   <div class = "pt-2">
-                    <p class="text-left" style="font-weight:bold; font-size:18px" >Short cut keys</p>
+                    <p class="text-left" style="font-weight:bold; font-size:18px" >Keyboard shortcuts</p>
                     <p class="text-left" style="font-size: 16px;"> <kbd>Ctrl</kbd> + <kbd>Z</kbd>, <kbd>⌘</kbd> + <kbd>Z</kbd>     Undo</p>
                     <p class="text-left" style="font-size: 16px;"> <kbd>Ctrl</kbd> + <kbd>Y</kbd>, <kbd>⌘</kbd> + <kbd>Y</kbd>     Redo</p>
                     <p class="text-left" style="font-size: 16px;"> <kbd>Ctrl</kbd> + <kbd>S</kbd>, <kbd>⌘</kbd> + <kbd>S</kbd>     Save</p>

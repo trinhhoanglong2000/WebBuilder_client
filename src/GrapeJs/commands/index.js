@@ -38,7 +38,14 @@ export default function LoadCommands(editor, config) {
 
   cm.add(cmdDeviceDesktop, (e) => e.setDevice("Desktop"));
   cm.add(cmdDeviceTablet, (e) => e.setDevice("Tablet"));
-  cm.add(cmdDeviceMobile, (e) => e.setDevice("Mobile portrait"));
+  cm.add(cmdDeviceMobile, (e) => {
+  e.setDevice("Mobile portrait")
+  // const component = e.getSelected();
+  // const coll = component.collection;
+  // const at = coll.indexOf(component);
+  // coll.remove(component);
+
+});
   cm.add(cmdClear, (e) => window.confirm(txtConfirm) && e.runCommand("core:canvas-clear"));
   cm.add(save, async(e) => {
     await beforeSaveData();

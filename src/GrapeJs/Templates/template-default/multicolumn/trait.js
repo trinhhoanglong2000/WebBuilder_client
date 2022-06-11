@@ -16,6 +16,10 @@ export default function loadTraitMulticolumnItem(editor, opt = {}) {
         .on("input", (ev) => this.onChange(ev));
       return el;
     },
+    onUpdate({ elInput, component }) {
+      const val = component.get("components").models[0].get("content") || "";
+      $(elInput).find(`.multicolumn-heading `).val(val);
+    },
     onEvent({ elInput, component, event }) {
       const inputType = elInput.querySelector(".multicolumn-heading");
       let data = inputType.value;
@@ -55,14 +59,19 @@ export default function loadTraitMulticolumnItem(editor, opt = {}) {
 
       return el;
     },
+    onUpdate({ elInput, component }) {
+      $(elInput).find(`input[name="alignment"]:checked`).prop("checked",false);
+      $(elInput).find(`input[name="alignment"][value=${component.getAttributes().headAlign}] `).prop("checked",true);
+    },
     onEvent({ elInput, component, event }) {
       //#1 when option change we will get new option => change HTML following option
       const inputType = elInput.querySelector(
         'input[name="alignment"]:checked'
       );
 
-      let data = inputType.value;
-      component.get("components").models[0].setStyle({ ...component.getStyle(), "text-align": data });
+      let headAlign = inputType.value;
+      component.get("components").models[0].setStyle({ ...component.getStyle(), "text-align": headAlign });
+      component.addAttributes({ headAlign })
     },
   });
 
@@ -84,6 +93,10 @@ export default function loadTraitMulticolumnItem(editor, opt = {}) {
       $(el).find(`input`).prop("checked", initValue);
 
       return el;
+    },
+    onUpdate({ elInput, component }) {
+      $(elInput).find("input").val(component.getAttributes().paddingMode);
+      $(elInput).find("input").prop("checked",component.getAttributes().paddingMode);
     },
     onEvent({ elInput, component, event }) {
       //#1 when option change we will get new option => change HTML following option
@@ -120,6 +133,10 @@ export default function loadTraitMulticolumnItem(editor, opt = {}) {
 
       return el;
     },
+    onUpdate({ elInput, component }) {
+      $(elInput).find("input").val(component.getAttributes().numCols);
+      $(elInput).find("label").html(component.getAttributes().numCols);
+    },
     onEvent({ elInput, component, event }) {
       //#1 when option change we will get new option => change HTML following option
 
@@ -130,17 +147,18 @@ export default function loadTraitMulticolumnItem(editor, opt = {}) {
       component.removeClass(`multicolumn-numCols-${oldType}`);
       component.addClass(`multicolumn-numCols-${numCols}`);
     },
+    
   });
 
   editor.TraitManager.addType("padding-setting", {
     // Expects as return a simple HTML string or an HTML element
     createInput({ trait }) {
       const el = document.createElement("div");
-      const initValue =trait.target.getStyle()[trait.get("typeSetting")]? trait.target.getStyle()[trait.get("typeSetting")].replace("px","") : "0";
+      const initValue = trait.target.getStyle()[trait.get("typeSetting")] ? trait.target.getStyle()[trait.get("typeSetting")].replace("px", "") : "0";
       el.innerHTML = `
           <div class="d-flex align-items-center gjs-one-bg">
             <input ezMallType="${trait.get("typeSetting")}" type="range" id="padding" style = "outline: none; background-color: #aaa; height: 3px; width: 100%; margin: 10px auto;" class="p-0" 
-                 min="0" max="100" value="${initValue.replace("px","")}" step="1">
+                 min="0" max="100" value="${initValue.replace("px", "")}" step="1">
              <label class="m-0" for="padding">Cowbell</label>
             </div>
             `;
@@ -153,11 +171,17 @@ export default function loadTraitMulticolumnItem(editor, opt = {}) {
 
       return el;
     },
+    onUpdate({ elInput, component }) {
+      const inputType =  $(elInput).find("input")[0].getAttribute("ezMallType");
+      const val = component.getStyle()[inputType] ? component.getStyle()[inputType].replace("px", ""): "0";
+      $(elInput).find("label").text(`${val}px`);
+      $(elInput).find("input").val(val)
+    },
     onEvent({ elInput, component, event }) {
       const inputType = $(elInput).find("input")[0].value;
       $(elInput).find("label").text(`${inputType}px`);
       let cssType = {};
-      cssType[$(elInput).find("input")[0].getAttribute("ezMallType")] =`${inputType}px` 
+      cssType[$(elInput).find("input")[0].getAttribute("ezMallType")] = `${inputType}px`
       component.setStyle({ ...component.getStyle(), ...cssType });
     },
   });

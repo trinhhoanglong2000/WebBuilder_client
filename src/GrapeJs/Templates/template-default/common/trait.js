@@ -22,6 +22,12 @@ export default function loadCommonTrait(editor, opt = {}) {
 
             return el;
         },
+        onUpdate({ elInput, component }) {
+            const inputType =  $(elInput).find("input")[0].getAttribute("ezMallType");
+            const val = component.getStyle()[inputType] ? component.getStyle()[inputType].replace("px", ""): "0";
+            $(elInput).find("label").text(`${val}px`);
+            $(elInput).find("input").val(val)
+        },
         onEvent({ elInput, component, event }) {
             const inputType = $(elInput).find("input")[0].value;
             $(elInput).find("label").text(`${inputType}px`);

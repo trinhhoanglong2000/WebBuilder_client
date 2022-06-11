@@ -1,6 +1,6 @@
 import $ from "jquery";
 import Quill from "quill";
-export default function loadTraitCart(editor, opt = {}) {
+export default function loadTraitPayment(editor, opt = {}) {
     let controller;
     var GetRequest = async (url) => {
         controller = new AbortController();
@@ -17,7 +17,7 @@ export default function loadTraitCart(editor, opt = {}) {
         return response.json();
     };
 
-    editor.TraitManager.addType("Heading", {
+    editor.TraitManager.addType("Payment-Heading", {
         // Expects as return a simple HTML string or an HTML element
         createInput({ trait }) {
             const initValue = trait.target.get("components").models[0].get("content") || "";

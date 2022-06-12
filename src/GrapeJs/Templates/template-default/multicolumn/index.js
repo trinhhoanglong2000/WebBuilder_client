@@ -5,8 +5,8 @@ import { MULTICOLUMN_LABEL } from "../../../../asset/icon/svg";
 export default function loadBlockMulticolumn(editor, opt = {}) {
   const c = opt;
   let bm = editor.BlockManager;
-  loadTraitMulticolumnItem(editor,c)
-  loadBlockColumnItem(editor,c)
+  loadTraitMulticolumnItem(editor, c)
+  loadBlockColumnItem(editor, c)
   const domc = editor.DomComponents;
   const defaultType = domc.getType("default");
   const textType = domc.getType("text");
@@ -25,7 +25,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
           {
             label: "Heading",
             type: "multicolumn-heading",
-            placeholder:"Label"
+            placeholder: "Label"
           },
           {
             label: false,
@@ -109,22 +109,22 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
     category: c.multicolumn,
     draggable: ".main-content",
     content: [
-      { 
+      {
         name: 'Multicolumn',
         type: "multicolumn",
-        attributes: {class: "multicolumn-numCols-3"},
+        attributes: { class: "multicolumn-numCols-3" },
         components: [{
           attributes: { class: "" },
           tagName: "h2",
           name: "Multicolumn Tittle",
-          style: { "text-align": "center", "padding": "0px" },
+          style: { "text-align": "center", "font-weight": "bold", "padding": "0px" },
           content: `Card Title`,
           layerable: false,
           hoverable: false,
           selectable: false,
           highlightable: false,
           droppable: false,
-          draggable:false,
+          draggable: false,
         },
         {
           name: 'multicolumn',
@@ -132,8 +132,9 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
           hoverable: false,
           selectable: false,
           highlightable: false,
-          draggable:false,
-          attributes: {class: "row ezMall-multicolumn"},
+          draggable: false,
+          attributes: { class: "row ezMall-multicolumn" },
+
           components: [
             {
               tagName: "a",
@@ -151,7 +152,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                   selectable: false,
                   highlightable: false,
                   droppable: false,
-                  draggable:false,
+                  draggable: false,
                   content: `
                   <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
                 `,
@@ -162,7 +163,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                   hoverable: false,
                   selectable: false,
                   highlightable: false,
-                  draggable:false,
+                  draggable: false,
                   components: [
                     {
                       attributes: { class: "card-title", style: "text-decoration: none;" },
@@ -174,7 +175,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                       selectable: false,
                       highlightable: false,
                       droppable: false,
-                      draggable:false,
+                      draggable: false,
                     }
                     , {
                       removable: false,
@@ -186,7 +187,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                       style: { "font-size": "medium" },
                       editable: true,
                       droppable: false,
-                      draggable:false,
+                      draggable: false,
                       content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or
                       welcome customers to your store.</p>`,
                     }]
@@ -209,7 +210,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                   selectable: false,
                   highlightable: false,
                   droppable: false,
-                  draggable:false,
+                  draggable: false,
                   content: `
                   <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
                 `,
@@ -220,7 +221,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                   hoverable: false,
                   selectable: false,
                   highlightable: false,
-                  draggable:false,
+                  draggable: false,
                   components: [
                     {
                       attributes: { class: "card-title", style: "text-decoration: none;" },
@@ -232,7 +233,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                       selectable: false,
                       highlightable: false,
                       droppable: false,
-                      draggable:false,
+                      draggable: false,
                     }
                     , {
                       removable: false,
@@ -244,7 +245,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                       style: { "font-size": "medium" },
                       editable: true,
                       droppable: false,
-                      draggable:false,
+                      draggable: false,
                       content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or
                       welcome customers to your store.</p>`,
                     }]
@@ -267,7 +268,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                   selectable: false,
                   highlightable: false,
                   droppable: false,
-                  draggable:false,
+                  draggable: false,
                   content: `
                   <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
                 `,
@@ -278,7 +279,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                   hoverable: false,
                   selectable: false,
                   highlightable: false,
-                  draggable:false,
+                  draggable: false,
                   components: [
                     {
                       attributes: { class: "card-title", style: "text-decoration: none;" },
@@ -290,7 +291,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                       selectable: false,
                       highlightable: false,
                       droppable: false,
-                      draggable:false,
+                      draggable: false,
                     }
                     , {
                       removable: false,
@@ -302,7 +303,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                       style: { "font-size": "medium" },
                       editable: true,
                       droppable: false,
-                      draggable:false,
+                      draggable: false,
                       content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or
                       welcome customers to your store.</p>`,
                     }]
@@ -311,9 +312,9 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
             },
           ]
         }]
-    },
-  
-  ]
+      },
+
+    ]
   });
   //#endregion
   //LONG-TP 2022-02-22 TEST TRAITS - ADD END 

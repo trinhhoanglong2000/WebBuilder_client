@@ -2,7 +2,7 @@ import $ from "jquery";
 import Quill from "quill";
 export default function loadTraitColumnItem(editor, opt = {}) {
     const am = editor.AssetManager;
-    editor.TraitManager.addType("Column-Item-Trait-RichText", {
+    editor.TraitManager.addType("Column-Item-Trait-RichText", { // redo undo ok
         createInput({ trait }) {
             const el = document.createElement("div");
             const initValue = trait.target.get("components").models[1].get("components").models[1].get("content");
@@ -32,16 +32,20 @@ export default function loadTraitColumnItem(editor, opt = {}) {
             });
             return el;
         },
+        onUpdate({ elInput, component }) {
+            const val = component.get("components").models[1].get("components").models[1].get("content") || "";
+            $(elInput).find(`.ql-editor`).empty().append(val);
+        },
         onEvent({ elInput, component, event }) {
             const inputType = elInput.querySelector(".ql-editor").innerHTML;
             component.get("components").models[1].get("components").models[1].set({ content: inputType });
         },
     });
 
-    editor.TraitManager.addType("Column-Item-RichText-TextFontSize-Trait", {
+    editor.TraitManager.addType("Column-Item-RichText-TextFontSize-Trait", { // redo undo ok
         createInput({ trait }) {
             const data = ["small", "medium", "large"];
-            const initValue = trait.target.get("components").models[1].get("components").models[1].getStyle()["font-size"] || "small";
+            const initValue = trait.target.get("components").models[1].get("components").models[1].getStyle()["font-size"] || "medium";
             const el = document.createElement("div");
             el.innerHTML = `
               <div data-input="">
@@ -60,12 +64,18 @@ export default function loadTraitColumnItem(editor, opt = {}) {
 
             $(el).find(`#${initValue}FontSize`).prop("selected", true);
             return el;
+        },        
+        onUpdate({ elInput, component }) {
+            const val = component.getAttributes().TextFontSize
+            $(elInput).find("option:checked").prop("selected",false);
+            $(elInput).find(`option[value = ${val}]`).prop("selected",true);
         },
         onEvent({ elInput, component, event }) {
             //#1 when option change we will get new option => change HTML following option
             const inputType = elInput.querySelector("option:checked");
-            let data = inputType.value;
-            component.get("components").models[1].get("components").models[1].setStyle({ ...component.getStyle(), "font-size": data });
+            let TextFontSize = inputType.value;
+            component.addAttributes({ TextFontSize })
+            component.get("components").models[1].get("components").models[1].setStyle({ ...component.getStyle(), "font-size": TextFontSize });
         },
     });
 
@@ -84,6 +94,10 @@ export default function loadTraitColumnItem(editor, opt = {}) {
                 .find("input")
                 .on("input", (ev) => this.onChange(ev));
             return el;
+        },
+        onUpdate({ elInput, component }) {
+            const val = component.get("components").models[1].get("components").models[0].get("content") || "";
+            $(elInput).find(`.Product-Heading `).val(val);
         },
         onEvent({ elInput, component, event }) {
             const inputType = elInput.querySelector(".Product-Heading");
@@ -122,9 +136,13 @@ export default function loadTraitColumnItem(editor, opt = {}) {
                 </label>
             </div>
           `;
+            $(el).find(`input[value=${initValue}]`).prop("checked", true);
             $(el).find(`#${initValue}`).prop("checked", true);
-
             return el;
+        },        
+        onUpdate({ elInput, component }) {
+            $(elInput).find(`input[name="alignment"]:checked`).prop("checked",false);
+            $(elInput).find(`input[name="alignment"][value=${component.getAttributes().textAlight}] `).prop("checked",true);
         },
         onEvent({ elInput, component, event }) {
             //#1 when option change we will get new option => change HTML following option
@@ -132,8 +150,9 @@ export default function loadTraitColumnItem(editor, opt = {}) {
                 'input[name="alignment"]:checked'
             );
 
-            let data = inputType.value;
-            component.get("components").models[1].get("components").models[0].setStyle({ ...component.getStyle(), "text-align": data });
+            let textAlight = inputType.value;
+            component.addAttributes({ textAlight })
+            component.get("components").models[1].get("components").models[0].setStyle({ ...component.getStyle(), "text-align": textAlight });
         },
     });
 
@@ -188,6 +207,9 @@ export default function loadTraitColumnItem(editor, opt = {}) {
                 .find("input")
                 .on("input", (ev) => this.onChange(ev));
             return el;
+        },       
+        onUpdate({ elInput, component }) {
+            $(elInput).find(".column-item-link").val( component.getAttributes().href) ;
         },
         onEvent({ elInput, component, event }) {
             const inputType = elInput.querySelector(".column-item-link");

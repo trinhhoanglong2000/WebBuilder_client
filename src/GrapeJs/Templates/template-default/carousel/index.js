@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import $ from "jquery";
 import loadTraitCarousel from "./traint"
-import { CAROUSEL_LABEL } from "../../../../asset/icon/svg";
 
 const defaultData = [
   {
@@ -129,13 +128,21 @@ export default function loadBlockCarousel(editor, opt = {}) {
               }
             }).then(res => res.json()).then(myJson => myJson.data).then(
               data => {
-                let listBanners = data.listBanners;
-                if (listBanners.length == 0) {
+                let listBanners = [...defaultData]
+                try{
+                    listBanners = data.banners;
+                  if (listBanners.length == 0) {
+                    listBanners = [...defaultData]
+                  } 
+                }catch(e){
                   listBanners = [...defaultData]
-                } 
+                }
                 insertCarouselData(listBanners, carouselIndicators, carouselInner)
               }
-            );
+            ).catch(error => {
+              console.log(error)
+              insertCarouselData(defaultData, carouselIndicators, carouselInner)
+          });
         }
 
       },
@@ -158,7 +165,10 @@ export default function loadBlockCarousel(editor, opt = {}) {
   //THIS IS SETTING BLOCK
   bm.add("Carousel", {
     // THIS IS HTML DISPLAY ON THE LEFT (BLOCK BAR)
-    label: ` ${CAROUSEL_LABEL}
+    label: `
+    <svg height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg">
+    <path d="M14 38h20V8H14v30zM4 34h8V12H4v22zm32-22v22h8V12h-8z"/><path d="M0 0h48v48H0z" fill="none"/>
+    </svg>
     <div>${c.carouselBlkLabel}</div> `,
     // THIS PROPERTY IS CATEGORY GROUP OF BLOCK
     category: c.carousel_category,

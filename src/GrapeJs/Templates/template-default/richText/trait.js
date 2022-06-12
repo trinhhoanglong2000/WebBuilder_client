@@ -62,8 +62,6 @@ export default function loadTraitRichText(editor, opt = {}) {
     onUpdate({ elInput, component }) {
       const initValue = (`${component.getStyle()["background-color"]}/${component.getStyle()["color"]}/${component.getStyle()["border"]}`) || "#0d6efd/#fff/#0d6efd";
       $(elInput).find(`[value="${initValue}"]`).prop("selected", true);
-
-
     },
   });
   editor.TraitManager.addType("RichText-Button-heading", {

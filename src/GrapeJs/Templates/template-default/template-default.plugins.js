@@ -12,6 +12,8 @@ import loadBlockProductPage from "./productPage";
 import loadBlockMulticolumn from "./multicolumn";
 import loadVideo from "./video"
 import loadImage from "./image";
+import loadBlockCart from "./cart";
+import loadBlockPayMent from "./payment";
 
 export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
 
@@ -22,6 +24,8 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
     carousel_category: "Carousel",
     category_rich_text:'RichText',
     multicolumn: "Multicolumn",
+    cart: "Cart",
+    payment:"Payment",
 
     //=======================|Block name|=======================
     label_product_list: "Product List",
@@ -66,6 +70,8 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
   loadVideo(editor,config)
   loadBlockMulticolumn(editor,config)
   loadImage(editor,config);
+  loadBlockCart(editor,config);
+  loadBlockPayMent(editor,config)
   //Long ADD END
 }
 );

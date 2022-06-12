@@ -85,7 +85,26 @@ export default function loadComponentsRichText(editor, opt = {}) {
             label: false, // The label you will see in Settings
             
           },
-
+          {
+            label: "Padding Top",
+            type: "padding-setting",
+            typeSetting: "padding-top"
+          },
+          {
+            label: "Padding Bottom",
+            type: "padding-setting",
+            typeSetting: "padding-bottom"
+          },
+          {
+            label: "Padding Left",
+            type: "padding-setting",
+            typeSetting: "padding-left"
+          },
+          {
+            label: "Padding Right",
+            type: "padding-setting",
+            typeSetting: "padding-right"
+          },
         ],
       },
       init() {},

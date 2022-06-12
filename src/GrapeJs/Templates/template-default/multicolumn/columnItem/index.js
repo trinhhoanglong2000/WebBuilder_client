@@ -10,7 +10,7 @@ export default function loadBlockColumnItem(editor, opt = {}) {
   const defaultType = domc.getType("default");
   const textType = domc.getType("text");
   //THIS IS SETTING COMPONENT
-  
+
   domc.addType("ColumnItem", {
     model: {
       defaults: {
@@ -90,7 +90,7 @@ export default function loadBlockColumnItem(editor, opt = {}) {
     ${COLUMN_ITEM_LABEL}
     <div>Column Item</div> `,
     category: c.multicolumn,
- 
+
     content: [
       {
         tagName: "a",
@@ -108,7 +108,7 @@ export default function loadBlockColumnItem(editor, opt = {}) {
             selectable: false,
             highlightable: false,
             droppable: false,
-            draggable:false,
+            draggable: false,
             content: `
             <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
           `,
@@ -119,7 +119,7 @@ export default function loadBlockColumnItem(editor, opt = {}) {
             hoverable: false,
             selectable: false,
             highlightable: false,
-            draggable:false,
+            draggable: false,
             components: [
               {
                 attributes: { class: "card-title", style: "text-decoration: none;" },
@@ -131,7 +131,7 @@ export default function loadBlockColumnItem(editor, opt = {}) {
                 selectable: false,
                 highlightable: false,
                 droppable: false,
-                draggable:false,
+                draggable: false,
               }
               , {
                 removable: false,
@@ -143,7 +143,7 @@ export default function loadBlockColumnItem(editor, opt = {}) {
                 style: { "font-size": "medium" },
                 editable: true,
                 droppable: false,
-                draggable:false,
+                draggable: false,
                 draggable: ".Rich-Text",
                 content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or
                 welcome customers to your store.</p>`,

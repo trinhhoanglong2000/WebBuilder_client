@@ -42,7 +42,7 @@ export default function loadImage(editor, opt = {}) {
                 <div class="card-body">
                     <div class="target-img">
                         <img src=${
-                          initValue ?? trait.get("src")
+                          initValue ?? trait.get("srcDefault")
                         } class="card-img-top"/>
                     </div>
                     <button type="button" class="change-btn">Change</button>
@@ -65,8 +65,8 @@ export default function loadImage(editor, opt = {}) {
           select(asset, complete) {
             inputImage.src = asset.getSrc();
 
-            target.setAttributes({
-              ...target.getAttributes(),
+            target.set('attributes', {
+              ...target.get('attributes'),
               src: asset.getSrc(),
             });
 
@@ -80,15 +80,26 @@ export default function loadImage(editor, opt = {}) {
       };
 
       removeBtn.onclick = () => {
-        target.setAttributes({
-          ...target.getAttributes(),
+        target.set('attributes', {
+          ...target.get('attributes'),
           src: trait.get("src"),
         });
-        inputImage.src = trait.get("src");
+        inputImage.src = trait.get("srcDefault");
       };
 
       return el;
     },
+
+    onUpdate({ elInput, component }) {  
+      const initValue = component?.view.el.querySelector("img").src;
+      const inputImage = elInput.querySelector('.upload-image-area .card-body img');
+
+      if (initValue) {
+        inputImage.src = initValue;
+      } else {
+        inputImage.src = elInput.get("srcDefault");
+      }
+    }
   });
 
   editor.TraitManager.addType("image-witdh", {
@@ -107,9 +118,6 @@ export default function loadImage(editor, opt = {}) {
                 <label class="image-width-value m-0" for="image-width"> 0px </label>
             </div>
             `;
-      $(el)
-        .find("label.image-width-value")
-        .text(initValue + "px");
 
       return el;
     },
@@ -126,6 +134,13 @@ export default function loadImage(editor, opt = {}) {
           width: value + "px",
         });
     },
+
+    onUpdate({ elInput, component }) {  
+      const initValue = component.get("components").models[0].getStyle().width?.replace("px", "") ?? 0;
+
+      $(elInput).find("label.image-width-value").text(initValue + "px");
+      $(elInput).find("input.image-width").val(initValue);
+    }
   });
 
   editor.TraitManager.addType("image-radius", {
@@ -163,12 +178,17 @@ export default function loadImage(editor, opt = {}) {
           "border-radius": value + "%",
         });
     },
+    onUpdate({ elInput, component }) {  
+      const initValue = component.get("components").models[0].getStyle()["border-radius"]?.replace("%", "") ?? 0;
+
+      $(elInput).find("label.image-radius-value").text(initValue + "px");
+      $(elInput).find("input.image-radius").val(initValue);
+    }
   });
 
   editor.TraitManager.addType("image-advance-setting", {
     createInput({ trait }) {
       const el = document.createElement("div");
-      const initValue = trait.target.getAttributes().class.includes("fluid");
 
       el.innerHTML = `
                 <div class="gjs-one-bg">
@@ -180,8 +200,6 @@ export default function loadImage(editor, opt = {}) {
                 </div>
             `;
 
-      $(el).find("input.image-fullwidth").prop("checked", initValue);
-
       return el;
     },
 
@@ -189,19 +207,25 @@ export default function loadImage(editor, opt = {}) {
       const isFullWidth = elInput.querySelector(
         "input.image-fullwidth"
       ).checked;
-
+      
       if (isFullWidth) {
-        component.setAttributes({
-          ...component.getAttributes(),
-          class: "text-center container-fluid",
-        });
+        component.removeClass('container')
+        if (!component.getClasses()?.includes('container-fluid')) {
+          component.addClass('container-fluid')
+        }
       } else {
-        component.setAttributes({
-          ...component.getAttributes(),
-          class: "text-center container",
-        });
+        component.removeClass('container-fluid')
+        if (!component.getClasses()?.includes('container')) {
+          component.addClass('container')
+        }
       }
     },
+
+    onUpdate({ elInput, component }) {  
+      const isFullWidth = component.getClasses()?.includes('container');
+
+      $(elInput).find("input.image-fullwidth").prop("checked", !isFullWidth);
+    }
   });
 
   dc.addType("imageCustomType", {
@@ -211,7 +235,7 @@ export default function loadImage(editor, opt = {}) {
           {
             type: "image-upload-image",
             label: "Image",
-            src: "https://dummyimage.com/230x150/55595c/fff",
+            srcDefault: "https://ezmall-bucket.s3.ap-southeast-1.amazonaws.com/assets/a8ae4620-6eb2-4a6a-932b-3f6e2ca11302.png",
           },
           {
             name: "width",

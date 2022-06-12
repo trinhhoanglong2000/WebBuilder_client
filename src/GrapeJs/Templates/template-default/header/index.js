@@ -8,22 +8,12 @@ export default function loadBlockHeader(editor, opt = {}) {
 
   const isHaveLogo = c.logoURL ? true : false;
   const getHeaderNavigationButton = () => {
-    let navbar = [];
+    let navbar = '';
 
     if (c.headerNavigation) {
       c.headerNavigation.forEach((element) => {
         if (element.id !== c.pageId) {
-          navbar.push({
-            layerable: false,
-            copyable: false,
-            draggable: false,
-            hoverable: false,
-            selectable: false,
-            droppable: false,
-            tagName: "li",
-            attributes: { class: "nav-item" },
-            content: `<a href="#" class="nav-link p-1"> ${element.name}</a>`,
-          });
+          navbar += `<li data-highlightable="1" class="nav-item"><a href="${element.name}" class="nav-link p-1"> ${element.name} </a></li>`;
         }
       });
 
@@ -40,7 +30,7 @@ export default function loadBlockHeader(editor, opt = {}) {
     content: {
       droppable: false,
       copyable: false,
-      removable:false,
+      removable: true,
       name: "Header",
       tagName: "nav",
       type: "navbar",
@@ -54,7 +44,6 @@ export default function loadBlockHeader(editor, opt = {}) {
           layerable: false,
           copyable: false,
           draggable: false,
-          copyable: false,
           hoverable: false,
           selectable: false,
           droppable: false,
@@ -101,7 +90,7 @@ export default function loadBlockHeader(editor, opt = {}) {
                   selectable: false,
                   draggable: false,
                   attributes: {
-                    class: `img-thumbnail ${isHaveLogo ? "" : "d-none"}`,
+                    class: `img-thumbnail${isHaveLogo ? "" : " d-none"}`,
                     src:
                       c.logoURL ?? "https://dummyimage.com/600x400/55595c/fff",
                   },
@@ -142,7 +131,7 @@ export default function loadBlockHeader(editor, opt = {}) {
                   selectable: false,
                   tagName: "ul",
                   attributes: { class: "navbar-nav" },
-                  components: getHeaderNavigationButton(),
+                  content: getHeaderNavigationButton(),
                 },
               ],
             },
@@ -227,15 +216,16 @@ export default function loadBlockHeader(editor, opt = {}) {
         am.open({
           select(asset, complete) {
             inputImage.src = asset.getSrc();
-            logoImage.setAttributes({
-              ...logoImage.getAttributes(),
-              src: asset.getSrc(),
-              class: "img-thumbnail",
-            });
-            logoBrand.setAttributes({
-              ...logoBrand.getAttributes(),
-              class: "d-none",
-            });
+
+            logoImage.set('attributes', {
+              ...logoImage.get('attributes'),
+              src: asset.getSrc()
+            })
+            logoImage.removeClass('d-none')
+
+            if (!logoBrand.getClasses()?.includes('d-none')) {
+              logoBrand.addClass('d-none')
+            }
 
             if (!c.validURL(asset.getSrc())) {
               c.addTarget64Image({ id: asset.cid, target: logoImage });
@@ -247,26 +237,37 @@ export default function loadBlockHeader(editor, opt = {}) {
       };
 
       removeBtn.onclick = () => {
-        logoImage.setAttributes({
-          ...logoImage.getAttributes(),
-          src: "data:,",
-          class: "img-thumbnail d-none",
-        });
-        logoBrand.setAttributes({ ...logoBrand.getAttributes(), class: " " });
+        logoImage.set('attributes', {
+          ...logoImage.get('attributes'),
+          src: "data:,"
+        })
+        if (!logoImage.getClasses()?.includes('d-none')) {
+          logoImage.addClass('d-none')
+        }
+
+        logoBrand.removeClass('d-none')
 
         inputImage.src = trait.get("srcDefault");
       };
 
       return el;
     },
+
+    onUpdate({ elInput, component }) {
+      const src = $(component.view.el).find('.navbar-brand img').attr('src');
+      const inputImage = elInput.querySelector(".upload-image-area .card-body img");
+      
+      if (src) {
+        inputImage.src = src;
+      } else {
+        inputImage.src = elInput.get("srcDefault");
+      }
+    },
   });
 
   editor.TraitManager.addType("header-advance-setting", {
     createInput({ trait }) {
       const el = document.createElement("div");
-      const isFullWidth = trait.target
-        .getAttributes()
-        .class.includes("sticky-top");
 
       el.innerHTML = `
                 <div class="gjs-one-bg">
@@ -278,8 +279,6 @@ export default function loadBlockHeader(editor, opt = {}) {
                 </div>
             `;
 
-      $(el).find("input.header-sticky-top").prop("checked", isFullWidth);
-
       return el;
     },
 
@@ -287,16 +286,18 @@ export default function loadBlockHeader(editor, opt = {}) {
       const isSticky = elInput.querySelector("input.header-sticky-top").checked;
 
       if (isSticky) {
-        component.setAttributes({
-          ...component.getAttributes(),
-          class: "navbar navbar-expand-md border-bottom border-dark sticky-top",
-        });
+        if (!component.getClasses()?.includes('sticky-top')) {
+          component.addClass('sticky-top')
+        }
       } else {
-        component.setAttributes({
-          ...component.getAttributes(),
-          class: "navbar navbar-expand-md border-bottom border-dark",
-        });
+        component.removeClass('sticky-top')
       }
+    },
+
+    onUpdate({ elInput, component }) {
+      const isStickyTop = component.getClasses()?.includes('sticky-top');
+
+      $(elInput).find("input.header-sticky-top").prop("checked", isStickyTop);
     },
   });
 
@@ -322,7 +323,7 @@ export default function loadBlockHeader(editor, opt = {}) {
             changeProp: 1,
             label: "Logo image",
             name: "logoImage",
-            srcDefault: "https://dummyimage.com/600x400/55595c/fff",
+            srcDefault: "https://ezmall-bucket.s3.ap-southeast-1.amazonaws.com/assets/a8ae4620-6eb2-4a6a-932b-3f6e2ca11302.png",
           },
           {
             type: "select",

@@ -8,7 +8,8 @@ import {
 } from "../const";
 import { callAPIWithPostMethod } from "../../helper/callAPI.js";
 import { validURL } from "../../helper/utils.js";
-export default function LoadCommands(editor, config) {
+
+export default function LoadCommands(editor, config, opt) {
   const cm = editor.Commands;
   const txtConfirm = config.textCleanCanvas;
   //======================|| =============
@@ -26,11 +27,10 @@ export default function LoadCommands(editor, config) {
 
     if (imagesUpload.length > 0) {
       const response = await callAPIWithPostMethod("files/upload-image-to-s3", { data: imagesUpload }, false);
-  
+      
       response && response.data && response.data.forEach( (element, index) => {
         editor.AssetManager.getAll().models[target[index]].set("src", element);
-        
-        config.renderImage({id: asset[target[index]].cid, image: element})
+        opt.renderImage({id: asset[target[index]].cid, image: element})
       }) 
     }
   }

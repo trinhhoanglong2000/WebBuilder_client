@@ -8,7 +8,8 @@ export default grapesjs.plugins.add("Plugins-defaults", (editor, opts = {}) => {
   LoadCommands(editor,
     {
       textCleanCanvas: "Are you sure to clean the canvas?",
-    }
+    },
+    opts
   );
   LoadDevice(editor, opts);
   LoadPanels(editor, opts);

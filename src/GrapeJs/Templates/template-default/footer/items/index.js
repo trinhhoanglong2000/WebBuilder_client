@@ -163,6 +163,11 @@ export default function loadBlockFooterItem(editor, opt = {}) {
 
       header.set({ content: inputType });
     },
+
+    onUpdate({ elInput, component }) {
+      const initValue = component.view.el.querySelector("h5").innerHTML || "";
+      $(elInput).find("input").val(initValue);
+    }
   });
 
   editor.TraitManager.addType("footer-content", {
@@ -172,12 +177,12 @@ export default function loadBlockFooterItem(editor, opt = {}) {
       const el = document.createElement("div");
 
       el.innerHTML = `
-          <div class="imageWithText-content" style="font-size:12px;">
+          <div class="footer-content" style="font-size:12px;">
               ${(initValue === "") ? placeholder : initValue}
           </div>
       `;
 
-      const container = $(el).find(".imageWithText-content").get(0);
+      const container = $(el).find(".footer-content").get(0);
 
       let quill = new Quill(container, {
         modules: {
@@ -205,11 +210,17 @@ export default function loadBlockFooterItem(editor, opt = {}) {
       return el;
     },
     onEvent({ elInput, component, event }) {
-      const inputType = elInput.querySelector(".footer-heading").value;
-      const content = component.get("components").models[0];
+      const inputType = $(elInput).find(".ql-editor p").html();
+      
+      const content = component.get("components").models[1];
 
       content.set({ content: inputType });
     },
+
+    onUpdate({ elInput, component, trait }) {
+      const initValue = (component.view.el.querySelector("p").innerHTML || trait.get("placeholder")) || "";  
+      $(elInput).find(".ql-editor p").html(initValue);
+    }
   });
 
   editor.TraitManager.addType("footer-menu-collection", {
@@ -282,7 +293,9 @@ export default function loadBlockFooterItem(editor, opt = {}) {
             };
           } else {
             func = (ev) => {
-              trait.target.setAttributes({ ...trait.target.getAttributes(), ['menu-collection'] : "" })
+              trait.target.set('attributes', {
+                ...trait.target.get('attributes'),
+                'menu-collection' : "" })
               $(".Modal-popup ul li").removeClass("active");
               $(el).find(".Modal-popup ul li").find(".check-item").fadeOut(0);
               $(el).find(".name-collection").text("")
@@ -381,28 +394,38 @@ export default function loadBlockFooterItem(editor, opt = {}) {
     onEvent({ elInput, component, event }) {
       if (event.type === 'change') return
       const data = $(elInput).find('.Modal-popup ul li.active').data('value') || "";
-      component.setAttributes({ ...component.getAttributes(), 'menu-collection': data });
+      component.set('attributes', { 
+        ...component.get('attributes'), 
+        'menu-collection': data });
+    },
+
+    onUpdate({ elInput, component }) {
+      let initValue = component.attributes.attributes['menu-collection'] || "";
+      const onClickButton = $(elInput).find(`[data-value="${initValue}"]`)
+
+      $(".Modal-popup ul li").removeClass("active");
+      $(onClickButton).addClass("active");
+      $(".Modal-popup ul li").find(".check-item").fadeOut(0);
+      $(".Modal-popup ul li.active").find(".check-item").fadeIn(0);
+
+      let name = $(onClickButton).attr('name')
+      $(elInput).find(`.card .name-collection`).text(name)
     },
   })
 
   editor.TraitManager.addType("footer-menu-advance-setting", {
     createInput({ trait }) {
       const el = document.createElement("div");
-      const isOneRow = trait.target
-        .getAttributes()
-        .class.includes('one-row');
 
       el.innerHTML = `
                 <div class="gjs-one-bg">
                     <label class="checkbox-product gjs-label-wrp">
                         <input class ="checkbox-input footer-menu-one-row" type="checkbox" id="border">
                         <div class="checkbox_box"></div>
-                        Display this menu  in one row
+                        Display menu  in one row
                     <label/>
                 </div>
             `;
-
-      $(el).find("input.footer-menu-one-row").prop("checked", isOneRow);
 
       return el;
     },
@@ -411,16 +434,22 @@ export default function loadBlockFooterItem(editor, opt = {}) {
       const isOneRow = elInput.querySelector("input.footer-menu-one-row").checked;
 
       if (isOneRow) {
-        component.setAttributes({
-          ...component.getAttributes(),
-          class: "one-row",
-        });
+        component.removeClass('col-md')
+        if (!component.getClasses()?.includes('one-row')) {
+          component.addClass('one-row')
+        }
       } else {
-        component.setAttributes({
-          ...component.getAttributes(),
-          class: "col-md",
-        });
+        component.removeClass('one-row')
+        if (!component.getClasses()?.includes('col-md')) {
+          component.addClass('col-md')
+        }
       }
+    },
+
+    onUpdate({ elInput, component }) {
+      const isOneRow = component.getClasses()?.includes('col-md');
+
+      $(elInput).find("input.footer-menu-one-row").prop("checked", !isOneRow);
     },
   });
 
@@ -449,7 +478,10 @@ export default function loadBlockFooterItem(editor, opt = {}) {
         am.open({
           select(asset, complete) {
             inputImage.src = asset.getSrc();
-            target.setAttributes({ ...target.getAttributes(), 'src': asset.getSrc() })
+            target.set('attributes', { 
+                ...target.get('attributes'),
+                'src': asset.getSrc() 
+              })
 
             if (!c.validURL(asset.getSrc())) {
               c.addTarget64Image({ id: asset.cid, target: target })
@@ -462,12 +494,26 @@ export default function loadBlockFooterItem(editor, opt = {}) {
       };
 
       removeBtn.onclick = () => {
-        target.setAttributes({ ...target.getAttributes(), 'src': trait.get('src') })
+        target.set('attributes', { 
+          ...target.get('attributes'),
+          'src': trait.get('src') 
+        })
         inputImage.src = trait.get('src');
       };
 
       return el;
     },
+
+    onUpdate({ elInput, component }) {  
+      const initValue = component?.view.el.querySelector("img").src;
+      const inputImage = elInput.querySelector('.upload-image-area .card-body img');
+
+      if (initValue) {
+        inputImage.src = initValue;
+      } else {
+        inputImage.src = elInput.get("srcDefault");
+      }
+    }
   });
 
   dc.addType("footer-quick-link", {

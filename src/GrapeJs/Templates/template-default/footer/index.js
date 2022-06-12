@@ -208,112 +208,6 @@ export default function loadBlockFooter(editor, opt = {}) {
     },
   });
 
-  // editor.TraitManager.addType("footer-linkedIn-link", {
-  //   createInput({ trait }) {
-  //     const el = document.createElement("div");
-  //     const initValue = trait.target.attributes.attributes['linkedIn'];
-  //     const href = trait.target.view.el.querySelector('.linkedIn-fanpage').href || "";
-
-  //     el.innerHTML = `
-  //           <div class="gjs-one-bg">
-  //               <label class="checkbox-product gjs-label-wrp">
-  //                   <input class ="checkbox-input footer-linkedIn-check" type="checkbox" id="border">
-  //                   <div class="checkbox_box"></div>
-  //                   LinkedIn Fanpage
-  //               <label/>
-  //           </div>
-  //           <div class="gjs-field gjs-field-text">
-  //             <input class="footer-linkedIn-link" style="display: ${initValue ? "initial" : "none"}" placeholder="Link LinkedIn" value="${href}" />
-  //           </div>
-  //       `;
-
-  //     const linkedIn = editor.getSelected().get("components").models[0];
-  //     $(el).find("input.footer-linkedIn-link").on('input', function () {
-  //       const value = $(this).val();
-  //       linkedIn.setAttributes({ ...linkedIn.getAttributes(), 'href': value })
-  //     });
-
-  //     $(el).find("input.footer-linkedIn-check").prop('checked', initValue);
-
-  //     return el;
-  //   },
-
-  //   onEvent({ elInput, component, event }) {
-  //     const ischeck = elInput.querySelector('input.footer-linkedIn-check').checked;
-  //     const input = elInput.querySelector('input.footer-linkedIn-link');
-  //     const linkedIn = editor.getSelected().get("components").models[0];
-
-  //     component.setAttributes({ ...component.getAttributes(), 'linkedIn': ischeck });
-
-  //     if (ischeck) {
-  //       input.style.display = 'initial';
-  //       linkedIn.setAttributes({ ...linkedIn.getAttributes(), 'class': 'linkedIn-fanpage' })
-  //     } else {
-  //       input.style.display = 'none';
-  //       linkedIn.setAttributes({ ...linkedIn.getAttributes(), 'class': 'linkedIn-fanpage d-none' })
-  //     }
-  //   },
-  // });
-
-  // editor.TraitManager.addType("footer-instagram-link", {
-  //   createInput({ trait }) {
-  //     const el = document.createElement("div");
-  //     const initValue = trait.target.attributes.attributes['instagram'];
-  //     const href = trait.target.view.el.querySelector('.instagram-fanpage').href || "";
-
-  //     el.innerHTML = `
-  //           <div class="gjs-one-bg">
-  //               <label class="checkbox-product gjs-label-wrp">
-  //                   <input class ="checkbox-input footer-instagram-check" type="checkbox" id="border">
-  //                   <div class="checkbox_box"></div>
-  //                   Instagram Fanpage
-  //               <label/>
-  //           </div>
-  //           <div class="gjs-field gjs-field-text">
-  //             <input class="footer-instagram-link" style="display: ${initValue ? "initial" : "none"}" placeholder="Link Instagram" value="${href}" />
-  //           </div>
-  //       `;
-
-  //     const instagram = editor.getSelected().get("components").models[1];
-  //     $(el).find("input.footer-instagram-link").on('input', function () {
-  //       const value = $(this).val();
-        
-  //       let regex = new RegExp("((http|https)://)?(www[.])?instagram.com/.+");
-  //       let isInstagramLink = !!regex.test(value);
-
-  //       if (isInstagramLink) {
-  //         instagram.setAttributes({ ...instagram.getAttributes(), 'href': value })
-  //       } else {
-  //         Swal.fire({
-  //           icon: 'error',
-  //           title: 'Link  Error',
-  //           text: 'This is not a instagram link!',
-  //         })
-  //       }
-  //     });
-
-  //     $(el).find("input.footer-instagram-check").prop('checked', initValue);
-
-  //     return el;
-  //   },
-
-  //   onEvent({ elInput, component, event }) {
-  //     const ischeck = elInput.querySelector('input.footer-instagram-check').checked;
-  //     const input = elInput.querySelector('input.footer-instagram-link');
-  //     const instagram = editor.getSelected().get("components").models[1];
-
-  //     component.setAttributes({ ...component.getAttributes(), 'instagram': ischeck });
-
-  //     if (ischeck) {
-  //       input.style.display = 'initial';
-  //       instagram.setAttributes({ ...instagram.getAttributes(), 'class': 'instagram-fanpage' })
-  //     } else {
-  //       input.style.display = 'none';
-  //       instagram.setAttributes({ ...instagram.getAttributes(), 'class': 'instagram-fanpage d-none' })
-  //     }
-  //   },
-  // });
-  
   editor.TraitManager.addType("footer-linkedIn-link", {
     createInput({ trait }) {
       const el = document.createElement("div");
@@ -425,16 +319,21 @@ export default function loadBlockFooter(editor, opt = {}) {
 
       $(el).find("input.footer-linkedIn-check").change(function () {
         const isChecked = $(this).is(":checked");
-        const linkedIn = editor.getSelected().get("components").models[0];
+        const linkedIn = trait.target.get("components").models[0];
 
-        trait.target.setAttributes({ ...trait.target.getAttributes(), 'linkedIn': isChecked });
+        trait.target.set('attributes', {
+          ...trait.target.get('attributes'),
+          'linkedIn': isChecked
+        })
 
         if (isChecked)  {
           $(el).find('#Link-combo').show();
-          linkedIn.setAttributes({ ...linkedIn.getAttributes(), 'class': 'linkedIn-fanpage' });
+          linkedIn.removeClass('d-none');
         } else {
           $(el).find('#Link-combo').hide();
-          linkedIn.setAttributes({ ...linkedIn.getAttributes(), 'class': 'linkedIn-fanpage d-none' });
+          if (!linkedIn.getClasses()?.includes('d-none')) {
+            linkedIn.addClass('d-none');
+          }
         }
       });
 
@@ -446,8 +345,38 @@ export default function loadBlockFooter(editor, opt = {}) {
     onEvent({ elInput, component, event }) {
       if (event.type) { return; }
       const value = event.valueHref ? event.valueHref : '#';
-      const linkedIn = editor.getSelected().get("components").models[0];
-      linkedIn.setAttributes({ ...linkedIn.getAttributes(), 'href': value });
+      const linkedIn = component.get("components").models[0];
+
+      linkedIn.set('attributes', {
+        ...linkedIn.get('attributes'),
+        'href': value
+      })
+    },
+
+    onUpdate({ elInput, component }) {
+      const initValue = component.attributes.attributes['linkedIn'];
+      const href = component.view.el.querySelector('.linkedIn-fanpage')?.href || "";
+
+      if (initValue)  {
+        $(elInput).find('#Link-combo').show();
+      } else {
+        $(elInput).find('#Link-combo').hide();
+      }
+
+      $(elInput).find("input.footer-linkedIn-check").prop("checked", initValue);
+      $(elInput).find("input.footer-linkedIn-link").val(href);
+
+      if (href || href != "") {
+        $(elInput).find('input').css('padding-left', '39px');
+        $(elInput).find('#icons').css("display", "block");
+        $(elInput).find('input').css('padding-right', '25px');
+        $(elInput).find('#delete_icon').css("display", "block");
+      } else {
+        $(elInput).find('input').css('padding-left', '');
+        $(elInput).find('#icons').css("display", "none");
+        $(elInput).find('input').css('padding-left', '');
+        $(elInput).find('#delete_icon').css("display", "none");
+      }
     },
   });
 
@@ -564,14 +493,19 @@ export default function loadBlockFooter(editor, opt = {}) {
         const isChecked = $(this).is(":checked");
         const instagram = editor.getSelected().get("components").models[1];
 
-        trait.target.setAttributes({ ...trait.target.getAttributes(), 'instagram': isChecked });
-
+        trait.target.set('attributes', {
+          ...trait.target.get('attributes'),
+          'instagram': isChecked
+        })
+        
         if (isChecked)  {
           $(el).find('#Link-combo').show();
-          instagram.setAttributes({ ...instagram.getAttributes(), 'class': 'instagram-fanpage' });
+          instagram.removeClass('d-none');
         } else {
           $(el).find('#Link-combo').hide();
-          instagram.setAttributes({ ...instagram.getAttributes(), 'class': 'instagram-fanpage d-none' });
+          if (!instagram.getClasses()?.includes('d-none')) {
+            instagram.addClass('d-none');
+          }
         }
       });
 
@@ -583,8 +517,38 @@ export default function loadBlockFooter(editor, opt = {}) {
     onEvent({ elInput, component, event }) {
       if (event.type) { return; }
       const value = event.valueHref ? event.valueHref : '#';
-      const instagram = editor.getSelected().get("components").models[1];
-      instagram.setAttributes({ ...instagram.getAttributes(), 'href': value });
+      const instagram = component.get("components").models[1];
+
+      instagram.set('attributes', {
+        ...instagram.get('attributes'),
+        'href': value
+      })
+    },
+
+    onUpdate({ elInput, component }) {
+      const initValue = component.attributes.attributes['instagram'];
+      const href = component.view.el.querySelector('.instagram-fanpage')?.href || "";
+
+      if (initValue)  {
+        $(elInput).find('#Link-combo').show();
+      } else {
+        $(elInput).find('#Link-combo').hide();
+      }
+
+      $(elInput).find("input.footer-instagram-check").prop("checked", initValue);
+      $(elInput).find("input.footer-instagram-link").val(href);
+
+      if (href || href != "") {
+        $(elInput).find('input').css('padding-left', '39px');
+        $(elInput).find('#icons').css("display", "block");
+        $(elInput).find('input').css('padding-right', '25px');
+        $(elInput).find('#delete_icon').css("display", "block");
+      } else {
+        $(elInput).find('input').css('padding-left', '');
+        $(elInput).find('#icons').css("display", "none");
+        $(elInput).find('input').css('padding-left', '');
+        $(elInput).find('#delete_icon').css("display", "none");
+      }
     },
   });
 
@@ -701,14 +665,19 @@ export default function loadBlockFooter(editor, opt = {}) {
         const isChecked = $(this).is(":checked");
         const facebook = editor.getSelected().get("components").models[2];
 
-        trait.target.setAttributes({ ...trait.target.getAttributes(), 'facebook': isChecked });
+        trait.target.set('attributes', {
+          ...trait.target.get('attributes'),
+          'facebook': isChecked
+        })
 
         if (isChecked)  {
           $(el).find('#Link-combo').show();
-          facebook.setAttributes({ ...facebook.getAttributes(), 'class': 'facebook-fanpage' });
+          facebook.removeClass('d-none');
         } else {
           $(el).find('#Link-combo').hide();
-          facebook.setAttributes({ ...facebook.getAttributes(), 'class': 'facebook-fanpage d-none' });
+          if (!facebook.getClasses()?.includes('d-none')) {
+            facebook.addClass('d-none');
+          }
         }
       });
 
@@ -720,8 +689,38 @@ export default function loadBlockFooter(editor, opt = {}) {
     onEvent({ elInput, component, event }) {
       if (event.type) { return; }
       const value = event.valueHref ? event.valueHref : '#';
-      const facebook = editor.getSelected().get("components").models[2];
-      facebook.setAttributes({ ...facebook.getAttributes(), 'href': value });
+      const facebook = component.get("components").models[2];
+
+      facebook.set('attributes', {
+        ...facebook.get('attributes'),
+        'href': value
+      })
+    },
+
+    onUpdate({ elInput, component }) {
+      const initValue = component.attributes.attributes['facebook'];
+      const href = component.view.el.querySelector('.facebook-fanpage')?.href || "";
+
+      if (initValue)  {
+        $(elInput).find('#Link-combo').show();
+      } else {
+        $(elInput).find('#Link-combo').hide();
+      }
+
+      $(elInput).find("input.footer-facebook-check").prop("checked", initValue);
+      $(elInput).find("input.footer-facebook-link").val(href);
+
+      if (href || href != "") {
+        $(elInput).find('input').css('padding-left', '39px');
+        $(elInput).find('#icons').css("display", "block");
+        $(elInput).find('input').css('padding-right', '25px');
+        $(elInput).find('#delete_icon').css("display", "block");
+      } else {
+        $(elInput).find('input').css('padding-left', '');
+        $(elInput).find('#icons').css("display", "none");
+        $(elInput).find('input').css('padding-left', '');
+        $(elInput).find('#delete_icon').css("display", "none");
+      }
     },
   });
 
@@ -744,8 +743,7 @@ export default function loadBlockFooter(editor, opt = {}) {
           },
         ],
       },
-      init() {
-      },
+      init() {},
       initData() { },
     },
   });

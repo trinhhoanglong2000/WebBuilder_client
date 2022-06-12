@@ -51,6 +51,8 @@ const loadStoreComponents = async(editor, storeId) => {
       }
     }
   }
+  
+  editor.UndoManager.clear()
 
   return true;
 }

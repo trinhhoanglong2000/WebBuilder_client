@@ -67,11 +67,6 @@ export default function loadVideo(editor, opt = {}) {
 
     editor.TraitManager.addType("video-advance-setting", {
         createInput({ trait }) {
-            const initValue = trait.target.view.el.querySelector("iframe").src || "";
-            const isAuto = (initValue && initValue.includes("autoplay=1"))
-            const isLoop = (initValue && initValue.includes("loop=1"))
-            const isControls = (initValue && initValue.includes("controls=1"))
-
             const el = document.createElement("div");
             el.innerHTML = `
                 <div class="gjs-one-bg">
@@ -102,26 +97,10 @@ export default function loadVideo(editor, opt = {}) {
                     <label class="checkbox-product gjs-label-wrp">
                         <input class="checkbox-input video-control" type="checkbox" id="border">  
                         <div class="checkbox_box"></div>
-                        Control
+                        Show Control
                     </label>
                 </div>
             `;
-
-            $(el)
-                .find("input.video-auto-play")
-                .prop('checked', trait.get('fullwidth'))
-
-            $(el)
-                .find("input.video-auto-play")
-                .prop('checked', isAuto?? false)
-
-            $(el)
-                .find("input.video-loop")
-                .prop('checked', isLoop?? false)
-
-            $(el)
-                .find("input.video-control")
-                .prop('checked', isControls?? false)
 
             return el;
         },
@@ -143,20 +122,40 @@ export default function loadVideo(editor, opt = {}) {
             embedLink += `&autoplay=${(autoplay)? '1' : '0'}`;
             embedLink += `&loop=${(loop)? '1' : '0'}&playlist=${youtubeId}`;
             embedLink += `&controls=${(control)? '1' : '0'}`;
-
+             
             if (attributes.src !== embedLink) {
-                attributes.src = embedLink;
-                component.get('components').models[0].view.el.src = embedLink; 
+                video.set('attributes', {
+                    ...attributes,
+                    'src': embedLink
+                })
             }
 
-            // full width 
             const fullwidth = elInput.querySelector('.video-fullwidth').checked;
             if (fullwidth) {
-                // component.setStyle
+                component.removeClass('container')
+                if (!component.getClasses()?.includes('container-fluid')) {
+                  component.addClass('container-fluid')
+                }
             } else {
-            
+                component.removeClass('container-fluid')
+                if (!component.getClasses()?.includes('container')) {
+                  component.addClass('container')
+                }
             }
         },
+
+        onUpdate({ elInput, component}) {
+            const initValue = component.view.el.querySelector("iframe").src || "";
+            const isAuto = (initValue && initValue.includes("autoplay=1"))
+            const isLoop = (initValue && initValue.includes("loop=1"))
+            const isControls = (initValue && initValue.includes("controls=1"))
+            const isFullWidth = component.getAttributes().class?.includes("fluid");
+
+            $(elInput).find("input.video-auto-play").prop('checked', isAuto?? false)
+            $(elInput).find("input.video-loop").prop('checked', isLoop?? false)
+            $(elInput).find("input.video-control").prop('checked', isControls?? false)
+            $(elInput).find("input.video-fullwidth").prop('checked', isFullWidth)
+        }
     });
 
     dc.addType('videoCustomType', {

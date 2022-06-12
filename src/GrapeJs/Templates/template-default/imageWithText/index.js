@@ -120,42 +120,41 @@ export default function loadImageWithText(editor, opt = {}) {
 
   editor.TraitManager.addType("imageWithText-heading", {
     createInput({ trait }) {
-      const initValue =
-        trait.target.view.el.querySelector("h1").innerHTML || "";
       const placeholder = trait.get("placeholder") || "";
       const el = document.createElement("div");
       el.innerHTML = `
                 <div class="gjs-field gjs-field-text">
-                    <input class="imageWithText-heading" placeholder="${placeholder}" value="${initValue}" />
+                    <input class="imageWithText-heading" placeholder="${placeholder}"/>
                 </div>
             `;
 
-      $(el)
-        .find("input")
-        .on("input", (ev) => this.onChange(ev));
+      $(el).find("input").on("input", (ev) => this.onChange(ev));
 
       return el;
     },
 
     onEvent({ elInput, component, event }) {
       const inputType = elInput.querySelector(".imageWithText-heading").value;
-      const parent = component
-        .get("components")
+      const parent = component.get("components")
         .models[0].get("components")
         .models[1].get("components").models[0];
       const header = parent.get("components").models[0];
 
       header.set({ content: inputType });
     },
+
+    onUpdate({elInput, component}) {
+      const initValue = component.view.el.querySelector("h1").innerHTML || "";
+
+      $(elInput).find('input.imageWithText-heading').val(initValue);
+    }
   });
 
   editor.TraitManager.addType("imageWithText-heading-align", {
     // Expects as return a simple HTML string or an HTML element
     createInput({ trait }) {
-      const initValue = trait.target.getStyle()["text-align"] || "left";
       const el = document.createElement("div");
       el.innerHTML = `
-    
             <div class="Radio-Group gjs-one-bg">
                 <input id="left" type="radio" name="alignment" value="left" style="display:none" />
     
@@ -174,25 +173,29 @@ export default function loadImageWithText(editor, opt = {}) {
                 </label>
             </div>
           `;
-      $(el).find(`#${initValue}`).prop("checked", true);
-
+    
       return el;
     },
 
     onEvent({ elInput, component, event }) {
-      const inputType = elInput.querySelector(
-        'input[name="alignment"]:checked'
-      );
-      const parent = component
-        .get("components")
+      const inputType = elInput.querySelector('input[name="alignment"]:checked');
+      const parent = component.get("components")
         .models[0].get("components")
         .models[1].get("components").models[0];
       const header = parent.get("components").models[0];
 
-      let data = inputType.value;
-
-      header.setStyle({ ...header.getStyle(), "text-align": data });
+      header.setStyle({ ...header.getStyle(), "text-align": inputType.value });
     },
+
+    onUpdate({ elInput, component }) {
+      const initValue = component.get("components")
+        .models[0].get("components")
+        .models[1].get("components")
+        .models[0].get("components")
+        .models[0].getStyle()["text-align"] || "left";
+
+      $(elInput).find(`#${initValue}`).prop("checked", true);
+    }
   });
 
   editor.TraitManager.addType("imageWithText-content", {
@@ -224,6 +227,7 @@ export default function loadImageWithText(editor, opt = {}) {
         },
         theme: "snow",
       });
+
       quill.on("text-change", (delta, oldDelta, source) => {
         if (source === "api") {
           console.log("An API call triggered this change.");
@@ -244,6 +248,15 @@ export default function loadImageWithText(editor, opt = {}) {
 
       content.set({ content: inputType });
     },
+
+    onUpdate({ elInput, component, trait }) {
+      const initValue = (component.get("components")
+        .models[0].get("components")
+        .models[1].get("components")
+        .models[0].get("components")
+        .models[1].view.el.innerHTML || trait.get("placeholder")) || "";
+        $(elInput).find(".ql-editor p").html(initValue);
+    }
   });
 
   editor.TraitManager.addType("imageWithText-button-label", {
@@ -266,19 +279,23 @@ export default function loadImageWithText(editor, opt = {}) {
       return el;
     },
     onEvent({ elInput, component, event }) {
-      const inputType = elInput.querySelector(".imageWithText-button-label");
-      const parent = component
-        .get("components")
+      const inputType = $(elInput).find('.imageWithText-button-label');
+      const parent = component.get("components")
         .models[0].get("components")
         .models[1].get("components").models[0];
       const button = parent.get("components").models[2];
 
-      let data = inputType.value;
+      let data = inputType.val();
 
       if (button.get("content") !== data) {
         button.set({ content: data });
       }
     },
+
+    onUpdate({ elInput, component }) {
+      const initValue = component.view.el.querySelector("a").innerHTML || "";
+      $(elInput).find('.imageWithText-button-label').val(initValue)
+    }
   });
 
   editor.TraitManager.addType("imageWithText-upload-image", {
@@ -316,8 +333,8 @@ export default function loadImageWithText(editor, opt = {}) {
         am.open({
           select(asset, complete) {
             inputImage.src = asset.getSrc();
-            target.setAttributes({
-              ...target.getAttributes(),
+            target.set('attributes', {
+              ...target.get('attributes'),
               src: asset.getSrc(),
             });
 
@@ -331,8 +348,8 @@ export default function loadImageWithText(editor, opt = {}) {
       };
 
       removeBtn.onclick = () => {
-        target.setAttributes({
-          ...target.getAttributes(),
+        target.set('attributes', {
+          ...target.get('attributes'),
           src: trait.get("src"),
         });
         inputImage.src = trait.get("src");
@@ -340,18 +357,22 @@ export default function loadImageWithText(editor, opt = {}) {
 
       return el;
     },
+
+    onUpdate({ elInput, component }) {  
+      const initValue = component?.view.el.querySelector("img").src;
+      const inputImage = elInput.querySelector('.upload-image-area .card-body img');
+
+      if (initValue) {
+        inputImage.src = initValue;
+      } else {
+        inputImage.src = elInput.get("srcDefault");
+      }
+    }
   });
 
   editor.TraitManager.addType("imageWithText-advance-setting", {
     createInput({ trait }) {
       const el = document.createElement("div");
-      const isFullWidth = trait.target.getAttributes().class.includes("fluid");
-      const textPart = trait.target
-        .get("components")
-        .models[0].get("components").models[1];
-      const parent = textPart.get("components").models[0];
-      const isHideButton = parent.get("components").models[2].getStyle()["display"];
-      const isHideBorderText = textPart.getStyle()["border"];
 
       el.innerHTML = `
                 <div class="gjs-one-bg">
@@ -377,14 +398,6 @@ export default function loadImageWithText(editor, opt = {}) {
                 </div>
             `;
 
-      $(el).find("input.imageWithText-fullwidth").prop("checked", isFullWidth);
-      $(el)
-        .find("input.imageWithText-hideButton")
-        .prop("checked", isHideButton === "none");
-      $(el)
-        .find("input.imageWithText-hideBorderText")
-        .prop("checked", isHideBorderText !== "2px solid lightgray;");
-
       return el;
     },
 
@@ -393,16 +406,17 @@ export default function loadImageWithText(editor, opt = {}) {
       const textPart = component.get("components").models[0].get("components").models[1];
       const parent = textPart.get("components").models[0];
       const button = parent.get("components").models[2];
+
       if (isFullWidth) {
-        component.setAttributes({
-          ...component.getAttributes(),
-          class: "container-fluid",
-        });
+        component.removeClass('container')
+        if (!component.getClasses()?.includes('container-fluid')) {
+          component.addClass('container-fluid')
+        }
       } else {
-        component.setAttributes({
-          ...component.getAttributes(),
-          class: "container",
-        });
+        component.removeClass('container-fluid')
+        if (!component.getClasses()?.includes('container')) {
+          component.addClass('container')
+        }
       }
 
       const isHideButton = elInput.querySelector("input.imageWithText-hideButton").checked;
@@ -424,6 +438,18 @@ export default function loadImageWithText(editor, opt = {}) {
         });
       }
     },
+
+    onUpdate({ elInput, component }) {  
+      const isFullWidth = component.getAttributes().class?.includes("fluid");
+      const textPart = component.get("components").models[0].get("components").models[1];
+      const parent = textPart.get("components").models[0];
+      const isHideButton = parent.get("components").models[2].getStyle()["display"];
+      const isHideBorderText = textPart.getStyle()["border"];
+
+      $(elInput).find("input.imageWithText-fullwidth").prop("checked", isFullWidth);
+      $(elInput).find("input.imageWithText-hideButton").prop("checked", isHideButton === "none");
+      $(elInput).find("input.imageWithText-hideBorderText").prop("checked", isHideBorderText !== "2px solid lightgray;");
+    }
   });
 
   editor.TraitManager.addType("imageWithText-button-link", {
@@ -484,7 +510,6 @@ export default function loadImageWithText(editor, opt = {}) {
         defaultIcons = URL_ICON;
       }
       const defaultMenu_Collection = `
-      
         <li data-value ="Collections" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
           ${COLLECTION_ICON}
           <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
@@ -816,8 +841,64 @@ export default function loadImageWithText(editor, opt = {}) {
       const textPart = component.get("components").models[0].get("components").models[1];
       const parent = textPart.get("components").models[0];
       const button = parent.get("components").models[2];
-      button.setAttributes({ ...component.getAttributes(), 'href': value });
+      button.set('attributes', { 
+        ...button.getAttributes(), 
+        'href': value 
+      });
       button.set('traitValue', event.traitValue);
+    },
+
+    // Expects as return a simple HTML string or an HTML element
+    onUpdate({ elInput, component }) {
+      const textPart = component.get("components").models[0].get("components").models[1];
+      const parent = textPart.get("components").models[0];
+      const button = parent.get("components").models[2];
+      let initValue = button.attributes.traitValue?.split(/;(.*)/s) || "";
+
+      let previousValue = initValue[1] || ""
+      if (!button.get('attributes').href) {
+        initValue=""
+        previousValue =""
+        button.set('traitValue','')
+      }
+      let defaultIcons = ""
+      if (initValue[0] == "Collections") {
+        defaultIcons = COLLECTION_ICON
+      }
+      else if (initValue[0] == "Products") {
+        defaultIcons = PRODUCTS_ICON
+
+      }
+      else if (initValue[0] == "Pages") {
+        defaultIcons = PAGES_ICON
+
+      }
+      else if (initValue[0] == "Privacy") {
+        defaultIcons = PRIVACY_ICON
+
+      }
+      else if (initValue[0]=="_URL_LINK")
+      {
+        defaultIcons =URL_ICON
+      }
+
+      if (previousValue !== "") {
+        $(elInput).find('input').css('padding-left', '39px');
+        $(elInput).find('#icons').css("display", "block")
+
+        $(elInput).find('input').css('padding-right', '25px');
+        $(elInput).find('#delete_icon').css("display", "block")
+
+      }
+      else {
+        $(elInput).find('input').css('padding-left', '');
+        $(elInput).find('#icons').css("display", "none")
+
+        $(elInput).find('input').css('padding-left', '');
+        $(elInput).find('#delete_icon').css("display", "none")
+      }
+      $(elInput).find('input').val(previousValue)
+      $(elInput).find('#icons').empty().append(defaultIcons)
     },
   });
 

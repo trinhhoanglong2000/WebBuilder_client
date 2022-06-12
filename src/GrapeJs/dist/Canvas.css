@@ -10,7 +10,7 @@
   z-index: 4;
 }
 .gjs-pn-btn {
-  font-size: 18px !important;
+  font-size: 20px !important;
 }
 .gjs-pn-options,
 .gjs-pn-devices-c,
@@ -20,19 +20,25 @@
   background-color: #444 !important;
   border-bottom: 2px solid rgba(0, 0, 0, 0.2);
   color: #c6d0cc !important;
+  height: 62px;
+}
+.gjs-pn-buttons{
+  height: 50px;
 }
 .gjs-pn-devices-c {
-  left: 50%;
+  left: 15%;
 }
 .gjs-pn-options {
   z-index: 6;
 }
-
+.gjs-pn-views-container{
+  padding-top: 62px
+}
 .gjs-pn-block-container {
-  height: calc(100% - 42px);
+  height: calc(100% - 62px);
   /*  */
   padding: 0 0 0;
-  top: 42px;
+  top: 62px;
 
   /*  */
   left: 0%;
@@ -50,6 +56,8 @@
   right: 15%;
   /* transition: 1s; */
   left: unset;
+  top: 62px;
+  height: calc(100% - 62px)
 }
 .active-block {
   left: -15%;
@@ -99,9 +107,7 @@
   .gjs-block-label {
     font-size: 0.45rem;
   }
-  .gjs-pn-devices-c {
-    left: 40%;
-  }
+
 }
 @media only screen and (max-width: 1000px) {
   .gjs-pn-devices-c {
@@ -280,7 +286,7 @@
   border-color: #2266dc;
 }
 .Modal-popup {
-  height: calc(100vh - 42px);
+  height: calc(100vh - 62px);
   width: 110%;
   position: absolute;
   background-color: white;

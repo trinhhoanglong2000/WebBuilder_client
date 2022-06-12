@@ -17,9 +17,9 @@
 .gjs-pn-commands,
 .gjs-pn-open-block,
 .gjs-pn-views {
-  background-color: #444 !important;
+  background-color: rgb(231, 235, 240) !important;
   border-bottom: 2px solid rgba(0, 0, 0, 0.2);
-  color: #c6d0cc !important;
+  /* color: #c6d0cc !important; */
   height: 62px;
 }
 .gjs-pn-buttons{
@@ -73,19 +73,20 @@
   background-color: var(--theme);
 }
 .gjs-two-color {
-  color: black;
+  color: rgb(26, 32, 39);
 }
 .gjs-title,
 .gjs-sm-sector-title,
 .gjs-field {
-  /* background-color: #c5cfc8!important; */
-  background-color: #e0eae3 !important;
+  background-color: rgb(231, 235, 240) !important;
+  /* background-color: #e0eae3 !important; */
 }
 .gjs-four-color {
-  color: #84dd9e;
+  color: rgb(26, 32, 39);;
 }
 .gjs-four-color-h:hover {
-  color: #4c884c;
+  /* color: #4c884c; */
+  color:#126504
 }
 
 .gjs-color-warn {
@@ -369,7 +370,10 @@
 #Link-combo.combo ul::-webkit-scrollbar-thumb {
   background: rgb(106, 106, 106)
 }
+iframe{
+  background: rgb(81 81 81)
 
+}
 /* Handle on hover */
 #Link-combo.combo ul::-webkit-scrollbar-thumb:hover {
   background: rgb(87, 87, 87)

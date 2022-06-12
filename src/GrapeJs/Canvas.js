@@ -194,12 +194,12 @@ function Canvas({ type }) {
                 $("#navigationPanelPages").removeClass("dnone");
               })
               editor.on('stop:open-tm stop:open-layers', () => {
-                if (!editor.Commands.isActive('open-tm') && !editor.Commands.isActive('open-layers')){
-                  $('.gjs-pn-panel.gjs-pn-views-container >div:first-child > div:nth-child(2)').css('display','block')
+                if (!editor.Commands.isActive('open-tm') && !editor.Commands.isActive('open-layers')) {
+                  $('.gjs-pn-panel.gjs-pn-views-container >div:first-child > div:nth-child(2)').css('display', 'block')
                 }
               })
               editor.on('run:open-layers', () => {
-                $('.gjs-pn-panel.gjs-pn-views-container >div:first-child > div').css('display','none')
+                $('.gjs-pn-panel.gjs-pn-views-container >div:first-child > div').css('display', 'none')
               })
               editor.on('undo', (some, argument) => {
                 // do something
@@ -254,6 +254,15 @@ function Canvas({ type }) {
                       return false;
                     }
                   });
+                  //====================| Collapsed block's Categories| ===========
+                  const categories = editor.BlockManager.getCategories();
+                  categories.each(category => {
+                    category.set('open', false).on('change:open', opened => {
+                      opened.get('open') && categories.each(category => {
+                        category !== opened && category.set('open', false)
+                      })
+                    })
+                  })
                   // ============================= | Init UI when not selected| =========================== 
                   const initTraitManger = `
                   <div class="d-flex flex-column pt-2">

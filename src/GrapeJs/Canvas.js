@@ -25,7 +25,7 @@ import { Customize_icon } from "../asset/icon/svg"
 import Swal from 'sweetalert2'
 import { ContactSupportOutlined } from "@mui/icons-material";
 import {
-
+  cmdTogglePreview,
   save
 } from "./const";
 function Canvas({ type }) {
@@ -47,23 +47,6 @@ function Canvas({ type }) {
     return ["Plugins-defaults", "template-default"];
     // return ["Plugins-defaults", "template-default", "gjs-blocks-basic"];
   };
-
-  useEffect(() => {
-    $(document).ready(function () {
-      document.addEventListener("keydown", function (event) {
-        if (event.ctrlKey) {
-          event.preventDefault();
-        }
-      });
-      $(document).on("DOMNodeInserted", function (e) {
-        if ($(e.target).hasClass("gjs-off-prv")) {
-          $(e.target).click(function () {
-            $(".navigationPanel").removeClass("dnone");
-          });
-        }
-      });
-    });
-  }, []);
 
   useEffect(() => {
     dispatch(getInitDataStore(storeId)).then(() => {
@@ -153,6 +136,10 @@ function Canvas({ type }) {
                   keys: '⌘+s, ctrl+s',
                   handler: save,
                 },
+                'core:save': {
+                  keys: '⌘+p, ctrl+p',
+                  handler: cmdTogglePreview,
+                },
                 'core:component-next': {
                   keys: 's',
                   handler: 'core:component-next',
@@ -200,6 +187,20 @@ function Canvas({ type }) {
             //===============|Do the event listen here|===============
             onInit={(editor) => {
               setEditor(editor);
+              editor.on('run:preview', () => {
+                $("#navigationPanelPages").addClass("dnone");
+              })
+              editor.on('stop:preview', () => {
+                $("#navigationPanelPages").removeClass("dnone");
+              })
+              editor.on('stop:open-tm stop:open-layers', () => {
+                if (!editor.Commands.isActive('open-tm') && !editor.Commands.isActive('open-layers')){
+                  $('.gjs-pn-panel.gjs-pn-views-container >div:first-child > div:nth-child(2)').css('display','block')
+                }
+              })
+              editor.on('run:open-layers', () => {
+                $('.gjs-pn-panel.gjs-pn-views-container >div:first-child > div').css('display','none')
+              })
               editor.on('undo', (some, argument) => {
                 // do something
                 if (editor.getSelected()) {
@@ -240,7 +241,20 @@ function Canvas({ type }) {
               editor.onReady(() => {
                 const initStoreData = async () => {
                   await loadStoreComponents(editor, storeId)
-                  // ============================= | | =========================== 
+                  // ==============================| Prevent default event | =========================
+                  $(document).bind('keydown', (e) => {
+                    if (e.ctrlKey && (e.which === 83 || e.which === 80)) {
+                      e.preventDefault();
+                      return false;
+                    }
+                  });
+                  $(editor.Canvas.getDocument()).bind('keydown', (e) => {
+                    if (e.ctrlKey && (e.which === 83 || e.which === 80)) {
+                      e.preventDefault();
+                      return false;
+                    }
+                  });
+                  // ============================= | Init UI when not selected| =========================== 
                   const initTraitManger = `
                   <div class="d-flex flex-column pt-2">
                     ${Customize_icon}
@@ -257,7 +271,7 @@ function Canvas({ type }) {
                     <p class="text-left" style="font-size: 16px;"> <kbd>Ctrl</kbd> + <kbd>Z</kbd>, <kbd>⌘</kbd> + <kbd>Z</kbd>     Undo</p>
                     <p class="text-left" style="font-size: 16px;"> <kbd>Ctrl</kbd> + <kbd>Y</kbd>, <kbd>⌘</kbd> + <kbd>Y</kbd>     Redo</p>
                     <p class="text-left" style="font-size: 16px;"> <kbd>Ctrl</kbd> + <kbd>S</kbd>, <kbd>⌘</kbd> + <kbd>S</kbd>     Save</p>
-
+                    <p class="text-left" style="font-size: 16px;"> <kbd>Ctrl</kbd> + <kbd>P</kbd>, <kbd>⌘</kbd> + <kbd>P</kbd>     Preview</p>
                   </div>
                   `
                   $('.gjs-pn-views-container .gjs-trt-header').empty().append(initTraitManger)

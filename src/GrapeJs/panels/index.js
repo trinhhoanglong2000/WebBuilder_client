@@ -59,10 +59,10 @@ export default function LoadPanels(editor, config) {
           id: prv,
           context: prv,
           command: (e) => {
-            var element = document.getElementsByClassName("navigationPanel");
-            for (var i = 0; i < element.length; i++) {
-              element[i].classList.toggle("dnone");
-            }
+            // var element = document.getElementsByClassName("navigationPanel");
+            // for (var i = 0; i < element.length; i++) {
+            //   element[i].classList.toggle("dnone");
+            // }
             e.runCommand(prv);
           },
           className: "fa fa-eye",

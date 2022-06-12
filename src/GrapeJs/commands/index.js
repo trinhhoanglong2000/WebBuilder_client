@@ -4,7 +4,8 @@ import {
   cmdDeviceMobile,
   cmdClear,
   openBlock,
-  save
+  save,
+  cmdTogglePreview
 } from "../const";
 import { callAPIWithPostMethod } from "../../helper/callAPI.js";
 import { validURL } from "../../helper/utils.js";
@@ -47,6 +48,15 @@ export default function LoadCommands(editor, config, opt) {
 
 });
   cm.add(cmdClear, (e) => window.confirm(txtConfirm) && e.runCommand("core:canvas-clear"));
+  cm.add(cmdTogglePreview, async(e) => {
+    const isActive = e.Commands.isActive('preview')
+    if (!isActive){
+      e.Commands.run('preview')
+    }
+    else{
+      e.Commands.stop('preview')
+    }
+  },)
   cm.add(save, async(e) => {
     await beforeSaveData();
 

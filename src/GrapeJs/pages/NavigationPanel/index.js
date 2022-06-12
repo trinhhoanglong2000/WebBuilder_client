@@ -14,7 +14,7 @@ const NavigationPanel = ({listPagesId, setLoading, setSearchParams,  pageId}) =>
     }
 
     return (
-        <div className="navigationPanel">
+        <div className="navigationPanel" id="navigationPanelPages">
             <label>Pages: 
                 <select name="pages" id="pages" value={pageId} onChange={handleOnchangePage}>
                     {listPagesId && renderPagesItem()}

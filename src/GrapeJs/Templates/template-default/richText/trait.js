@@ -561,6 +561,8 @@ export default function loadTraitRichText(editor, opt = {}) {
       const GetItem = async (name = "", flag = false) => {
         name = name.trim()
         if (validURL(name)) {
+          name = name.match(/^https?:\/\//gm) ? name : `https://${name}`
+
           let domdata = "";
           domdata += `
           <li data-value ="${1}" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
@@ -597,7 +599,6 @@ export default function loadTraitRichText(editor, opt = {}) {
               $(el).find('#delete_icon').css("display", "none")
             }
             $(el).find('#icons').empty().append(URL_ICON)
-
             _this.onChange({ valueHref: name, traitValue: `${"_URL_LINK"};${previousValue}` })
 
             State = "Main-Menu"

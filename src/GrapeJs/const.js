@@ -5,5 +5,6 @@ export const
   cmdDeviceMobile = 'set-device-mobile',
   cmdClear = 'canvas-clear',
   openBlock = 'set-toggle-block',
-  save='set-save'
+  save='set-save',
+  cmdTogglePreview = 'toggle-preview'
  

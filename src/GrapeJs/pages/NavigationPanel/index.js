@@ -8,7 +8,7 @@ const NavigationPanel = ({ listPagesId, setLoading, setSearchParams, pageId }) =
     const refMenu = useRef(true)
     const ref = useRef({})
     function expand() {
-        setExpanded(true);
+        setExpanded(!expanded);
     }
 
     function close() {
@@ -37,18 +37,16 @@ const NavigationPanel = ({ listPagesId, setLoading, setSearchParams, pageId }) =
         setMenu(ref.current)
     }, [])
     //=======================FUNCTION=========================
-    const isObject = (A) => {
-        if ((typeof A === "object" || typeof A === 'function') && (A !== null) && (A !== undefined)) {
-            return true
-        }
-        return false
-    }
+
     const handleOnchangePage = (e) => {
         close();
-        setLoading(true);
-        setName(e.currentTarget.dataset.name)
-        setSearchParams({ pageId: e.currentTarget.dataset.value })
         Back_Function()
+        if (e.currentTarget.dataset.value !== pageId) {
+            setLoading(true);
+            setName(e.currentTarget.dataset.name)
+            setSearchParams({ pageId: e.currentTarget.dataset.value })
+        }
+
     }
     const changeMenu = (e) => {
         refMenu.current = false
@@ -136,7 +134,7 @@ const NavigationPanel = ({ listPagesId, setLoading, setSearchParams, pageId }) =
             return [Back].concat(
                 [
 
-                    <div className="store-name" style={{
+                    <div key={'@no_result'} className="store-name" style={{
                         padding: '10px 10px',
                         width: '100%',
                         textAlign: 'center'
@@ -153,8 +151,8 @@ const NavigationPanel = ({ listPagesId, setLoading, setSearchParams, pageId }) =
     }
     return (
         <div className="navigationPanel" id="navigationPanelPages">
-            <div style={{ width: '100%', 'marginTop': '13px' }} tabIndex={0} onMouseDown={expand} onBlur={close}>
-                <div className="navigtionWrapper btn" >
+            <div style={{ width: '100%', 'marginTop': '13px' }} tabIndex={0} onBlur={close}>
+                <div className="navigtionWrapper btn" onMouseDown={expand}>
                     {name && <p>{name}</p>}
 
                     <div style={{

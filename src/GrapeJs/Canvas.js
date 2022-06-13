@@ -22,8 +22,6 @@ import {
   doRenderImage
 } from "../redux/slice/storeSlice";
 import { Customize_icon } from "../asset/icon/svg"
-import Swal from 'sweetalert2'
-import { ContactSupportOutlined } from "@mui/icons-material";
 import {
   cmdTogglePreview,
   save
@@ -136,7 +134,7 @@ function Canvas({ type }) {
                   keys: '⌘+s, ctrl+s',
                   handler: save,
                 },
-                'core:save': {
+                'core:preview': {
                   keys: '⌘+p, ctrl+p',
                   handler: cmdTogglePreview,
                 },

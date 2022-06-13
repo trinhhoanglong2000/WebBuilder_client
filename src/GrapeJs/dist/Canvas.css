@@ -42,7 +42,7 @@
 
   /*  */
   left: 0%;
-  width: 15%;
+  width: calc(15% - 5px);
   overflow: auto;
   box-shadow: 0 0 5px rgb(0 0 0 / 20%);
 }

@@ -1,6 +1,9 @@
 :root {
   --theme: #f6faf6;
 }
+.gjs-editor-cont ::-webkit-scrollbar-track {
+  background: rgb(0 0 0 / 26%);
+}
 .gjs-layer-name {
   pointer-events: none;
 }
@@ -371,7 +374,7 @@
   background: rgb(106, 106, 106)
 }
 iframe{
-  background: rgb(81 81 81)
+  background: rgb(255, 255, 255)
 
 }
 /* Handle on hover */
@@ -406,4 +409,10 @@ div#loadingDiv {
   to {
     transform: rotate(360deg);
   }
+}
+.hello::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+  background-color: #07c507;
+  color: #07c507;
 }

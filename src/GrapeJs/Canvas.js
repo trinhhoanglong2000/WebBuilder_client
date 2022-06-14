@@ -85,9 +85,11 @@ function Canvas({ type }) {
         // );
         if (index === listCssFile.length - 1) {
           addCss(ele, () => {
-            setTimeout(()=>{
-              setIsSaving(false);
-            },500)
+            setTimeout(() => {
+              console.log("HEHE")
+              if (isSaving === true)
+                setIsSaving(false);
+            }, 500)
           })
           addScript(ele, () => {
           });
@@ -162,11 +164,12 @@ function Canvas({ type }) {
                   //====================| Collapsed block's Categories| ===========
                   const categories = editor.BlockManager.getCategories();
                   categories.each(category => {
-                    category.set('open', false).on('change:open', opened => {
-                      opened.get('open') && categories.each(category => {
-                        category !== opened && category.set('open', false)
-                      })
-                    })
+                    category.set('open', false)
+                    // .on('change:open', opened => {
+                    //   opened.get('open') && categories.each(category => {
+                    //     category !== opened && category.set('open', false)
+                    //   })
+                    // })
                   })
                   // ============================= | Init UI when not selected| =========================== 
                   const initTraitManger = `
@@ -193,6 +196,15 @@ function Canvas({ type }) {
                   editor.getWrapper().view.el.className = 'wrapper';
                   editor.getWrapper().view.el.style.overflow = 'initial';
                   editor.getWrapper().view.el.style.overflowX = 'initial';
+                  editor.Canvas.getDocument().body.insertAdjacentHTML("beforeend", `<style>  
+                  * ::-webkit-scrollbar-track {
+                    background: rgba(0, 0, 0, 0.1) !important;
+                  }
+            
+                  * ::-webkit-scrollbar-thumb {
+                    background: rgb(0 0 0 / 26%)!important;
+                  }
+                  </style>`)
 
                   // ========================== Load component css file ================================
                   const listComponents = editor.Components.getComponents().models;
@@ -213,12 +225,13 @@ function Canvas({ type }) {
                   if (!editor.getCss().includes(style)) editor.addStyle(style);
                   addComponentCssNJs(editor, listCssFile);
                 }
-                // setIsSaving(false)
                 initStoreData();
               });
 
               editor.on("storage:start:store", async function () {
-                setIsSaving(true);
+                if (isSaving !== true) {
+                  setIsSaving(true);
+                }
 
                 let footer = editor.getComponents().where({ name: 'Footer' })[0];
                 let header = editor.getComponents().where({ name: 'Header' })[0];

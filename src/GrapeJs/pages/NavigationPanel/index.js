@@ -15,6 +15,7 @@ const NavigationPanel = ({ listPagesId, setLoading, setSearchParams, pageId }) =
         setExpanded(false);
     }
     useEffect(() => {
+        const MainMenu = ["Home","Products","Collections","Cart"]
         listPagesId.forEach((element, index) => {
 
             if (element.id === pageId && !name) setName(element.name)
@@ -24,7 +25,7 @@ const NavigationPanel = ({ listPagesId, setLoading, setSearchParams, pageId }) =
         const Product = listPagesId.filter((ele => ele.name?.toLowerCase() === "Products".toLowerCase())).map(ele => ({ ...ele, _icons_: Star_icon }))
         const Collections = listPagesId.filter((ele => ele.name?.toLowerCase() === "Collections".toLowerCase())).map(ele => ({ ...ele, _icons_: Star_icon }))
         const Cart = listPagesId.filter((ele => ele.name?.toLowerCase() === "Cart".toLowerCase())).map(ele => ({ ...ele, _icons_: Cart_icon }))
-
+        const OtherPages = listPagesId.filter((ele) => ele.is_default && !MainMenu.includes(ele.name)).map(ele => ({ ...ele, _icons_: Items_icon }))
         ref.current = {
             ...ref.current,
             'Home': Home.length ? Home[0] : [],
@@ -32,7 +33,7 @@ const NavigationPanel = ({ listPagesId, setLoading, setSearchParams, pageId }) =
             'Collections': Collections,
             'Pages': NonDefaultPages,
             'Cart': Cart.length ? Cart[0] : [],
-            'Others': [],
+            'Others': OtherPages,
         }
         setMenu(ref.current)
     }, [])

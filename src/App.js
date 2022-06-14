@@ -8,7 +8,7 @@ const App = () => {
       <BrowserRouter>
         <Routes >
           <Route path='/editor/:idStore' element={<Canvas type={2}/>}/>
-          <Route path='/load' element={<SaveLoad open={true} />}/>
+          <Route path='/load' element={<SaveLoad isSaving = {true} />}/>
         </Routes>
       </BrowserRouter>
     </div>

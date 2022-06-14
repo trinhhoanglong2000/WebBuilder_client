@@ -30,7 +30,8 @@ function Canvas({ type }) {
   const pageId = searchParams.get('pageId') || "";
   const [editor, setEditor] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(true)
+  const [loadingPage, setLoadingPage] = useState(true)
+  const [isSaving,setIsSaving] = useState(false);
   const storeId = useParams().idStore;
   const listPagesId = useSelector(state => state.store.listPagesId);
   const logoURL = useSelector((state) => state.store.logoURL);
@@ -86,9 +87,8 @@ function Canvas({ type }) {
         if (index === listCssFile.length - 1) {
           addCss(ele, () => {
             setTimeout(() => {
-              console.log("HEHE")
-              if (isSaving === true)
-                setIsSaving(false);
+              if (loadingPage === true)
+                setLoadingPage(false);
             }, 500)
           })
           addScript(ele, () => {
@@ -111,7 +111,6 @@ function Canvas({ type }) {
 
   return (
     <>
-      {/* <SaveLoad open={true}></SaveLoad> */}
       {!loading ? (
         <>
           <GrapesjsReact
@@ -229,10 +228,7 @@ function Canvas({ type }) {
               });
 
               editor.on("storage:start:store", async function () {
-                if (isSaving !== true) {
-                  setIsSaving(true);
-                }
-
+                setIsSaving(true);
                 let footer = editor.getComponents().where({ name: 'Footer' })[0];
                 let header = editor.getComponents().where({ name: 'Header' })[0];
 
@@ -269,8 +265,8 @@ function Canvas({ type }) {
               ],
             }}
           />
-          {editor && <NavigationPanel setLoading={setIsSaving} listPagesId={listPagesId} setSearchParams={setSearchParams} pageId={pageId} />}
-          {isSaving && <SaveLoad open={isSaving} />}
+          {editor && <NavigationPanel setLoading={setLoadingPage} listPagesId={listPagesId} setSearchParams={setSearchParams} pageId={pageId} />}
+          {(loadingPage || isSaving )&& <SaveLoad isSaving = {isSaving}/>}
         </>
       ) : <AvatarLoad load={true}></AvatarLoad>}
     </>

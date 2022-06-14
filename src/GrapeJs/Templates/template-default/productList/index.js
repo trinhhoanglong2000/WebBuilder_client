@@ -81,7 +81,7 @@ export default function loadBlockProducts(editor, opt = {}) {
                 fetch(`${process.env.REACT_APP_API_URL}collections/product/${id}`)
                     .then((response) => response.json())
                     .then((data) => {
-                        if (data.data.products.length!=0) {
+                        if (data.data.products && data.data.products.length!=0) {
                             products_data = data.data.products;
                           }
                           else{

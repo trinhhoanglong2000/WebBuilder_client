@@ -53,7 +53,15 @@ export default function LoadCommands(editor, config, opt) {
     // const main   = editor.getComponents().where({ name: "Main" })[0]
     // footer.set({ draggable: false,removable:false })
     // header.set({ draggable: false,removable:false })
-    // main.set(  { draggable: false,removable:false })
+    // main.set({
+    //   highlightable: false,
+    //   copyable: false,
+    //   selectable: false,
+    //   hoverable: false,
+    //   removable: false,
+    //   droppable: true,
+    //   editable: false, tagName: 'main',
+    // })
 
   });
   cm.add(cmdClear, (e) => window.confirm(txtConfirm) && e.runCommand("core:canvas-clear"));

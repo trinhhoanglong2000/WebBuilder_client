@@ -1,0 +1,20 @@
+.NavigationPanel-Skeleton{
+    width:100%;
+    position:absolute;
+    top: 0;
+    left: 0;
+    height: 50px;
+    background-color: rgb(231, 235, 240) !important;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+}
+.device-panel-Skeleton{
+    display:flex;
+    position: relative;
+    left: 15%;
+}
+.block-panel-Skeleton{
+    position: relative;
+    left: 5px;
+}

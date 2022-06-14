@@ -91,5 +91,5 @@
     text-overflow: ellipsis;
 }
 .dnone {
-  display: none;
+  display: none!important;
 }

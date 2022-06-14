@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useSearchParams } from "react-router-dom";
 import $ from "jquery";
 import "grapesjs/dist/css/grapes.min.css";
-
 import "./dist/Canvas.css";
 import "./dist/snow.css";
 import "./blocks/basicBlocks/index";
@@ -21,29 +20,24 @@ import {
   doAddTargetImage,
   doRenderImage
 } from "../redux/slice/storeSlice";
+import { getKeyMaps } from './configs/keymaps'
+import { getStorageManager } from './configs/storageManager'
+import { getEvents } from "./configs/events";
 import { Customize_icon } from "../asset/icon/svg"
-import {
-  cmdTogglePreview,
-  save
-} from "./const";
 function Canvas({ type }) {
   const dispatch = useDispatch();
   let [searchParams, setSearchParams] = useSearchParams();
   const pageId = searchParams.get('pageId') || "";
   const [editor, setEditor] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false)
+  const [isSaving, setIsSaving] = useState(true)
   const storeId = useParams().idStore;
   const listPagesId = useSelector(state => state.store.listPagesId);
   const logoURL = useSelector((state) => state.store.logoURL);
   const template = useSelector((state) => state.store.templateName)
   const token = readCookie('token');
-
-  const Swal = require('sweetalert2')
-
   const getPlugins = () => {
     return ["Plugins-defaults", "template-default"];
-    // return ["Plugins-defaults", "template-default", "gjs-blocks-basic"];
   };
 
   useEffect(() => {
@@ -53,26 +47,55 @@ function Canvas({ type }) {
   }, [storeId]);
 
   const addComponentCssNJs = (editor, listCssFile) => {
-    listCssFile.forEach((ele) => {
+    listCssFile.forEach((ele, index) => {
       let canvasDocument = editor.Canvas.getDocument();
       let header = canvasDocument.head;
       let body = canvasDocument.body;
 
-      let addScript = function (componentName) {
+      let addScript = function (componentName, callback = undefined) {
         let script = document.createElement("script");
         script.type = "text/javascript";
         script.src = `${process.env.REACT_APP_API_URL}js/${template}/${componentName}.js`; // use this for linked script
         script.id = componentName;
         script.className = "ScriptClass";
-
+        if (callback != undefined) {
+          script.onload = function () {
+            callback();
+          };
+        }
         body.appendChild(script);
       }
+      let addCss = function (componentName, callback = undefined) {
+        let stylesheet = document.createElement("link");
+        stylesheet.rel = "stylesheet";
+        stylesheet.type = "text/css";
+        stylesheet.href = `${process.env.REACT_APP_API_URL}css/${template}/${componentName}.css`;
+        stylesheet.id = `${componentName}`
+        if (callback != undefined) {
+          stylesheet.onload = function () {
+            callback();
+          };
+        }
+        header.appendChild(stylesheet);
+      }
       if (ele && ele !== "") {
-        header.insertAdjacentHTML(
-          "beforeend",
-          `<link id="${ele}" href="${process.env.REACT_APP_API_URL}css/${template}/${ele}.css" rel="stylesheet">`
-        );
-        addScript(ele);
+        // header.insertAdjacentHTML(
+        //   "beforeend",
+        //   `<link id="${ele}" href="${process.env.REACT_APP_API_URL}css/${template}/${ele}.css" rel="stylesheet">`
+        // );
+        if (index === listCssFile.length - 1) {
+          addCss(ele, () => {
+            setTimeout(()=>{
+              setIsSaving(false);
+            },500)
+          })
+          addScript(ele, () => {
+          });
+        } else {
+          addCss(ele)
+          addScript(ele);
+
+        }
       }
     });
   }
@@ -86,6 +109,7 @@ function Canvas({ type }) {
 
   return (
     <>
+      {/* <SaveLoad open={true}></SaveLoad> */}
       {!loading ? (
         <>
           <GrapesjsReact
@@ -105,79 +129,10 @@ function Canvas({ type }) {
                 renderImage: renderImage
               }
             }}
-            styleManager={
-              {
-                // clearProperties: true,
-              }
-            }
             width="100%"
             height="100vh"
-            keymaps={{
-              defaults: {
-                'core:undo': {
-                  keys: '⌘+z, ctrl+z',
-                  handler: 'core:undo',
-                },
-                'core:redo': {
-                  keys: '⌘+y, ctrl+y',
-                  handler: 'core:redo',
-                },
-                'core:copy': {
-                  keys: '⌘+c, ctrl+c',
-                  handler: 'core:copy',
-                },
-                'core:paste': {
-                  keys: '⌘+v, ctrl+v',
-                  handler: 'core:paste',
-                },
-                'core:save': {
-                  keys: '⌘+s, ctrl+s',
-                  handler: save,
-                },
-                'core:preview': {
-                  keys: '⌘+p, ctrl+p',
-                  handler: cmdTogglePreview,
-                },
-                'core:component-next': {
-                  keys: 's',
-                  handler: 'core:component-next',
-                },
-                'core:component-prev': {
-                  keys: 'w',
-                  handler: 'core:component-prev',
-                },
-                'core:component-enter': {
-                  keys: 'd',
-                  handler: 'core:component-enter',
-                },
-                'core:component-exit': {
-                  keys: 'a',
-                  handler: 'core:component-exit',
-                },
-                'core:component-delete': {
-                  keys: 'backspace, delete',
-                  handler: 'core:component-delete',
-                  opts: { prevent: 1 },
-                },
-              },
-            }}
-            storageManager={{
-              type: "remote",
-
-              autosave: false,
-              contentTypeJson: true,
-              storeComponents: true,
-              storeStyles: true,
-              storeHtml: true,
-              storeCss: true,
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-              },
-              id: "",
-              urlStore: `${process.env.REACT_APP_API_URL}stores/${storeId}/${pageId}/content`,
-              urlLoad: `${process.env.REACT_APP_API_URL}stores/${storeId}/${pageId}/content`,
-            }}
+            keymaps={getKeyMaps()}
+            storageManager={getStorageManager(storeId, pageId, token)}
             blockManager={{
               appendTo: ".gjs-pn-block-container",
             }}
@@ -185,57 +140,9 @@ function Canvas({ type }) {
             //===============|Do the event listen here|===============
             onInit={(editor) => {
               setEditor(editor);
-              editor.on('run:preview', () => {
-                $("#navigationPanelPages").addClass("dnone");
-              })
-              editor.on('stop:preview', () => {
-                $("#navigationPanelPages").removeClass("dnone");
-              })
-              editor.on('stop:open-tm stop:open-layers', () => {
-                if (!editor.Commands.isActive('open-tm') && !editor.Commands.isActive('open-layers')) {
-                  $('.gjs-pn-panel.gjs-pn-views-container >div:first-child > div:nth-child(2)').css('display', 'block')
-                }
-              })
-              editor.on('run:open-layers', () => {
-                $('.gjs-pn-panel.gjs-pn-views-container >div:first-child > div').css('display', 'none')
-              })
-              editor.on('undo', (some, argument) => {
-                // do something
-                if (editor.getSelected()) {
-                  editor.getSelected().getTraits().forEach(ele => {
-                    ele.view.onUpdate({ elInput: ele.el, component: editor.getSelected() })
-                  })
-                }
-              })
-              editor.on('redo', (some, argument) => {
-                // do something
-                if (editor.getSelected()) {
-                  editor.getSelected().getTraits().forEach(ele => {
-                    ele.view.onUpdate({ elInput: ele.el, component: editor.getSelected() })
-                  })
-                }
-              })
-              editor.on("block:drag:stop", function (dropped_Component) {
-                let droppedComponent = dropped_Component;
-
-                if (Array.isArray(droppedComponent)) {
-                  droppedComponent = droppedComponent[0];
-                }
-
-                if (!droppedComponent) return;
-
-                if (typeof droppedComponent.initData === "function") {
-                  droppedComponent.initData();
-                }
-
-                let header = editor.Canvas.getDocument().head;
-                let componentCss = header.querySelector(`#${droppedComponent.attributes.name}`)
-
-                if (!componentCss) {
-                  addComponentCssNJs(editor, [droppedComponent.attributes.name]);
-                }
+              getEvents(editor, {
+                addComponentCssNJs: addComponentCssNJs
               });
-
               editor.onReady(() => {
                 const initStoreData = async () => {
                   await loadStoreComponents(editor, storeId)
@@ -306,7 +213,7 @@ function Canvas({ type }) {
                   if (!editor.getCss().includes(style)) editor.addStyle(style);
                   addComponentCssNJs(editor, listCssFile);
                 }
-                setIsSaving(false)
+                // setIsSaving(false)
                 initStoreData();
               });
 
@@ -335,20 +242,6 @@ function Canvas({ type }) {
                 setIsSaving(false);
               });
 
-              editor.on("asset:add", (asset, b, c) => {
-                let isImage = asset.get('src').includes('data:image');
-                if (!isImage) {
-                  editor.AssetManager.close()
-                  editor.AssetManager.remove(asset.get('src'))
-                  Swal.fire({
-                    icon: 'error',
-                    title: 'File  Error',
-                    text: 'This file is not image!',
-                  }).then((result) => {
-                    editor.AssetManager.open()
-                  })
-                }
-              });
             }}
             canvas={{
               styles: [

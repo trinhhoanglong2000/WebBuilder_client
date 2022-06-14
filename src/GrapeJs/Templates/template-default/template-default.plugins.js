@@ -5,6 +5,7 @@ import loadBlockFooter from './footer';
 import loadBlockHeader from './header';
 import loadBlockProducts from './productList';
 import loadBlockMain from '../Main'
+import loadBlockPageNotFound from "../PageNotFound";
 import loadBlockRichText from './richText'
 import loadImageWithText from "./imageWithText";
 import loadContactForm from "./contactForm";
@@ -14,6 +15,7 @@ import loadVideo from "./video"
 import loadImage from "./image";
 import loadBlockCart from "./cart";
 import loadBlockPayMent from "./payment";
+import loadBlockPolicy from "../Policy";
 
 export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
 
@@ -59,6 +61,7 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
 
   //Long ADD START
   loadBlockMain(editor,config)
+  loadBlockPageNotFound(editor, config)
   loadBlockCarousel(editor, config)
   loadBlockProducts(editor, config)
   loadBlockRichText(editor,config)
@@ -72,6 +75,7 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
   loadImage(editor,config);
   loadBlockCart(editor,config);
   loadBlockPayMent(editor,config)
+  loadBlockPolicy(editor,config)
   //Long ADD END
 }
 );

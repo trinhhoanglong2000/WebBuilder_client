@@ -159,9 +159,6 @@ export default function loadImage(editor, opt = {}) {
                 <label class="image-radius-value m-0" for="image-radius"> 0 </label>
             </div>
             `;
-      $(el)
-        .find("label.image-radius-value")
-        .text(initValue + "%");
 
       return el;
     },
@@ -181,7 +178,7 @@ export default function loadImage(editor, opt = {}) {
     onUpdate({ elInput, component }) {  
       const initValue = component.get("components").models[0].getStyle()["border-radius"]?.replace("%", "") ?? 0;
 
-      $(elInput).find("label.image-radius-value").text(initValue + "px");
+      $(elInput).find("label.image-radius-value").text(initValue + "%");
       $(elInput).find("input.image-radius").val(initValue);
     }
   });

@@ -6,7 +6,6 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
   const c = opt;
   let bm = editor.BlockManager;
   loadTraitMulticolumnItem(editor, c)
-  loadBlockColumnItem(editor, c)
   const domc = editor.DomComponents;
   const defaultType = domc.getType("default");
   const textType = domc.getType("text");
@@ -16,6 +15,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
     model: {
       defaults: {
         tagName: 'div',
+        name: 'Multicolumn',
         droppable: false,
         traits: [
           {
@@ -59,7 +59,8 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
         // This is default attributes
         attributes: {
           "ez-mall-type": "multicolumn",
-          numCols: 3
+          numCols: 3,
+          class: "multicolumn-numCols-3"
         }
       },
       // This function run when component created - we setup listen to change atri
@@ -157,7 +158,59 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
     },
   });
 
-  
+  domc.addType("multicolumn-body", {
+    model: {
+      defaults: {
+        traits: [
+        
+        ],
+        // This is default attributes
+        name: 'multicolumn',
+        layerable: false,
+        hoverable: false,
+        selectable: false,
+        highlightable: false,
+        draggable: false,
+        attributes: { class: "row ezMall-multicolumn" },
+      },
+      // This function run when component created - we setup listen to change atri
+
+      init() {
+        this.on('change:attributes:data', this.handleTypeChangeData);
+        this.on('change:attributes:placeholder', this.handleTypeChangePlaceHold);
+
+      },
+      async Update() {
+      },
+      async handleTypeChangeData() {
+        this.Update()
+      },
+      initData() {
+      },
+      handleTypeChangePlaceHold() {
+        const atributeData = this.attributes.attributes;
+
+      },
+    },
+    view: {
+      init() {
+        const attributes = this.model.attributes;
+        const rootElement = this.el;
+      },
+      events: {
+
+      },
+      handleClick: function (e) {
+        const attributes = this.model.attributes;
+        const rootElement = this.el;
+      },
+      render: function () {
+        // Extend the original render method
+        defaultType.view.prototype.render.apply(this, arguments);
+        return this;
+      },
+    },
+  });
   //THIS IS SETTING BLOCK
   bm.add("multicolumn", {
     // THIS IS HTML DISPLAY ON THE LEFT (BLOCK BAR)
@@ -168,21 +221,13 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
     draggable: ".main-content",
     content: [
       {
-        name: 'Multicolumn',
         type: "multicolumn",
-        attributes: { class: "multicolumn-numCols-3" },
         components: [{
           type: "multicolumn-tittle",
           content: `Card Title`,
         },
         {
-          name: 'multicolumn-body',
-          layerable: false,
-          hoverable: false,
-          selectable: false,
-          highlightable: false,
-          draggable: false,
-          attributes: { class: "row ezMall-multicolumn" },
+          type: "mulicolumn-body",
           components: [
             {
               type: "ColumnItem",
@@ -236,6 +281,8 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
 
     ]
   });
+  
+  loadBlockColumnItem(editor, c)
   //#endregion
   //LONG-TP 2022-02-22 TEST TRAITS - ADD END 
 }

@@ -66,7 +66,6 @@ export default function loadTraitColumnItem(editor, opt = {}) {
             return el;
         },        
         onUpdate({ elInput, component }) {
-            debugger
             const val = component.getAttributes().TextFontSize
             $(elInput).find("option:checked").prop("selected",false);
             $(elInput).find(`option[value = ${val}]`).prop("selected",true);

@@ -3,11 +3,10 @@ const Swal = require('sweetalert2')
 
 export const getEvents = (editor,config) => {
     editor.on('run:preview', () => {
-        console.log("HEHE")
-        $("#navigationPanelPages").addClass("dnone");
+        $("#navigationPanelPages").addClass("dnone-important");
     })
     editor.on('stop:preview', () => {
-        $("#navigationPanelPages").removeClass("dnone");
+        $("#navigationPanelPages").removeClass("dnone-important");
     })
     editor.on('stop:open-tm stop:open-layers', () => {
         if (!editor.Commands.isActive('open-tm') && !editor.Commands.isActive('open-layers')) {

@@ -142,6 +142,7 @@ export default function loadBlockProducts(editor, opt = {}) {
                 },
                 {
                     name: "Products",
+                    type:'defaultCustom',
                     removable: false,
                     draggable: false,
                     droppable: false,

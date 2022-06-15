@@ -31,7 +31,7 @@ function Canvas({ type }) {
   const [editor, setEditor] = useState(null);
   const [loading, setLoading] = useState(true);
   const [loadingPage, setLoadingPage] = useState(true)
-  const [isSaving,setIsSaving] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const storeId = useParams().idStore;
   const listPagesId = useSelector(state => state.store.listPagesId);
   const logoURL = useSelector((state) => state.store.logoURL);
@@ -146,6 +146,7 @@ function Canvas({ type }) {
               });
               editor.onReady(() => {
                 const initStoreData = async () => {
+
                   await loadStoreComponents(editor, storeId)
                   // ==============================| Prevent default event | =========================
                   $(document).bind('keydown', (e) => {
@@ -223,6 +224,26 @@ function Canvas({ type }) {
                   const style = `strong{font-weight:bold;}`;
                   if (!editor.getCss().includes(style)) editor.addStyle(style);
                   addComponentCssNJs(editor, listCssFile);
+                  //bug
+                  editor.on('component:add', function (model) {
+                    const arr = ['', 'cell', 'row', 'table', 'thead', 'tbody', 'tfoot', 'map', 'link', 'label', 'video', 'image', 'script', 'svg-in', 'svg', 'iframe', 'comment', 'textnode', 'text', 'wrapper', 'default']
+                    if (model === undefined) return;
+                    try {
+                      if (arr.includes(model.get('type')) || model.get('type')==='' ){
+                        model.remove();
+                      }
+                      editor.getComponents().models.forEach(ele=>{
+                        if (arr.includes(ele.get('type')) || ele.get('type')==='' ){
+                          ele.remove();
+                        }
+                      })
+                      editor.getWrapper().viewLayer.render()
+                    } catch (error) {
+
+                    }
+
+                  })
+
                 }
                 initStoreData();
               });
@@ -266,7 +287,7 @@ function Canvas({ type }) {
             }}
           />
           {editor && <NavigationPanel setLoading={setLoadingPage} listPagesId={listPagesId} setSearchParams={setSearchParams} pageId={pageId} />}
-          {(loadingPage || isSaving )&& <SaveLoad isSaving = {isSaving}/>}
+          {(loadingPage || isSaving) && <SaveLoad isSaving={isSaving} />}
         </>
       ) : <AvatarLoad load={true}></AvatarLoad>}
     </>

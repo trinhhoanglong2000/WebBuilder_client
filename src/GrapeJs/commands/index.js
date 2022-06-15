@@ -59,10 +59,18 @@ export default function LoadCommands(editor, config, opt) {
     //   selectable: false,
     //   hoverable: false,
     //   removable: false,
-    //   droppable: true,
+    //   droppable: false,
     //   editable: false, tagName: 'main',
     // })
-
+    // editor.getComponents().where({ name: "Main" })[0].getChildAt(0).set({
+    //   highlightable: false,
+    //   copyable: false,
+    //   selectable: false,
+    //   hoverable: false,
+    //   removable: false,
+    //   droppable: false,
+    //   editable: false,
+    // })
   });
   cm.add(cmdClear, (e) => window.confirm(txtConfirm) && e.runCommand("core:canvas-clear"));
   cm.add(cmdTogglePreview, async (e) => {

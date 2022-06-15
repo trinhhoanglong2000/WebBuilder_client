@@ -12,6 +12,7 @@ export default function loadBlockMain(editor, opt = {}) {
         selectable: false,
         hoverable: false,
         editable : false,
+        layerable: false,
       },
       init() {
       },
@@ -42,7 +43,9 @@ export default function loadBlockMain(editor, opt = {}) {
     model: {
       defaults: {
         droppable: (target, destination) => {
-          const arr = ['carousel', 'Cart','contactForm', 'imageCustomType','imageWithText','multicolumn','Payment','product-list','ProductPage','RichText','videoCustomType',]
+          const arr = ['carousel', 'Cart','contactForm', 'imageCustomType','imageWithText','multicolumn','Payment','product-list','ProductPage','RichText','videoCustomType','pageNotFound','termsOfService',
+          'refundPolicy'
+        ]
           if (target == undefined) return false
           if (arr.includes(target.get('type'))) {
             return true
@@ -57,7 +60,7 @@ export default function loadBlockMain(editor, opt = {}) {
         hoverable: false,
         removable: false,
         editable: false,
-        draggable: true,
+        draggable: false,
         name: "Main",
         tagName: "main",
 

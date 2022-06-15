@@ -145,6 +145,7 @@ export default function loadBlockProducts(editor, opt = {}) {
                 {
                     name: "Products",
                     type: 'defaultCustom',
+                    layerable: true,
                     content: `                <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" data-type = "products-collections" >
                     <!-- Carousel indicators -->
 

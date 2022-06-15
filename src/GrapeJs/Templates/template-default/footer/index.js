@@ -143,8 +143,18 @@ export default function loadBlockFooter(editor, opt = {}) {
       defaults: {
         copyable: false,
         removable: false,
+        draggable: false,
         name: "Footer Navigation",
-        draggable: ".footer-section",
+        //draggable: ".footer-section",
+        droppable: (target, destination) => {
+          const arr = ['footer-quick-link', 'footer-image','footer-text']
+          if (target == undefined) return false
+          if (arr.includes(target.get('type'))) {
+            return true
+          }
+          return false
+
+        },
         tagName: "div",
         attributes: { class: "row footer-navigation" },
       },

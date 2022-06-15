@@ -69,8 +69,9 @@ export default function loadComponentsProductPage(editor, opt = {}) {
         name: "ProductSection",
         draggable: ".main-content",
         copyable: false,
-        removable: true,
+        removable: false,
         droppable: false,
+        draggable: false,
         traits: [
           {
             type: "product-heading", // Type of the trait

@@ -227,6 +227,7 @@ export default function loadImage(editor, opt = {}) {
         name: "image",
         draggable: ".main-content",
         droppable: false,
+        copyable: false,
         attributes: { class: "text-center container", name: "image" },
         traits: [
           {

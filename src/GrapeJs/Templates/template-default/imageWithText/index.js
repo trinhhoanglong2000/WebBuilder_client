@@ -26,10 +26,7 @@ export default function loadImageWithText(editor, opt = {}) {
         <div>Image With Text</div>`,
     category: "Image With Text",
     content: {
-      name: "ImageWithText",
       type: "imageWithText",
-      draggable: ".main-content",
-      attributes: { class: "container", name: "imageWithText" },
       components: [
         {
           tagName: "div",
@@ -833,22 +830,22 @@ export default function loadImageWithText(editor, opt = {}) {
         button.set('traitValue','')
       }
       let defaultIcons = ""
-      if (initValue[0] == "Collections") {
+      if (initValue[0] === "Collections") {
         defaultIcons = COLLECTION_ICON
       }
-      else if (initValue[0] == "Products") {
+      else if (initValue[0] === "Products") {
         defaultIcons = PRODUCTS_ICON
 
       }
-      else if (initValue[0] == "Pages") {
+      else if (initValue[0] === "Pages") {
         defaultIcons = PAGES_ICON
 
       }
-      else if (initValue[0] == "Privacy") {
+      else if (initValue[0] === "Privacy") {
         defaultIcons = PRIVACY_ICON
 
       }
-      else if (initValue[0]=="_URL_LINK")
+      else if (initValue[0] === "_URL_LINK")
       {
         defaultIcons =URL_ICON
       }
@@ -876,7 +873,11 @@ export default function loadImageWithText(editor, opt = {}) {
   dc.addType("imageWithText", {
     model: {
       defaults: {
-        attributes: { iPosition: "left" },
+        name: "ImageWithText",
+        draggable: ".main-content",
+        attributes: { class: "container", name: "imageWithText", iPosition: "left" },
+        droppable: false,
+        copyable: false,
         traits: [
           {
             type: "imageWithText-upload-image",

@@ -11,11 +11,7 @@ export default function loadImage(editor, opt = {}) {
     attributes: { class: "fa fa-picture-o" },
     category: "Media",
     content: {
-      name: "image",
       type: "imageCustomType",
-      draggable: ".main-content",
-      droppable: false,
-      attributes: { class: "text-center container", name: "image" },
       components: [
         {
           tagName: "img",
@@ -228,6 +224,10 @@ export default function loadImage(editor, opt = {}) {
   dc.addType("imageCustomType", {
     model: {
       defaults: {
+        name: "image",
+        draggable: ".main-content",
+        droppable: false,
+        attributes: { class: "text-center container", name: "image" },
         traits: [
           {
             type: "image-upload-image",

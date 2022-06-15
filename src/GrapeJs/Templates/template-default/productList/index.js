@@ -35,6 +35,7 @@ export default function loadBlockProducts(editor, opt = {}) {
     domc.addType("product-list", {
         model: {
             defaults: {
+                copyable: false,
                 attributes: {
                     class: "container product-section",
                     name: "products-collections",

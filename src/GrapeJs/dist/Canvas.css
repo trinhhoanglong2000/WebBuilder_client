@@ -1,6 +1,9 @@
 :root {
   --theme: #f6faf6;
 }
+.gjs-block-category{
+  font-size: 14px;
+}
 .gjs-editor-cont ::-webkit-scrollbar-track {
   background: rgb(0 0 0 / 26%);
 }

@@ -1,7 +1,20 @@
 export default function loadBlockMain(editor, opt = {}) {
   //#region productList
   const domc = editor.DomComponents;
+  domc.addType("defaultCustom", {
+    model: {
+      defaults: {
 
+      },
+      init() {
+      },
+
+      updated(property, value, prevValue) {
+      },
+      initData() {},
+
+    },
+  });
   domc.addType("Main", {
     model: {
       defaults: {

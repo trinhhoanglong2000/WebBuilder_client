@@ -90,6 +90,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.dnone {
+.dnone-important {
   display: none!important;
+}
+.dnone{
+  display: none;
 }

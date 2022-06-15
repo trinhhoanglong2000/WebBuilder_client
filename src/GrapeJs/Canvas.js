@@ -146,6 +146,7 @@ function Canvas({ type }) {
               });
               editor.onReady(() => {
                 const initStoreData = async () => {
+
                   await loadStoreComponents(editor, storeId)
                   // ==============================| Prevent default event | =========================
                   $(document).bind('keydown', (e) => {
@@ -227,14 +228,22 @@ function Canvas({ type }) {
                   editor.on('component:add', function (model) {
                     const arr = ['', 'cell', 'row', 'table', 'thead', 'tbody', 'tfoot', 'map', 'link', 'label', 'video', 'image', 'script', 'svg-in', 'svg', 'iframe', 'comment', 'textnode', 'text', 'wrapper', 'default']
                     if (model === undefined) return;
-                    if (arr.includes(model.get('type')) || model.get('type') == '') {
-                      if (model !== undefined)
-                        model.remove()
-                      // console.log(editor.LayerManager.render())
-                      // console.log(editor.Layers.render() )
+                    try {
+                      if (arr.includes(model.get('type')) || model.get('type')==='' ){
+                        model.remove();
+                      }
+                      editor.getComponents().models.forEach(ele=>{
+                        if (arr.includes(ele.get('type')) || ele.get('type')==='' ){
+                          ele.remove();
+                        }
+                      })
+                      editor.getWrapper().viewLayer.render()
+                    } catch (error) {
 
                     }
+
                   })
+
                 }
                 initStoreData();
               });

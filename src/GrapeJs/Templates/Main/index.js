@@ -41,17 +41,16 @@ export default function loadBlockMain(editor, opt = {}) {
   domc.addType("Main", {
     model: {
       defaults: {
-        // droppable: (target, destination) => {
-        //   const arr = ['carousel', 'Cart', 'imageCustomType','imageWithText','multicolumn','Payment','product-list','ProductPage','RichText','videoCustomType']
-        //   if (target == undefined) return false
-        //   console.log(target)
-        //   if (arr.includes(target.get('type'))) {
-        //     return true
-        //   }
-        //   return false
+        droppable: (target, destination) => {
+          const arr = ['carousel', 'Cart','contactForm', 'imageCustomType','imageWithText','multicolumn','Payment','product-list','ProductPage','RichText','videoCustomType',]
+          if (target == undefined) return false
+          if (arr.includes(target.get('type'))) {
+            return true
+          }
+          return false
 
-        // },
-        droppable: `[data-gjs-type=carousel]`,
+        },
+        // droppable: `[data-gjs-type=carousel]`,
         highlightable: false,
         copyable: false,
         selectable: false,

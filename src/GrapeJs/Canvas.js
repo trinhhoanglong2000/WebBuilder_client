@@ -219,30 +219,32 @@ function Canvas({ type }) {
                       listCssFile.push(ele.attributes.name);
                     }
                   });
-                  editor.getWrapper().set({ hoverable: false, selectable: false, highlightable: false })
+                  editor.getWrapper().set({ hoverable: false, selectable: false, highlightable: false,
+                  droppable:false,
+                  })
 
                   const style = `strong{font-weight:bold;}`;
                   if (!editor.getCss().includes(style)) editor.addStyle(style);
                   addComponentCssNJs(editor, listCssFile);
                   //bug
-                  editor.on('component:add', function (model) {
-                    const arr = ['', 'cell', 'row', 'table', 'thead', 'tbody', 'tfoot', 'map', 'link', 'label', 'video', 'image', 'script', 'svg-in', 'svg', 'iframe', 'comment', 'textnode', 'text', 'wrapper', 'default']
-                    if (model === undefined) return;
-                    try {
-                      if (arr.includes(model.get('type')) || model.get('type')==='' ){
-                        model.remove();
-                      }
-                      editor.getComponents().models.forEach(ele=>{
-                        if (arr.includes(ele.get('type')) || ele.get('type')==='' ){
-                          ele.remove();
-                        }
-                      })
-                      editor.getWrapper().viewLayer.render()
-                    } catch (error) {
+                  // editor.on('component:add', function (model) {
+                  //   const arr = ['', 'cell', 'row', 'table', 'thead', 'tbody', 'tfoot', 'map', 'link', 'label', 'video', 'image', 'script', 'svg-in', 'svg', 'iframe', 'comment', 'textnode', 'text', 'wrapper', 'default']
+                  //   if (model === undefined) return;
+                  //   try {
+                  //     if (arr.includes(model.get('type')) || model.get('type')==='' ){
+                  //       model.remove();
+                  //     }
+                  //     editor.getComponents().models.forEach(ele=>{
+                  //       if (arr.includes(ele.get('type')) || ele.get('type')==='' ){
+                  //         ele.remove();
+                  //       }
+                  //     })
+                  //     editor.getWrapper().viewLayer.render()
+                  //   } catch (error) {
 
-                    }
+                  //   }
 
-                  })
+                  // })
 
                 }
                 initStoreData();

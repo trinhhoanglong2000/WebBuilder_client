@@ -8,18 +8,12 @@ export default function loadVideo(editor, opt = {}) {
         label: "Video",
         category: "Media",
         attributes: {class: "fa fa-youtube-play" },
-        // attributes
         content: {
-            name: 'video',
             type: 'videoCustomType',
-            draggable: ".main-content",
-            attributes: { class: "container text-center", name: 'video' },
             components: [
                 {
                     tagName: 'iframe',
-                    layerable: false,
-                    hoverable: false,
-                    selectable: false,
+                    type: "defaultCustom",
                     attributes: { width: "100%", height: "600", src:"https://www.youtube.com/embed/?", title: "YouTube video player", frameborder: "0", allow:"accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture", "allowfullscreen":"" },
                     content: `<iframe ></iframe>`
                 }
@@ -161,6 +155,11 @@ export default function loadVideo(editor, opt = {}) {
     dc.addType('videoCustomType', {
         model: {
             defaults: {
+                name: 'video',
+                draggable: ".main-content",
+                droppable: false,
+                copyable: false,
+                attributes: { class: "container text-center", name: 'video' },
                 traits: [
                     {
                         type: 'video-src',

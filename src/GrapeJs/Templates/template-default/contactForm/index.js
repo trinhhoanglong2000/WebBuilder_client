@@ -48,7 +48,6 @@ export default function loadContactForm(editor, opt = {}) {
             attributes: { class: "container", name: "contactForm" },
             highlightable: false,
             hoverable: false,
-            removable: false,
             droppable: false,
             editable: false,
           },

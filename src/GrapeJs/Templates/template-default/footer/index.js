@@ -141,8 +141,6 @@ export default function loadBlockFooter(editor, opt = {}) {
   dc.addType('footer-navigation', {
     model: {
       defaults: {
-        name: "Footer",
-        tagName: "footer",
         copyable: false,
         removable: false,
         name: "Footer Navigation",
@@ -319,7 +317,7 @@ export default function loadBlockFooter(editor, opt = {}) {
       $(elInput).find("input.footer-linkedIn-check").prop("checked", initValue);
       $(elInput).find("input.footer-linkedIn-link").val(href);
 
-      if (href || href != "") {
+      if (href || href !== "") {
         $(elInput).find('input').css('padding-left', '39px');
         $(elInput).find('#icons').css("display", "block");
         $(elInput).find('input').css('padding-right', '25px');
@@ -491,7 +489,7 @@ export default function loadBlockFooter(editor, opt = {}) {
       $(elInput).find("input.footer-instagram-check").prop("checked", initValue);
       $(elInput).find("input.footer-instagram-link").val(href);
 
-      if (href || href != "") {
+      if (href || href !== "") {
         $(elInput).find('input').css('padding-left', '39px');
         $(elInput).find('#icons').css("display", "block");
         $(elInput).find('input').css('padding-right', '25px');
@@ -663,7 +661,7 @@ export default function loadBlockFooter(editor, opt = {}) {
       $(elInput).find("input.footer-facebook-check").prop("checked", initValue);
       $(elInput).find("input.footer-facebook-link").val(href);
 
-      if (href || href != "") {
+      if (href || href !== "") {
         $(elInput).find('input').css('padding-left', '39px');
         $(elInput).find('#icons').css("display", "block");
         $(elInput).find('input').css('padding-right', '25px');

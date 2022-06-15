@@ -11,7 +11,22 @@ export default function loadBlockMain(editor, opt = {}) {
         copyable: false,
         selectable: false,
         hoverable: false,
-        editable: false,
+        editable : false,
+      },
+      init() {
+      },
+
+      updated(property, value, prevValue) {
+      },
+      initData() {},
+
+    },
+  });
+
+  domc.addType("defaultCustomEmpty", {
+    model: {
+      defaults: {
+
       },
       init() {
       },
@@ -62,6 +77,7 @@ export default function loadBlockMain(editor, opt = {}) {
       // This function run when component created - we setup listen to change atri
     },
   });
+
   editor.BlockManager.add("Main", {
     label: "Main",
     category: "Main",

@@ -34,20 +34,11 @@ export default function loadImageWithText(editor, opt = {}) {
         {
           tagName: "div",
           attributes: { class: "row" },
-          layerable: false,
-          copyable: false,
-          hoverable: false,
-          selectable: false,
-          draggable: false,
-          droppable: false,
+          type: "defaultCustom",
           components: [
             {
-              hoverable: false,
-              selectable: false,
-              draggable: false,
-              copyable: false,
-              droppable: false,
               tagName: "div",
+              type: "defaultCustom",
               attributes: {
                 class:
                   "col-sm-12 col-md-6 d-flex align-items-center justify-content-center",
@@ -55,11 +46,7 @@ export default function loadImageWithText(editor, opt = {}) {
               components: [
                 {
                   tagName: "img",
-                  layerable: false,
-                  copyable: false,
-                  hoverable: false,
-                  selectable: false,
-                  draggable: false,
+                  type: "defaultCustom",
                   attributes: {
                     class: "img-thumbnail",
                     src: "https://dummyimage.com/600x400/55595c/fff",
@@ -68,43 +55,27 @@ export default function loadImageWithText(editor, opt = {}) {
               ],
             },
             {
-              hoverable: false,
-              selectable: false,
-              draggable: false,
-              droppable: false,
-              copyable: false,
+              type: "defaultCustom",
               tagName: "div",
               attributes: { class: "col text-part d-flex align-items-center" },
               components: [
                 {
-                  draggable: false,
-                  selectable: false,
-                  copyable: false,
-                  hoverable: false,
+                  type: "defaultCustom",
                   tagName: "div",
                   components: [
                     {
-                      draggable: false,
-                      selectable: false,
-                      hoverable: false,
-                      copyable: false,
+                      type: "defaultCustom",
                       tagName: "h1",
                       style: { "text-align": "left" },
                       content: `Picture header`,
                     },
                     {
-                      draggable: false,
-                      selectable: false,
-                      copyable: false,
-                      hoverable: false,
+                      type: "defaultCustom",
                       tagName: "p",
                       content: `Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or event privide review.`,
                     },
                     {
-                      draggable: false,
-                      copyable: false,
-                      selectable: false,
-                      hoverable: false,
+                      type: "defaultCustom",
                       tagName: "a",
                       content: `Button label`,
                     },

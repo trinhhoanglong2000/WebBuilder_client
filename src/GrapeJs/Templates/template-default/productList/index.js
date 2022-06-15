@@ -16,6 +16,16 @@ export default function loadBlockProducts(editor, opt = {}) {
     domc.addType("product-text", {
         model: {
             defaults: {
+                name: "Text",
+                tagName: "h2",
+                removable: false,
+                draggable: false,
+                droppable: false,
+                highlightable: false,
+                copyable: false,
+                selectable: false,
+                hoverable: false,
+                style: { "text-align": "center" },
                 traits: [
 
                 ],
@@ -25,6 +35,12 @@ export default function loadBlockProducts(editor, opt = {}) {
     domc.addType("product-list", {
         model: {
             defaults: {
+                attributes: {
+                    class: "container product-section",
+                    name: "products-collections",
+                },
+                name: "Product List",
+                draggable: ".main-content",
                 traits: [
                     {
                         type: "product-collection",
@@ -69,24 +85,24 @@ export default function loadBlockProducts(editor, opt = {}) {
                 this.Update()
             },
             async Update() {
-                let products_data=[];
+                let products_data = [];
                 let products_data_default = [
-                  {
-                    title: "Product Title",
-                    price: "$100.00",
-                    thumbnail: "https://dummyimage.com/600x400/55595c/fff",
-                  },
+                    {
+                        title: "Product Title",
+                        price: "$100.00",
+                        thumbnail: "https://dummyimage.com/600x400/55595c/fff",
+                    },
                 ];
                 const id = this.model.attributes.attributes["data-ez-mall-collection"] || " ";
                 fetch(`${process.env.REACT_APP_API_URL}collections/product/${id}`)
                     .then((response) => response.json())
                     .then((data) => {
-                        if (data.data.products && data.data.products.length!=0) {
+                        if (data.data.products && data.data.products.length != 0) {
                             products_data = data.data.products;
-                          }
-                          else{
+                        }
+                        else {
                             products_data = products_data_default
-                          }
+                        }
                         $(this.el)
                             .find(".thumb-wrapper")
                             .each(function (index) {
@@ -118,38 +134,16 @@ export default function loadBlockProducts(editor, opt = {}) {
         category: c.catergory_product_list,
         attributes: { class: "fa fa-cube" },
         content: {
-            attributes: {
-                class: "container product-section",
-                name: "products-collections",
-            },
-            name: "Product List",
-            draggable: ".main-content",
             type: "product-list",
             components: [
                 {
-                    name: "Text",
-                    tagName: "h2",
-                    content: `Trending Products`,
-                    removable: false,
-                    draggable: false,
-                    droppable: false,
-                    highlightable: false,
-                    copyable: false,
-                    selectable: false,
-                    hoverable: false,
-                    style: { "text-align": "center" },
                     type: "product-text",
+                    content: `Trending Products`,
+
                 },
                 {
                     name: "Products",
-                    type:'defaultCustom',
-                    removable: false,
-                    draggable: false,
-                    droppable: false,
-                    highlightable: false,
-                    copyable: false,
-                    selectable: false,
-                    hoverable: false,
+                    type: 'defaultCustom',
                     content: `                <div id="myCarousel" class="carousel slide" data-bs-ride="carousel" data-type = "products-collections" >
                     <!-- Carousel indicators -->
 

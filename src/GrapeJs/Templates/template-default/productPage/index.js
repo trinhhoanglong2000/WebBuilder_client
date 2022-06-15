@@ -14,36 +14,14 @@ export default function loadBlockProductPage(editor, opt = {}) {
 
     attributes: { class: "fa fa-header " },
     content: {
-      attributes: {
-        class: "container",
-        name: "products-section",
-      },
-      name: "ProductSection",
-      draggable: ".main-content",
       type: "ProductPage",
-      copyable: false,
-      removable: true,
-      droppable: false,
       components: [
         {
-          tagName:'h2',
-          name: "Text",
-          attributes: {
-            class: "section-header",
-            name: "products-section-text",
-          },
+          type: "ProductPage-text",
           content: `Products`,
-          style: { "text-align": "center" },
-          type: "product-text",
-          highlightable: false,
-          copyable: false,
-          selectable: false,
-          hoverable: false,
-          removable: false,
-          droppable: false,
-          draggable: false,
         },
         {
+          type:'defaultCustom',
           name: "ProductFilter",
           content: `
           <div class="Form-input form-outline d-flex w-100 border rounded  ml-1 mr-2 mt-1">
@@ -110,18 +88,11 @@ export default function loadBlockProductPage(editor, opt = {}) {
 				</div>
 			</div>
           `,
-          highlightable: false,
-          copyable: false,
-          selectable: false,
-          hoverable: false,
-          removable: false,
-          droppable: false,
-          draggable: false,
-          layerable: false,
+
         },
 
         {
-          name: "ProductGrid",
+          type: 'ProductGrid',
           content: `
           <div class="row">
           <div class="col-md-3 col-sm-4">
@@ -154,17 +125,7 @@ export default function loadBlockProductPage(editor, opt = {}) {
           </div>
         </div>
           `,
-          attributes: {
-            class:"new-arrivals-content",
-            name: "products-section-grid",
-          },
-          highlightable: false,
-          copyable: false,
-          selectable: false,
-          hoverable: false,
-          removable: false,
-          droppable: false,
-          draggable: false,
+         
         },
       ],
     },

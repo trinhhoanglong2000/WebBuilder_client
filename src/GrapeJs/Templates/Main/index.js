@@ -4,34 +4,60 @@ export default function loadBlockMain(editor, opt = {}) {
   domc.addType("defaultCustom", {
     model: {
       defaults: {
-
+        removable: false,
+        draggable: false,
+        droppable: false,
+        highlightable: false,
+        copyable: false,
+        selectable: false,
+        hoverable: false,
+        editable: false,
       },
       init() {
       },
 
       updated(property, value, prevValue) {
       },
-      initData() {},
+      initData() { },
 
     },
   });
+  
   domc.addType("Main", {
     model: {
       defaults: {
-        highlightable :false,
-        copyable :false,
-        selectable :false,
-        hoverable :false,
-        removable:false,
-        droppable: true,
-        editable :false,
+        // droppable: (target, destination) => {
+        //   const arr = ['carousel', 'Cart', 'imageCustomType','imageWithText','multicolumn','Payment','product-list','ProductPage','RichText','videoCustomType']
+        //   if (target == undefined) return false
+        //   console.log(target)
+        //   if (arr.includes(target.get('type'))) {
+        //     return true
+        //   }
+        //   return false
+
+        // },
+        droppable: `[data-gjs-type=carousel]`,
+        highlightable: false,
+        copyable: false,
+        selectable: false,
+        hoverable: false,
+        removable: false,
+        editable: false,
+        draggable: true,
+        name: "Main",
+        tagName: "main",
+
+        attributes: {
+          class: "main-content",
+          style: "min-height:100px;width:100%",
+        },
       },
       init() {
       },
 
       updated(property, value, prevValue) {
       },
-      initData() {},
+      initData() { },
 
       // This function run when component created - we setup listen to change atri
     },
@@ -40,14 +66,8 @@ export default function loadBlockMain(editor, opt = {}) {
     label: "Main",
     category: "Main",
     content: {
-      name: "Main",
-      tagName: "main",
       type: "Main",
 
-      attributes: {
-        class: "main-content",
-        style: "min-height:100px;width:100%",
-      },
     },
   });
   //#endregion

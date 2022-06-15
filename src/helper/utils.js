@@ -33,11 +33,11 @@ const loadStoreComponents = async(editor, storeId) => {
   for (let key in storeComponents) {
     switch (key) {
       case "header": {
-        header.replaceWith(JSON.parse(storeComponents[key]))
+        header?.replaceWith(JSON.parse(storeComponents[key]))
         break;
       }
       case "footer": {
-        footer.replaceWith(JSON.parse(storeComponents[key]))
+        footer?.replaceWith(JSON.parse(storeComponents[key]))
         break;
       }
       case "asset": {

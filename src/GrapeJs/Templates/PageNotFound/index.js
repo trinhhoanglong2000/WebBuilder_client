@@ -1,3 +1,4 @@
+const domc = editor.DomComponents;
 export default function loadBlockPageNotFound(editor, opt = {}) {
     editor.BlockManager.add("pageNotFound", {
         label: "Page Not Found",

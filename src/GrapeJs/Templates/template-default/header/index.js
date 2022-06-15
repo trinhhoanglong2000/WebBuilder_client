@@ -41,22 +41,12 @@ export default function loadBlockHeader(editor, opt = {}) {
       },
       components: [
         {
-          layerable: false,
-          copyable: false,
-          draggable: false,
-          hoverable: false,
-          selectable: false,
-          droppable: false,
+          type: "defaultCustom",
           tagName: "div",
           attributes: { class: "container-fluid align-items-center" },
           components: [
             {
-              layerable: false,
-              copyable: false,
-              draggable: false,
-              highlightable: false,
-              hoverable: false,
-              droppable: false,
+              type: "defaultCustom",
               tagName: "button",
               attributes: {
                 class: "navbar-toggler order-0",
@@ -70,11 +60,7 @@ export default function loadBlockHeader(editor, opt = {}) {
               content: `<i class="fa fa-bars"></i>`,
             },
             {
-              layerable: false,
-              copyable: false,
-              draggable: false,
-              droppable: false,
-              hoverable: false,
+              type: "defaultCustom",
               tagName: "a",
               attributes: {
                 href: "#",
@@ -84,11 +70,7 @@ export default function loadBlockHeader(editor, opt = {}) {
               components: [
                 {
                   tagName: "img",
-                  layerable: false,
-                  copyable: false,
-                  hoverable: false,
-                  selectable: false,
-                  draggable: false,
+                  type: "defaultCustom",
                   attributes: {
                     class: `img-thumbnail${isHaveLogo ? "" : " d-none"}`,
                     src:
@@ -97,24 +79,14 @@ export default function loadBlockHeader(editor, opt = {}) {
                 },
                 {
                   tagName: "h4",
-                  layerable: false,
-                  copyable: false,
-                  hoverable: false,
-                  selectable: false,
-                  draggable: false,
+                  type: "defaultCustom",
                   attributes: { class: `${isHaveLogo ? "d-none" : ""}` },
                   content: c.storeName,
                 },
               ],
             },
             {
-              layerable: false,
-              copyable: false,
-              draggable: false,
-              droppable: false,
-              highlightable: false,
-              hoverable: false,
-              selectable: false,
+              type: "defaultCustom",
               tagName: "div",
               attributes: {
                 id: "navbarSupportedContent",
@@ -122,13 +94,7 @@ export default function loadBlockHeader(editor, opt = {}) {
               },
               components: [
                 {
-                  layerable: false,
-                  copyable: false,
-                  draggable: false,
-                  hoverable: false,
-                  droppable: false,
-                  highlightable: false,
-                  selectable: false,
+                  type: "defaultCustom",
                   tagName: "ul",
                   attributes: { class: "navbar-nav" },
                   content: getHeaderNavigationButton(),
@@ -136,36 +102,20 @@ export default function loadBlockHeader(editor, opt = {}) {
               ],
             },
             {
-              layerable: false,
-              copyable: false,
-              draggable: false,
-              hoverable: false,
-              droppable: false,
-              highlightable: false,
-              selectable: false,
+              type: "defaultCustom",
               tagName: "div",
               attributes: { class: "order-2" },
               components: [
                 {
-                  layerable: false,
-                  copyable: false,
-                  draggable: false,
-                  hoverable: false,
-                  selectable: false,
-                  droppable: false,
+                  type: "defaultCustom",
                   tagName: "i",
                   attributes: { class: "fa fa-shopping-bag icon-header" },
                   content: `<span class="position-absolute translate-middle badge rounded-pill bg-danger">
-                                        <span id="numberSelectedProduct">2</span>
-                                    </span>`,
+                                <span id="numberSelectedProduct">2</span>
+                            </span>`,
                 },
                 {
-                  layerable: false,
-                  copyable: false,
-                  draggable: false,
-                  hoverable: false,
-                  droppable: false,
-                  selectable: false,
+                  type: "defaultCustom",
                   tagName: "i",
                   attributes: { class: "fa fa-search icon-header" },
                 },

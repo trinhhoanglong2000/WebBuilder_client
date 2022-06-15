@@ -5,12 +5,7 @@ export default function loadBlockPageNotFound(editor, opt = {}) {
         category: "Other",
         content: {
           name: "pageNotFound",
-          draggable: ".main-content",
-          layerable: false,
-          copyable: false,
-          hoverable: false,
-          selectable: false,
-          droppable: false,
+          type: "defaultCustom",
           attributes: { class: "", name: "pageNotFound" },
           content: `
             <div class="container">

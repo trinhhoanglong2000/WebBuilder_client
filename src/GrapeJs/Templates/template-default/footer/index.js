@@ -33,54 +33,24 @@ export default function loadBlockFooter(editor, opt = {}) {
     attributes: { class: "fa fa-footer" },
     // attributes
     content: {
-      name: "Footer",
       type: "footer",
-      tagName: "footer",
-      copyable: false,
-      removable: false,
-      content: <div></div>,
-      attributes: { class: "footer-section", name: "footer" },
-      droppable: false,
       components: [
         {
-          layerable: false,
-          draggable: false,
-          selectable: false,
-          droppable: false,
           tagName: "hr",
+          type: "defaultCustom"
         },
         {
-          name: "Footer Navigation",
-          draggable: ".footer-section",
-          tagName: "div",
-          copyable: false,
-          attributes: { class: "row footer-navigation" },
+          type: "footer-navigation",
           components: [
             {
-              name: "QuickLink",
-              draggable: ".footer-navigation",
-              tagName: "div",
-              attributes: { class: "col-md", name: "QuickLink" },
               type: "footer-quick-link",
-              droppable: false,
-              copyable: false,
               components: [
                 {
-                  layerable: false,
-                  copyable: false,
-                  draggable: false,
-                  hoverable: false,
-                  selectable: false,
-                  droppable: false,
+                  type: "defaultCustom",
                   tagName: "h5", 
                   content: "Quick links"
                 }, {
-                  layerable: false,
-                  copyable: false,
-                  draggable: false,
-                  hoverable: false,
-                  selectable: false,
-                  droppable: false,
+                  type: "defaultCustom",
                   attributes: { class: "quicklinks-menu" },
                   tagName: "ul",
                   content: getFooterNavigationButton(c.footerNavigation)
@@ -88,30 +58,14 @@ export default function loadBlockFooter(editor, opt = {}) {
               ],
             },
             {
-              name: "TextMenu",
-              draggable: ".footer-navigation",
-              droppable: false,
-              tagName: "div",
-              copyable: false,
-              attributes: { class: "col-md" },
               type: "footer-text",
               components: [
                 {
-                  layerable: false,
-                  copyable: false,
-                  draggable: false,
-                  hoverable: false,
-                  selectable: false,
-                  droppable: false,
+                  type: "defaultCustom",
                   tagName: "h5",
                   content: "Heading"
                 }, {
-                  layerable: false,
-                  copyable: false,
-                  draggable: false,
-                  hoverable: false,
-                  selectable: false,
-                  droppable: false,
+                  type: "defaultCustom",
                   tagName: "p",
                   content: c.footerHeading
                 }
@@ -120,54 +74,25 @@ export default function loadBlockFooter(editor, opt = {}) {
           ]
         },
         {
-          layerable: false,
-          draggable: false,
-          selectable: false,
-          copyable: false,
-          droppable: false,
           tagName: "hr",
+          type: "defaultCustom"
         },
         {
-          name: "Social Navigation",
-          tagName: "div",
-          droppable: false,
-          copyable: false,
-          removable: false,
-          draggable: false,
           type: 'footer-social-link',
-          attributes: { class: "text-center text-md-start pb-2" },
           components: [{
-            layerable: false,
-            copyable: false,
-            draggable: false,
-            hoverable: false,
-            selectable: false,
-            droppable: false,
-            removable: false,
+            type: "defaultCustom",
             tagName: "a",
             attributes: { class: "linkedIn-fanpage" },
             content: `<i class="fa fa-linkedin-square"></i>`
           },
           {
-            layerable: false,
-            copyable: false,
-            draggable: false,
-            hoverable: false,
-            selectable: false,
-            droppable: false,
-            removable: false,
+            type: "defaultCustom",
             tagName: "a",
             attributes: { class: "instagram-fanpage" },
             content: `<i class="fa fa-instagram"></i>`
           },
           {
-            layerable: false,
-            copyable: false,
-            draggable: false,
-            hoverable: false,
-            selectable: false,
-            droppable: false,
-            removable: false,
+            type: "defaultCustom",
             tagName: "a",
             attributes: { class: "facebook-fanpage" },
             content: `<i class="fa fa-facebook-square"></i>`
@@ -181,7 +106,12 @@ export default function loadBlockFooter(editor, opt = {}) {
   dc.addType('footer', {
     model: {
       defaults: {
-        attributes: { 'theme': 'white' },
+        name: "Footer",
+        tagName: "footer",
+        copyable: false,
+        removable: false,
+        droppable: false,
+        attributes: { class: "footer-section", name: "footer", theme: 'white' },
         traits: [
           {
             type: 'select',
@@ -196,6 +126,29 @@ export default function loadBlockFooter(editor, opt = {}) {
             ]
           },
         ],
+      },
+
+      init() {
+
+      },
+
+      initData() {
+
+      },
+    },
+  });
+
+  dc.addType('footer-navigation', {
+    model: {
+      defaults: {
+        name: "Footer",
+        tagName: "footer",
+        copyable: false,
+        removable: false,
+        name: "Footer Navigation",
+        draggable: ".footer-section",
+        tagName: "div",
+        attributes: { class: "row footer-navigation" },
       },
 
       init() {
@@ -727,7 +680,13 @@ export default function loadBlockFooter(editor, opt = {}) {
   dc.addType("footer-social-link", {
     model: {
       defaults: {
-        attributes: { 'linkedIn': 'true', 'instagram': 'true', 'facebook': 'true' },
+        name: "Social Navigation",
+        tagName: "div",
+        droppable: false,
+        copyable: false,
+        removable: false,
+        draggable: false,
+        attributes: { class: "text-center text-md-start pb-2", linkedIn: 'true', instagram: 'true', facebook: 'true' },
         traits: [
           {
             type: "footer-linkedIn-link",

@@ -58,7 +58,10 @@ export default function loadBlockCarousel(editor, opt = {}) {
   domc.addType("carousel", {
     model: {
       defaults: {
+        name: "Carousel",
         droppable: false,
+        draggable: ".main-content",
+        copyable: false,
         traits: [
           {
             type: "carousel-collection",
@@ -93,7 +96,9 @@ export default function loadBlockCarousel(editor, opt = {}) {
           displayType: "bottom-center",
           descriptionAlign: "center",
           bannerHeight: "medium",
-          descriptionBackground: "true"
+          descriptionBackground: "true",
+          name: "banners", 
+          class: "carousel-text-white carousel-display-bottom-center carousel-description-align-center carousel-height-medium carousel-description-background"
         }
       },
 
@@ -174,9 +179,6 @@ export default function loadBlockCarousel(editor, opt = {}) {
     category: c.carousel_category,
     content: [
       {
-        name: "Carousel",
-        attributes: { name: "banners", class: "carousel-text-white carousel-display-bottom-center carousel-description-align-center carousel-height-medium carousel-description-background"},
-        draggable: ".main-content",
         type: "carousel",
         content: `
         <div id="myCarousel" class=" carousel slide ezMall-carousel" data-bs-ride="carousel" data-type="banners">

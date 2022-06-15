@@ -6,7 +6,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
   const c = opt;
   let bm = editor.BlockManager;
   loadTraitMulticolumnItem(editor, c)
-  loadBlockColumnItem(editor, c)
+
   const domc = editor.DomComponents;
   const defaultType = domc.getType("default");
   const textType = domc.getType("text");
@@ -16,7 +16,9 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
     model: {
       defaults: {
         tagName: 'div',
+        name: 'Multicolumn',
         droppable: false,
+        copyable: false,
         traits: [
           {
             label: "Align",
@@ -59,8 +61,118 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
         // This is default attributes
         attributes: {
           "ez-mall-type": "multicolumn",
-          numCols: 3
+          numCols: 3,
+          class: "multicolumn-numCols-3"
         }
+      },
+      // This function run when component created - we setup listen to change atri
+
+      init() {
+        this.on('change:attributes:data', this.handleTypeChangeData);
+        this.on('change:attributes:placeholder', this.handleTypeChangePlaceHold);
+
+      },
+      async Update() {
+      },
+      async handleTypeChangeData() {
+        this.Update()
+      },
+      initData() {
+      },
+      handleTypeChangePlaceHold() {
+        const atributeData = this.attributes.attributes;
+
+      },
+    },
+    view: {
+      init() {
+        const attributes = this.model.attributes;
+        const rootElement = this.el;
+      },
+      events: {
+
+      },
+      handleClick: function (e) {
+        const attributes = this.model.attributes;
+        const rootElement = this.el;
+      },
+      render: function () {
+        // Extend the original render method
+        defaultType.view.prototype.render.apply(this, arguments);
+        return this;
+      },
+    },
+  });
+
+  domc.addType("multicolumn-tittle", {
+    model: {
+      defaults: {
+        traits: [
+        
+        ],
+        // This is default attributes
+        name: "Multicolumn Tittle",
+        tagName: "h2",
+        attributes: { style: "text-align : center; font-weight : bold ;padding:0px" },
+        layerable: false,
+        hoverable: false,
+        selectable: false,
+        highlightable: false,
+        droppable: false,
+        draggable: false,
+      },
+      // This function run when component created - we setup listen to change atri
+
+      init() {
+        this.on('change:attributes:data', this.handleTypeChangeData);
+        this.on('change:attributes:placeholder', this.handleTypeChangePlaceHold);
+
+      },
+      async Update() {
+      },
+      async handleTypeChangeData() {
+        this.Update()
+      },
+      initData() {
+      },
+      handleTypeChangePlaceHold() {
+        const atributeData = this.attributes.attributes;
+
+      },
+    },
+    view: {
+      init() {
+        const attributes = this.model.attributes;
+        const rootElement = this.el;
+      },
+      events: {
+
+      },
+      handleClick: function (e) {
+        const attributes = this.model.attributes;
+        const rootElement = this.el;
+      },
+      render: function () {
+        // Extend the original render method
+        defaultType.view.prototype.render.apply(this, arguments);
+        return this;
+      },
+    },
+  });
+
+  domc.addType("multicolumn-body", {
+    model: {
+      defaults: {
+        traits: [
+        ],
+        // This is default attributes
+        name: 'Multicolumn Body',
+        layerable: false,
+        hoverable: false,
+        selectable: false,
+        highlightable: false,
+        draggable: false,
+        attributes: { class: "row ezMall-multicolumn" },
       },
       // This function run when component created - we setup listen to change atri
 
@@ -110,202 +222,56 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
     draggable: ".main-content",
     content: [
       {
-        name: 'Multicolumn',
         type: "multicolumn",
-        attributes: { class: "multicolumn-numCols-3" },
         components: [{
-          attributes: { class: "" },
-          tagName: "h2",
-          name: "Multicolumn Tittle",
-          style: { "text-align": "center", "font-weight": "bold", "padding": "0px" },
+          type: "multicolumn-tittle",
           content: `Card Title`,
-          layerable: false,
-          hoverable: false,
-          selectable: false,
-          highlightable: false,
-          droppable: false,
-          draggable: false,
         },
         {
-          name: 'multicolumn',
-          layerable: false,
-          hoverable: false,
-          selectable: false,
-          highlightable: false,
-          draggable: false,
-          attributes: { class: "row ezMall-multicolumn" },
-
+          type: "multicolumn-body",
           components: [
             {
-              tagName: "a",
-              droppable: false,
-              name: "ColumnItem",
-              attributes: { name: "columnItem", class: "ezMall-column-item card  container ezMall-col" },
               type: "ColumnItem",
-              draggable: ".ezMall-multicolumn",
               components: [
                 {
-                  attributes: { class: "column-item-image" },
-                  name: "columnItem-image",
-                  layerable: false,
-                  hoverable: false,
-                  selectable: false,
-                  highlightable: false,
-                  droppable: false,
-                  draggable: false,
+                  type: "columnItem-image",
                   content: `
                   <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
                 `,
                 },
                 {
-                  attributes: { class: "card-body" },
-                  layerable: false,
-                  hoverable: false,
-                  selectable: false,
-                  highlightable: false,
-                  draggable: false,
+                  type: "columnItem-description",
                   components: [
                     {
-                      attributes: { class: "card-title", style: "text-decoration: none;" },
-                      name: "columnItem-title",
-                      style: { "text-align": "center" },
+                      type: "columnItem-title",
                       content: `Card title`,
-                      layerable: false,
-                      hoverable: false,
-                      selectable: false,
-                      highlightable: false,
-                      droppable: false,
-                      draggable: false,
                     }
                     , {
-                      removable: false,
-                      name: "Text",
-                      layerable: false,
-                      hoverable: false,
-                      selectable: false,
-                      highlightable: false,
-                      style: { "font-size": "medium" },
-                      editable: true,
-                      droppable: false,
-                      draggable: false,
-                      content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or
-                      welcome customers to your store.</p>`,
+                      type: "columItem-header",
+                      content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>`,
                     }]
                 },
               ]
             },
             {
-              tagName: "a",
-              droppable: false,
-              name: "ColumnItem",
-              attributes: { name: "columnItem", class: "ezMall-column-item card  container ezMall-col" },
               type: "ColumnItem",
-              draggable: ".ezMall-multicolumn",
               components: [
                 {
-                  attributes: { class: "column-item-image" },
-                  name: "columnItem-image",
-                  layerable: false,
-                  hoverable: false,
-                  selectable: false,
-                  highlightable: false,
-                  droppable: false,
-                  draggable: false,
+                  type: "columnItem-image",
                   content: `
                   <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
                 `,
                 },
                 {
-                  attributes: { class: "card-body" },
-                  layerable: false,
-                  hoverable: false,
-                  selectable: false,
-                  highlightable: false,
-                  draggable: false,
+                  type: "columnItem-description",
                   components: [
                     {
-                      attributes: { class: "card-title", style: "text-decoration: none;" },
-                      name: "columnItem-title",
-                      style: { "text-align": "center" },
+                      type: "columnItem-title",
                       content: `Card title`,
-                      layerable: false,
-                      hoverable: false,
-                      selectable: false,
-                      highlightable: false,
-                      droppable: false,
-                      draggable: false,
                     }
                     , {
-                      removable: false,
-                      name: "Text",
-                      layerable: false,
-                      hoverable: false,
-                      selectable: false,
-                      highlightable: false,
-                      style: { "font-size": "medium" },
-                      editable: true,
-                      droppable: false,
-                      draggable: false,
-                      content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or
-                      welcome customers to your store.</p>`,
-                    }]
-                },
-              ]
-            },
-            {
-              tagName: "a",
-              droppable: false,
-              name: "ColumnItem",
-              attributes: { name: "columnItem", class: "ezMall-column-item card  container ezMall-col" },
-              type: "ColumnItem",
-              draggable: ".ezMall-multicolumn",
-              components: [
-                {
-                  attributes: { class: "column-item-image" },
-                  name: "columnItem-image",
-                  layerable: false,
-                  hoverable: false,
-                  selectable: false,
-                  highlightable: false,
-                  droppable: false,
-                  draggable: false,
-                  content: `
-                  <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
-                `,
-                },
-                {
-                  attributes: { class: "card-body" },
-                  layerable: false,
-                  hoverable: false,
-                  selectable: false,
-                  highlightable: false,
-                  draggable: false,
-                  components: [
-                    {
-                      attributes: { class: "card-title", style: "text-decoration: none;" },
-                      name: "columnItem-title",
-                      style: { "text-align": "center" },
-                      content: `Card title`,
-                      layerable: false,
-                      hoverable: false,
-                      selectable: false,
-                      highlightable: false,
-                      droppable: false,
-                      draggable: false,
-                    }
-                    , {
-                      removable: false,
-                      name: "Text",
-                      layerable: false,
-                      hoverable: false,
-                      selectable: false,
-                      highlightable: false,
-                      style: { "font-size": "medium" },
-                      editable: true,
-                      droppable: false,
-                      draggable: false,
-                      content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or
-                      welcome customers to your store.</p>`,
+                      type: "columItem-header",
+                      content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>`,
                     }]
                 },
               ]
@@ -316,6 +282,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
 
     ]
   });
+  loadBlockColumnItem(editor, c)
   //#endregion
   //LONG-TP 2022-02-22 TEST TRAITS - ADD END 
 }

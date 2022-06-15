@@ -5,12 +5,7 @@ export default function loadBlockPolicy(editor, opt = {}) {
         category: "Other",
         content: {
           name: "termsOfService",
-          draggable: ".main-content",
-          layerable: false,
-          copyable: false,
-          hoverable: false,
-          selectable: false,
-          droppable: false,
+          type: "defaultCustom",
           attributes: { class: "", name: "termsOfService" },
           content: `
             <div class="container">
@@ -160,12 +155,7 @@ export default function loadBlockPolicy(editor, opt = {}) {
         category: "Other",
         content: {
           name: "refundPolicy",
-          draggable: ".main-content",
-          layerable: false,
-          copyable: false,
-          hoverable: false,
-          selectable: false,
-          droppable: false,
+          type: "defaultCustom",
           attributes: { class: "", name: "refundPolicy" },
           content: `
             <div class="container">

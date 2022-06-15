@@ -3,6 +3,7 @@ import { CONTACT_FORM_LABEL } from "../../../../asset/icon/svg";
 export default function loadContactForm(editor, opt = {}) {
     const c = opt;
     let bm = editor.BlockManager;
+    let dc = editor.DomComponents; 
 
     bm.add('contactForm', {
         category: "Contact Form",
@@ -12,9 +13,7 @@ export default function loadContactForm(editor, opt = {}) {
         `,
         // attributes
         content: {
-            name: 'contactForm',
-            draggable: ".main-content",
-            attributes: { class: "container", name: "contactForm" },
+            type: "contactForm",
             content: `
                 <h1 class="text-center">Contact form</h1>
                 <form>
@@ -39,5 +38,28 @@ export default function loadContactForm(editor, opt = {}) {
                     <div class="text-center"><button type="submit" class="btn">Send</button></div>
                 </form>`
         }
+    });
+
+    dc.addType("contactForm", {
+        model: {
+          defaults: {
+            name: 'contactForm',
+            draggable: ".main-content",
+            attributes: { class: "container", name: "contactForm" },
+            highlightable: false,
+            hoverable: false,
+            removable: false,
+            droppable: false,
+            editable: false,
+          },
+          init() {
+          },
+    
+          updated(property, value, prevValue) {
+          },
+          initData() {},
+    
+          // This function run when component created - we setup listen to change atri
+        },
     });
 }

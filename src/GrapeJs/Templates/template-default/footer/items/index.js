@@ -43,31 +43,15 @@ export default function loadBlockFooterItem(editor, opt = {}) {
     label: "Quick Links",
     category: "Footer",
     attributes: { class: "fa fa-link" },
-    // attributes
     content: {
-      name: "QuickLink",
-      draggable: ".footer-navigation",
-      tagName: "div",
-      copyable: false,
-      attributes: { class: "col-md", name: "QuickLink" },
       type: "footer-quick-link",
       components: [
         {
-          layerable: false,
-          copyable: false,
-          draggable: false,
-          hoverable: false,
-          selectable: false,
-          droppable: false,
+          type: "defaultCustom",
           tagName: "h5",
           content: "Quick links"
         }, {
-          layerable: false,
-          copyable: false,
-          draggable: false,
-          hoverable: false,
-          selectable: false,
-          droppable: false,
+          type: "defaultCustom",
           attributes: { class: "quicklinks-menu" },
           tagName: "ul",
           content: getFooterNavigationButton(c.footerNavigation)
@@ -80,32 +64,15 @@ export default function loadBlockFooterItem(editor, opt = {}) {
     label: "Text",
     category: "Footer",
     attributes: { class: "fa fa-file-text" },
-    // attributes
     content: {
-      name: "Text",
-      draggable: ".footer-navigation",
-      droppable: false,
-      copyable: false,
-      tagName: "div",
-      attributes: { class: "col-md" },
       type: "footer-text",
       components: [
         {
-          layerable: false,
-          copyable: false,
-          draggable: false,
-          hoverable: false,
-          selectable: false,
-          droppable: false,
+          type: "defaultCustom",
           tagName: "h5",
           content: "Heading"
         }, {
-          layerable: false,
-          copyable: false,
-          draggable: false,
-          hoverable: false,
-          selectable: false,
-          droppable: false,
+          type: "defaultCustom",
           tagName: "p",
           content: c.footerHeading
         }
@@ -118,21 +85,11 @@ export default function loadBlockFooterItem(editor, opt = {}) {
     attributes: { class: "fa fa-picture-o" },
     category: "Footer",
     content: {
-      name: "Image",
-      draggable: ".footer-navigation",
-      droppable: false,
-      copyable: false,
-      tagName: "div",
-      attributes: { class: "col-md text-center d-flex align-items-center justify-content-center" },
       type: "footer-image",
       components: [
         {
+          type: "defaultCustom",
           tagName: 'img',
-          layerable: false,
-          copyable: false,
-          hoverable: false,
-          selectable: false,
-          draggable: false,
           attributes: { class: "img-thumbnail", src: "https://dummyimage.com/600x400/55595c/fff" },
         }
       ]
@@ -519,7 +476,11 @@ export default function loadBlockFooterItem(editor, opt = {}) {
   dc.addType("footer-quick-link", {
     model: {
       defaults: {
-        attributes: { oneRow: false },
+        name: "QuickLink",
+        draggable: ".footer-navigation",
+        tagName: "div",
+        copyable: false,
+        attributes: { class: "col-md", name: "QuickLink", oneRow: false },
         traits: [
           {
             type: "footer-menu-collection",
@@ -582,6 +543,12 @@ export default function loadBlockFooterItem(editor, opt = {}) {
   dc.addType("footer-text", {
     model: {
       defaults: {
+        name: "Text",
+        draggable: ".footer-navigation",
+        droppable: false,
+        copyable: false,
+        tagName: "div",
+        attributes: { class: "col-md" },
         traits: [
           {
             type: "footer-heading",
@@ -601,13 +568,18 @@ export default function loadBlockFooterItem(editor, opt = {}) {
     },
   });
 
-
   dc.addType("footer-image", {
     model: {
       defaults: {
+        name: "Image",
+        draggable: ".footer-navigation",
+        droppable: false,
+        copyable: false,
+        tagName: "div",
+        attributes: { class: "col-md text-center d-flex align-items-center justify-content-center" },
         traits: [
           {
-            type: "footer-upload-image", // Type of the trait
+            type: "footer-upload-image",
             label: "Image",
             src: "https://dummyimage.com/230x150/55595c/fff",
           },

@@ -28,17 +28,7 @@ export default function loadBlockHeader(editor, opt = {}) {
     category: "Header",
     attributes: { class: "fa fa-header" },
     content: {
-      droppable: false,
-      copyable: false,
-      removable: true,
-      name: "Header",
-      tagName: "nav",
       type: "navbar",
-      attributes: {
-        class: "navbar navbar-expand-md border-bottom border-dark",
-        name: "header",
-        "store-id": c.storeId,
-      },
       components: [
         {
           type: "defaultCustom",
@@ -254,7 +244,18 @@ export default function loadBlockHeader(editor, opt = {}) {
   dc.addType("navbar", {
     model: {
       defaults: {
-        attributes: { theme: "white", logoSize: "medium" },
+        droppable: false,
+        copyable: false,
+        removable: true,
+        name: "Header",
+        tagName: "nav",
+        attributes: {
+          class: "navbar navbar-expand-md border-bottom border-dark",
+          name: "header",
+          "store-id": c.storeId,
+          theme: "white", 
+          logoSize: "medium"
+        },
         traits: [
           {
             type: "select",

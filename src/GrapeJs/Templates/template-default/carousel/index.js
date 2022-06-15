@@ -61,6 +61,7 @@ export default function loadBlockCarousel(editor, opt = {}) {
         name: "Carousel",
         droppable: false,
         draggable: ".main-content",
+        copyable: false,
         traits: [
           {
             type: "carousel-collection",

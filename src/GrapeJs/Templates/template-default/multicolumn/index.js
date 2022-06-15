@@ -6,6 +6,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
   const c = opt;
   let bm = editor.BlockManager;
   loadTraitMulticolumnItem(editor, c)
+
   const domc = editor.DomComponents;
   const defaultType = domc.getType("default");
   const textType = domc.getType("text");
@@ -17,6 +18,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
         tagName: 'div',
         name: 'Multicolumn',
         droppable: false,
+        copyable: false,
         traits: [
           {
             label: "Align",
@@ -111,7 +113,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
         // This is default attributes
         name: "Multicolumn Tittle",
         tagName: "h2",
-        style: { "text-align": "center", "font-weight": "bold", "padding": "0px" },
+        attributes: { style: "text-align : center; font-weight : bold ;padding:0px" },
         layerable: false,
         hoverable: false,
         selectable: false,
@@ -162,10 +164,9 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
     model: {
       defaults: {
         traits: [
-        
         ],
         // This is default attributes
-        name: 'multicolumn',
+        name: 'Multicolumn Body',
         layerable: false,
         hoverable: false,
         selectable: false,
@@ -227,7 +228,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
           content: `Card Title`,
         },
         {
-          type: "mulicolumn-body",
+          type: "multicolumn-body",
           components: [
             {
               type: "ColumnItem",
@@ -281,7 +282,6 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
 
     ]
   });
-  
   loadBlockColumnItem(editor, c)
   //#endregion
   //LONG-TP 2022-02-22 TEST TRAITS - ADD END 

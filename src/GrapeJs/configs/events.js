@@ -3,7 +3,6 @@ const Swal = require('sweetalert2')
 
 export const getEvents = (editor,config) => {
     editor.on('run:preview', () => {
-        console.log("HEHE")
         $("#navigationPanelPages").addClass("dnone");
     })
     editor.on('stop:preview', () => {

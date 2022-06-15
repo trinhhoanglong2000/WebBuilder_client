@@ -1,12 +1,13 @@
-const domc = editor.DomComponents;
 export default function loadBlockPageNotFound(editor, opt = {}) {
-    editor.BlockManager.add("pageNotFound", {
-        label: "Page Not Found",
-        attributes: { class: "fa fa-picture-o" },
-        category: "Other",
-        content: {
-          type: "pageNotFound",
-          content: `
+  const domc = editor.DomComponents;
+
+  editor.BlockManager.add("pageNotFound", {
+    label: "Page Not Found",
+    attributes: { class: "fa fa-picture-o" },
+    category: "Other",
+    content: {
+      type: "pageNotFound",
+      content: `
             <div class="container">
                 <div class="row">
                     <div class="col-8 d-flex align-items-center justify-content-center">
@@ -21,30 +22,30 @@ export default function loadBlockPageNotFound(editor, opt = {}) {
                 </div>
             </div>
           `
-        },
-    });
+    },
+  });
 
-    domc.addType("pageNotFound", {
-        model: {
-          defaults: {
-            name: "pageNotFound",
-            attributes: { class: "", name: "pageNotFound" },
-            removable: false,
-            draggable: ".main-content",
-            droppable: false,
-            highlightable: false,
-            copyable: false,
-            selectable: false,
-            hoverable: false,
-            editable : false,
-          },
-          init() {
-          },
-    
-          updated(property, value, prevValue) {
-          },
-          initData() {},
-    
-        },
-      });
+  domc.addType("pageNotFound", {
+    model: {
+      defaults: {
+        name: "pageNotFound",
+        attributes: { class: "", name: "pageNotFound" },
+        removable: false,
+        draggable: ".main-content",
+        droppable: false,
+        highlightable: false,
+        copyable: false,
+        selectable: false,
+        hoverable: false,
+        editable: false,
+      },
+      init() {
+      },
+
+      updated(property, value, prevValue) {
+      },
+      initData() { },
+
+    },
+  });
 }

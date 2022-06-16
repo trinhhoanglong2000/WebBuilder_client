@@ -67,7 +67,7 @@ export default function loadComponentsProductPage(editor, opt = {}) {
           name: "products-section",
         },
         name: "ProductSection",
-        draggable: ".main-content",
+//        draggable: ".main-content",
         copyable: false,
         removable: false,
         droppable: false,

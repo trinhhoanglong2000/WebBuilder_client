@@ -54,28 +54,11 @@ export default function LoadCommands(editor, config, opt) {
     // const footer = editor.getComponents().where({ name: 'Footer' })[0];
     // const header = editor.getComponents().where({ name: 'Header' })[0];
     // const main   = editor.getComponents().where({ name: "Main" })[0]
-    // footer.set({ draggable: false,removable:false })
-    // header.set({ draggable: false,removable:false })
     // main.set({
-    //   highlightable: false,
-    //   copyable: false,
-    //   selectable: false,
-    //   hoverable: false,
-    //   removable: false,
-    //   droppable: true,
-    //   editable: false, tagName: 'main',
-    // })
-    // editor.getComponents().where({ name: "Main" })[0].getChildAt(0).set({
-    //   highlightable: false,
-    //   copyable: false,
-    //   selectable: false,
-    //   hoverable: false,
-    //   removable: false,
     //   droppable: false,
-    //   editable: false,
-    //   draggable: false,
-
+    
     // })
+
   });
   cm.add(cmdClear, (e) => window.confirm(txtConfirm) && e.runCommand("core:canvas-clear"));
   cm.add(cmdTogglePreview, async (e) => {

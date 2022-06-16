@@ -476,7 +476,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
   dc.addType("footer-quick-link", {
     model: {
       defaults: {
-        name: "QuickLink",
+        name: "Quick Link",
         draggable: ".footer-navigation",
         tagName: "div",
         copyable: false,

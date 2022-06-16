@@ -43,13 +43,12 @@ export default function loadContactForm(editor, opt = {}) {
     dc.addType("contactForm", {
         model: {
           defaults: {
-            name: 'contactForm',
+            name: 'Contact Form',
             draggable: ".main-content",
             attributes: { class: "container", name: "contactForm" },
-            highlightable: false,
-            hoverable: false,
             droppable: false,
             editable: false,
+            copyable: false,
           },
           init() {
           },

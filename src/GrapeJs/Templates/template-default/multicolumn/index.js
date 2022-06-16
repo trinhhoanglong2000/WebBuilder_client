@@ -120,6 +120,8 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
         highlightable: false,
         droppable: false,
         draggable: false,
+        removable : false,
+        copyable: false,
       },
       // This function run when component created - we setup listen to change atri
 
@@ -167,11 +169,22 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
         ],
         // This is default attributes
         name: 'Multicolumn Body',
-        layerable: false,
+        droppable: (target, destination) => {
+          const arr = ['ColumnItem']
+          if (target == undefined) return false
+          if (arr.includes(target.get('type'))) {
+            return true
+          }
+          return false
+
+        },
+        layerable: true,
         hoverable: false,
         selectable: false,
         highlightable: false,
         draggable: false,
+        removable : false,
+        copyable: false,
         attributes: { class: "row ezMall-multicolumn" },
       },
       // This function run when component created - we setup listen to change atri

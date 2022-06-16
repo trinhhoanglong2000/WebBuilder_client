@@ -244,9 +244,10 @@ export default function loadBlockHeader(editor, opt = {}) {
   dc.addType("navbar", {
     model: {
       defaults: {
-        droppable: false,
         copyable: false,
-        removable: true,
+        removable: false,
+        droppable: false,
+        draggable: false,
         name: "Header",
         tagName: "nav",
         attributes: {

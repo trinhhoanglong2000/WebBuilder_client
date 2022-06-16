@@ -28,7 +28,7 @@ export default function loadBlockPageNotFound(editor, opt = {}) {
   domc.addType("pageNotFound", {
     model: {
       defaults: {
-        name: "pageNotFound",
+        name: "Page Not Found",
         attributes: { class: "", name: "pageNotFound" },
         removable: false,
         // draggable: ".main-content",

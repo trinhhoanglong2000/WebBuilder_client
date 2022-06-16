@@ -188,7 +188,7 @@ export default function loadBlockPolicy(editor, opt = {}) {
   
   dc.addType("termsOfService", {
     model: {
-      name: "termsOfService",
+      name: "Terms Of Service",
       attributes: { class: "", name: "termsOfService" },
       defaults: {
         removable: false,
@@ -213,7 +213,7 @@ export default function loadBlockPolicy(editor, opt = {}) {
 
   dc.addType("refundPolicy", {
     model: {
-      name: "refundPolicy",
+      name: "Refund Policy",
       attributes: { class: "", name: "refundPolicy" },
       defaults: {
         removable: false,

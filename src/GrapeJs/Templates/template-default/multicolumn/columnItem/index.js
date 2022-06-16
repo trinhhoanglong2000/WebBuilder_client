@@ -48,9 +48,9 @@ export default function loadBlockColumnItem(editor, opt = {}) {
           TextFontSize: "medium"
         },
         tagName: "a",
-        droppable: false,
         name: "ColumnItem",
         draggable: ".ezMall-multicolumn",
+        droppable: false,
         copyable: false
       },
 
@@ -107,8 +107,11 @@ export default function loadBlockColumnItem(editor, opt = {}) {
         highlightable: false,
         droppable: false,
         draggable: false,
+        removable : false,
+        copyable: false,
+        
+
         attributes: { class: "column-item-image" },
-        removeable:false
       },
 
       // This function run when component created - we setup listen to change atri
@@ -161,10 +164,10 @@ export default function loadBlockColumnItem(editor, opt = {}) {
         hoverable: false,
         selectable: false,
         highlightable: false,
+        droppable: false,
         draggable: false,
-        draggable: false,
-        editable: false,
-        removeable:false
+        removable : false,
+        copyable: false,
 
       },
 
@@ -220,6 +223,8 @@ export default function loadBlockColumnItem(editor, opt = {}) {
         highlightable: false,
         droppable: false,
         draggable: false,
+        removable : false,
+        copyable: false,
       },
 
       // This function run when component created - we setup listen to change atri
@@ -264,16 +269,16 @@ export default function loadBlockColumnItem(editor, opt = {}) {
 
         ],
         // This is default attributes
-        removeable: false,
-        name: "Header",
         layerable: false,
         hoverable: false,
         selectable: false,
         highlightable: false,
-        attributes: {style: "font-size : medium" } ,
-        editable: true,
         droppable: false,
         draggable: false,
+        removable : false,
+        copyable: false,
+        name: "Header",
+        attributes: {style: "font-size : medium" } ,
       },
 
       // This function run when component created - we setup listen to change atri

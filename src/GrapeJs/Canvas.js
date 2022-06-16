@@ -220,7 +220,7 @@ function Canvas({ type }) {
                     }
                   });
                   editor.getWrapper().set({ hoverable: false, selectable: false, highlightable: false,
-                  droppable:false,
+                   droppable:false,
                   })
 
                   const style = `strong{font-weight:bold;}`;

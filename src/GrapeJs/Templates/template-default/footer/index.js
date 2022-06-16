@@ -111,6 +111,7 @@ export default function loadBlockFooter(editor, opt = {}) {
         copyable: false,
         removable: false,
         droppable: false,
+        draggable: false,
         attributes: { class: "footer-section", name: "footer", theme: 'white' },
         traits: [
           {

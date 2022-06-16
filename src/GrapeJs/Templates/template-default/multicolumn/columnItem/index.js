@@ -48,7 +48,7 @@ export default function loadBlockColumnItem(editor, opt = {}) {
           TextFontSize: "medium"
         },
         tagName: "a",
-        name: "ColumnItem",
+        name: "Column Item",
         draggable: ".ezMall-multicolumn",
         droppable: false,
         copyable: false

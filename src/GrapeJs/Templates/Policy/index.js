@@ -2,12 +2,12 @@ export default function loadBlockPolicy(editor, opt = {}) {
   const dc = editor.DomComponents;
 
   editor.BlockManager.add("termsOfService", {
-      label: "Terms Of Service",
-      attributes: { class: "fa fa-picture-o" },
-      category: "Other",
-      content: {
-        type: "termsOfService",
-        content: `
+    label: "Terms Of Service",
+    attributes: { class: "fa fa-picture-o" },
+    category: "Other",
+    content: {
+      type: "termsOfService",
+      content: `
           <div class="container">
               <div class="text-center"><h1> Terms of service </h1></div>
               <div>
@@ -146,16 +146,16 @@ export default function loadBlockPolicy(editor, opt = {}) {
               </div>
           </div>
         `
-      },
+    },
   });
 
   editor.BlockManager.add("refundPolicy", {
-      label: "Refund Policy",
-      attributes: { class: "fa fa-picture-o" },
-      category: "Other",
-      content: {
-        type: "refundPolicy",
-        content: `
+    label: "Refund Policy",
+    attributes: { class: "fa fa-picture-o" },
+    category: "Other",
+    content: {
+      type: "refundPolicy",
+      content: `
           <div class="container">
               <div class="text-center"><h1> Refund policy </h1></div>
               <div>
@@ -183,14 +183,15 @@ export default function loadBlockPolicy(editor, opt = {}) {
               </div>
           </div>
         `
-      },
+    },
   });
-  
+
   dc.addType("termsOfService", {
     model: {
-      name: "Terms Of Service",
-      attributes: { class: "", name: "termsOfService" },
       defaults: {
+        name: "Terms Of Service",
+        attributes: { class: "", name: "termsOfService" },
+
         removable: false,
         // draggable: ".main-content",
         draggable: false,
@@ -199,40 +200,41 @@ export default function loadBlockPolicy(editor, opt = {}) {
         copyable: false,
         selectable: false,
         hoverable: false,
-        editable : false,
+        editable: false,
       },
       init() {
       },
 
       updated(property, value, prevValue) {
       },
-      initData() {},
+      initData() { },
 
     },
   });
 
   dc.addType("refundPolicy", {
     model: {
-      name: "Refund Policy",
-      attributes: { class: "", name: "refundPolicy" },
+
       defaults: {
+        name: "Refund Policy",
+        attributes: { class: "", name: "refundPolicy" },
         removable: false,
         // draggable: ".main-content",
         draggable: false,
-        
+
         droppable: false,
         highlightable: false,
         copyable: false,
         selectable: false,
         hoverable: false,
-        editable : false,
+        editable: false,
       },
       init() {
       },
 
       updated(property, value, prevValue) {
       },
-      initData() {},
+      initData() { },
 
     },
   });

@@ -873,7 +873,7 @@ export default function loadImageWithText(editor, opt = {}) {
   dc.addType("imageWithText", {
     model: {
       defaults: {
-        name: "ImageWithText",
+        name: "Image With Text",
         draggable: ".main-content",
         attributes: { class: "container", name: "imageWithText", iPosition: "left" },
         droppable: false,

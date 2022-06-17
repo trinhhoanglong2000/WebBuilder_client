@@ -62,7 +62,8 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
         attributes: {
           "ez-mall-type": "multicolumn",
           numCols: 3,
-          class: "multicolumn-numCols-3"
+          class: "multicolumn-numCols-3",
+          headAlign: "center"
         }
       },
       // This function run when component created - we setup listen to change atri

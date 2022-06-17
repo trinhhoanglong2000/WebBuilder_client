@@ -24,6 +24,10 @@ export default function loadBlockColumnItem(editor, opt = {}) {
             type: "column-item-link",
           },
           {
+            label: "Link-Update",
+            type: "Column-Link",
+          },
+          {
             label: "Heading",
             type: "Column-Item-Heading",
           },
@@ -44,8 +48,9 @@ export default function loadBlockColumnItem(editor, opt = {}) {
         attributes: {
           "ez-mall-type": "columnItem",
           name: "columnItem",
-          class: "ezMall-column-item card  container ezMall-col",
-          TextFontSize: "medium"
+          class: "ezMall-column-item card container ezMall-col navbar",
+          TextFontSize: "medium",
+          textAlight: "center"
         },
         tagName: "a",
         name: "Column Item",

@@ -22,12 +22,12 @@ const defaultData = [
     link: "/",
   }
 ]
-function insertCarouselData(data, carouselIndicators, carouselInner) {
+function insertCarouselData(data, carouselIndicators, carouselInner, carousel) {
   carouselIndicators.innerHTML = "";
   carouselInner.innerHTML = "";
   data.forEach((item, index) => {
     let htmlButtonInsert = `
-  <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="${index}" class = "${index == 0 ? "active" : ""}" aria-label="Slide ${index}"></button>
+  <button type="button" data-bs-target="${$(carousel).attr("id")}" data-bs-slide-to="${index}" class = "${index == 0 ? "active" : ""}" aria-label="Slide ${index}" ${index == 0 ? `aria-current="true"` : ""} ></button>
   `
     carouselIndicators.insertAdjacentHTML("beforeend", htmlButtonInsert);
     let htmlCarouselItemInsert = `
@@ -46,7 +46,8 @@ function insertCarouselData(data, carouselIndicators, carouselInner) {
     </div>
   </div>
 `
-    carouselInner.insertAdjacentHTML("beforeend", htmlCarouselItemInsert)
+    carouselInner.insertAdjacentHTML("beforeend", htmlCarouselItemInsert);
+
   })
 }
 export default function loadBlockCarousel(editor, opt = {}) {
@@ -97,7 +98,7 @@ export default function loadBlockCarousel(editor, opt = {}) {
           descriptionAlign: "center",
           bannerHeight: "medium",
           descriptionBackground: "true",
-          name: "banners", 
+          name: "banners",
           class: "carousel-text-white carousel-display-bottom-center carousel-description-align-center carousel-height-medium carousel-description-background"
         }
       },
@@ -116,14 +117,15 @@ export default function loadBlockCarousel(editor, opt = {}) {
       },
     },
     view: {
-      
+
       async Update() {
+        let carousel = $(this.el).find(`.carousel`)[0];
         let carouselIndicators = $(this.el).find(`.carousel-indicators`)[0]
         let carouselInner = $(this.el).find(`.carousel-inner`)[0];
         let categoryId = this.model.attributes.attributes.data;
 
         if (typeof categoryId == "undefined") {
-          insertCarouselData(defaultData, carouselIndicators, carouselInner)
+          insertCarouselData(defaultData, carouselIndicators, carouselInner, carousel)
         } else {
           await fetch(`${process.env.REACT_APP_API_URL}collections/banner/${categoryId}`
             , {
@@ -134,27 +136,27 @@ export default function loadBlockCarousel(editor, opt = {}) {
             }).then(res => res.json()).then(myJson => myJson.data).then(
               data => {
                 let listBanners = [...defaultData]
-                try{
-                    listBanners = data.banners;
+                try {
+                  listBanners = data.banners;
                   if (listBanners.length == 0) {
                     listBanners = [...defaultData]
-                  } 
-                }catch(e){
+                  }
+                } catch (e) {
                   listBanners = [...defaultData]
                 }
-                insertCarouselData(listBanners, carouselIndicators, carouselInner)
+                insertCarouselData(listBanners, carouselIndicators, carouselInner, carousel)
               }
             ).catch(error => {
               console.log(error)
-              insertCarouselData(defaultData, carouselIndicators, carouselInner)
-          });
+              insertCarouselData(defaultData, carouselIndicators, carouselInner, carousel)
+            });
         }
 
       },
       init() {
         this.listenTo(this.model, 'change:attributes:data', this.Update)
         this.listenTo(this.model, 'change:attributes:placeholder', this.Update)
-  
+
       },
       events: {
       },

@@ -70,7 +70,7 @@ export default function loadTraitMulticolumnItem(editor, opt = {}) {
       );
 
       let headAlign = inputType.value;
-      component.get("components").models[0].setStyle({ ...component.getStyle(), "text-align": headAlign });
+      component.get("components").models[0].setStyle({ ...component.getStyle(), "text-align": ` ${headAlign}!important` });
       component.addAttributes({ headAlign })
     },
   });

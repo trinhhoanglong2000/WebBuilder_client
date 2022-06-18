@@ -76,8 +76,8 @@ export default function loadTraitMulticolumnItem(editor, opt = {}) {
         ...component.get('attributes'),
         'headAlign': headAlign
       }
-
       delete attr.class;
+      component.set('attributes', attr)
     },
   });
 
@@ -114,8 +114,8 @@ export default function loadTraitMulticolumnItem(editor, opt = {}) {
         ...component.get('attributes'),
         'paddingMode': paddingMode
       }
-
       delete attr.class;
+      component.set('attributes', attr)
 
       if (inputType.checked) {
         component.addClass(`container`);
@@ -163,9 +163,9 @@ export default function loadTraitMulticolumnItem(editor, opt = {}) {
         ...component.get('attributes'),
         'numCols': numCols
       }
-
       delete attr.class;
-
+      component.set('attributes', attr)
+      
       component.removeClass(`multicolumn-numCols-${oldType}`);
       component.addClass(`multicolumn-numCols-${numCols}`);
     },

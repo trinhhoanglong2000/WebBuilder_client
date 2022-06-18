@@ -91,8 +91,9 @@ export default function loadTraitColumnItem(editor, opt = {}) {
               ...component.get('attributes'),
               'TextFontSize': TextFontSize
             }
-      
             delete attr.class;
+            component.set('attributes', attr)
+
             component.get("components").models[1].get("components").models[1].setStyle({ ...component.getStyle(), "font-size": `${TextFontSize}!important` });
         },
     });
@@ -173,10 +174,9 @@ export default function loadTraitColumnItem(editor, opt = {}) {
               ...component.get('attributes'),
               'textAlight': textAlight
             }
-      
             delete attr.class;
-      
             component.set('attributes', attr)
+
             component.get("components").models[1].get("components").models[0].setStyle({ ...component.getStyle(), "text-align": `${textAlight}!important` });
         },
     });
@@ -748,15 +748,17 @@ export default function loadTraitColumnItem(editor, opt = {}) {
           }
     
           const value = event.valueHref ? event.valueHref : '#'
-          component.set('attributes', {
+
+          const attr =
+          {
             ...component.get('attributes'),
             'href': value
-          })
+          }
+          delete attr.class;
+          component.set('attributes', attr)
+
           component.set('traitValue', event.traitValue)
-    
-          
           // component.setAttributes({ ...component.getAttributes(), 'href': value })
-    
         },
     
       });

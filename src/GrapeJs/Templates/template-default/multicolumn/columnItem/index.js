@@ -48,7 +48,6 @@ export default function loadBlockColumnItem(editor, opt = {}) {
         attributes: {
           "ez-mall-type": "columnItem",
           name: "columnItem",
-          class: "ezMall-column-item card container ezMall-col navbar",
           TextFontSize: "medium",
           textAlight: "center"
         },
@@ -114,9 +113,6 @@ export default function loadBlockColumnItem(editor, opt = {}) {
         draggable: false,
         removable : false,
         copyable: false,
-        
-
-        attributes: { class: "column-item-image" },
       },
 
       // This function run when component created - we setup listen to change atri
@@ -221,7 +217,6 @@ export default function loadBlockColumnItem(editor, opt = {}) {
         ],
         // This is default attributes
         name: "columnItem-title",
-        attributes: { class: "card-title", style: "text-decoration: none;text-align: center" },
         layerable: false,
         hoverable: false,
         selectable: false,
@@ -283,7 +278,6 @@ export default function loadBlockColumnItem(editor, opt = {}) {
         removable : false,
         copyable: false,
         name: "Header",
-        attributes: {style: "font-size : medium" } ,
       },
 
       // This function run when component created - we setup listen to change atri
@@ -330,9 +324,11 @@ export default function loadBlockColumnItem(editor, opt = {}) {
     content: [
       {
         type: "ColumnItem",
+        attributes: { class: "ezMall-column-item card container ezMall-col navbar"},
         components: [
           {
             type: "columnItem-image",
+            attributes: { class: "column-item-image" },
             content: `
             <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
           `,
@@ -342,10 +338,12 @@ export default function loadBlockColumnItem(editor, opt = {}) {
             components: [
               {
                 type: "columnItem-title",
+                attributes: { class: "card-title", style: "text-decoration: none;text-align: center" },
                 content: `Card title`,
               }
               , {
                 type: "columItem-header",
+                attributes: {style: "font-size : medium" } ,
                 content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>`,
               }]
           },

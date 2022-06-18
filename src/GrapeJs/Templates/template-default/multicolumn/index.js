@@ -62,13 +62,13 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
         attributes: {
           "ez-mall-type": "multicolumn",
           numCols: 3,
-          class: "multicolumn-numCols-3",
           headAlign: "center"
         }
       },
       // This function run when component created - we setup listen to change atri
 
       init() {
+      
         this.on('change:attributes:data', this.handleTypeChangeData);
         this.on('change:attributes:placeholder', this.handleTypeChangePlaceHold);
 
@@ -87,6 +87,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
     },
     view: {
       init() {
+        
         const attributes = this.model.attributes;
         const rootElement = this.el;
       },
@@ -114,7 +115,6 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
         // This is default attributes
         name: "Multicolumn Tittle",
         tagName: "h2",
-        attributes: { style: "text-align : center; font-weight : bold ;padding:0px" },
         layerable: false,
         hoverable: false,
         selectable: false,
@@ -186,7 +186,6 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
         draggable: false,
         removable : false,
         copyable: false,
-        attributes: { class: "row ezMall-multicolumn" },
       },
       // This function run when component created - we setup listen to change atri
 
@@ -237,18 +236,22 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
     content: [
       {
         type: "multicolumn",
+        attributes: { class: "multicolumn-numCols-3",},
         components: [{
           type: "multicolumn-tittle",
+          attributes: { style: "text-align : center; font-weight : bold ;padding:0px" },
           content: `Card Title`,
         },
         {
           type: "multicolumn-body",
+          attributes: { class: "row ezMall-multicolumn" },
           components: [
             {
               type: "ColumnItem",
               components: [
                 {
                   type: "columnItem-image",
+                  attributes: { class: "column-item-image" },
                   content: `
                   <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
                 `,
@@ -258,10 +261,12 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                   components: [
                     {
                       type: "columnItem-title",
+                      attributes: { class: "card-title", style: "text-decoration: none;text-align: center" },
                       content: `Card title`,
                     }
                     , {
                       type: "columItem-header",
+                      attributes: {style: "font-size : medium" } ,
                       content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>`,
                     }]
                 },
@@ -272,6 +277,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
               components: [
                 {
                   type: "columnItem-image",
+                  attributes: { class: "column-item-image" },
                   content: `
                   <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
                 `,
@@ -281,10 +287,12 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                   components: [
                     {
                       type: "columnItem-title",
+                      attributes: { class: "card-title", style: "text-decoration: none;text-align: center" },
                       content: `Card title`,
                     }
                     , {
                       type: "columItem-header",
+                      attributes: {style: "font-size : medium" } ,
                       content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>`,
                     }]
                 },

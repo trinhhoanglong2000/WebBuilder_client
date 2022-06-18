@@ -44,7 +44,7 @@ export default function loadBlockMain(editor, opt = {}) {
       defaults: {
         droppable: (target, destination) => {
           const arr = ['carousel', 'Cart', 'contactForm', 'imageCustomType', 'imageWithText', 'multicolumn', 'Payment', 'product-list', 'ProductPage', 'RichText', 'videoCustomType', 'pageNotFound', 'termsOfService',
-            'refundPolicy'
+            'refundPolicy', 'slideshowGallery'
           ]
           if (target == undefined) return false
           if (arr.includes(target.get('type'))) {
@@ -85,7 +85,6 @@ export default function loadBlockMain(editor, opt = {}) {
     category: "Main",
     content: {
       type: "Main",
-
     },
   });
   //#endregion

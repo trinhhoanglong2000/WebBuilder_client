@@ -57,4 +57,11 @@ const loadStoreComponents = async(editor, storeId) => {
   return true;
 }
 
+const setAttribute = (component, attribute, value) => {
+  const attr = {...component.get('attributes'), [attribute]: value}
+  delete attr.class;
+
+  component.set('attributes', attr)
+}
+
 export { validURL, loadStoreComponents };

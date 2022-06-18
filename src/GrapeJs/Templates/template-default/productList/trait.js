@@ -1,6 +1,8 @@
 import $ from "jquery";
 import AbortController from "abort-controller";
 import { readCookie } from "../../../../helper/cookie";
+import {  setAttribute } from "../../../../helper/utils";
+
 export default function loadTraitProduct(editor, opt = {}) {
   let controller;
   var GetRequest = async (url) => {
@@ -209,12 +211,9 @@ export default function loadTraitProduct(editor, opt = {}) {
     onEvent({ elInput, component, event }) {
       if (event.type == 'change') return
       const data = $(elInput).find('.Modal-popup ul li.active').data('value') || ""
-      // component.setAttributes({...component.getAttributes(),'data-ez-mall-collection':data});
-      component.set('attributes', {
-        ...component.get('attributes'),
+      setAttribute(component,{
         'data-ez-mall-collection': data
       })
-
       //#1 when option change we will get new option => change HTML following option
     },
     onUpdate({ elInput, component }) {

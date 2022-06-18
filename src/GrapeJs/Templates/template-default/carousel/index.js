@@ -99,7 +99,6 @@ export default function loadBlockCarousel(editor, opt = {}) {
           bannerHeight: "medium",
           descriptionBackground: "true",
           name: "banners",
-          class: "carousel-text-white carousel-display-bottom-center carousel-description-align-center carousel-height-medium carousel-description-background"
         }
       },
 
@@ -182,6 +181,7 @@ export default function loadBlockCarousel(editor, opt = {}) {
     content: [
       {
         type: "carousel",
+        attributes: {class: "carousel-text-white carousel-display-bottom-center carousel-description-align-center carousel-height-medium carousel-description-background"},
         content: `
         <div id="myCarousel" class=" carousel slide ezMall-carousel" data-bs-ride="carousel" data-type="banners">
         <div class="carousel-indicators">

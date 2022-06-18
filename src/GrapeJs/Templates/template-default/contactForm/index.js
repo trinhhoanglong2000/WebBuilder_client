@@ -14,6 +14,7 @@ export default function loadContactForm(editor, opt = {}) {
         // attributes
         content: {
             type: "contactForm",
+            attributes: { class: "container", name: "contactForm" },
             content: `
                 <h1 class="text-center">Contact form</h1>
                 <form>
@@ -45,7 +46,6 @@ export default function loadContactForm(editor, opt = {}) {
           defaults: {
             name: 'Contact Form',
             draggable: ".main-content",
-            attributes: { class: "container", name: "contactForm" },
             droppable: false,
             editable: false,
             copyable: false,

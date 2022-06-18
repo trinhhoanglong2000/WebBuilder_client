@@ -31,9 +31,9 @@ export default function loadBlockFooter(editor, opt = {}) {
     label: "Footer",
     category: "Footer",
     attributes: { class: "fa fa-footer" },
-    // attributes
     content: {
       type: "footer",
+      attributes: { class: "footer-section", name: "footer" },
       components: [
         {
           tagName: "hr",
@@ -41,6 +41,7 @@ export default function loadBlockFooter(editor, opt = {}) {
         },
         {
           type: "footer-navigation",
+          attributes: { class: "row footer-navigation" },
           components: [
             {
               type: "footer-quick-link",
@@ -112,7 +113,7 @@ export default function loadBlockFooter(editor, opt = {}) {
         removable: false,
         droppable: false,
         draggable: false,
-        attributes: { class: "footer-section", name: "footer", theme: 'white' },
+        attributes: { theme: 'white' },
         traits: [
           {
             type: 'select',
@@ -157,7 +158,6 @@ export default function loadBlockFooter(editor, opt = {}) {
 
         },
         tagName: "div",
-        attributes: { class: "row footer-navigation" },
       },
 
       init() {
@@ -210,6 +210,7 @@ export default function loadBlockFooter(editor, opt = {}) {
           const value = $(this).val();
 
           if (validURL(value)) {
+            value = value.match(/^https?:\/\//gm) ? value : `https://${value}`
 
             $(el).find('ul').removeClass('combobox-hidden');
             let domdata = "";
@@ -382,6 +383,7 @@ export default function loadBlockFooter(editor, opt = {}) {
           const value = $(this).val();
 
           if (validURL(value)) {
+            value = value.match(/^https?:\/\//gm) ? value : `https://${value}`
 
             $(el).find('ul').removeClass('combobox-hidden');
             let domdata = "";
@@ -554,6 +556,7 @@ export default function loadBlockFooter(editor, opt = {}) {
           const value = $(this).val();
 
           if (validURL(value)) {
+            value = value.match(/^https?:\/\//gm) ? value : `https://${value}`
 
             $(el).find('ul').removeClass('combobox-hidden');
             let domdata = "";

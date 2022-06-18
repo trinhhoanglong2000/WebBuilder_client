@@ -2,14 +2,16 @@ import $ from "jquery";
 import Quill from "quill";
 import { readCookie } from "../../../../helper/cookie";
 import { validURL } from "../../../../helper/utils";
-import { COLLECTION_ICON,
+import {
+  COLLECTION_ICON,
   PRODUCTS_ICON,
   PAGES_ICON,
   PRIVACY_ICON,
-  URL_ICON, 
+  URL_ICON,
   BACK_BUTTON_ICON,
   DELETE_BUTTON_ICON,
-  NO_IMAGE_ICON } from "../../../../asset/icon/svg";
+  NO_IMAGE_ICON
+} from "../../../../asset/icon/svg";
 
 export default function loadTraitRichText(editor, opt = {}) {
 
@@ -31,7 +33,7 @@ export default function loadTraitRichText(editor, opt = {}) {
 
 
       ];
-      
+
       const el = document.createElement("div");
       el.innerHTML = `
           <div data-input="">
@@ -57,7 +59,7 @@ export default function loadTraitRichText(editor, opt = {}) {
       //#1 when option change we will get new option => change HTML following option
       const inputType = elInput.querySelector("option:checked");
       let data = inputType.value.split('\/');
-      component.setStyle({ ...component.getStyle(), "background-color": data[0], "color": data[1],"border": data[2] });
+      component.setStyle({ ...component.getStyle(), "background-color": data[0], "color": data[1], "border": data[2] });
     },
     onUpdate({ elInput, component }) {
       const initValue = (`${component.getStyle()["background-color"]}/${component.getStyle()["color"]}/${component.getStyle()["border"]}`) || "#0d6efd/#fff/#0d6efd";
@@ -109,7 +111,7 @@ export default function loadTraitRichText(editor, opt = {}) {
       //   ${initValue}
       //   </div>
       //   `;
-        el.innerHTML = `
+      el.innerHTML = `
         <div id="editor" style="font-size:12px;">
         </div>
         `;
@@ -338,7 +340,7 @@ export default function loadTraitRichText(editor, opt = {}) {
     },
   });
   editor.TraitManager.addType("richtext-heading-align", {
-    
+
     // Expects as return a simple HTML string or an HTML element
     createInput({ trait }) {
       //.Radio-Group CSS in CAnvas CSS
@@ -391,9 +393,9 @@ export default function loadTraitRichText(editor, opt = {}) {
 
       let previousValue = initValue[1] || ""
       if (!component.get('attributes').href) {
-        initValue=""
-        previousValue =""
-        component.set('traitValue','')
+        initValue = ""
+        previousValue = ""
+        component.set('traitValue', '')
       }
       let defaultIcons = ""
       if (initValue[0] == "Collections") {
@@ -411,9 +413,8 @@ export default function loadTraitRichText(editor, opt = {}) {
         defaultIcons = PRIVACY_ICON
 
       }
-      else if (initValue[0]=="_URL_LINK")
-      {
-        defaultIcons =URL_ICON
+      else if (initValue[0] == "_URL_LINK") {
+        defaultIcons = URL_ICON
       }
 
       if (previousValue !== "") {
@@ -433,7 +434,7 @@ export default function loadTraitRichText(editor, opt = {}) {
       }
       $(elInput).find('input').val(previousValue)
       $(elInput).find('#icons').empty().append(defaultIcons)
-     
+
     },
     createInput({ trait }) {
 
@@ -467,7 +468,7 @@ export default function loadTraitRichText(editor, opt = {}) {
       let defaultIcons = ""
       const el = document.createElement("div");
       let clicked = false
-      
+
       const initValue = trait.target.attributes.traitValue?.split(/;(.*)/s) || "";
       let previousValue = initValue[1] || ""
       if (initValue[0] == "Collections") {
@@ -485,9 +486,8 @@ export default function loadTraitRichText(editor, opt = {}) {
         defaultIcons = PRIVACY_ICON
 
       }
-      else if (initValue[0]=="_URL_LINK")
-      {
-        defaultIcons =URL_ICON
+      else if (initValue[0] == "_URL_LINK") {
+        defaultIcons = URL_ICON
       }
       const defaultMenu_Collection = `
       
@@ -516,7 +516,7 @@ export default function loadTraitRichText(editor, opt = {}) {
         <li data-value ="Privacy" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
         ${PRIVACY_ICON}
         <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
-            Privacy Policy
+           Policies
           </span>
         </li>         
         `
@@ -665,7 +665,7 @@ export default function loadTraitRichText(editor, opt = {}) {
             url = `stores/${opt.storeId}/pages?is_default=false&name=${name.trim()}`
           }
           else if (State == "Privacy") {
-
+            url = `stores/${opt.storeId}/pages/policy`
           }
           GetRequest(
             `${process.env.REACT_APP_API_URL}${url}`
@@ -685,8 +685,13 @@ export default function loadTraitRichText(editor, opt = {}) {
               thumbnail: ele.thumbnail
             }
           })
+          _data.unshift({
+            name:'All collections',
+            id:null,
+            icon : COLLECTION_ICON
+          });
         }
-        else if (State=="Products"){
+        else if (State == "Products") {
           _data = data.data.map(ele => {
             return {
               name: ele.title,
@@ -694,27 +699,40 @@ export default function loadTraitRichText(editor, opt = {}) {
               thumbnail: ele.thumbnail
             }
           })
+          _data.unshift({
+            name:'All products',
+            id:null,
+            icon : PRODUCTS_ICON
+          });
         }
-        else if (State=="Pages"){
+        else if (State == "Pages") {
           _data = data.data.map(ele => {
             return {
               name: ele.name,
-              url : ele.page_url,
+              url: ele.page_url,
             }
           })
-
+        }
+        else if (State == "Privacy") {
+          _data = data.data.map(ele => {
+            return {
+              name: ele.name,
+              url: ele.page_url,
+            }
+          })
         }
         let domdata = "";
         _data.forEach((element) => {
-          const url = element.url ? element.url.slice(1) : `${State.toLowerCase()}/${element.id}`
-
-          const img = element.thumbnail ? `
+          let url = element.url ? element.url : `/${State.toLowerCase()}${element.id ? `?id=${element.id}`:``}`
+          let img = element.thumbnail ? `
         <img style= "width:25px;height:25px;min-width:25px;" src="${element.thumbnail}">
         `: NO_IMAGE_ICON
-
+          if (element.icon && !element.thumbnail){
+            img = element.icon
+          }
           domdata += `
           <li data-value ="${url}" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
-          ${element.thumbnail !== undefined? img:""}
+          ${element.thumbnail !== undefined || element.icon? img : ""}
           <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
               ${element.name}
           </span>
@@ -833,16 +851,17 @@ export default function loadTraitRichText(editor, opt = {}) {
       if (event.type) {
         return
       }
+
       const value = event.valueHref ? event.valueHref : '#'
-      component.set('attributes',{
+      component.set('attributes', {
         ...component.get('attributes'),
-        'href':value
+        'href': value
       })
       component.set('traitValue', event.traitValue)
 
       // component.setAttributes({ ...component.getAttributes(), 'href': value })
 
     },
-    
+
   });
 }

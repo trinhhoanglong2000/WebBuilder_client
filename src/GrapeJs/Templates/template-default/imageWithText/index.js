@@ -27,6 +27,7 @@ export default function loadImageWithText(editor, opt = {}) {
     category: "Image With Text",
     content: {
       type: "imageWithText",
+      attributes: { class: "container", name: "imageWithText", iPosition: "left" },
       components: [
         {
           tagName: "div",
@@ -421,7 +422,57 @@ export default function loadImageWithText(editor, opt = {}) {
   });
 
   editor.TraitManager.addType("imageWithText-button-link", {
+    // Expects as return a simple HTML string or an HTML element
+    onUpdate({ elInput, component }) {
+      let initValue = component.attributes.traitValue?.split(/;(.*)/s) || "";
+
+      let previousValue = initValue[1] || ""
+      if (!component.get('attributes').href) {
+        initValue = ""
+        previousValue = ""
+        component.set('traitValue', '')
+      }
+      let defaultIcons = ""
+      if (initValue[0] == "Collections") {
+        defaultIcons = COLLECTION_ICON
+      }
+      else if (initValue[0] == "Products") {
+        defaultIcons = PRODUCTS_ICON
+
+      }
+      else if (initValue[0] == "Pages") {
+        defaultIcons = PAGES_ICON
+
+      }
+      else if (initValue[0] == "Privacy") {
+        defaultIcons = PRIVACY_ICON
+
+      }
+      else if (initValue[0] == "_URL_LINK") {
+        defaultIcons = URL_ICON
+      }
+
+      if (previousValue !== "") {
+        $(elInput).find('input').css('padding-left', '39px');
+        $(elInput).find('#icons').css("display", "block")
+
+        $(elInput).find('input').css('padding-right', '25px');
+        $(elInput).find('#delete_icon').css("display", "block")
+
+      }
+      else {
+        $(elInput).find('input').css('padding-left', '');
+        $(elInput).find('#icons').css("display", "none")
+
+        $(elInput).find('input').css('padding-left', '');
+        $(elInput).find('#delete_icon').css("display", "none")
+      }
+      $(elInput).find('input').val(previousValue)
+      $(elInput).find('#icons').empty().append(defaultIcons)
+
+    },
     createInput({ trait }) {
+
       const debounce = (fn, delay = 1000) => {
         let timeout;
         return (...args) => {
@@ -449,35 +500,32 @@ export default function loadImageWithText(editor, opt = {}) {
 
       }, 200)
       const _this = this;
-      const textPart = trait.target.get("components").models[0].get("components").models[1];
-      const parent = textPart.get("components").models[0];
-      const button = parent.get("components").models[2];
-      const initValue = button.attributes.traitValue?.split(/;(.*)/s) || "";
-      let defaultIcons = "";
+      let defaultIcons = ""
       const el = document.createElement("div");
-      let clicked = false;
-      let previousValue = initValue[1] || "";
+      let clicked = false
 
-      if (initValue[0] === "Collections") {
-        defaultIcons = COLLECTION_ICON;
+      const initValue = trait.target.attributes.traitValue?.split(/;(.*)/s) || "";
+      let previousValue = initValue[1] || ""
+      if (initValue[0] == "Collections") {
+        defaultIcons = COLLECTION_ICON
       }
-      else if (initValue[0] === "Products") {
-        defaultIcons = PRODUCTS_ICON;
-
-      }
-      else if (initValue[0] === "Pages") {
-        defaultIcons = PAGES_ICON;
+      else if (initValue[0] == "Products") {
+        defaultIcons = PRODUCTS_ICON
 
       }
-      else if (initValue[0] === "Privacy") {
-        defaultIcons = PRIVACY_ICON;
+      else if (initValue[0] == "Pages") {
+        defaultIcons = PAGES_ICON
 
       }
-      else if (initValue[0] === "_URL_LINK")
-      {
-        defaultIcons = URL_ICON;
+      else if (initValue[0] == "Privacy") {
+        defaultIcons = PRIVACY_ICON
+
+      }
+      else if (initValue[0] == "_URL_LINK") {
+        defaultIcons = URL_ICON
       }
       const defaultMenu_Collection = `
+      
         <li data-value ="Collections" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
           ${COLLECTION_ICON}
           <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
@@ -503,19 +551,19 @@ export default function loadImageWithText(editor, opt = {}) {
         <li data-value ="Privacy" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
         ${PRIVACY_ICON}
         <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
-            Privacy Policy
+           Policies
           </span>
         </li>         
         `
       const Backbutton = ` <li id="Back-btn"class="btn d-none  " style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex;justify-content: space-between; align-items:center">
-          <span>
-          ${BACK_BUTTON_ICON}
-          Back
-          </span>
-          <span id="result" class="d-none d-xl-inline" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px;font-size: 10px;font-style: italic">
-            3 results
-          </span>
-        </li>`
+      <span>
+      ${BACK_BUTTON_ICON}
+      Back
+      </span>
+      <span id="result" class="d-none d-xl-inline" style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px;font-size: 10px;font-style: italic">
+        3 results
+      </span>
+    </li>`
       el.innerHTML = `
       <div id= "Link-combo" class="combo gjs-field gjs-field-text">
         <div style="width:100%;display:flex;align-items:center;position:relative;">
@@ -536,78 +584,79 @@ export default function loadImageWithText(editor, opt = {}) {
         </ul>
       </div>       
       `;
-      let State = "Main-Menu";
+      let State = "Main-Menu"
       $(el).find('#Back-btn').on('click', function () {
-        State = "Main-Menu";
-        $(el).find('#Back-btn').addClass('d-none');
-        $(el).find('input').focus();
-        clicked = false;
-        GetItem();
+        State = "Main-Menu"
+        $(el).find('#Back-btn').addClass('d-none')
+        $(el).find('input').focus()
+        clicked = false
+        GetItem()
       })
 
       const GetItem = async (name = "", flag = false) => {
-        name = name.trim();
+        name = name.trim()
         if (validURL(name)) {
+          name = name.match(/^https?:\/\//gm) ? name : `https://${name}`
+
           let domdata = "";
-            domdata += `
-            <li data-value ="${1}" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
-            ${URL_ICON}
-            <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
-                ${name}
-            </span>
-            </li>    
-          `
+          domdata += `
+          <li data-value ="${1}" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
+          ${URL_ICON}
+          <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
+              ${name}
+          </span>
+          </li>    
+        `
           $(el).find('#result').text(`${1} results`)
           $(el).find("#Link-menu").empty().append(domdata);
 
           $(el).find('#Link-menu li').on('click', function () {
-            const text = $(this).find('span').text().trim();
-            $(el).find('input').val(text);
+            const text = $(this).find('span').text().trim()
+            $(el).find('input').val(text)
 
             // $(el).find('input').focus()
-            $(el).find('ul').addClass('combobox-hidden');
-            $(el).find('#Back-btn').addClass('d-none');
-            previousValue = text;
+            $(el).find('ul').addClass('combobox-hidden')
+            $(el).find('#Back-btn').addClass('d-none')
+            previousValue = text
             if (previousValue !== "") {
               $(el).find('input').css('padding-left', '39px');
-              $(el).find('#icons').css("display", "block");
+              $(el).find('#icons').css("display", "block")
 
               $(el).find('input').css('padding-right', '25px');
-              $(el).find('#delete_icon').css("display", "block");
+              $(el).find('#delete_icon').css("display", "block")
 
             }
             else {
               $(el).find('input').css('padding-left', '');
-              $(el).find('#icons').css("display", "none");
+              $(el).find('#icons').css("display", "none")
 
               $(el).find('input').css('padding-left', '');
-              $(el).find('#delete_icon').css("display", "none");
+              $(el).find('#delete_icon').css("display", "none")
             }
-            $(el).find('#icons').empty().append(URL_ICON);
+            $(el).find('#icons').empty().append(URL_ICON)
+            _this.onChange({ valueHref: name, traitValue: `${"_URL_LINK"};${previousValue}` })
 
-            _this.onChange({ valueHref: name, traitValue: `${"_URL_LINK"};${previousValue}` });
-
-            State = "Main-Menu";
-            clicked = false;
+            State = "Main-Menu"
+            clicked = false
           })
         }
-        else if (State === "Main-Menu") {
-          const arr = ["Collections", "Products", "Pages", "Privacy"];
+        else if (State == "Main-Menu") {
+          const arr = ["Collections", "Products", "Pages", "Privacy"]
           let domdata = "";
           const regex = new RegExp(`.*${name.toUpperCase()}.*`, 'g');
           arr.forEach((ele, index) => {
-            if (regex.test(ele.toUpperCase()) || name === "") {
-              if (index === 0) {
-                domdata += defaultMenu_Collection;
+            if (regex.test(ele.toUpperCase()) || name == "") {
+              if (index == 0) {
+                domdata += defaultMenu_Collection
               }
-              else if (index === 1) {
-                domdata += defaultMenu_Products;
+              else if (index == 1) {
+                domdata += defaultMenu_Products
               }
-              else if (index === 2) {
-                domdata += defaultMenu_Pages;
+              else if (index == 2) {
+                domdata += defaultMenu_Pages
               }
-              else if (index === 3) {
-                domdata += defaultMenu_Privacy;
+              else if (index == 3) {
+                domdata += defaultMenu_Privacy
               }
 
             }
@@ -625,11 +674,11 @@ export default function loadImageWithText(editor, opt = {}) {
 
           $(el).find('#Link-menu li').on('click', function () {
             clicked = true
-            State = $(this).data('value');
+            State = $(this).data('value')
             // $(el).find('input').val("")
-            $(el).find('input').focus();
+            $(el).find('input').focus()
 
-            GetItem();
+            GetItem()
           })
         }
         else {
@@ -638,20 +687,20 @@ export default function loadImageWithText(editor, opt = {}) {
             <div ></div>
           </div>`);
           }
-          $(el).find('#Back-btn').removeClass('d-none');
+          $(el).find('#Back-btn').removeClass('d-none')
 
-          let url = "";
-          if (State === "Collections") {
-            url = `stores/${opt.storeId}/collections/product?name=${name.trim()}`;
+          let url = ""
+          if (State == "Collections") {
+            url = `stores/${opt.storeId}/collections/product?name=${name.trim()}`
           }
-          else if (State === "Products") {
-            url = `stores/${opt.storeId}/products?title=${name.trim()}`;
+          else if (State == "Products") {
+            url = `stores/${opt.storeId}/products?title=${name.trim()}`
           }
-          else if (State === "Pages") {
-
+          else if (State == "Pages") {
+            url = `stores/${opt.storeId}/pages?is_default=false&name=${name.trim()}`
           }
-          else if (State === "Privacy") {
-
+          else if (State == "Privacy") {
+            url = `stores/${opt.storeId}/pages/policy`
           }
           GetRequest(
             `${process.env.REACT_APP_API_URL}${url}`
@@ -663,7 +712,7 @@ export default function loadImageWithText(editor, opt = {}) {
 
       const updateUI = (data) => {
         let _data = []
-        if (State === "Collections") {
+        if (State == "Collections") {
           _data = data.data.map(ele => {
             return {
               name: ele.name,
@@ -671,8 +720,13 @@ export default function loadImageWithText(editor, opt = {}) {
               thumbnail: ele.thumbnail
             }
           })
+          _data.unshift({
+            name:'All collections',
+            id:null,
+            icon : COLLECTION_ICON
+          });
         }
-        else if (State === "Products"){
+        else if (State == "Products") {
           _data = data.data.map(ele => {
             return {
               name: ele.title,
@@ -680,15 +734,40 @@ export default function loadImageWithText(editor, opt = {}) {
               thumbnail: ele.thumbnail
             }
           })
+          _data.unshift({
+            name:'All products',
+            id:null,
+            icon : PRODUCTS_ICON
+          });
+        }
+        else if (State == "Pages") {
+          _data = data.data.map(ele => {
+            return {
+              name: ele.name,
+              url: ele.page_url,
+            }
+          })
+        }
+        else if (State == "Privacy") {
+          _data = data.data.map(ele => {
+            return {
+              name: ele.name,
+              url: ele.page_url,
+            }
+          })
         }
         let domdata = "";
         _data.forEach((element) => {
-          const img = element.thumbnail ? `
+          let url = element.url ? element.url : `/${State.toLowerCase()}${element.id ? `?id=${element.id}`:``}`
+          let img = element.thumbnail ? `
         <img style= "width:25px;height:25px;min-width:25px;" src="${element.thumbnail}">
         `: NO_IMAGE_ICON
+          if (element.icon && !element.thumbnail){
+            img = element.icon
+          }
           domdata += `
-          <li data-value ="${State.toLowerCase()}/${element.id}" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
-          ${img}
+          <li data-value ="${url}" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
+          ${element.thumbnail !== undefined || element.icon? img : ""}
           <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
               ${element.name}
           </span>
@@ -704,86 +783,87 @@ export default function loadImageWithText(editor, opt = {}) {
       </li>
       `
         }
-        $(el).find('#result').text(`${_data.length} results`);
+        $(el).find('#result').text(`${_data.length} results`)
         $(el).find("#Link-menu").empty().append(domdata);
 
         $(el).find('#Link-menu li').on('click', function () {
-          const text = $(this).find('span').text().trim();
-          $(el).find('input').val(text);
+          const text = $(this).find('span').text().trim()
+          $(el).find('input').val(text)
 
           // $(el).find('input').focus()
           $(el).find('ul').addClass('combobox-hidden')
-          $(el).find('#Back-btn').addClass('d-none');
-          previousValue = text;
+          $(el).find('#Back-btn').addClass('d-none')
+          previousValue = text
           if (previousValue !== "") {
             $(el).find('input').css('padding-left', '39px');
-            $(el).find('#icons').css("display", "block");
+            $(el).find('#icons').css("display", "block")
 
             $(el).find('input').css('padding-right', '25px');
-            $(el).find('#delete_icon').css("display", "block");
+            $(el).find('#delete_icon').css("display", "block")
 
-            if (State === "Collections") {
-              $(el).find('#icons').empty().append(COLLECTION_ICON);
+            if (State == "Collections") {
+              $(el).find('#icons').empty().append(COLLECTION_ICON)
             }
-            else if (State === "Products") {
-              $(el).find('#icons').empty().append(PRODUCTS_ICON);
-
-            }
-            else if (State === "Pages") {
-              $(el).find('#icons').empty().append(PAGES_ICON);
+            else if (State == "Products") {
+              $(el).find('#icons').empty().append(PRODUCTS_ICON)
 
             }
-            else if (State === "Privacy") {
-              $(el).find('#icons').empty().append(PRIVACY_ICON);
+            else if (State == "Pages") {
+              $(el).find('#icons').empty().append(PAGES_ICON)
+
+            }
+            else if (State == "Privacy") {
+              $(el).find('#icons').empty().append(PRIVACY_ICON)
 
             }
           }
           else {
             $(el).find('input').css('padding-left', '');
-            $(el).find('#icons').css("display", "none");
+            $(el).find('#icons').css("display", "none")
 
             $(el).find('input').css('padding-left', '');
-            $(el).find('#delete_icon').css("display", "none");
+            $(el).find('#delete_icon').css("display", "none")
           }
-          _this.onChange({ valueHref: $(this).data('value'), traitValue: `${State};${previousValue}` });
+          _this.onChange({ valueHref: $(this).data('value'), traitValue: `${State};${previousValue}` })
 
-          State = "Main-Menu";
-          clicked = false;
+          State = "Main-Menu"
+          clicked = false
         })
 
       }
       // ==============================
       $(el).find('#delete_icon').on('click', function () {
-        const text = "";
-        $(el).find('input').val(text);
-        $(el).find('ul').addClass('combobox-hidden');
-        $(el).find('#Back-btn').addClass('d-none');
+        const text = ""
+        $(el).find('input').val(text)
+        $(el).find('ul').addClass('combobox-hidden')
+        $(el).find('#Back-btn').addClass('d-none')
         previousValue = text
         $(el).find('input').css('padding-left', '');
-        $(el).find('#icons').css("display", "none");
+        $(el).find('#icons').css("display", "none")
 
         $(el).find('input').css('padding-left', '');
-        $(el).find('#delete_icon').css("display", "none");
+        $(el).find('#delete_icon').css("display", "none")
         State = "Main-Menu"
         clicked = false
-        _this.onChange({ valueHref: "", traitValue: "" });
+        _this.onChange({ valueHref: "", traitValue: "" })
       })
       GetItem()
       $(el).find('input').focusin(function () {
-        $(el).find('ul').removeClass('combobox-hidden');
+        $(el).find('ul').removeClass('combobox-hidden')
 
       })
       $(el).find('input').focusout(function (e) {
-        $(el).find('ul').addClass('combobox-hidden');
+        $(el).find('ul').addClass('combobox-hidden')
         setTimeout(() => {
           if (!clicked) {
-            GetItem();
+            GetItem()
           } else {
             clicked = false;
           }
         }, 200)
-
-        $(el).find('input').val(previousValue);
+        // const value = trait.target.attributes.traitValue?.split(/;(.*)/s) || "";
+        const value = _this.target.get('traitValue') ? _this.target.attributes.traitValue?.split(/;(.*)/s)[1] : ''
+        $(el).find('input').val(value)
 
       })
 
@@ -791,82 +871,28 @@ export default function loadImageWithText(editor, opt = {}) {
         const valueInput = $(this)[0].value
         if (valueInput) {
           $(el).find('input').css('padding-right', '25px');
-          $(el).find('#delete_icon').css("display", "block");
+          $(el).find('#delete_icon').css("display", "block")
         }
         else {
           $(el).find('input').css('padding-right', '');
-          $(el).find('#delete_icon').css("display", "none");
+          $(el).find('#delete_icon').css("display", "none")
         }
 
-        GetItem(valueInput);
+        GetItem(valueInput)
       })
       return el;
     },
     onEvent({ elInput, component, event }) {
-      if (event.type) { return; }
-
-      const value = event.valueHref ? event.valueHref : '#';
-      const textPart = component.get("components").models[0].get("components").models[1];
-      const parent = textPart.get("components").models[0];
-      const button = parent.get("components").models[2];
-      button.set('attributes', { 
-        ...button.getAttributes(), 
-        'href': value 
-      });
-      button.set('traitValue', event.traitValue);
-    },
-
-    // Expects as return a simple HTML string or an HTML element
-    onUpdate({ elInput, component }) {
-      const textPart = component.get("components").models[0].get("components").models[1];
-      const parent = textPart.get("components").models[0];
-      const button = parent.get("components").models[2];
-      let initValue = button.attributes.traitValue?.split(/;(.*)/s) || "";
-
-      let previousValue = initValue[1] || ""
-      if (!button.get('attributes').href) {
-        initValue=""
-        previousValue =""
-        button.set('traitValue','')
-      }
-      let defaultIcons = ""
-      if (initValue[0] === "Collections") {
-        defaultIcons = COLLECTION_ICON
-      }
-      else if (initValue[0] === "Products") {
-        defaultIcons = PRODUCTS_ICON
-
-      }
-      else if (initValue[0] === "Pages") {
-        defaultIcons = PAGES_ICON
-
-      }
-      else if (initValue[0] === "Privacy") {
-        defaultIcons = PRIVACY_ICON
-
-      }
-      else if (initValue[0] === "_URL_LINK")
-      {
-        defaultIcons =URL_ICON
+      if (event.type) {
+        return
       }
 
-      if (previousValue !== "") {
-        $(elInput).find('input').css('padding-left', '39px');
-        $(elInput).find('#icons').css("display", "block")
-
-        $(elInput).find('input').css('padding-right', '25px');
-        $(elInput).find('#delete_icon').css("display", "block")
-
-      }
-      else {
-        $(elInput).find('input').css('padding-left', '');
-        $(elInput).find('#icons').css("display", "none")
-
-        $(elInput).find('input').css('padding-left', '');
-        $(elInput).find('#delete_icon').css("display", "none")
-      }
-      $(elInput).find('input').val(previousValue)
-      $(elInput).find('#icons').empty().append(defaultIcons)
+      const value = event.valueHref ? event.valueHref : '#'
+      component.set('attributes', {
+        ...component.get('attributes'),
+        'href': value
+      })
+      component.set('traitValue', event.traitValue)
     },
   });
 
@@ -875,7 +901,7 @@ export default function loadImageWithText(editor, opt = {}) {
       defaults: {
         name: "Image With Text",
         draggable: ".main-content",
-        attributes: { class: "container", name: "imageWithText", iPosition: "left" },
+        attributes: { iPosition: "left" },
         droppable: false,
         copyable: false,
         traits: [

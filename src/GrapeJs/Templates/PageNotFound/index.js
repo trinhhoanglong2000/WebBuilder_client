@@ -7,6 +7,7 @@ export default function loadBlockPageNotFound(editor, opt = {}) {
     category: "Other",
     content: {
       type: "pageNotFound",
+      attributes: { name: "pageNotFound" },
       content: `
             <div class="container">
                 <div class="row">
@@ -29,11 +30,9 @@ export default function loadBlockPageNotFound(editor, opt = {}) {
     model: {
       defaults: {
         name: "Page Not Found",
-        attributes: { class: "", name: "pageNotFound" },
         removable: false,
         // draggable: ".main-content",
         draggable: false,
-
         droppable: false,
         highlightable: false,
         copyable: false,

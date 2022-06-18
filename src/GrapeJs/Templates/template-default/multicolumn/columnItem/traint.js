@@ -11,7 +11,7 @@ import {
     NO_IMAGE_ICON
 } from "../../../../../asset/icon/svg";
 import { readCookie } from "../../../../../helper/cookie";
-import { validURL } from "../../../../../helper/utils";
+import { validURL, setAttribute } from "../../../../../helper/utils";
 export default function loadTraitColumnItem(editor, opt = {}) {
     const am = editor.AssetManager;
     editor.TraitManager.addType("Column-Item-Trait-RichText", { // redo undo ok
@@ -86,13 +86,9 @@ export default function loadTraitColumnItem(editor, opt = {}) {
             //#1 when option change we will get new option => change HTML following option
             const inputType = elInput.querySelector("option:checked");
             let TextFontSize = inputType.value;
-            const attr =
-            {
-              ...component.get('attributes'),
-              'TextFontSize': TextFontSize
-            }
-      
-            delete attr.class;
+            setAttribute(component,{
+                'TextFontSize': TextFontSize
+              })
             component.get("components").models[1].get("components").models[1].setStyle({ ...component.getStyle(), "font-size": `${TextFontSize}!important` });
         },
     });
@@ -168,15 +164,10 @@ export default function loadTraitColumnItem(editor, opt = {}) {
             );
 
             let textAlight = inputType.value;
-            const attr =
-            {
-              ...component.get('attributes'),
-              'textAlight': textAlight
-            }
-      
-            delete attr.class;
-      
-            component.set('attributes', attr)
+            setAttribute(component,{
+                'textAlight': textAlight
+            })
+
             component.get("components").models[1].get("components").models[0].setStyle({ ...component.getStyle(), "text-align": `${textAlight}!important` });
         },
     });
@@ -748,15 +739,13 @@ export default function loadTraitColumnItem(editor, opt = {}) {
           }
     
           const value = event.valueHref ? event.valueHref : '#'
-          component.set('attributes', {
-            ...component.get('attributes'),
+
+          setAttribute(component,{
             'href': value
-          })
+        })
+
           component.set('traitValue', event.traitValue)
-    
-          
           // component.setAttributes({ ...component.getAttributes(), 'href': value })
-    
         },
     
       });

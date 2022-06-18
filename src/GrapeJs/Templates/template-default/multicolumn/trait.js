@@ -1,4 +1,5 @@
 import $ from "jquery";
+import { setAttribute } from "../../../../helper/utils";
 export default function loadTraitMulticolumnItem(editor, opt = {}) {
   editor.TraitManager.addType("multicolumn-heading", {
     // Expects as return a simple HTML string or an HTML element
@@ -60,8 +61,8 @@ export default function loadTraitMulticolumnItem(editor, opt = {}) {
       return el;
     },
     onUpdate({ elInput, component }) {
-      $(elInput).find(`input[name="alignment"]:checked`).prop("checked",false);
-      $(elInput).find(`input[name="alignment"][value=${component.getAttributes().headAlign}] `).prop("checked",true);
+      $(elInput).find(`input[name="alignment"]:checked`).prop("checked", false);
+      $(elInput).find(`input[name="alignment"][value=${component.getAttributes().headAlign}] `).prop("checked", true);
     },
     onEvent({ elInput, component, event }) {
       //#1 when option change we will get new option => change HTML following option
@@ -71,13 +72,9 @@ export default function loadTraitMulticolumnItem(editor, opt = {}) {
 
       let headAlign = inputType.value;
       component.get("components").models[0].setStyle({ ...component.getStyle(), "text-align": ` ${headAlign}!important` });
-      const attr =
-      {
-        ...component.get('attributes'),
+      setAttribute(component, {
         'headAlign': headAlign
-      }
-
-      delete attr.class;
+      })
     },
   });
 
@@ -102,20 +99,16 @@ export default function loadTraitMulticolumnItem(editor, opt = {}) {
     },
     onUpdate({ elInput, component }) {
       $(elInput).find("input").val(component.getAttributes().paddingMode);
-      $(elInput).find("input").prop("checked",component.getAttributes().paddingMode);
+      $(elInput).find("input").prop("checked", component.getAttributes().paddingMode);
     },
     onEvent({ elInput, component, event }) {
       //#1 when option change we will get new option => change HTML following option
       const inputType = elInput.querySelector("input");
       let paddingMode = inputType.checked;
 
-      const attr =
-      {
-        ...component.get('attributes'),
+      setAttribute(component, {
         'paddingMode': paddingMode
-      }
-
-      delete attr.class;
+      })
 
       if (inputType.checked) {
         component.addClass(`container`);
@@ -158,18 +151,14 @@ export default function loadTraitMulticolumnItem(editor, opt = {}) {
       $(elInput).find("label").text(numCols);
       let oldType = component.getAttributes().numCols;
 
-      const attr =
-      {
-        ...component.get('attributes'),
+      setAttribute(component, {
         'numCols': numCols
-      }
-
-      delete attr.class;
+      })
 
       component.removeClass(`multicolumn-numCols-${oldType}`);
       component.addClass(`multicolumn-numCols-${numCols}`);
     },
-    
+
   });
 
   editor.TraitManager.addType("padding-setting", {
@@ -194,8 +183,8 @@ export default function loadTraitMulticolumnItem(editor, opt = {}) {
       return el;
     },
     onUpdate({ elInput, component }) {
-      const inputType =  $(elInput).find("input")[0].getAttribute("ezMallType");
-      const val = component.getStyle()[inputType] ? component.getStyle()[inputType].replace("px", ""): "0";
+      const inputType = $(elInput).find("input")[0].getAttribute("ezMallType");
+      const val = component.getStyle()[inputType] ? component.getStyle()[inputType].replace("px", "") : "0";
       $(elInput).find("label").text(`${val}px`);
       $(elInput).find("input").val(val)
     },

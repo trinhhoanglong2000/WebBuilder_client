@@ -237,7 +237,8 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
       {
         type: "multicolumn",
         attributes: { class: "multicolumn-numCols-3",},
-        components: [{
+        components: [
+          {
           type: "multicolumn-tittle",
           attributes: { style: "text-align : center; font-weight : bold ;padding:0px" },
           content: `Card Title`,
@@ -248,6 +249,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
           components: [
             {
               type: "ColumnItem",
+              attributes: { class: "ezMall-column-item card container ezMall-col navbar"},
               components: [
                 {
                   type: "columnItem-image",
@@ -274,6 +276,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
             },
             {
               type: "ColumnItem",
+              attributes: { class: "ezMall-column-item card container ezMall-col navbar"},
               components: [
                 {
                   type: "columnItem-image",

@@ -853,14 +853,9 @@ export default function loadTraitRichText(editor, opt = {}) {
       }
 
       const value = event.valueHref ? event.valueHref : '#'
-      const attr =
-      {
-        ...component.get('attributes'),
+      setAttribute(component,{
         'href': value
-      }
-
-      delete attr.class;
-      component.set('attributes', attr)
+      })
       component.set('traitValue', event.traitValue)
 
       // component.setAttributes({ ...component.getAttributes(), 'href': value })

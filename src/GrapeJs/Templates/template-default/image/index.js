@@ -12,14 +12,11 @@ export default function loadImage(editor, opt = {}) {
     category: "Media",
     content: {
       type: "imageCustomType",
+      attributes: { class: "text-center container", name: "image" },
       components: [
         {
           tagName: "img",
-          layerable: false,
-          copyable: false,
-          hoverable: false,
-          selectable: false,
-          draggable: false,
+          type: "defaultCustom",
           attributes: {
             class: "img-thumbnail",
             src: "https://dummyimage.com/600x400/55595c/fff",
@@ -227,8 +224,8 @@ export default function loadImage(editor, opt = {}) {
         name: "image",
         draggable: ".main-content",
         droppable: false,
+        highlightable: false,
         copyable: false,
-        attributes: { class: "text-center container", name: "image" },
         traits: [
           {
             type: "image-upload-image",

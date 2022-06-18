@@ -7,6 +7,7 @@ export default function loadBlockPolicy(editor, opt = {}) {
     category: "Other",
     content: {
       type: "termsOfService",
+      attributes: { name: "termsOfService" },
       content: `
           <div class="container">
               <div class="text-center"><h1> Terms of service </h1></div>
@@ -155,6 +156,7 @@ export default function loadBlockPolicy(editor, opt = {}) {
     category: "Other",
     content: {
       type: "refundPolicy",
+      attributes: { name: "refundPolicy" },
       content: `
           <div class="container">
               <div class="text-center"><h1> Refund policy </h1></div>
@@ -190,8 +192,6 @@ export default function loadBlockPolicy(editor, opt = {}) {
     model: {
       defaults: {
         name: "Terms Of Service",
-        attributes: { class: "", name: "termsOfService" },
-
         removable: false,
         // draggable: ".main-content",
         draggable: false,
@@ -214,14 +214,11 @@ export default function loadBlockPolicy(editor, opt = {}) {
 
   dc.addType("refundPolicy", {
     model: {
-
       defaults: {
         name: "Refund Policy",
-        attributes: { class: "", name: "refundPolicy" },
         removable: false,
         // draggable: ".main-content",
         draggable: false,
-
         droppable: false,
         highlightable: false,
         copyable: false,

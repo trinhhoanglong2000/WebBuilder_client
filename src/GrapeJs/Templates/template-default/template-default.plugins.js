@@ -16,6 +16,7 @@ import loadImage from "./image";
 import loadBlockCart from "./cart";
 import loadBlockPayMent from "./payment";
 import loadBlockPolicy from "../Policy";
+import loadSlideshowGallery from "./SlideshowGallery";
 
 export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
 
@@ -60,22 +61,23 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
   //Note: Body containter
 
   //Long ADD START
-  loadBlockMain(editor,config)
-  loadBlockPageNotFound(editor, config)
-  loadBlockCarousel(editor, config)
-  loadBlockProducts(editor, config)
-  loadBlockRichText(editor,config)
-  loadBlockFooter(editor, config)
-  loadBlockHeader(editor, config)
-  loadImageWithText(editor, config)
-  loadContactForm(editor, config)
-  loadBlockProductPage(editor,config)
-  loadVideo(editor,config)
-  loadBlockMulticolumn(editor,config)
+  loadBlockMain(editor,config);
+  loadBlockPageNotFound(editor, config);
+  loadBlockCarousel(editor, config);
+  loadBlockProducts(editor, config);
+  loadBlockRichText(editor,config);
+  loadBlockFooter(editor, config);
+  loadBlockHeader(editor, config);
+  loadImageWithText(editor, config);
+  loadContactForm(editor, config);
+  loadBlockProductPage(editor,config);
+  loadVideo(editor,config);
+  loadBlockMulticolumn(editor,config);
   loadImage(editor,config);
   loadBlockCart(editor,config);
-  loadBlockPayMent(editor,config)
-  loadBlockPolicy(editor,config)
+  loadBlockPayMent(editor,config);
+  loadBlockPolicy(editor,config);
+  loadSlideshowGallery(editor,config);
   //Long ADD END
 }
 );

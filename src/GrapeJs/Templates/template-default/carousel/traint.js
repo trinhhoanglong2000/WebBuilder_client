@@ -1,4 +1,5 @@
 import $ from "jquery";
+import {setAttribute} from "../../../../helper/utils"
 export default function loadTraitCarousel(editor, opt = {}) {
   //NODE SAVE HTML $(".gjs-frame").contentDocument.querySelector("html")
   let controller;
@@ -66,15 +67,9 @@ export default function loadTraitCarousel(editor, opt = {}) {
       let textColor = inputTextColor.value;
       if (component.getAttributes().textColor != textColor) {
         let oldType = component.getAttributes().textColor;
-        const attr =
-        {
-          ...component.get('attributes'),
+        setAttribute(component,{
           'textColor': textColor
-        }
-  
-        delete attr.class;
-        
-      component.set('attributes', attr)
+        })
         component.removeClass(`carousel-text-${oldType}`);
         component.addClass(`carousel-text-${textColor}`);
       }
@@ -154,15 +149,9 @@ export default function loadTraitCarousel(editor, opt = {}) {
       component.removeClass(`carousel-display-${oldType}`);
       component.addClass(`carousel-display-${displayType}`);
 
-      const attr =
-      {
-        ...component.get('attributes'),
+      setAttribute(component,{
         'displayType': displayType
-      }
-
-      delete attr.class;
-
-      component.set('attributes', attr)
+      })
 
     },
   });
@@ -334,15 +323,9 @@ export default function loadTraitCarousel(editor, opt = {}) {
       if (event.type == 'change') return
       const data = $(elInput).find('.Modal-popup ul li.active').data('value') || ""
       if (component.getAttributes().data != data) {
-        const attr =
-        {
-          ...component.get('attributes'),
+        setAttribute(component,{
           'data': data
-        }
-
-        delete attr.class;
-
-        component.set('attributes', attr)
+        })
       }
       //#1 when option change we will get new option => change HTML following option
     },
@@ -398,15 +381,9 @@ export default function loadTraitCarousel(editor, opt = {}) {
       let descriptionAlign = input.value;
       let oldType = component.getAttributes().descriptionAlign;
 
-      const attr =
-      {
-        ...component.get('attributes'),
+      setAttribute(component,{
         'descriptionAlign': descriptionAlign
-      }
-
-      delete attr.class;
-
-      component.set('attributes', attr)
+      })
       component.removeClass(`carousel-description-align-${oldType}`);
       component.addClass(`carousel-description-align-${descriptionAlign}`);
     },
@@ -461,15 +438,9 @@ export default function loadTraitCarousel(editor, opt = {}) {
       let input = elInput.querySelector(".options-carousel-height");
       let bannerHeight = input.value;
       let oldType = component.getAttributes().bannerHeight;
-      const attr =
-      {
-        ...component.get('attributes'),
+      setAttribute(component,{
         'bannerHeight': bannerHeight
-      }
-
-      delete attr.class;
-
-      component.set('attributes', attr)
+      })
       component.removeClass(`carousel-height-${oldType}`);
       component.addClass(`carousel-height-${bannerHeight}`);
     },
@@ -504,13 +475,9 @@ export default function loadTraitCarousel(editor, opt = {}) {
       const inputType = elInput.querySelector("input");
       let descriptionBackground = inputType.checked;
       
-      const attr =
-      {
-        ...component.get('attributes'),
+      setAttribute(component,{
         'descriptionBackground': descriptionBackground
-      }
-      delete attr.class;
-      component.set('attributes', attr)
+      })
 
       if (inputType.checked) {
         component.addClass(`carousel-description-background`);

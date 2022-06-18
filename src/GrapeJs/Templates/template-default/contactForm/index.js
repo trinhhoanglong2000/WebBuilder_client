@@ -11,7 +11,6 @@ export default function loadContactForm(editor, opt = {}) {
         ${CONTACT_FORM_LABEL}
         <div>Contact Form</div>
         `,
-        // attributes
         content: {
             type: "contactForm",
             attributes: { class: "container", name: "contactForm" },

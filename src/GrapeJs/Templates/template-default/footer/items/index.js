@@ -1,6 +1,7 @@
 import $ from "jquery";
 import Quill from "quill";
 import { readCookie } from "../../../../../helper/cookie";
+import { setAttribute } from "../../../../../helper/utils";
 
 export default function loadBlockFooterItem(editor, opt = {}) {
   const c = opt;
@@ -253,9 +254,8 @@ export default function loadBlockFooterItem(editor, opt = {}) {
             };
           } else {
             func = (ev) => {
-              trait.target.set('attributes', {
-                ...trait.target.get('attributes'),
-                'menu-collection' : "" })
+              setAttribute(trait.target, { 'menu-collection': "" })
+
               $(".Modal-popup ul li").removeClass("active");
               $(el).find(".Modal-popup ul li").find(".check-item").fadeOut(0);
               $(el).find(".name-collection").text("")
@@ -354,9 +354,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
     onEvent({ elInput, component, event }) {
       if (event.type === 'change') return
       const data = $(elInput).find('.Modal-popup ul li.active').data('value') || "";
-      component.set('attributes', { 
-        ...component.get('attributes'), 
-        'menu-collection': data });
+      setAttribute(component, { 'menu-collection': data })
     },
 
     onUpdate({ elInput, component }) {
@@ -438,10 +436,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
         am.open({
           select(asset, complete) {
             inputImage.src = asset.getSrc();
-            target.set('attributes', { 
-                ...target.get('attributes'),
-                'src': asset.getSrc() 
-              })
+            setAttribute(target, { 'src': asset.getSrc() })
 
             if (!c.validURL(asset.getSrc())) {
               c.addTarget64Image({ id: asset.cid, target: target })
@@ -454,10 +449,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
       };
 
       removeBtn.onclick = () => {
-        target.set('attributes', { 
-          ...target.get('attributes'),
-          'src': trait.get('src') 
-        })
+        setAttribute(target, { 'src': trait.get('src') })
         inputImage.src = trait.get('src');
       };
 

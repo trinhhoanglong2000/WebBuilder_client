@@ -25,15 +25,15 @@ export default function loadSlideshowGallery(editor, opt = {}) {
           attributes: { class: "container-fluid" },
           content: `<div class="mySlides">
                     <div class="numbertext">1 / 6</div>
-                    <img src="https://dummyimage.com/600x400/55595c/fff" style="width:100%">
+                    <img src="https://dummyimage.com/600x400/55595c/fff">
                   </div>
                   <div class="mySlides">
                     <div class="numbertext">1 / 6</div>
-                    <img src="https://dummyimage.com/500x300/55595c/fff" style="width:100%">
+                    <img src="https://dummyimage.com/500x300/55595c/fff">
                   </div>
                   <div class="mySlides">
                     <div class="numbertext">1 / 6</div>
-                    <img src="https://dummyimage.com/400x200/55595c/fff" style="width:100%">
+                    <img src="https://dummyimage.com/400x200/55595c/fff">
                   </div>
                   <a class="prev" onclick="plusSlides(-1)">❮</a>
                   <a class="next" onclick="plusSlides(1)">❯</a>

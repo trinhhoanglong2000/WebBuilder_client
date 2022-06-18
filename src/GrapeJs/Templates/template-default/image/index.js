@@ -1,4 +1,5 @@
 import $ from "jquery";
+import { setAttribute } from "../../../../helper/utils";
 
 export default function loadImage(editor, opt = {}) {
   const c = opt;
@@ -58,10 +59,7 @@ export default function loadImage(editor, opt = {}) {
           select(asset, complete) {
             inputImage.src = asset.getSrc();
 
-            target.set('attributes', {
-              ...target.get('attributes'),
-              src: asset.getSrc(),
-            });
+            setAttribute(target, { 'src': asset.getSrc() })
 
             if (!c.validURL(asset.getSrc())) {
               c.addTarget64Image({ id: asset.cid, target: target });
@@ -73,10 +71,7 @@ export default function loadImage(editor, opt = {}) {
       };
 
       removeBtn.onclick = () => {
-        target.set('attributes', {
-          ...target.get('attributes'),
-          src: trait.get("src"),
-        });
+        setAttribute(target, { 'src': trait.get("src")})
         inputImage.src = trait.get("srcDefault");
       };
 

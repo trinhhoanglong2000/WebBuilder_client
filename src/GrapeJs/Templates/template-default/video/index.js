@@ -1,4 +1,5 @@
 import $ from "jquery";
+import { setAttribute } from "../../../../helper/utils";
 
 export default function loadVideo(editor, opt = {}) {
     const bm = editor.BlockManager;
@@ -50,14 +51,20 @@ export default function loadVideo(editor, opt = {}) {
             const match = inputSrc.match(regExp);
             const youtubeId = (match&&match[7].length === 11)? match[7] : false;
             if (youtubeId) {
-                const embedLink = `https://www.youtube.com/embed/${youtubeId}?`
+                const embedLink = `https://www.youtube.com/embed/${youtubeId}?`;
 
                 if (attributes.src !== embedLink) {
-                    attributes.src = embedLink;
-                    component.get('components').models[0].view.el.src = embedLink;
+                    setAttribute(video, { 'src': embedLink });
                 }
             }
         },
+
+        onUpdate({ elInput, component}) {
+            const initValue = component.get('components').models[0].get('attributes');
+            const videoInput = $(elInput).find('.video-src');
+
+            videoInput.val(initValue.src)
+        }
     });
 
     editor.TraitManager.addType("video-advance-setting", {
@@ -119,10 +126,7 @@ export default function loadVideo(editor, opt = {}) {
             embedLink += `&controls=${(control)? '1' : '0'}`;
              
             if (attributes.src !== embedLink) {
-                video.set('attributes', {
-                    ...attributes,
-                    'src': embedLink
-                })
+                setAttribute(video, { 'src': embedLink });
             }
 
             const fullwidth = elInput.querySelector('.video-fullwidth').checked;

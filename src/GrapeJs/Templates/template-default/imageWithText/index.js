@@ -1,7 +1,7 @@
 import $ from "jquery";
 import Quill from "quill";
 import { readCookie } from "../../../../helper/cookie";
-import { validURL } from "../../../../helper/utils";
+import { setAttribute, validURL } from "../../../../helper/utils";
 import { IMAGE_WITH_TEXT_LABEL,
   COLLECTION_ICON,
   PRODUCTS_ICON,
@@ -11,7 +11,6 @@ import { IMAGE_WITH_TEXT_LABEL,
   BACK_BUTTON_ICON,
   DELETE_BUTTON_ICON,
   NO_IMAGE_ICON } from "../../../../asset/icon/svg";
-
 
 export default function loadImageWithText(editor, opt = {}) {
   const c = opt;
@@ -27,7 +26,7 @@ export default function loadImageWithText(editor, opt = {}) {
     category: "Image With Text",
     content: {
       type: "imageWithText",
-      attributes: { class: "container", name: "imageWithText", iPosition: "left" },
+      attributes: { class: "container", name: "imageWithText" },
       components: [
         {
           tagName: "div",
@@ -302,10 +301,7 @@ export default function loadImageWithText(editor, opt = {}) {
         am.open({
           select(asset, complete) {
             inputImage.src = asset.getSrc();
-            target.set('attributes', {
-              ...target.get('attributes'),
-              src: asset.getSrc(),
-            });
+            setAttribute(target, { 'src': asset.getSrc() })
 
             if (!c.validURL(asset.getSrc())) {
               c.addTarget64Image({ id: asset.cid, target: target });
@@ -317,10 +313,7 @@ export default function loadImageWithText(editor, opt = {}) {
       };
 
       removeBtn.onclick = () => {
-        target.set('attributes', {
-          ...target.get('attributes'),
-          src: trait.get("src"),
-        });
+        setAttribute(target, { 'src': trait.get("src") })
         inputImage.src = trait.get("src");
       };
 
@@ -433,22 +426,22 @@ export default function loadImageWithText(editor, opt = {}) {
         component.set('traitValue', '')
       }
       let defaultIcons = ""
-      if (initValue[0] == "Collections") {
+      if (initValue[0] === "Collections") {
         defaultIcons = COLLECTION_ICON
       }
-      else if (initValue[0] == "Products") {
+      else if (initValue[0] === "Products") {
         defaultIcons = PRODUCTS_ICON
 
       }
-      else if (initValue[0] == "Pages") {
+      else if (initValue[0] === "Pages") {
         defaultIcons = PAGES_ICON
 
       }
-      else if (initValue[0] == "Privacy") {
+      else if (initValue[0] === "Privacy") {
         defaultIcons = PRIVACY_ICON
 
       }
-      else if (initValue[0] == "_URL_LINK") {
+      else if (initValue[0] === "_URL_LINK") {
         defaultIcons = URL_ICON
       }
 
@@ -506,22 +499,22 @@ export default function loadImageWithText(editor, opt = {}) {
 
       const initValue = trait.target.attributes.traitValue?.split(/;(.*)/s) || "";
       let previousValue = initValue[1] || ""
-      if (initValue[0] == "Collections") {
+      if (initValue[0] === "Collections") {
         defaultIcons = COLLECTION_ICON
       }
-      else if (initValue[0] == "Products") {
+      else if (initValue[0] === "Products") {
         defaultIcons = PRODUCTS_ICON
 
       }
-      else if (initValue[0] == "Pages") {
+      else if (initValue[0] === "Pages") {
         defaultIcons = PAGES_ICON
 
       }
-      else if (initValue[0] == "Privacy") {
+      else if (initValue[0] === "Privacy") {
         defaultIcons = PRIVACY_ICON
 
       }
-      else if (initValue[0] == "_URL_LINK") {
+      else if (initValue[0] === "_URL_LINK") {
         defaultIcons = URL_ICON
       }
       const defaultMenu_Collection = `
@@ -640,22 +633,22 @@ export default function loadImageWithText(editor, opt = {}) {
             clicked = false
           })
         }
-        else if (State == "Main-Menu") {
+        else if (State === "Main-Menu") {
           const arr = ["Collections", "Products", "Pages", "Privacy"]
           let domdata = "";
           const regex = new RegExp(`.*${name.toUpperCase()}.*`, 'g');
           arr.forEach((ele, index) => {
-            if (regex.test(ele.toUpperCase()) || name == "") {
-              if (index == 0) {
+            if (regex.test(ele.toUpperCase()) || name === "") {
+              if (index === 0) {
                 domdata += defaultMenu_Collection
               }
-              else if (index == 1) {
+              else if (index === 1) {
                 domdata += defaultMenu_Products
               }
-              else if (index == 2) {
+              else if (index === 2) {
                 domdata += defaultMenu_Pages
               }
-              else if (index == 3) {
+              else if (index === 3) {
                 domdata += defaultMenu_Privacy
               }
 
@@ -690,16 +683,16 @@ export default function loadImageWithText(editor, opt = {}) {
           $(el).find('#Back-btn').removeClass('d-none')
 
           let url = ""
-          if (State == "Collections") {
+          if (State === "Collections") {
             url = `stores/${opt.storeId}/collections/product?name=${name.trim()}`
           }
-          else if (State == "Products") {
+          else if (State === "Products") {
             url = `stores/${opt.storeId}/products?title=${name.trim()}`
           }
-          else if (State == "Pages") {
+          else if (State === "Pages") {
             url = `stores/${opt.storeId}/pages?is_default=false&name=${name.trim()}`
           }
-          else if (State == "Privacy") {
+          else if (State === "Privacy") {
             url = `stores/${opt.storeId}/pages/policy`
           }
           GetRequest(
@@ -712,7 +705,7 @@ export default function loadImageWithText(editor, opt = {}) {
 
       const updateUI = (data) => {
         let _data = []
-        if (State == "Collections") {
+        if (State === "Collections") {
           _data = data.data.map(ele => {
             return {
               name: ele.name,
@@ -726,7 +719,7 @@ export default function loadImageWithText(editor, opt = {}) {
             icon : COLLECTION_ICON
           });
         }
-        else if (State == "Products") {
+        else if (State === "Products") {
           _data = data.data.map(ele => {
             return {
               name: ele.title,
@@ -740,7 +733,7 @@ export default function loadImageWithText(editor, opt = {}) {
             icon : PRODUCTS_ICON
           });
         }
-        else if (State == "Pages") {
+        else if (State === "Pages") {
           _data = data.data.map(ele => {
             return {
               name: ele.name,
@@ -748,7 +741,7 @@ export default function loadImageWithText(editor, opt = {}) {
             }
           })
         }
-        else if (State == "Privacy") {
+        else if (State === "Privacy") {
           _data = data.data.map(ele => {
             return {
               name: ele.name,
@@ -801,18 +794,18 @@ export default function loadImageWithText(editor, opt = {}) {
             $(el).find('input').css('padding-right', '25px');
             $(el).find('#delete_icon').css("display", "block")
 
-            if (State == "Collections") {
+            if (State === "Collections") {
               $(el).find('#icons').empty().append(COLLECTION_ICON)
             }
-            else if (State == "Products") {
+            else if (State === "Products") {
               $(el).find('#icons').empty().append(PRODUCTS_ICON)
 
             }
-            else if (State == "Pages") {
+            else if (State === "Pages") {
               $(el).find('#icons').empty().append(PAGES_ICON)
 
             }
-            else if (State == "Privacy") {
+            else if (State === "Privacy") {
               $(el).find('#icons').empty().append(PRIVACY_ICON)
 
             }
@@ -888,10 +881,7 @@ export default function loadImageWithText(editor, opt = {}) {
       }
 
       const value = event.valueHref ? event.valueHref : '#'
-      component.set('attributes', {
-        ...component.get('attributes'),
-        'href': value
-      })
+      setAttribute(component, { 'href': value })
       component.set('traitValue', event.traitValue)
     },
   });

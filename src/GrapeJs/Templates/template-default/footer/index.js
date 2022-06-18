@@ -1,7 +1,7 @@
 import $ from "jquery";
 import loadBlockFooterItem from "./items";
 import Swal from 'sweetalert2';
-import { validURL } from "../../../../helper/utils";
+import { validURL, setAttribute } from "../../../../helper/utils";
 import { URL_ICON,
   DELETE_BUTTON_ICON } from "../../../../asset/icon/svg";
 
@@ -284,10 +284,7 @@ export default function loadBlockFooter(editor, opt = {}) {
         const isChecked = $(this).is(":checked");
         const linkedIn = trait.target.get("components").models[0];
 
-        trait.target.set('attributes', {
-          ...trait.target.get('attributes'),
-          'linkedIn': isChecked
-        })
+        setAttribute(trait.target, { 'linkedIn': isChecked })
 
         if (isChecked)  {
           $(el).find('#Link-combo').show();
@@ -310,10 +307,7 @@ export default function loadBlockFooter(editor, opt = {}) {
       const value = event.valueHref ? event.valueHref : '#';
       const linkedIn = component.get("components").models[0];
 
-      linkedIn.set('attributes', {
-        ...linkedIn.get('attributes'),
-        'href': value
-      })
+      setAttribute(linkedIn, { 'href': value })
     },
 
     onUpdate({ elInput, component }) {
@@ -456,12 +450,9 @@ export default function loadBlockFooter(editor, opt = {}) {
       $(el).find("input.footer-instagram-check").change(function () {
         const isChecked = $(this).is(":checked");
         const instagram = editor.getSelected().get("components").models[1];
+      
+        setAttribute(trait.target, { 'instagram': instagram })
 
-        trait.target.set('attributes', {
-          ...trait.target.get('attributes'),
-          'instagram': isChecked
-        })
-        
         if (isChecked)  {
           $(el).find('#Link-combo').show();
           instagram.removeClass('d-none');
@@ -483,10 +474,7 @@ export default function loadBlockFooter(editor, opt = {}) {
       const value = event.valueHref ? event.valueHref : '#';
       const instagram = component.get("components").models[1];
 
-      instagram.set('attributes', {
-        ...instagram.get('attributes'),
-        'href': value
-      })
+      setAttribute(instagram, { 'href': value })
     },
 
     onUpdate({ elInput, component }) {
@@ -630,10 +618,7 @@ export default function loadBlockFooter(editor, opt = {}) {
         const isChecked = $(this).is(":checked");
         const facebook = editor.getSelected().get("components").models[2];
 
-        trait.target.set('attributes', {
-          ...trait.target.get('attributes'),
-          'facebook': isChecked
-        })
+        setAttribute(trait.target, { 'facebook': isChecked })
 
         if (isChecked)  {
           $(el).find('#Link-combo').show();
@@ -656,10 +641,7 @@ export default function loadBlockFooter(editor, opt = {}) {
       const value = event.valueHref ? event.valueHref : '#';
       const facebook = component.get("components").models[2];
 
-      facebook.set('attributes', {
-        ...facebook.get('attributes'),
-        'href': value
-      })
+      setAttribute(facebook, { 'href': value })
     },
 
     onUpdate({ elInput, component }) {

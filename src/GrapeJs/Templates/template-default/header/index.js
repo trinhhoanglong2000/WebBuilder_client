@@ -1,4 +1,5 @@
 import $ from "jquery";
+import { setAttribute } from "../../../../helper/utils";
 
 export default function loadBlockHeader(editor, opt = {}) {
   const c = opt;
@@ -162,10 +163,7 @@ export default function loadBlockHeader(editor, opt = {}) {
           select(asset, complete) {
             inputImage.src = asset.getSrc();
 
-            logoImage.set('attributes', {
-              ...logoImage.get('attributes'),
-              src: asset.getSrc()
-            })
+            setAttribute(logoImage, { 'src': asset.getSrc() })
             logoImage.removeClass('d-none')
 
             if (!logoBrand.getClasses()?.includes('d-none')) {
@@ -182,10 +180,7 @@ export default function loadBlockHeader(editor, opt = {}) {
       };
 
       removeBtn.onclick = () => {
-        logoImage.set('attributes', {
-          ...logoImage.get('attributes'),
-          src: "data:,"
-        })
+        setAttribute(logoImage, { 'src': "data:," })
         if (!logoImage.getClasses()?.includes('d-none')) {
           logoImage.addClass('d-none')
         }

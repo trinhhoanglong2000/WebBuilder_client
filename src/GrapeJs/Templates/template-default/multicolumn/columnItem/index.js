@@ -19,6 +19,7 @@ export default function loadBlockColumnItem(editor, opt = {}) {
             label: "Image",
             type: "Column-Item-Image",
           },
+
           {
             label: "Heading",
             type: "Column-Item-Heading",

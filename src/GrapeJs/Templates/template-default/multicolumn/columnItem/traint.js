@@ -86,7 +86,13 @@ export default function loadTraitColumnItem(editor, opt = {}) {
             //#1 when option change we will get new option => change HTML following option
             const inputType = elInput.querySelector("option:checked");
             let TextFontSize = inputType.value;
-            component.addAttributes({ TextFontSize })
+            const attr =
+            {
+              ...component.get('attributes'),
+              'TextFontSize': TextFontSize
+            }
+      
+            delete attr.class;
             component.get("components").models[1].get("components").models[1].setStyle({ ...component.getStyle(), "font-size": `${TextFontSize}!important` });
         },
     });
@@ -162,7 +168,15 @@ export default function loadTraitColumnItem(editor, opt = {}) {
             );
 
             let textAlight = inputType.value;
-            component.addAttributes({ textAlight })
+            const attr =
+            {
+              ...component.get('attributes'),
+              'textAlight': textAlight
+            }
+      
+            delete attr.class;
+      
+            component.set('attributes', attr)
             component.get("components").models[1].get("components").models[0].setStyle({ ...component.getStyle(), "text-align": `${textAlight}!important` });
         },
     });
@@ -740,6 +754,7 @@ export default function loadTraitColumnItem(editor, opt = {}) {
           })
           component.set('traitValue', event.traitValue)
     
+          
           // component.setAttributes({ ...component.getAttributes(), 'href': value })
     
         },

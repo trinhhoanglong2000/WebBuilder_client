@@ -71,7 +71,13 @@ export default function loadTraitMulticolumnItem(editor, opt = {}) {
 
       let headAlign = inputType.value;
       component.get("components").models[0].setStyle({ ...component.getStyle(), "text-align": ` ${headAlign}!important` });
-      component.addAttributes({ headAlign })
+      const attr =
+      {
+        ...component.get('attributes'),
+        'headAlign': headAlign
+      }
+
+      delete attr.class;
     },
   });
 
@@ -102,7 +108,15 @@ export default function loadTraitMulticolumnItem(editor, opt = {}) {
       //#1 when option change we will get new option => change HTML following option
       const inputType = elInput.querySelector("input");
       let paddingMode = inputType.checked;
-      component.addAttributes({ paddingMode })
+
+      const attr =
+      {
+        ...component.get('attributes'),
+        'paddingMode': paddingMode
+      }
+
+      delete attr.class;
+
       if (inputType.checked) {
         component.addClass(`container`);
       } else {
@@ -143,7 +157,15 @@ export default function loadTraitMulticolumnItem(editor, opt = {}) {
       const numCols = $(elInput).find("input")[0].value;
       $(elInput).find("label").text(numCols);
       let oldType = component.getAttributes().numCols;
-      component.addAttributes({ numCols })
+
+      const attr =
+      {
+        ...component.get('attributes'),
+        'numCols': numCols
+      }
+
+      delete attr.class;
+
       component.removeClass(`multicolumn-numCols-${oldType}`);
       component.addClass(`multicolumn-numCols-${numCols}`);
     },

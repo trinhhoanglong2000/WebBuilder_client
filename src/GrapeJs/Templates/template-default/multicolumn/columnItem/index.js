@@ -20,14 +20,6 @@ export default function loadBlockColumnItem(editor, opt = {}) {
             type: "Column-Item-Image",
           },
           {
-            label: "Link",
-            type: "column-item-link",
-          },
-          {
-            label: "Link-Update",
-            type: "Column-Link",
-          },
-          {
             label: "Heading",
             type: "Column-Item-Heading",
           },
@@ -42,6 +34,10 @@ export default function loadBlockColumnItem(editor, opt = {}) {
           {
             label: "Font Size",
             type: "Column-Item-RichText-TextFontSize-Trait",
+          },
+          {
+            label: "Link-Update",
+            type: "Column-Link",
           },
         ],
         // This is default attributes

@@ -66,7 +66,15 @@ export default function loadTraitCarousel(editor, opt = {}) {
       let textColor = inputTextColor.value;
       if (component.getAttributes().textColor != textColor) {
         let oldType = component.getAttributes().textColor;
-        component.addAttributes({ textColor })
+        const attr =
+        {
+          ...component.get('attributes'),
+          'textColor': textColor
+        }
+  
+        delete attr.class;
+        
+      component.set('attributes', attr)
         component.removeClass(`carousel-text-${oldType}`);
         component.addClass(`carousel-text-${textColor}`);
       }
@@ -495,15 +503,15 @@ export default function loadTraitCarousel(editor, opt = {}) {
       //#1 when option change we will get new option => change HTML following option
       const inputType = elInput.querySelector("input");
       let descriptionBackground = inputType.checked;
+      
       const attr =
       {
         ...component.get('attributes'),
         'descriptionBackground': descriptionBackground
       }
-
       delete attr.class;
-
       component.set('attributes', attr)
+
       if (inputType.checked) {
         component.addClass(`carousel-description-background`);
       } else {

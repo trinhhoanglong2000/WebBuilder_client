@@ -10,7 +10,7 @@ const validURL = (str) => {
   return !!pattern.test(str);
 }
 
-const loadStoreComponents = async(editor, storeId) => {
+const loadStoreComponents = async (editor, storeId) => {
   if (!editor || !storeId) {
     return false;
   }
@@ -51,17 +51,17 @@ const loadStoreComponents = async(editor, storeId) => {
       }
     }
   }
-  
+
   editor.UndoManager.clear()
 
   return true;
 }
 
-const setAttribute = (component, attribute, value) => {
-  const attr = {...component.get('attributes'), [attribute]: value}
+const setAttribute = (component, attributes={}) => {
+  const attr = { ...component.get('attributes'), ...attributes }
   delete attr.class;
 
   component.set('attributes', attr)
 }
 
-export { validURL, loadStoreComponents };
+export { validURL, loadStoreComponents, setAttribute };

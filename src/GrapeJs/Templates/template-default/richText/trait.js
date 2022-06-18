@@ -1,7 +1,7 @@
 import $ from "jquery";
 import Quill from "quill";
 import { readCookie } from "../../../../helper/cookie";
-import { validURL } from "../../../../helper/utils";
+import { validURL, setAttribute } from "../../../../helper/utils";
 import {
   COLLECTION_ICON,
   PRODUCTS_ICON,
@@ -686,9 +686,9 @@ export default function loadTraitRichText(editor, opt = {}) {
             }
           })
           _data.unshift({
-            name:'All collections',
-            id:null,
-            icon : COLLECTION_ICON
+            name: 'All collections',
+            id: null,
+            icon: COLLECTION_ICON
           });
         }
         else if (State == "Products") {
@@ -700,9 +700,9 @@ export default function loadTraitRichText(editor, opt = {}) {
             }
           })
           _data.unshift({
-            name:'All products',
-            id:null,
-            icon : PRODUCTS_ICON
+            name: 'All products',
+            id: null,
+            icon: PRODUCTS_ICON
           });
         }
         else if (State == "Pages") {
@@ -723,16 +723,16 @@ export default function loadTraitRichText(editor, opt = {}) {
         }
         let domdata = "";
         _data.forEach((element) => {
-          let url = element.url ? element.url : `/${State.toLowerCase()}${element.id ? `?id=${element.id}`:``}`
+          let url = element.url ? element.url : `/${State.toLowerCase()}${element.id ? `?id=${element.id}` : ``}`
           let img = element.thumbnail ? `
         <img style= "width:25px;height:25px;min-width:25px;" src="${element.thumbnail}">
         `: NO_IMAGE_ICON
-          if (element.icon && !element.thumbnail){
+          if (element.icon && !element.thumbnail) {
             img = element.icon
           }
           domdata += `
           <li data-value ="${url}" class="btn" style="text-align:start;padding-top:5px;padding-bottom:5px;display: flex">
-          ${element.thumbnail !== undefined || element.icon? img : ""}
+          ${element.thumbnail !== undefined || element.icon ? img : ""}
           <span style="white-space: nowrap; overflow: hidden;text-overflow: ellipsis;margin-left:10px">
               ${element.name}
           </span>
@@ -853,12 +853,12 @@ export default function loadTraitRichText(editor, opt = {}) {
       }
 
       const value = event.valueHref ? event.valueHref : '#'
-      const attr = 
-        {
-          ...component.get('attributes'),
-          'href': value
-        }
-      
+      const attr =
+      {
+        ...component.get('attributes'),
+        'href': value
+      }
+
       delete attr.class;
       component.set('attributes', attr)
       component.set('traitValue', event.traitValue)

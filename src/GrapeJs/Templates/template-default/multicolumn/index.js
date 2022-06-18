@@ -68,7 +68,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
       // This function run when component created - we setup listen to change atri
 
       init() {
-        debugger
+      
         this.on('change:attributes:data', this.handleTypeChangeData);
         this.on('change:attributes:placeholder', this.handleTypeChangePlaceHold);
 

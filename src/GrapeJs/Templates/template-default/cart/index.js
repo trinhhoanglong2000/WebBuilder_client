@@ -1,11 +1,9 @@
 import loadTraitCart from "./trait";
-import loadCommonTrait from "../common/trait";
 import $ from "jquery";
 export default function loadBlockCart(editor, opt = {}) {
     const c = opt;
     let bm = editor.BlockManager;
     loadTraitCart(editor, c);
-    loadCommonTrait(editor, c);
     const domc = editor.DomComponents;
     const defaultType = domc.getType("default");
 

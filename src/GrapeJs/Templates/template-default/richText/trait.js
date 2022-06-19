@@ -437,7 +437,6 @@ export default function loadTraitRichText(editor, opt = {}) {
 
     },
     createInput({ trait }) {
-
       const debounce = (fn, delay = 1000) => {
         let timeout;
         return (...args) => {
@@ -853,7 +852,7 @@ export default function loadTraitRichText(editor, opt = {}) {
       }
 
       const value = event.valueHref ? event.valueHref : '#'
-      setAttribute(component,{
+      setAttribute(component, {
         'href': value
       })
       component.set('traitValue', event.traitValue)

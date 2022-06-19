@@ -17,6 +17,7 @@ import loadBlockCart from "./cart";
 import loadBlockPayMent from "./payment";
 import loadBlockPolicy from "../Policy";
 import loadSlideshowGallery from "./SlideshowGallery";
+import loadCommonTrait from "./common/trait";
 
 export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
 
@@ -61,6 +62,7 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
   //Note: Body containter
 
   //Long ADD START
+  loadCommonTrait(editor,config)
   loadBlockMain(editor,config);
   loadBlockPageNotFound(editor, config);
   loadBlockCarousel(editor, config);

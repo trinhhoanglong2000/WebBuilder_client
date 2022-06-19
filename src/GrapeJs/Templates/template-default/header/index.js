@@ -30,11 +30,7 @@ export default function loadBlockHeader(editor, opt = {}) {
     attributes: { class: "fa fa-header" },
     content: {
       type: "navbar",
-      attributes: {
-        class: "navbar navbar-expand-md border-bottom border-dark",
-        name: "header",
-        "store-id": c.storeId,
-      },
+
       components: [
         {
           type: "defaultCustom",
@@ -130,9 +126,8 @@ export default function loadBlockHeader(editor, opt = {}) {
             <div class="card upload-image-area">
                 <div class="card-body">
                     <div class="target-img">
-                        <img src=${
-                          c.logoURL ?? trait.get("srcDefault")
-                        } class="card-img-top"/>
+                        <img src=${c.logoURL ?? trait.get("srcDefault")
+        } class="card-img-top"/>
                     </div>
                     <button type="button" class="change-btn">Change</button>
                     <button type="button" class="remove-btn">Remove</button>
@@ -196,7 +191,7 @@ export default function loadBlockHeader(editor, opt = {}) {
     onUpdate({ elInput, component }) {
       const src = $(component.view.el).find('.navbar-brand img').attr('src');
       const inputImage = elInput.querySelector(".upload-image-area .card-body img");
-      
+
       if (src) {
         inputImage.src = src;
       } else {
@@ -250,10 +245,15 @@ export default function loadBlockHeader(editor, opt = {}) {
         draggable: false,
         name: "Header",
         tagName: "nav",
-        attributes: {theme: "white", logoSize: "medium" },
+        attributes: {
+          class: "navbar navbar-expand-md border-bottom border-dark",
+          name: "header",
+          "store-id": c.storeId,
+          theme: "white", logoSize: "medium"
+        },
         traits: [
           {
-            type: "select",
+            type: "CustomSelect",
             label: "Theme color",
             name: "theme",
             options: [
@@ -272,7 +272,7 @@ export default function loadBlockHeader(editor, opt = {}) {
             srcDefault: "https://ezmall-bucket.s3.ap-southeast-1.amazonaws.com/assets/a8ae4620-6eb2-4a6a-932b-3f6e2ca11302.png",
           },
           {
-            type: "select",
+            type: "CustomSelect",
             label: "Logo size",
             name: "logoSize",
             options: [
@@ -289,8 +289,8 @@ export default function loadBlockHeader(editor, opt = {}) {
         ],
       },
 
-      init() {},
-      initData() {},
+      init() { },
+      initData() { },
     },
   });
 }

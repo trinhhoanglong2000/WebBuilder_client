@@ -33,7 +33,6 @@ export default function loadBlockFooter(editor, opt = {}) {
     attributes: { class: "fa fa-footer" },
     content: {
       type: "footer",
-      attributes: { class: "footer-section", name: "footer" },
       components: [
         {
           tagName: "hr",
@@ -41,7 +40,6 @@ export default function loadBlockFooter(editor, opt = {}) {
         },
         {
           type: "footer-navigation",
-          attributes: { class: "row footer-navigation" },
           components: [
             {
               type: "footer-quick-link",
@@ -113,10 +111,10 @@ export default function loadBlockFooter(editor, opt = {}) {
         removable: false,
         droppable: false,
         draggable: false,
-        attributes: { theme: 'white' },
+        attributes: { class: "footer-section", name: "footer",theme: 'white' },
         traits: [
           {
-            type: 'select',
+            type: 'CustomSelect',
             label: 'Theme',
             name: 'theme',
             options: [
@@ -147,6 +145,10 @@ export default function loadBlockFooter(editor, opt = {}) {
         removable: false,
         draggable: false,
         name: "Footer Navigation",
+        attributes: { class: "row footer-navigation" },
+        highlightable: false,
+        selectable: false,
+        hoverable: false,
         //draggable: ".footer-section",
         droppable: (target, destination) => {
           const arr = ['footer-quick-link', 'footer-image','footer-text']

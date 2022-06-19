@@ -1,11 +1,8 @@
 import loadTraitPayment from "./trait";
-import loadCommonTrait from "../common/trait";
-import $ from "jquery";
 export default function loadBlockPayMent(editor, opt = {}) {
     const c = opt;
     let bm = editor.BlockManager;
     loadTraitPayment(editor, c);
-    loadCommonTrait(editor, c);
     const domc = editor.DomComponents;
     const defaultType = domc.getType("default");
 

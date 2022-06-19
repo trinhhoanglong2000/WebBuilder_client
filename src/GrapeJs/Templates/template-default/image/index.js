@@ -13,7 +13,6 @@ export default function loadImage(editor, opt = {}) {
     category: "Media",
     content: {
       type: "imageCustomType",
-      attributes: { class: "text-center container", name: "image" },
       components: [
         {
           tagName: "img",
@@ -221,6 +220,7 @@ export default function loadImage(editor, opt = {}) {
         droppable: false,
         highlightable: false,
         copyable: false,
+        attributes: { class: "text-center container", name: "image" },
         traits: [
           {
             type: "image-upload-image",

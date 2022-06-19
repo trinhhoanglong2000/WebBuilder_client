@@ -12,7 +12,6 @@ export default function loadSlideshowGallery(editor, opt = {}) {
     category: "Media",
     content: {
       type: "slideshowGallery",
-      attributes: { class: "container", name: "slideshowGallery" },
       components: [
         {
           type: "defaultCustom",
@@ -94,6 +93,7 @@ export default function loadSlideshowGallery(editor, opt = {}) {
         droppable: false,
         copyable: false,
         highlightable: false,
+        attributes: { class: "container", name: "slideshowGallery" },
         traits: [
           {
             type: "slideshowGallery-heading",

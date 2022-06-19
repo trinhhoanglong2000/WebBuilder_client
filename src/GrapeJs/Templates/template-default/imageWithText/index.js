@@ -26,7 +26,6 @@ export default function loadImageWithText(editor, opt = {}) {
     category: "Image With Text",
     content: {
       type: "imageWithText",
-      attributes: { class: "container", name: "imageWithText" },
       components: [
         {
           tagName: "div",
@@ -891,7 +890,7 @@ export default function loadImageWithText(editor, opt = {}) {
       defaults: {
         name: "Image With Text",
         draggable: ".main-content",
-        attributes: { iPosition: "left" },
+        attributes: { class: "container", name: "imageWithText", iPosition: "left" },
         droppable: false,
         copyable: false,
         traits: [
@@ -920,7 +919,7 @@ export default function loadImageWithText(editor, opt = {}) {
             placeholder: "Button label",
           },
           {
-            type: "select",
+            type: "CustomSelect",
             label: "Image position",
             name: "iPosition",
             options: [

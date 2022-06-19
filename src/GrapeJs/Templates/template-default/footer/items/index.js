@@ -46,7 +46,6 @@ export default function loadBlockFooterItem(editor, opt = {}) {
     attributes: { class: "fa fa-link" },
     content: {
       type: "footer-quick-link",
-      attributes: { class: "col-md", name: "QuickLink" },
       components: [
         {
           type: "defaultCustom",
@@ -68,7 +67,6 @@ export default function loadBlockFooterItem(editor, opt = {}) {
     attributes: { class: "fa fa-file-text" },
     content: {
       type: "footer-text",
-      attributes: { class: "col-md" },
       components: [
         {
           type: "defaultCustom",
@@ -89,7 +87,6 @@ export default function loadBlockFooterItem(editor, opt = {}) {
     category: "Footer",
     content: {
       type: "footer-image",
-      attributes: { class: "col-md text-center d-flex align-items-center justify-content-center" },
       components: [
         {
           type: "defaultCustom",
@@ -476,7 +473,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
         tagName: "div",
         copyable: false,
         droppable: false,
-        attributes: { oneRow: false },
+        attributes: { class: "col-md", name: "QuickLink", oneRow: false},
         traits: [
           {
             type: "footer-menu-collection",
@@ -571,6 +568,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
         droppable: false,
         copyable: false,
         tagName: "div",
+        attributes: { class: "col-md text-center d-flex align-items-center justify-content-center" },
         traits: [
           {
             type: "footer-upload-image",

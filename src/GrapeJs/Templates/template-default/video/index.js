@@ -11,7 +11,6 @@ export default function loadVideo(editor, opt = {}) {
         attributes: {class: "fa fa-youtube-play" },
         content: {
             type: 'videoCustomType',
-            attributes: { class: "container text-center", name: 'video' },
             components: [
                 {
                     tagName: 'iframe',
@@ -108,7 +107,6 @@ export default function loadVideo(editor, opt = {}) {
         },
 
         onEvent({ elInput, component, event }) {
-            // autoplay loop control
             const autoplay = elInput.querySelector('.video-auto-play').checked;
             const loop = elInput.querySelector('.video-loop').checked;
             const control = elInput.querySelector('.video-control').checked;
@@ -164,6 +162,7 @@ export default function loadVideo(editor, opt = {}) {
                 draggable: ".main-content",
                 droppable: false,
                 copyable: false,
+                attributes: { class: "container text-center", name: 'video' },
                 traits: [
                     {
                         type: 'video-src',

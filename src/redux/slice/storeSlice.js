@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { callAPIWithGetMethod, callAPIWithPostMethod } from "../../helper/callAPI";
+import { setAttribute } from '../../helper/utils';
 
 export const getInitDataStore = createAsyncThunk(
     'store/get',
@@ -33,7 +34,7 @@ export const storeSlice = createSlice({
         },
         doRenderImage(state, action){
             if (state.targetBase64Image[action.payload.id]) {
-                state.targetBase64Image[action.payload.id].setAttributes({...state.targetBase64Image[action.payload.id].getAttributes(), 'src': action.payload.image })
+                setAttribute(state.targetBase64Image[action.payload.id], {'src': action.payload.image})
             }
         }
 

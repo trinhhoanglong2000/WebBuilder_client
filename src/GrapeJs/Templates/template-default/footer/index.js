@@ -2,8 +2,10 @@ import $ from "jquery";
 import loadBlockFooterItem from "./items";
 import Swal from 'sweetalert2';
 import { validURL, setAttribute } from "../../../../helper/utils";
-import { URL_ICON,
-  DELETE_BUTTON_ICON } from "../../../../asset/icon/svg";
+import {
+  URL_ICON,
+  DELETE_BUTTON_ICON
+} from "../../../../asset/icon/svg";
 
 
 export default function loadBlockFooter(editor, opt = {}) {
@@ -26,81 +28,83 @@ export default function loadBlockFooter(editor, opt = {}) {
     };
     return navbar;
   }
-
-  bm.add('footer', {
-    label: "Footer",
-    category: "Footer",
-    attributes: { class: "fa fa-footer" },
-    content: {
-      type: "footer",
-      components: [
-        {
-          tagName: "hr",
-          type: "defaultCustom"
-        },
-        {
-          type: "footer-navigation",
-          components: [
-            {
-              type: "footer-quick-link",
-              components: [
-                {
-                  type: "defaultCustom",
-                  tagName: "h5", 
-                  content: "Quick links"
-                }, {
-                  type: "defaultCustom",
-                  attributes: { class: "quicklinks-menu" },
-                  tagName: "ul",
-                  content: getFooterNavigationButton(c.footerNavigation)
-                }
-              ],
+  if (!opt.isDeloy) {
+    bm.add('footer', {
+      label: "Footer",
+      category: "Footer",
+      attributes: { class: "fa fa-footer" },
+      content: {
+        type: "footer",
+        components: [
+          {
+            tagName: "hr",
+            type: "defaultCustom"
+          },
+          {
+            type: "footer-navigation",
+            components: [
+              {
+                type: "footer-quick-link",
+                components: [
+                  {
+                    type: "defaultCustom",
+                    tagName: "h5",
+                    content: "Quick links"
+                  }, {
+                    type: "defaultCustom",
+                    attributes: { class: "quicklinks-menu" },
+                    tagName: "ul",
+                    content: getFooterNavigationButton(c.footerNavigation)
+                  }
+                ],
+              },
+              {
+                type: "footer-text",
+                components: [
+                  {
+                    type: "defaultCustom",
+                    tagName: "h5",
+                    content: "Heading"
+                  }, {
+                    type: "defaultCustom",
+                    tagName: "p",
+                    content: c.footerHeading
+                  }
+                ],
+              }
+            ]
+          },
+          {
+            tagName: "hr",
+            type: "defaultCustom"
+          },
+          {
+            type: 'footer-social-link',
+            components: [{
+              type: "defaultCustom",
+              tagName: "a",
+              attributes: { class: "linkedIn-fanpage" },
+              content: `<i class="fa fa-linkedin-square"></i>`
             },
             {
-              type: "footer-text",
-              components: [
-                {
-                  type: "defaultCustom",
-                  tagName: "h5",
-                  content: "Heading"
-                }, {
-                  type: "defaultCustom",
-                  tagName: "p",
-                  content: c.footerHeading
-                }
-              ],
+              type: "defaultCustom",
+              tagName: "a",
+              attributes: { class: "instagram-fanpage" },
+              content: `<i class="fa fa-instagram"></i>`
+            },
+            {
+              type: "defaultCustom",
+              tagName: "a",
+              attributes: { class: "facebook-fanpage" },
+              content: `<i class="fa fa-facebook-square"></i>`
             }
-          ]
-        },
-        {
-          tagName: "hr",
-          type: "defaultCustom"
-        },
-        {
-          type: 'footer-social-link',
-          components: [{
-            type: "defaultCustom",
-            tagName: "a",
-            attributes: { class: "linkedIn-fanpage" },
-            content: `<i class="fa fa-linkedin-square"></i>`
+            ]
           },
-          {
-            type: "defaultCustom",
-            tagName: "a",
-            attributes: { class: "instagram-fanpage" },
-            content: `<i class="fa fa-instagram"></i>`
-          },
-          {
-            type: "defaultCustom",
-            tagName: "a",
-            attributes: { class: "facebook-fanpage" },
-            content: `<i class="fa fa-facebook-square"></i>`
-          }
-          ]
-        },
-      ],
-    }
-  });
+        ],
+      }
+    });
+  }
+
 
   dc.addType('footer', {
     model: {
@@ -111,7 +115,7 @@ export default function loadBlockFooter(editor, opt = {}) {
         removable: false,
         droppable: false,
         draggable: false,
-        attributes: { class: "footer-section", name: "footer",theme: 'white' },
+        attributes: { class: "footer-section", name: "footer", theme: 'white' },
         traits: [
           {
             type: 'CustomSelect',
@@ -151,7 +155,7 @@ export default function loadBlockFooter(editor, opt = {}) {
         hoverable: false,
         //draggable: ".footer-section",
         droppable: (target, destination) => {
-          const arr = ['footer-quick-link', 'footer-image','footer-text']
+          const arr = ['footer-quick-link', 'footer-image', 'footer-text']
           if (target == undefined) return false
           if (arr.includes(target.get('type'))) {
             return true
@@ -229,7 +233,7 @@ export default function loadBlockFooter(editor, opt = {}) {
 
             $(el).find('#Link-menu li').on('click', function () {
               const text = $(this).find('span').text().trim();
-              let  previousValue = text;
+              let previousValue = text;
 
               // let regex = new RegExp("(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)");
               // let isFacebookLink = !!regex.test(value);
@@ -241,10 +245,10 @@ export default function loadBlockFooter(editor, opt = {}) {
               //     text: 'This is not a facebook link!',
               //   })
               // }
-              
+
               $(el).find('input').val(text);
               $(el).find('ul').addClass('combobox-hidden');
-              
+
               if (previousValue !== "") {
                 $(el).find('input').css('padding-left', '39px');
                 $(el).find('#icons').css("display", "block");
@@ -266,7 +270,7 @@ export default function loadBlockFooter(editor, opt = {}) {
             })
           }
         }, 200)
-      
+
       });
 
       $(el).find('#delete_icon').on('click', function () {
@@ -288,7 +292,7 @@ export default function loadBlockFooter(editor, opt = {}) {
 
         setAttribute(trait.target, { 'linkedIn': isChecked })
 
-        if (isChecked)  {
+        if (isChecked) {
           $(el).find('#Link-combo').show();
           linkedIn.removeClass('d-none');
         } else {
@@ -316,7 +320,7 @@ export default function loadBlockFooter(editor, opt = {}) {
       const initValue = component.attributes.attributes['linkedIn'];
       const href = component.view.el.querySelector('.linkedIn-fanpage')?.href || "";
 
-      if (initValue)  {
+      if (initValue) {
         $(elInput).find('#Link-combo').show();
       } else {
         $(elInput).find('#Link-combo').hide();
@@ -396,7 +400,7 @@ export default function loadBlockFooter(editor, opt = {}) {
 
             $(el).find('#Link-menu li').on('click', function () {
               const text = $(this).find('span').text().trim();
-              let  previousValue = text;
+              let previousValue = text;
 
               // let regex = new RegExp("(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)");
               // let isFacebookLink = !!regex.test(value);
@@ -408,10 +412,10 @@ export default function loadBlockFooter(editor, opt = {}) {
               //     text: 'This is not a facebook link!',
               //   })
               // }
-              
+
               $(el).find('input').val(text);
               $(el).find('ul').addClass('combobox-hidden');
-              
+
               if (previousValue !== "") {
                 $(el).find('input').css('padding-left', '39px');
                 $(el).find('#icons').css("display", "block");
@@ -433,7 +437,7 @@ export default function loadBlockFooter(editor, opt = {}) {
             })
           }
         }, 200)
-      
+
       });
 
       $(el).find('#delete_icon').on('click', function () {
@@ -452,10 +456,10 @@ export default function loadBlockFooter(editor, opt = {}) {
       $(el).find("input.footer-instagram-check").change(function () {
         const isChecked = $(this).is(":checked");
         const instagram = editor.getSelected().get("components").models[1];
-      
+
         setAttribute(trait.target, { 'instagram': instagram })
 
-        if (isChecked)  {
+        if (isChecked) {
           $(el).find('#Link-combo').show();
           instagram.removeClass('d-none');
         } else {
@@ -483,7 +487,7 @@ export default function loadBlockFooter(editor, opt = {}) {
       const initValue = component.attributes.attributes['instagram'];
       const href = component.view.el.querySelector('.instagram-fanpage')?.href || "";
 
-      if (initValue)  {
+      if (initValue) {
         $(elInput).find('#Link-combo').show();
       } else {
         $(elInput).find('#Link-combo').hide();
@@ -563,7 +567,7 @@ export default function loadBlockFooter(editor, opt = {}) {
 
             $(el).find('#Link-menu li').on('click', function () {
               const text = $(this).find('span').text().trim();
-              let  previousValue = text;
+              let previousValue = text;
 
               // let regex = new RegExp("(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)");
               // let isFacebookLink = !!regex.test(value);
@@ -575,10 +579,10 @@ export default function loadBlockFooter(editor, opt = {}) {
               //     text: 'This is not a facebook link!',
               //   })
               // }
-              
+
               $(el).find('input').val(text);
               $(el).find('ul').addClass('combobox-hidden');
-              
+
               if (previousValue !== "") {
                 $(el).find('input').css('padding-left', '39px');
                 $(el).find('#icons').css("display", "block");
@@ -600,7 +604,7 @@ export default function loadBlockFooter(editor, opt = {}) {
             })
           }
         }, 200)
-      
+
       });
 
       $(el).find('#delete_icon').on('click', function () {
@@ -622,7 +626,7 @@ export default function loadBlockFooter(editor, opt = {}) {
 
         setAttribute(trait.target, { 'facebook': isChecked })
 
-        if (isChecked)  {
+        if (isChecked) {
           $(el).find('#Link-combo').show();
           facebook.removeClass('d-none');
         } else {
@@ -650,7 +654,7 @@ export default function loadBlockFooter(editor, opt = {}) {
       const initValue = component.attributes.attributes['facebook'];
       const href = component.view.el.querySelector('.facebook-fanpage')?.href || "";
 
-      if (initValue)  {
+      if (initValue) {
         $(elInput).find('#Link-combo').show();
       } else {
         $(elInput).find('#Link-combo').hide();
@@ -698,7 +702,7 @@ export default function loadBlockFooter(editor, opt = {}) {
           },
         ],
       },
-      init() {},
+      init() { },
       initData() { },
     },
   });

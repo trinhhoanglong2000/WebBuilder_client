@@ -124,7 +124,8 @@ function Canvas({ type }) {
                 headerNavigation: listPagesId,
                 storeId: storeId,
                 addTarget64Image: addTarget64Image,
-                validURL: validURL
+                validURL: validURL,
+                isDeloy: true,
               },
               "Plugins-defaults": {
                 renderImage: renderImage

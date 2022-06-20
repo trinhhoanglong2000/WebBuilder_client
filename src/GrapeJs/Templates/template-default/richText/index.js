@@ -14,7 +14,7 @@ export default function loadBlockRichText(editor, opt = {}) {
     category: c.label_rich_text,
     attributes: { class: "fa fa-file-text" },
     content: {
-      type: "RichText",
+      type: "Rich-Text",
       components: [
         {
           type: "RichText-Header",

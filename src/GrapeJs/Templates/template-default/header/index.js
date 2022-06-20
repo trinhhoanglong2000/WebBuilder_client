@@ -29,7 +29,7 @@ export default function loadBlockHeader(editor, opt = {}) {
     category: "Header",
     attributes: { class: "fa fa-header" },
     content: {
-      type: "navbar",
+      type: "header",
 
       components: [
         {
@@ -236,7 +236,7 @@ export default function loadBlockHeader(editor, opt = {}) {
     },
   });
 
-  dc.addType("navbar", {
+  dc.addType("header", {
     model: {
       defaults: {
         copyable: false,

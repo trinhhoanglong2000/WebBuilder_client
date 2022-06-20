@@ -12,13 +12,14 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
   const textType = domc.getType("text");
 
   //THIS IS SETTING COMPONENT
-  domc.addType("multicolumn", {
+  domc.addType("multi-column", {
     model: {
       defaults: {
         tagName: 'div',
         name: 'Multicolumn',
         droppable: false,
         copyable: false,
+        draggable: ".main-content",
         traits: [
           {
             label: "Align",
@@ -232,10 +233,9 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
     ${MULTICOLUMN_LABEL}
     <div>Multicolumn</div> `,
     category: c.multicolumn,
-    draggable: ".main-content",
     content: [
       {
-        type: "multicolumn",
+        type: "multi-column",
         attributes: { class: "multicolumn-numCols-3",},
         components: [
           {

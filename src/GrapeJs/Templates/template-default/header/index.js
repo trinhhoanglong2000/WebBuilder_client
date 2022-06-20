@@ -23,101 +23,103 @@ export default function loadBlockHeader(editor, opt = {}) {
 
     return navbar;
   };
+  if (!opt.isDeloy) {
+    bm.add("header", {
+      label: "Header",
+      category: "Header",
+      attributes: { class: "fa fa-header" },
+      content: {
+        type: "header",
 
-  bm.add("header", {
-    label: "Header",
-    category: "Header",
-    attributes: { class: "fa fa-header" },
-    content: {
-      type: "header",
-
-      components: [
-        {
-          type: "defaultCustom",
-          tagName: "div",
-          attributes: { class: "container-fluid align-items-center" },
-          components: [
-            {
-              type: "defaultCustom",
-              tagName: "button",
-              attributes: {
-                class: "navbar-toggler order-0",
-                type: "button",
-                "data-bs-toggle": "collapse",
-                "data-bs-target": "#navbarSupportedContent",
-                "aria-controls": "navbarSupportedContent",
-                "aria-expanded": "false",
-                "aria-label": "Toggle navigation",
+        components: [
+          {
+            type: "defaultCustom",
+            tagName: "div",
+            attributes: { class: "container-fluid align-items-center" },
+            components: [
+              {
+                type: "defaultCustom",
+                tagName: "button",
+                attributes: {
+                  class: "navbar-toggler order-0",
+                  type: "button",
+                  "data-bs-toggle": "collapse",
+                  "data-bs-target": "#navbarSupportedContent",
+                  "aria-controls": "navbarSupportedContent",
+                  "aria-expanded": "false",
+                  "aria-label": "Toggle navigation",
+                },
+                content: `<i class="fa fa-bars"></i>`,
               },
-              content: `<i class="fa fa-bars"></i>`,
-            },
-            {
-              type: "defaultCustom",
-              tagName: "a",
-              attributes: {
-                href: "#",
-                class: "navbar-brand text-uppercase font-weight-bold order-1",
-              },
-              selectable: false,
-              components: [
-                {
-                  tagName: "img",
-                  type: "defaultCustom",
-                  attributes: {
-                    class: `img-thumbnail${isHaveLogo ? "" : " d-none"}`,
-                    src:
-                      c.logoURL ?? "https://dummyimage.com/600x400/55595c/fff",
+              {
+                type: "defaultCustom",
+                tagName: "a",
+                attributes: {
+                  href: "#",
+                  class: "navbar-brand text-uppercase font-weight-bold order-1",
+                },
+                selectable: false,
+                components: [
+                  {
+                    tagName: "img",
+                    type: "defaultCustom",
+                    attributes: {
+                      class: `img-thumbnail${isHaveLogo ? "" : " d-none"}`,
+                      src:
+                        c.logoURL ?? "https://dummyimage.com/600x400/55595c/fff",
+                    },
                   },
-                },
-                {
-                  tagName: "h4",
-                  type: "defaultCustom",
-                  attributes: { class: `${isHaveLogo ? "d-none" : ""}` },
-                  content: c.storeName,
-                },
-              ],
-            },
-            {
-              type: "defaultCustom",
-              tagName: "div",
-              attributes: {
-                id: "navbarSupportedContent",
-                class: "collapse navbar-collapse order-3 order-sm-2",
+                  {
+                    tagName: "h4",
+                    type: "defaultCustom",
+                    attributes: { class: `${isHaveLogo ? "d-none" : ""}` },
+                    content: c.storeName,
+                  },
+                ],
               },
-              components: [
-                {
-                  type: "defaultCustom",
-                  tagName: "ul",
-                  attributes: { class: "navbar-nav" },
-                  content: getHeaderNavigationButton(),
+              {
+                type: "defaultCustom",
+                tagName: "div",
+                attributes: {
+                  id: "navbarSupportedContent",
+                  class: "collapse navbar-collapse order-3 order-sm-2",
                 },
-              ],
-            },
-            {
-              type: "defaultCustom",
-              tagName: "div",
-              attributes: { class: "order-2" },
-              components: [
-                {
-                  type: "defaultCustom",
-                  tagName: "i",
-                  attributes: { class: "fa fa-shopping-bag icon-header" },
-                  content: `<span class="position-absolute translate-middle badge rounded-pill bg-danger">
-                                <span id="numberSelectedProduct">2</span>
-                            </span>`,
-                },
-                {
-                  type: "defaultCustom",
-                  tagName: "i",
-                  attributes: { class: "fa fa-search icon-header" },
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-  });
+                components: [
+                  {
+                    type: "defaultCustom",
+                    tagName: "ul",
+                    attributes: { class: "navbar-nav" },
+                    content: getHeaderNavigationButton(),
+                  },
+                ],
+              },
+              {
+                type: "defaultCustom",
+                tagName: "div",
+                attributes: { class: "order-2" },
+                components: [
+                  {
+                    type: "defaultCustom",
+                    tagName: "i",
+                    attributes: { class: "fa fa-shopping-bag icon-header" },
+                    content: `<span class="position-absolute translate-middle badge rounded-pill bg-danger">
+                                  <span id="numberSelectedProduct">2</span>
+                              </span>`,
+                  },
+                  {
+                    type: "defaultCustom",
+                    tagName: "i",
+                    attributes: { class: "fa fa-search icon-header" },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    });
+  }
+
 
   editor.TraitManager.addType("header-upload-image", {
     createInput({ trait }) {

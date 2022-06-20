@@ -18,6 +18,7 @@ import loadBlockPayMent from "./payment";
 import loadBlockPolicy from "../Policy";
 import loadSlideshowGallery from "./SlideshowGallery";
 import loadCommonTrait from "./common/trait";
+import loadBlockProductDetail from "./productDetail";
 
 export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
 
@@ -30,6 +31,7 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
     multicolumn: "Multicolumn",
     cart: "Cart",
     payment:"Payment",
+    product_detail: "Product Detail",
 
     //=======================|Block name|=======================
     label_product_list: "Product List",
@@ -80,6 +82,7 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
   loadBlockPayMent(editor,config);
   loadBlockPolicy(editor,config);
   loadSlideshowGallery(editor,config);
+  loadBlockProductDetail(editor,config);
   //Long ADD END
 }
 );

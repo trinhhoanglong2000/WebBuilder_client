@@ -6,7 +6,7 @@ export default function loadBlockPolicy(editor, opt = {}) {
       attributes: { class: "fa fa-picture-o" },
       category: "Other",
       content: {
-        type: "termsOfService",
+        type: "Terms Of Service",
         attributes: { name: "termsOfService" },
         content: `
           <div class="container">
@@ -155,7 +155,7 @@ export default function loadBlockPolicy(editor, opt = {}) {
       attributes: { class: "fa fa-picture-o" },
       category: "Other",
       content: {
-        type: "refundPolicy",
+        type: "Refund Policy",
         attributes: { name: "refundPolicy" },
         content: `
             <div class="container">
@@ -190,7 +190,7 @@ export default function loadBlockPolicy(editor, opt = {}) {
   }
 
 
-  dc.addType("termsOfService", {
+  dc.addType("Terms Of Service", {
     model: {
       defaults: {
         name: "Terms Of Service",
@@ -214,7 +214,7 @@ export default function loadBlockPolicy(editor, opt = {}) {
     },
   });
 
-  dc.addType("refundPolicy", {
+  dc.addType("Refund Policy", {
     model: {
       defaults: {
         name: "Refund Policy",

@@ -12,7 +12,7 @@ export default function loadImage(editor, opt = {}) {
     attributes: { class: "fa fa-picture-o" },
     category: "Media",
     content: {
-      type: "imageCustomType",
+      type: "Image Custom Type",
       components: [
         {
           tagName: "img",
@@ -212,7 +212,7 @@ export default function loadImage(editor, opt = {}) {
     }
   });
 
-  dc.addType("imageCustomType", {
+  dc.addType("Image Custom Type", {
     model: {
       defaults: {
         name: "image",

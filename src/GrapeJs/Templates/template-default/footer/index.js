@@ -34,7 +34,7 @@ export default function loadBlockFooter(editor, opt = {}) {
       category: "Footer",
       attributes: { class: "fa fa-footer" },
       content: {
-        type: "Footer",
+        type: "footer",
         components: [
           {
             tagName: "hr",
@@ -106,7 +106,7 @@ export default function loadBlockFooter(editor, opt = {}) {
   }
 
 
-  dc.addType('Footer', {
+  dc.addType('footer', {
     model: {
       defaults: {
         name: "Footer",

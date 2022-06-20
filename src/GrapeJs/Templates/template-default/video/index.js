@@ -10,7 +10,7 @@ export default function loadVideo(editor, opt = {}) {
         category: "Media",
         attributes: {class: "fa fa-youtube-play" },
         content: {
-            type: 'Video Custom Type',
+            type: 'videoCustomType',
             components: [
                 {
                     tagName: 'iframe',
@@ -155,7 +155,7 @@ export default function loadVideo(editor, opt = {}) {
         }
     });
 
-    dc.addType('Video Custom Type', {
+    dc.addType('videoCustomType', {
         model: {
             defaults: {
                 name: 'video',

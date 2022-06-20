@@ -6,7 +6,7 @@ export default function loadBlockPageNotFound(editor, opt = {}) {
       attributes: { class: "fa fa-picture-o" },
       category: "Other",
       content: {
-        type: "Page Not Found",
+        type: "pageNotFound",
         attributes: { name: "pageNotFound" },
         content: `
               <div class="container">
@@ -29,7 +29,7 @@ export default function loadBlockPageNotFound(editor, opt = {}) {
   }
 
 
-  domc.addType("Page Not Found", {
+  domc.addType("pageNotFound", {
     model: {
       defaults: {
         name: "Page Not Found",

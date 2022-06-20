@@ -25,7 +25,7 @@ export default function loadImageWithText(editor, opt = {}) {
         <div>Image With Text</div>`,
     category: "Image With Text",
     content: {
-      type: "Image With Text",
+      type: "imageWithText",
       components: [
         {
           tagName: "div",
@@ -885,7 +885,7 @@ export default function loadImageWithText(editor, opt = {}) {
     },
   });
 
-  dc.addType("Image With Text", {
+  dc.addType("imageWithText", {
     model: {
       defaults: {
         name: "Image With Text",

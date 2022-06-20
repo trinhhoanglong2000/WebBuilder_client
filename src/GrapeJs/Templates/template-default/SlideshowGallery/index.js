@@ -15,7 +15,7 @@ export default function loadSlideshowGallery(editor, opt = {}) {
     attributes: { class: "fa fa-picture-o" },
     category: "Media",
     content: {
-      type: "Slideshow Gallery",
+      type: "slideshowGallery",
       components: [
         {
           type: "defaultCustom",
@@ -356,7 +356,7 @@ export default function loadSlideshowGallery(editor, opt = {}) {
     }
   });
 
-  dc.addType("Slideshow Gallery", {
+  dc.addType("slideshowGallery", {
     model: {
       defaults: {
         name: "Slideshow Gallery",

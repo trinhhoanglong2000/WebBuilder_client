@@ -12,7 +12,7 @@ export default function loadContactForm(editor, opt = {}) {
         <div>Contact Form</div>
         `,
         content: {
-            type: "Contact Form",
+            type: "contactForm",
             attributes: { class: "container", name: "contactForm" },
             content: `
                 <h1 class="text-center">Contact form</h1>
@@ -40,7 +40,7 @@ export default function loadContactForm(editor, opt = {}) {
         }
     });
 
-    dc.addType("Contact Form", {
+    dc.addType("contactForm", {
         model: {
           defaults: {
             name: 'Contact Form',

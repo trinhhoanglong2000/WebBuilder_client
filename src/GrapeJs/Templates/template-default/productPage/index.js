@@ -14,7 +14,7 @@ export default function loadBlockProductPage(editor, opt = {}) {
 
       attributes: { class: "fa fa-header " },
       content: {
-        type: "ProductPage",
+        type: "collections",
         components: [
           {
             type: "ProductPage-text",

@@ -419,3 +419,28 @@ div#loadingDiv {
   background-color: #07c507;
   color: #07c507;
 }
+
+.gjs-trt-trait .image-gallery .trait-gallery-image {
+  position: relative;
+  width: 46%;
+  display: inline-block;
+  height: 70px;
+  margin: 2%;
+}
+
+.gjs-trt-trait .image-gallery .trait-gallery-image img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gjs-trt-trait .image-gallery .trait-gallery-image .btn-delete-image {
+  position: absolute; 
+  top: -3px; 
+  right: -3px;
+}
+
+.gjs-trt-trait .image-gallery .trait-gallery-image .btn-delete-image svg{
+  background-color: white;
+  border-radius: 10px;
+}

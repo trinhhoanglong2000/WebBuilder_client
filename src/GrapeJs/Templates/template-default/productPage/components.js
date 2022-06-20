@@ -59,19 +59,20 @@ export default function loadComponentsProductPage(editor, opt = {}) {
     },
 
   });
-  domc.addType("ProductPage", {
+  domc.addType("collections", {
     model: {
       defaults: {
         attributes: {
           class: "container",
           name: "products-section",
         },
-        name: "Product Section",
+        name: "Collections",
 //        draggable: ".main-content",
         copyable: false,
         removable: false,
         droppable: false,
         draggable: false,
+        layerable: false,
         traits: [
           {
             type: "product-heading", // Type of the trait

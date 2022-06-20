@@ -19,6 +19,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
         name: 'Multicolumn',
         droppable: false,
         copyable: false,
+        draggable: ".main-content",
         traits: [
           {
             label: "Align",
@@ -232,7 +233,6 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
     ${MULTICOLUMN_LABEL}
     <div>Multicolumn</div> `,
     category: c.multicolumn,
-    draggable: ".main-content",
     content: [
       {
         type: "multicolumn",

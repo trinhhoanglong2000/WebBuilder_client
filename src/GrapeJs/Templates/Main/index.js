@@ -43,8 +43,8 @@ export default function loadBlockMain(editor, opt = {}) {
     model: {
       defaults: {
         droppable: (target, destination) => {
-          const arr = ['carousel', 'Cart', 'contactForm', 'imageCustomType', 'imageWithText', 'multicolumn', 'Payment', 'product-list', 'ProductPage', 'RichText', 'videoCustomType', 'pageNotFound', 'termsOfService',
-            'refundPolicy', 'slideshowGallery', 'product-detail'
+          const arr = ['carousel', 'Cart', 'contact-Form', 'IMAGE', 'image-With-Text', 'multicolumn', 'Payment', 'product-list', 'collections', 'Rich-Text', 'videoCustomType', 'page-not-found', 'terms-of-service',
+            'refund-policy', 'slideshow-Gallery', 'product-detail'
           ]
           if (target == undefined) return false
           if (arr.includes(target.get('type'))) {

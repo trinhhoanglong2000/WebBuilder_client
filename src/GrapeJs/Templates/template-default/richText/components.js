@@ -108,7 +108,7 @@ export default function loadComponentsRichText(editor, opt = {}) {
       // This function run when component created - we setup listen to change atri
     },
   });
-  domc.addType("RichText", {
+  domc.addType("Rich-Text", {
 
     model: {
       defaults: {

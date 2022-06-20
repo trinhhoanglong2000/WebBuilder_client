@@ -6,19 +6,20 @@ export default function loadBlockPageNotFound(editor, opt = {}) {
       attributes: { class: "fa fa-picture-o" },
       category: "Other",
       content: {
-        type: "pageNotFound",
+        type: "page-not-found",
         attributes: { name: "pageNotFound" },
         content: `
               <div class="container">
                   <div class="row">
-                      <div class="col-8 d-flex align-items-center justify-content-center">
-                          <div>
+                      <div class="col-md-8 col-sm-12 order-2 order-sm-0 d-flex align-items-center justify-content-center">
+                          <div class="text-md-end text-center">
                               <h1> ERROR 404! </h1>
                               <h2> Sorry, page couldn't found... </h2>
                               <a href="#"> Back home </a>
                           </div>
                       </div>
-                      <div class="col error-img"  style="background: url('../FNP.png'); background-repeat: no-repeat; background-position: center">
+                      <div class="col-md-4 col-sm-12 error-img order-1 text-md-start text-center">
+                        <img src="../FNP.png"></img>
                       </div>
                   </div>
               </div>
@@ -28,13 +29,13 @@ export default function loadBlockPageNotFound(editor, opt = {}) {
   }
 
 
-  domc.addType("pageNotFound", {
+  domc.addType("page-not-found", {
     model: {
       defaults: {
         name: "Page Not Found",
         removable: false,
-        // draggable: ".main-content",
-        draggable: false,
+          draggable: ".main-content",
+        // draggable: false,
         droppable: false,
         highlightable: false,
         copyable: false,

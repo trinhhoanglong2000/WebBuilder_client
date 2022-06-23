@@ -14,9 +14,76 @@ export default function loadBlockProductDetail(editor, opt = {}) {
     loadTraiProductDetail(editor, opt);
 
     const defaultData = {
-        
-    }
 
+    }
+    function insertProductData(rootEle, data) {
+        window.localStorage.setItem('productData', data);
+        let productData = data.product[0];
+        let imageArr = productData.images ? productData.images : [];
+        let options = productData.is_variant ? data.option : [];
+        console.log(data)
+        console.log(productData)
+
+        // For render image
+        $(rootEle).find(".ezMall-header").html(productData.title)
+        $(rootEle).find(".ezMall-type-value").html(productData.type)
+        $(rootEle).find(".ezMall-status-value").html(productData.status)
+        $(rootEle).find(".ezMall-description").html(productData.description)
+        $(rootEle).find(".ezMall-price .price").html(productData.price)
+        $(rootEle).find(".ezMall-price .currency").html(productData.currency)
+        $(rootEle).find(".ezMall-stick-slide").html("")
+        let thumbnailImage = $(rootEle).find(".img-thumbnail")[0];
+        thumbnailImage.src = imageArr[0];
+        let imagesContainerEle = $(rootEle).find(".ezMall-stick-slide")[0];
+        imageArr.forEach((item, index) => {
+            let imageItem = `
+            <button id="img-${index}" class="" onclick="changeThumnail('img-${index}')">  
+                <img src="${item}" class="rounded px-1" alt="${item}" style="width:100%" >
+            </button>
+            `
+            imagesContainerEle.insertAdjacentHTML("beforeend", imageItem);
+        });
+        $(imagesContainerEle).not('.slick-initialized').slick({
+            slidesToShow: 4,
+            slidesToScroll: 4,
+        });
+        //For render options 
+        let optionsContainerEle = $(rootEle).find(".ezMall-options-container")[0];
+        $(optionsContainerEle).html("");
+
+        options.forEach(item => {
+            let variantName = item.name
+            let optionContainerHtml =
+                `
+             <div id="${variantName}" class= "px-3">
+                <h5 class= "fw-bold py-2">
+                ${variantName}
+                </h5>
+                <div class ="ezMall-option-container d-flex flex-wrap"
+                </div>
+            </div> 
+                                   
+            `
+            optionsContainerEle.insertAdjacentHTML("beforeend", optionContainerHtml);
+            debugger
+            let optionContainer = $(rootEle).find(`#${variantName} .ezMall-option-container `)[0];
+            let arrayVariant = item.value ? item.value : [];
+            arrayVariant.forEach((variantOptionItem) => {
+                let variantOptionHtml =
+                    `
+                <div class="form-check px-1">
+                    <input class="form-check-input d-none" type="radio" name="${variantName}" id="${variantOptionItem.id}" value="${variantOptionItem.id}" 
+                    onchange="VariantCheck('${variantOptionItem.id}','${variantOptionItem.id}','${variantOptionItem.id}');">
+                    <label class="btn form-check" for=${variantOptionItem.id}>
+                    ${variantOptionItem.value}
+                    </label>
+                </div>
+                `
+                optionContainer.insertAdjacentHTML("beforeend", variantOptionHtml);
+            })
+        });
+
+    }
 
     domc.addType("product-detail", {
         model: {
@@ -69,19 +136,20 @@ export default function loadBlockProductDetail(editor, opt = {}) {
 
             },
             async Update() {
-                $(this.el).find('.ezMall-stick-slide').slick({
-                    slidesToShow: 4,
-                    slidesToScroll: 4,
-                });
+
                 await fetch(`${process.env.REACT_APP_API_URL}products/3aaa41b0-17b1-43e7-bf1d-63fd027ada72`
-                , {
-                  mode: 'cors',
-                  headers: {
-                    'Access-Control-Allow-Origin': '*'
-                  }
-                }).then(res => res.json()).then(data => console.log(data))
+                    , {
+                        mode: 'cors',
+                        headers: {
+                            'Access-Control-Allow-Origin': '*'
+                        }
+                    }).then(res => res.json()).then(res => {
+                        if (res.message = "Get product successfully!") {
+                            insertProductData(this.el, res.data);
+                        } else {
 
-
+                        }
+                    })
 
             },
         },
@@ -144,106 +212,65 @@ export default function loadBlockProductDetail(editor, opt = {}) {
                         `
                     <div class="container bg-light">
                     <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 p-0 pt-3">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 p-0 pt-3 ezMall-image-container">
                             <div style="width: 100%;" class="d-flex justify-content-center">
                                 <img class="main-img img-thumbnail"
                                     src="https://ananas.vn/wp-content/uploads/stu_basas_A61015_3.jpg"
                                     style="width:100%; max-width: 640px;">
                             </div>
-            
                             <div class="ezMall-stick-slide ">
-                                <div class="">
-                                    <img src="https://ananas.vn/wp-content/uploads/stu_basas_A61015_3.jpg" class="rounded px-1"
-                                        alt="..." style="width:100%">
-                                </div>
-                                <div class="">
-                                    <img src="https://ananas.vn/wp-content/uploads/stu_basas_A61015_3.jpg" class="rounded px-1"
-                                        alt="..." style="width:100%">
-                                </div>
-                                <div class="">
-                                    <img src="https://ananas.vn/wp-content/uploads/stu_basas_A61015_3.jpg" class="rounded px-1"
-                                        alt="..." style="width:100%">
-                                </div>
-                                <div class="">
-                                    <img src="https://ananas.vn/wp-content/uploads/stu_basas_A61015_3.jpg" class="rounded px-1"
-                                        alt="..." style="width:100%">
-                                </div>
-                                <div class="">
-                                    <img src="https://ananas.vn/wp-content/uploads/stu_basas_A61015_3.jpg" class="rounded px-1"
-                                        alt="..." style="width:100%">
-                                </div>
-                                <div class="">
-                                    <img src="https://ananas.vn/wp-content/uploads/stu_basas_A61015_3.jpg" class="rounded px-1"
-                                        alt="..." style="width:100%">
-                                </div>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 pt-3">
-                            <div class="row ezMall-header text px-3">
-                                <h3 class="fw-bold">
-                                    BASAS NEW FAMILIAR - LOW TOP - LIGHT GREY
+                            <div class="row text px-3">
+                                <h3 class="fw-bold ezMall-header">
                                 </h3>
                             </div>
-                            <div class="d-flex ezMall-product-status justify-content-between px-3">
-                                <div class="d-flex">
-                                    <div class="fw-bold">Mã sản phẩm:</div>
-                                    <div class="px-2">A61015</div>
+                            <div class="d-flex justify-content-between px-3">
+                                <div class="d-flex  ezMall-type-container">
+                                    <div class="fw-bold">Loại sản phẩm:</div>
+                                    <div class="px-2 ezMall-type-value">A61015</div>
                                 </div>
-                                <div class="d-flex">
+                                <div class="d-flex ezMall-status-container">
                                     <div class="fw-bold">Tình trạng:</div>
-                                    <div class="px-2">Online</div>
+                                    <div class="px-2  ezMall-status-value">Online</div>
                                 </div>
                             </div>
             
                             <div class="row ezMall-price px-3 py-3">
                                 <h4 class="fw-bolder" style="color: #f15e2c;">
-                                    420.000VND
+                                    <span class="price">  </span> <span class="currency">  </span>
                                 </h4>
                             </div>
             
                             <div class="ezMall-description  px-3">
-                                Mang ý nghĩa là một “người bạn thân” có thể đồng hành cùng bạn trên khắp các nẻo đường,“The
-                                Familiar”
-                                không mang đến những sản phẩm cầu kì phức tạp hay đủ phá cách để bạn phấn khích và mang khoe nó với
-                                nhiều người. Nó chỉ đơn giản là mang đến cho bạn một sự lựa chọn an toàn, đa-zi-năng cho một ngày
-                                học
-                                tập, làm việc, vui chơi bình dị.
                             </div>
+        
             
-                            <div class="ezMall-variant-option-1 d-flex px-3 pt-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="variant" id="flexRadioDefault1">
-                                    <label class="bg-primary mx-1 form-check" style="width: 30px; height: 30px;"
-                                        for="flexRadioDefault1">
-                                    </label>
-                                </div>
-                                <div class="form-check px-5">
-                                    <input class="form-check-input" type="radio" name="variant" id="flexRadioDefault2">
-                                    <label class="bg-danger mx-1 form-check" style="width: 30px; height: 30px;"
-                                        for="flexRadioDefault2">
-                                    </label>
-                                </div>
-                            </div>
-            
-                            <div class="ezMall-variant-option-2 d-flex justify-content-between px-3 pt-3">
-            
-                                <div class="fw-bold d-flex flex-column" style="width: 40%;">
-                                    SIZE
-                                    <div class="btn-group pt-2" style="min-width: 100%; width: 100%;">
-                                        <select class="form-select" aria-label="Default select example">
-                                            <option selected>Size</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                        </select>
+                            <div class = "ezMall-options-container">
+                                <div id="ezMall-variant-option-1" class= "px-3">
+                                    <h5 class= "fw-bold py-2">
+                                        SIZE
+                                    </h5>
+                                    <div class ="ezMall-option-container d-flex flex-wrap">
+                                        <div class="form-check px-1">
+                                            <input class="form-check-input d-none" type="radio" name="variant" id="flexRadioDefault1" value = "">
+                                            <label class="btn form-check" for="flexRadioDefault1">
+                                            variant 1
+                                            </label>
+                                        </div>
                                     </div>
-                                </div>
+                                </div> 
+                            </div>
+
+                            <div class="ezMall-variant-option-1 d-flex justify-content-between px-3 pt-3">
                                 <div class="fw-bold pt-2" style="width: 40%;">
                                     SỐ LƯỢNG
                                     <input type="number" min="0" id="val-1" class="form-control ezMall-item-quantity " value="2"
                                         style="min-width: 100%; width: 100%;">
                                 </div>
                             </div>
+                            
             
                             <div class="px-3 py-3 pt-5">
                                 <div class="btn btn-lg btn-dark fw-bold py-3 " style="width: 100%">

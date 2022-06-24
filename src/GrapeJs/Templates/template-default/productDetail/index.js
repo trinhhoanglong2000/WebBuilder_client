@@ -25,15 +25,18 @@ export default function loadBlockProductDetail(editor, opt = {}) {
         console.log(productData)
 
         // For render image
+        $(rootEle).find(`.ezMall-price .price`).html(productData.price);
+        $(rootEle).find(`.ezMall-quantity-remain`).html(productData.inventory);
+        $(rootEle).find(`ezMall-quantity-input`).prop("max",productData.inventory);
         $(rootEle).find(".ezMall-header").html(productData.title)
         $(rootEle).find(".ezMall-type-value").html(productData.type)
         $(rootEle).find(".ezMall-status-value").html(productData.status)
         $(rootEle).find(".ezMall-description").html(productData.description)
-        $(rootEle).find(".ezMall-price .price").html(productData.is_variant ? data.variant[0].price : productData.price )
+        $(rootEle).find(".ezMall-price .price").html(productData.price )
         $(rootEle).find(".ezMall-price .currency").html(productData.currency)
         $(rootEle).find(".ezMall-stick-slide").html("")
         let thumbnailImage = $(rootEle).find(".img-thumbnail")[0];
-        thumbnailImage.src = imageArr[0];
+        $(thumbnailImage).prop("src",imageArr[0]) ;
         let imagesContainerEle = $(rootEle).find(".ezMall-stick-slide")[0];
         imageArr.forEach((item, index) => {
             let imageItem = `
@@ -56,9 +59,11 @@ export default function loadBlockProductDetail(editor, opt = {}) {
             let optionContainerHtml =
                 `
              <div id=${item.id} class= "px-3">
-                <h5 class= "fw-bold py-2">
-                ${variantName}
-                </h5>
+                <div class = "d-flex">  
+                    <h5 class= "fw-bold py-2">
+                    ${variantName}
+                    </h5>
+                </div>
                 <div class ="ezMall-option-container d-flex flex-wrap"
                 </div>
             </div> 
@@ -248,38 +253,34 @@ export default function loadBlockProductDetail(editor, opt = {}) {
         
             
                             <div class = "ezMall-options-container">
-                                <div id="ezMall-variant-option-1" class= "px-3">
-                                    <h5 class= "fw-bold py-2">
-                                        SIZE
-                                    </h5>
-                                    <div class ="ezMall-option-container d-flex flex-wrap">
-                                        <div class="form-check px-1">
-                                            <input class="form-check-input d-none" type="radio" name="variant" id="flexRadioDefault1" value = "">
-                                            <label class="btn form-check" for="flexRadioDefault1">
-                                            variant 1
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div> 
                             </div>
 
-                            <div class="ezMall-variant-option-1 d-flex justify-content-between px-3 pt-3">
-                                <div class="fw-bold pt-2" style="width: 40%;">
-                                    SỐ LƯỢNG
-                                    <input type="number" min="0" id="val-1" class="form-control ezMall-item-quantity " value="2"
-                                        style="min-width: 100%; width: 100%;">
+                            <div class="ezMall-quantity d-flex justify-content-between px-3 pt-3">
+                                <div class="pt-2" >
+                                    <div class="d-flex">
+                                        <h5 class="fw-bolder py-3 m-0">SỐ LƯỢNG</h5>
+                                        <i class="col px-1 d-flex align-items-center justify-content-center"> (<span class="ezMall-quantity-remain"> </span> <p class="px-1 m-0"> sản phẩm còn lại</p>)</i>
+                                    </div> 
+                                    <div class="d-flex fw-bold" style="height:40px; width:252px">                                    
+                                        <input type="number" min="0" id="val-1" class="col form-control ezMall-quantity-input " value="2" >
+                                    </div>
                                 </div>
                             </div>
                             
-            
-                            <div class="px-3 py-3 pt-5">
-                                <div class="btn btn-lg btn-dark fw-bold py-3 " style="width: 100%">
-                                    THÊM VÀO GIỎ HÀNG
+                            <div class="px-3 py-3">
+                                <div class="ezMall-alert " style="display:none">
+                                    <div class="d-flex text-danger fw-bolder align-items-center justify-content-center">
+                                        <p class=" ezMall-alert-text-config">Vui lòng chọn</p>
+                                        <p class="col ezMall-alert-text-option px-1"> á á</p>
+                                    </div> 
                                 </div>
+                                <button class="btn btn-lg btn-dark fw-bold py-3 ezMall-add-to-cart" style="width: 100%" onclick = "addToCart();">
+                                    THÊM VÀO GIỎ HÀNG
+                                </button>
                             </div>
             
                             <div class="px-3 py-3">
-                                <div class="btn btn-lg btn-danger fw-bold py-3" style="width: 100%">
+                                <div class="btn btn-lg btn-danger fw-bold py-3 ezMall-buys" style="width: 100%" onclick = "buyNow()">
                                     MUA HÀNG
                                 </div>
                             </div>

@@ -17,7 +17,7 @@ export default function loadBlockProductDetail(editor, opt = {}) {
 
     }
     function insertProductData(rootEle, data) {
-        window.localStorage.setItem('productData', data);
+        window.localStorage.setItem('productData', JSON.stringify(data));
         let productData = data.product[0];
         let imageArr = productData.images ? productData.images : [];
         let options = productData.is_variant ? data.option : [];
@@ -29,7 +29,7 @@ export default function loadBlockProductDetail(editor, opt = {}) {
         $(rootEle).find(".ezMall-type-value").html(productData.type)
         $(rootEle).find(".ezMall-status-value").html(productData.status)
         $(rootEle).find(".ezMall-description").html(productData.description)
-        $(rootEle).find(".ezMall-price .price").html(productData.price)
+        $(rootEle).find(".ezMall-price .price").html(productData.is_variant ? data.variant[0].price : productData.price )
         $(rootEle).find(".ezMall-price .currency").html(productData.currency)
         $(rootEle).find(".ezMall-stick-slide").html("")
         let thumbnailImage = $(rootEle).find(".img-thumbnail")[0];
@@ -55,7 +55,7 @@ export default function loadBlockProductDetail(editor, opt = {}) {
             let variantName = item.name
             let optionContainerHtml =
                 `
-             <div id="${variantName}" class= "px-3">
+             <div id=${item.id} class= "px-3">
                 <h5 class= "fw-bold py-2">
                 ${variantName}
                 </h5>
@@ -65,15 +65,15 @@ export default function loadBlockProductDetail(editor, opt = {}) {
                                    
             `
             optionsContainerEle.insertAdjacentHTML("beforeend", optionContainerHtml);
-            debugger
-            let optionContainer = $(rootEle).find(`#${variantName} .ezMall-option-container `)[0];
+            
+            let optionContainer = $(rootEle).find(`#${item.id} .ezMall-option-container `)[0];
             let arrayVariant = item.value ? item.value : [];
-            arrayVariant.forEach((variantOptionItem) => {
+            arrayVariant.forEach((variantOptionItem,index) => {
                 let variantOptionHtml =
                     `
                 <div class="form-check px-1">
                     <input class="form-check-input d-none" type="radio" name="${variantName}" id="${variantOptionItem.id}" value="${variantOptionItem.id}" 
-                    onchange="VariantCheck('${variantOptionItem.id}','${variantOptionItem.id}','${variantOptionItem.id}');">
+                    onchange="VariantCheck('${item.id}','${variantOptionItem.id}');">
                     <label class="btn form-check" for=${variantOptionItem.id}>
                     ${variantOptionItem.value}
                     </label>
@@ -137,7 +137,7 @@ export default function loadBlockProductDetail(editor, opt = {}) {
             },
             async Update() {
 
-                await fetch(`${process.env.REACT_APP_API_URL}products/3aaa41b0-17b1-43e7-bf1d-63fd027ada72`
+                await fetch(`${process.env.REACT_APP_API_URL}products/9ecd724b-6041-4a5e-b2c1-e98ed37628de`
                     , {
                         mode: 'cors',
                         headers: {

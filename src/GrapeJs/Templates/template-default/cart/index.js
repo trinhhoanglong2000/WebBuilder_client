@@ -7,40 +7,10 @@ export default function loadBlockCart(editor, opt = {}) {
     const domc = editor.DomComponents;
     const defaultType = domc.getType("default");
 
-    const defaultData = [
-        {
-            image: "https://dummyimage.com/150x150/000/fff",
-            name: "Vans old school",
-            description: "Give customers details about the banner image(s) or content on the template.",
-            price: 300,
-            quantity: 2,
-            productVariantId: "1",
-            productVariantName: "Size 43"
-        },
-        {
-            image: "https://dummyimage.com/150x150/000/fff",
-            name: "Converse Chuck",
-            description: "Give customers details about the banner image(s) or content on the template.",
-            price: 200,
-            quantity: 1,
-            productVariantId: "2",
-            productVariantName: "Size 42"
-        },
-        {
-            image: "https://dummyimage.com/150x150/000/fff",
-            name: "Image banner 3",
-            description: "Give customers details about the banner image(s) or content on the template.",
-            price: 100,
-            quantity: 1,
-            productVariantId: "3",
-            productVariantName: "Size 40"
-        }
-    ]
     function calculateTotal(tableBody, tableHead, ezMallSumary, rootEle) {
-
         let totalCost = 0;
         let items = $(tableBody).find(".ezMall-cart-item ");
-        let checkedInput = $(tableBody).find(".ezMall-cart-item .ezMall-cart-item-check:checked ")
+        let checkedInput = $(tableBody).find(".ezMall-cart-item .ezMall-cart-item-check:checked")
         if (items.length == 0) {
             $(rootEle).find("#ezMall-cart-zero-item").show().addClass("d-flex");
             $(rootEle).find("table").hide();
@@ -66,9 +36,10 @@ export default function loadBlockCart(editor, opt = {}) {
             }
         }
         $(ezMallSumary).find(".ezMallSumary-total-cost").html(totalCost);
+       
     }
     function insertData(data, tableHead, tableBody, ezMallSumary, rootEle) {
-
+      
         $(ezMallSumary).find("#ezMall-cart-sumary-unchecked-all").click(() => {
             let checkedInput = $(tableBody).find(".ezMall-cart-item .ezMall-cart-item-check:checked ")
             for (let i = 0; i < checkedInput.length; i++) {
@@ -78,6 +49,7 @@ export default function loadBlockCart(editor, opt = {}) {
         })
 
         $(tableHead).find(".ezMall-head-remove-all-items").click(() => {
+            window.localStorage.setItem('cart', JSON.stringify([]));
             $(tableBody).html("")
             $(tableHead).find("#cart-select-all-product").prop('checked', false);
             calculateTotal(tableBody, tableHead, ezMallSumary, rootEle);
@@ -95,24 +67,25 @@ export default function loadBlockCart(editor, opt = {}) {
         data.forEach(element => {
             let totalPrice = (Number)(element.quantity) * (Number)(element.price)
             totalCostInit += totalPrice;
+            let id = element.is_variant?  element.variant_id : element.id;
             const rowHtml =
                 `
-            <tr id  = ${element.productVariantId} class= "ezMall-cart-item" >
+            <tr id  = ${id} class= "ezMall-cart-item" >
                 <th class="name">
                     <div class="form-check">
                         <div class="row">
                             <div class="col-auto d-flex align-items-center">
-                                <input class="form-check-input ezMall-cart-item-check" type="checkbox" id=${"check-" + element.productVariantId} name=${"check-" + element.productVariantId} value="">
+                                <input class="form-check-input ezMall-cart-item-check" type="checkbox" id=${"check-" + id} name=${"check-" + id} value="">
                             </div>
                             <div class="col-md-11 col-8">
                                 <div class="row">
                                     <div class="col-xl-4 row d-flex justify-content-center">
-                                        <img src=${element.image} alt="Image"
-                                            style="width: 100px;">
+                                        <img src=${element.thumnail} alt="Image"
+                                            style="height: 150px;width: auto;">
                                     </div>
                                     <div class="col-xl-8 row d-flex flex-column justify-content-center">
-                                        <div class="p-0 justify-content-center text-center my-3"> ${element.name}</div>
-                                        <div class="p-0 justify-content-center text-center"> ${element.description}</div>
+                                        <div class="p-0 justify-content-center text-center my-3"> ${element.product_name} ${element.is_variant? ` - ${element.variant_name}`: ""} </div>
+                                        <div class="p-0 justify-content-center text-center eZmall-for-des"></div>
                                     </div>
                                 </div>
                             </div>
@@ -120,26 +93,25 @@ export default function loadBlockCart(editor, opt = {}) {
                     </div>
                 </th>
                 <td class="price">
-                    <div class=" d-flex justify-content-center align-items-center " style="height:100px">
+                    <div class=" d-flex justify-content-center align-items-center " style="height:150px">
                     <div class="ezMall-item-price px-1"> ${element.price} </div>    
                     <div class= "ezMall-item-price-type">
-                        USD
+                    ${element.currency}
                     </div>
                     
                 </td>
                 <td class="quantity">
-                    <div class=" d-flex justify-content-center align-items-center" style="height:100px">
-                        <input type="number" min="0" id=${"val-" + element.productVariantId} class="form-control ezMall-item-quantity" value=${element.quantity}
+                    <div class=" d-flex justify-content-center align-items-center" style="height:150px">
+                        <input type="number" min="0" id=${"val-" + id} class="form-control ezMall-item-quantity" value=${element.quantity}
                             style="min-width: 70px; width: 70px;" />
 
                     </div>
                 </td>
                 <td class="ezMall-item-total justify-content-center align-items-center">
-                    <div class="d-flex justify-content-center align-items-center" style="height:100px">${totalPrice} USD</div>
-                    
+                    <div class="d-flex justify-content-center align-items-center" style="height:150px">${totalPrice} ${element.currency}</div>
                 </td>
                 <th scope="col">
-                    <div class="d-flex justify-content-center align-items-center" style="height:100px">
+                    <div class="d-flex justify-content-center align-items-center" style="height:150px">
                         <button type="button"  class="ezMall-cart-item-delete btn fa fa-trash" data-toggle="button" aria-pressed="false"
                             autocomplete="off" style="height: 29px;padding: 0px 10px;">
                         </button>
@@ -150,28 +122,68 @@ export default function loadBlockCart(editor, opt = {}) {
             `
 
             tableBody.insertAdjacentHTML("beforeend", rowHtml);
-
-
-            $(tableBody).find(`#${element.productVariantId} button.ezMall-cart-item-delete`).click(() => {
-                let itemRemove = $(tableBody).find(`#${element.productVariantId}`)
+            $(tableBody).find(`#${id} button.ezMall-cart-item-delete`).click(() => {
+                let cart = JSON.parse(localStorage.getItem('cart'));
+                let indexInArr =cart.findIndex((item) =>{
+                    if(element.is_variant){
+                       if(item.variant_id == id ){
+                        return true;
+                       } 
+                    }else{
+                        if(item.id == id){
+                            return true
+                        }
+                    }
+                    return false;
+                })
+                let itemRemove = $(tableBody).find(`#${id}`)
                 $(itemRemove).fadeOut(200).remove();
                 let totalCost = 0;
                 let items = $(tableBody).find(".ezMall-cart-item ");
                 calculateTotal(tableBody, tableHead, ezMallSumary, rootEle)
+                cart = cart.splice(indexInArr,1);
+                window.localStorage.setItem('cart', JSON.stringify(cart));
             })
 
-            $(tableBody).find(`#${element.productVariantId} input.ezMall-item-quantity`).change(() => {
-                let currentQuantity = $(tableBody).find(`input#val-${element.productVariantId}`).val()
-                $(tableBody).find(`#${element.productVariantId} .ezMall-item-total div`).html((Number)(element.price) * currentQuantity + " USD")
+            $(tableBody).find(`#${id} input.ezMall-item-quantity`).change(() => {
+                let cart = JSON.parse(localStorage.getItem('cart'));
+                let indexInArr =cart.findIndex((item) =>{
+                    if(element.is_variant){
+                       if(item.variant_id == id ){
+                        return true;
+                       } 
+                    }else{
+                        if(item.id == id){
+                            return true
+                        }
+                    }
+                    return false;
+                })
+                let currentQuantity = $(tableBody).find(`input#val-${id}`).val()
+                $(tableBody).find(`#${id} .ezMall-item-total div`).html((Number)(element.price) * currentQuantity + ` ${element.currency}`)
                 let items = $(tableBody).find(".ezMall-cart-item ");
                 let totalCost = 0;
                 calculateTotal(tableBody, tableHead, ezMallSumary, rootEle)
+                cart[indexInArr].quantity = currentQuantity;
+                window.localStorage.setItem('cart', JSON.stringify(cart));
             });
 
-            $(tableBody).find(`#${element.productVariantId} input.ezMall-cart-item-check`).change(() => {
+            $(tableBody).find(`#${id} input.ezMall-cart-item-check`).change(() => {
                 calculateTotal(tableBody, tableHead, ezMallSumary, rootEle)
             });
         });
+        let items =  $(tableBody).find(".ezMall-cart-item ");
+        if (items.length == 0) {
+            $(rootEle).find("#ezMall-cart-zero-item").show().addClass("d-flex");
+            $(rootEle).find("table").hide();
+            $(ezMallSumary).hide();
+            $(tableHead).find("#cart-select-all-product").prop("checked", false)
+        }
+        else {
+            $(rootEle).find("#ezMall-cart-zero-item").hide().removeClass("d-flex");
+            $(rootEle).find("table").show();
+            $(ezMallSumary).show();
+        }
     }
     //THIS IS SETTING COMPONENT
 
@@ -237,11 +249,8 @@ export default function loadBlockCart(editor, opt = {}) {
                 let tableHead = $(this.el).find(`table thead`)[0];
                 let tableBody = $(this.el).find(`table tbody`)[0];
                 let ezMallSumary = $(this.el).find(`.ezMallSumary`)[0];
-
-                insertData(defaultData, tableHead, tableBody, ezMallSumary, rootEle)
-
-
-
+                let cart = JSON.parse(localStorage.getItem('cart'));
+                insertData(cart, tableHead, tableBody, ezMallSumary, rootEle)
             },
             init() {
                 this.listenTo(this.model, 'change:attributes:data', this.Update)
@@ -321,7 +330,7 @@ export default function loadBlockCart(editor, opt = {}) {
                             <table class="table ezMallCart">
                                 <thead>
                                     <tr>
-                                        <th scope="col">
+                                        <th scope="col" style="width: 60%">
                                             <div class="form-check">
                                                 <div class="row">
                                                     <div class="col-auto d-flex align-items-center">
@@ -367,11 +376,11 @@ export default function loadBlockCart(editor, opt = {}) {
                                     Tổng: 
                                     <span class="ezMallSumary-total-cost px-2"> 0</span>
                                     <div class= "ezMall-item-price-type">
-                                        USD
+                                        VND
                                     </div>
                                 </div>
                                 <div class="col-4  d-flex align-items-center justify-content-end ">
-                                    <button type="button" class="btn btn-warning btn-lg text-light font-weight-bold">Thanh toán</button>
+                                    <button type="button" class="btn btn-warning btn-lg text-light font-weight-bold" onClick=payMent()>Thanh toán</button>
                                 </div>
                             </div>
                             <hr>

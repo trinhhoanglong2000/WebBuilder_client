@@ -107,15 +107,24 @@ export default function loadBlockProducts(editor, opt = {}) {
                         $(this.el)
                             .find(".thumb-wrapper")
                             .each(function (index) {
+                                let currency = ' $'
+                                if (products_data[index % products_data.length].currency === "VND"){
+                                  currency = ' VND'
+                                }
+                                else if (products_data[index % products_data.length].currency === "USD"){
+                                  currency = ' $'
+                                }
+                                const price = products_data[index % products_data.length].currency ? Number(products_data[index % products_data.length].price).toLocaleString(`${products_data[index % products_data.length].currency}`) + currency: 
+                                products_data[index % products_data.length].price
                                 $(this)
                                     .find("h4")
                                     .text(products_data[index % products_data.length].title);
                                 $(this)
                                     .find(".item-price strike")
-                                    .text(products_data[index % products_data.length].price);
+                                    .text(price);
                                 $(this)
                                     .find(".item-price span")
-                                    .text(products_data[index % products_data.length].price);
+                                    .text(price);
                                 $(this)
                                     .find("img")
                                     .attr(

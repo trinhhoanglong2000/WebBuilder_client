@@ -90,7 +90,7 @@ export default function loadBlockProducts(editor, opt = {}) {
                 let products_data_default = [
                     {
                         title: "Product Title",
-                        price: "$100.00",
+                        price: 100.00,
                         thumbnail: "https://dummyimage.com/600x400/55595c/fff",
                     },
                 ];
@@ -122,6 +122,14 @@ export default function loadBlockProducts(editor, opt = {}) {
                                         "src",
                                         products_data[index % products_data.length].thumbnail
                                     );
+                                if (products_data[index % products_data.length].id) {
+                                    $(this)
+                                        .find(".thumb-content a").attr("href", `/products?id=${products_data[index % products_data.length].id}`)
+                                } else {
+
+                                    $(this)
+                                        .find(".thumb-content a").attr("href", `#`)
+                                }
                             });
                     });
             },
@@ -172,7 +180,7 @@ export default function loadBlockProducts(editor, opt = {}) {
                                                     <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
                                                 </ul>
                                             </div>
-                                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                                            <a href="#" class="btn btn-primary">Detail</a>
                                         </div>
                                     </div>
                                 </div>
@@ -194,7 +202,7 @@ export default function loadBlockProducts(editor, opt = {}) {
                                                     <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
                                                 </ul>
                                             </div>
-                                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                                            <a href="#" class="btn btn-primary">Detail</a>
                                         </div>
                                     </div>
                                 </div>
@@ -216,7 +224,7 @@ export default function loadBlockProducts(editor, opt = {}) {
                                                     <li class="list-inline-item"><i class="fa fa-star-half-o"></i></li>
                                                 </ul>
                                             </div>
-                                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                                            <a href="#" class="btn btn-primary">Detail</a>
                                         </div>
                                     </div>
                                 </div>
@@ -238,7 +246,7 @@ export default function loadBlockProducts(editor, opt = {}) {
                                                     <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
                                                 </ul>
                                             </div>
-                                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                                            <a href="#" class="btn btn-primary">Detail</a>
                                         </div>
                                     </div>
                                 </div>
@@ -264,7 +272,7 @@ export default function loadBlockProducts(editor, opt = {}) {
                                                     <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
                                                 </ul>
                                             </div>
-                                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                                            <a href="#" class="btn btn-primary">Detail</a>
                                         </div>
                                     </div>
                                 </div>
@@ -286,7 +294,7 @@ export default function loadBlockProducts(editor, opt = {}) {
                                                     <li class="list-inline-item"><i class="fa fa-star-half-o"></i></li>
                                                 </ul>
                                             </div>
-                                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                                            <a href="#" class="btn btn-primary">Detail</a>
                                         </div>
                                     </div>
                                 </div>
@@ -308,7 +316,7 @@ export default function loadBlockProducts(editor, opt = {}) {
                                                     <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
                                                 </ul>
                                             </div>
-                                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                                            <a href="#" class="btn btn-primary">Detail</a>
                                         </div>
                                     </div>
                                 </div>
@@ -330,7 +338,7 @@ export default function loadBlockProducts(editor, opt = {}) {
                                                     <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
                                                 </ul>
                                             </div>
-                                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                                            <a href="#" class="btn btn-primary">Detail</a>
                                         </div>
                                     </div>
                                 </div>
@@ -356,7 +364,7 @@ export default function loadBlockProducts(editor, opt = {}) {
                                                     <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
                                                 </ul>
                                             </div>
-                                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                                            <a href="#" class="btn btn-primary">Detail</a>
                                         </div>
                                     </div>
                                 </div>
@@ -378,7 +386,7 @@ export default function loadBlockProducts(editor, opt = {}) {
                                                     <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
                                                 </ul>
                                             </div>
-                                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                                            <a href="#" class="btn btn-primary">Detail</a>
                                         </div>
                                     </div>
                                 </div>
@@ -400,7 +408,7 @@ export default function loadBlockProducts(editor, opt = {}) {
                                                     <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
                                                 </ul>
                                             </div>
-                                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                                            <a href="#" class="btn btn-primary">Detail</a>
                                         </div>
                                     </div>
                                 </div>
@@ -422,7 +430,7 @@ export default function loadBlockProducts(editor, opt = {}) {
                                                     <li class="list-inline-item"><i class="fa fa-star-o"></i></li>
                                                 </ul>
                                             </div>
-                                            <a href="#" class="btn btn-primary">Add to Cart</a>
+                                            <a href="#" class="btn btn-primary">Detail</a>
                                         </div>
                                     </div>
                                 </div>

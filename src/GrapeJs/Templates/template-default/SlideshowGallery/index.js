@@ -272,6 +272,26 @@ export default function loadSlideshowGallery(editor, opt = {}) {
                   const index = $(this).parent().closest('div').index();
                   const rowImage = trait.target.get("components").models[1].get("components").models[3]
 
+                  if ($(this).parent().parent().children().length <= 1) {
+                    Swal.fire({
+                      icon: 'info',
+                      title: 'Minimun Image',
+                      text: 'Your gallery has minimun image!',
+                    })
+                    return;
+                  }
+
+                  if ($(trait.target.view.el).find('img.option-image').eq(index)) {
+                    const slideImg = $(trait.target.get("components").models[1].view.el).find('.mySlides img');
+                    if (index == 0) {
+                      slideImg.attr('src', $(el).find('.trait-gallery-image img').eq(1).attr('src'))
+                      $(trait.target.view.el).find('img.option-image').eq(1).addClass('active');
+                    } else {
+                      slideImg.attr('src', $(el).find('.trait-gallery-image img').eq(0).attr('src'))
+                      $(trait.target.view.el).find('img.option-image').eq(0).addClass('active');
+                    }
+                  }
+                  
                   $(el).find('.image-gallery').children().eq(index).remove();
                   for (let i = index; i < 6; i++)  {
                     const cur = rowImage.get("components").models[i];
@@ -292,15 +312,6 @@ export default function loadSlideshowGallery(editor, opt = {}) {
                   }
                 });
               }
-              // logoImage.removeClass('d-none')
-
-              // if (!logoBrand.getClasses()?.includes('d-none')) {
-              //   logoBrand.addClass('d-none')
-              // }
-
-              // if (!c.validURL(asset.getSrc())) {
-              //   c.addTarget64Image({ id: asset.cid, target: logoImage });
-              // }
 
               am.close();
             },
@@ -312,14 +323,11 @@ export default function loadSlideshowGallery(editor, opt = {}) {
     },
 
     onEvent({ elInput, component, event }) {
-      // const inputType = elInput.querySelector(".slideshowGallery-heading").value;
-      // const header = component.get("components").models[0];
 
-      // header.set({ content: inputType });
     },
 
     onUpdate({elInput, component}) {
-      const componentGallery = $(component.get("components").models[1].view.el).find('div.column:not(.d-none) img.option-image');
+      const componentGallery = $(component.get("components").models[1].view.el).find('div:not(.d-none) img.option-image');
       const traitGallery = $(elInput).find('.image-gallery');
 
       traitGallery.empty();
@@ -332,7 +340,27 @@ export default function loadSlideshowGallery(editor, opt = {}) {
 
       $(elInput).find('.btn-delete-image').on('click', function() {
         const index = $(this).parent().closest('div').index();
-        const rowImage = component.get("components").models[1].get("components").models[3]
+        const rowImage = component.get("components").models[1].get("components").models[3];
+
+        if ($(this).parent().parent().children().length <= 1) {
+          Swal.fire({
+            icon: 'info',
+            title: 'Minimun Image',
+            text: 'Your gallery has minimun image!',
+          })
+          return;
+        }
+        
+        if ($(component.view.el).find('img.option-image').eq(index)) {
+          const slideImg = $(component.get("components").models[1].view.el).find('.mySlides img');
+          if (index == 0) {
+            slideImg.attr('src', $(elInput).find('.trait-gallery-image img').eq(1).attr('src'))
+            $(component.view.el).find('img.option-image').eq(1).addClass('active');
+          } else {
+            slideImg.attr('src', $(elInput).find('.trait-gallery-image img').eq(0).attr('src'))
+            $(component.view.el).find('img.option-image').eq(0).addClass('active');
+          }
+        }
 
         $(elInput).find('.image-gallery').children().eq(index).remove();
         for (let i = index; i < 6; i++)  {

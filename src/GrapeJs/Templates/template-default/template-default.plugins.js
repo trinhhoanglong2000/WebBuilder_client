@@ -18,6 +18,8 @@ import loadBlockPayMent from "./payment";
 import loadBlockPolicy from "../Policy";
 import loadSlideshowGallery from "./SlideshowGallery";
 import loadCommonTrait from "./common/trait";
+import loadTrackingOrder from "./trackingOrder";
+import loadTrackingOrderForm from "./trackingOrderForm";
 
 export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
 
@@ -80,6 +82,8 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
   loadBlockPayMent(editor,config);
   loadBlockPolicy(editor,config);
   loadSlideshowGallery(editor,config);
+  loadTrackingOrder(editor, config);
+  loadTrackingOrderForm(editor, config);
   //Long ADD END
 }
 );

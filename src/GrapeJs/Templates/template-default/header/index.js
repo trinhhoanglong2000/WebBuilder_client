@@ -97,21 +97,10 @@ export default function loadBlockHeader(editor, opt = {}) {
                 type: "defaultCustom",
                 tagName: "div",
                 attributes: { class: "order-2" },
-                components: [
-                  {
-                    type: "defaultCustom",
-                    tagName: "i",
-                    attributes: { class: "fa fa-shopping-bag icon-header" },
-                    content: `<span class="position-absolute translate-middle badge rounded-pill bg-danger">
-                                  <span id="numberSelectedProduct">2</span>
-                              </span>`,
-                  },
-                  {
-                    type: "defaultCustom",
-                    tagName: "i",
-                    attributes: { class: "fa fa-search icon-header" },
-                  },
-                ],
+                content: `<a id="cartIcon" href="#"><i id="iv1qd" data-gjs-type="defaultCustom" class="fa fa-shopping-bag icon-header">
+                            <span class="position-absolute translate-middle badge rounded-pill bg-danger"><span id="numberSelectedProduct">2</span></span>
+                          </i></a>
+                          <a id="searchIcon" href="#"><i id="iiolz" data-gjs-type="defaultCustom" class="fa fa-search icon-header"></i></a>`
               },
             ],
           },

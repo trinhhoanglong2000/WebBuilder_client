@@ -54,22 +54,22 @@ export const getEvents = (editor,config) => {
             config.addComponentCssNJs(editor, [droppedComponent.attributes.name]);
         }
       });
-        //==========================| asset |===================
-
-      editor.on("asset:add", (asset, b, c) => {
-        let isImage = asset.get('src').includes('data:image');
-        if (!isImage) {
-          editor.AssetManager.close()
-          editor.AssetManager.remove(asset.get('src'))
-          Swal.fire({
-            icon: 'error',
-            title: 'File  Error',
-            text: 'This file is not image!',
-          }).then((result) => {
-            editor.AssetManager.open()
-          })
-        }
-      });
+      
+    //==========================| asset |===================
+    editor.on("asset:add", (asset) => {
+      let isImage = asset.get('src').includes('data:image');
+      if (!isImage) {
+        editor.AssetManager.close()
+        editor.AssetManager.remove(asset.get('src'))
+        Swal.fire({
+          icon: 'error',
+          title: 'File  Error',
+          text: 'This file is not image!',
+        }).then((result) => {
+          editor.AssetManager.open()
+        })
+      }
+    });
 }
 
 

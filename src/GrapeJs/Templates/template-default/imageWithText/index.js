@@ -416,13 +416,17 @@ export default function loadImageWithText(editor, opt = {}) {
   editor.TraitManager.addType("imageWithText-button-link", {
     // Expects as return a simple HTML string or an HTML element
     onUpdate({ elInput, component }) {
-      let initValue = component.attributes.traitValue?.split(/;(.*)/s) || "";
+      const parent = component.get("components")
+      .models[0].get("components")
+      .models[1].get("components").models[0];
+      const button = parent.get("components").models[2];
 
+      let initValue = button.attributes.traitValue?.split(/;(.*)/s) || "";
       let previousValue = initValue[1] || ""
-      if (!component.get('attributes').href) {
+      if (!button.get('attributes').href) {
         initValue = ""
         previousValue = ""
-        component.set('traitValue', '')
+        button.set('traitValue', '')
       }
       let defaultIcons = ""
       if (initValue[0] === "Collections") {
@@ -782,7 +786,6 @@ export default function loadImageWithText(editor, opt = {}) {
           const text = $(this).find('span').text().trim()
           $(el).find('input').val(text)
 
-          // $(el).find('input').focus()
           $(el).find('ul').addClass('combobox-hidden')
           $(el).find('#Back-btn').addClass('d-none')
           previousValue = text
@@ -853,7 +856,6 @@ export default function loadImageWithText(editor, opt = {}) {
             clicked = false;
           }
         }, 200)
-        // const value = trait.target.attributes.traitValue?.split(/;(.*)/s) || "";
         const value = _this.target.get('traitValue') ? _this.target.attributes.traitValue?.split(/;(.*)/s)[1] : ''
         $(el).find('input').val(value)
 
@@ -878,10 +880,15 @@ export default function loadImageWithText(editor, opt = {}) {
       if (event.type) {
         return
       }
+      
+      const parent = component.get("components")
+        .models[0].get("components")
+        .models[1].get("components").models[0];
+      const button = parent.get("components").models[2];
 
       const value = event.valueHref ? event.valueHref : '#'
-      setAttribute(component, { 'href': value })
-      component.set('traitValue', event.traitValue)
+      setAttribute(button, { 'href': value })
+      button.set('traitValue', event.traitValue);
     },
   });
 

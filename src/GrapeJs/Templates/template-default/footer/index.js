@@ -180,7 +180,8 @@ export default function loadBlockFooter(editor, opt = {}) {
     createInput({ trait }) {
       const el = document.createElement("div");
       const initValue = trait.target.attributes.attributes['linkedIn'];
-      const href = trait.target.view.el.querySelector('.linkedIn-fanpage')?.href || "";
+      const linkedIn = trait.target.get("components").models[2];
+      const href = linkedIn.attributes.link?.split(/;(.*)/s) || "";
       let previousValue = href || "";
 
       el.innerHTML = `
@@ -213,8 +214,8 @@ export default function loadBlockFooter(editor, opt = {}) {
 
       $(el).find("input.footer-linkedIn-link").on('input', function () {
         setTimeout(() => {
-          const value = $(this).val();
-
+          let value = $(this).val();
+          
           if (validURL(value)) {
             value = value.match(/^https?:\/\//gm) ? value : `https://${value}`
 
@@ -248,7 +249,7 @@ export default function loadBlockFooter(editor, opt = {}) {
 
               $(el).find('input').val(text);
               $(el).find('ul').addClass('combobox-hidden');
-
+              
               if (previousValue !== "") {
                 $(el).find('input').css('padding-left', '39px');
                 $(el).find('#icons').css("display", "block");
@@ -274,10 +275,10 @@ export default function loadBlockFooter(editor, opt = {}) {
       });
 
       $(el).find('#delete_icon').on('click', function () {
-        const text = ""
+        const text = "";
         $(el).find('input').val(text);
         $(el).find('ul').addClass('combobox-hidden');
-
+        previousValue = text;
         $(el).find('input').css('padding-left', '');
         $(el).find('#icons').css("display", "none");
 
@@ -314,12 +315,15 @@ export default function loadBlockFooter(editor, opt = {}) {
       const linkedIn = component.get("components").models[0];
 
       setAttribute(linkedIn, { 'href': value })
+      linkedIn.set('link', event.traitValue)
     },
 
     onUpdate({ elInput, component }) {
-      const initValue = component.attributes.attributes['linkedIn'];
-      const href = component.view.el.querySelector('.linkedIn-fanpage')?.href || "";
-
+      const initValue = component.attributes.attributes['linkedIn'] || "";
+      const linkedIn = component.get("components").models[0];
+      const href = linkedIn.attributes.link?.split(/;(.*)/s) || "";
+      let previousValue = href[1] || "";
+      
       if (initValue) {
         $(elInput).find('#Link-combo').show();
       } else {
@@ -327,9 +331,9 @@ export default function loadBlockFooter(editor, opt = {}) {
       }
 
       $(elInput).find("input.footer-linkedIn-check").prop("checked", initValue);
-      $(elInput).find("input.footer-linkedIn-link").val(href);
+      $(elInput).find("input.footer-linkedIn-link").val(previousValue);
 
-      if (href || href !== "") {
+      if (previousValue || previousValue !== "") {  
         $(elInput).find('input').css('padding-left', '39px');
         $(elInput).find('#icons').css("display", "block");
         $(elInput).find('input').css('padding-right', '25px');
@@ -346,8 +350,9 @@ export default function loadBlockFooter(editor, opt = {}) {
   editor.TraitManager.addType("footer-instagram-link", {
     createInput({ trait }) {
       const el = document.createElement("div");
-      const initValue = trait.target.attributes.attributes['instagram'];
-      const href = trait.target.view.el.querySelector('.instagram-fanpage')?.href || "";
+      const initValue = trait.target.attributes.attributes['instagram'] || "";
+      const instagram = trait.target.get("components").models[1];
+      const href = instagram.attributes.link?.split(/;(.*)/s) || "";
       let previousValue = href || "";
 
       el.innerHTML = `
@@ -380,7 +385,7 @@ export default function loadBlockFooter(editor, opt = {}) {
 
       $(el).find("input.footer-instagram-link").on('input', function () {
         setTimeout(() => {
-          const value = $(this).val();
+          let value = $(this).val();
 
           if (validURL(value)) {
             value = value.match(/^https?:\/\//gm) ? value : `https://${value}`
@@ -441,10 +446,10 @@ export default function loadBlockFooter(editor, opt = {}) {
       });
 
       $(el).find('#delete_icon').on('click', function () {
-        const text = ""
+        const text = "";
         $(el).find('input').val(text);
         $(el).find('ul').addClass('combobox-hidden');
-
+        previousValue = text;
         $(el).find('input').css('padding-left', '');
         $(el).find('#icons').css("display", "none");
 
@@ -481,11 +486,14 @@ export default function loadBlockFooter(editor, opt = {}) {
       const instagram = component.get("components").models[1];
 
       setAttribute(instagram, { 'href': value })
+      instagram.set('link', event.traitValue)
     },
 
     onUpdate({ elInput, component }) {
-      const initValue = component.attributes.attributes['instagram'];
-      const href = component.view.el.querySelector('.instagram-fanpage')?.href || "";
+      const initValue = component.attributes.attributes['instagram'] || "";
+      const instagram = component.get("components").models[1];
+      const href = instagram.attributes.link?.split(/;(.*)/s) || "";
+      let previousValue = href[1] || "";
 
       if (initValue) {
         $(elInput).find('#Link-combo').show();
@@ -494,9 +502,9 @@ export default function loadBlockFooter(editor, opt = {}) {
       }
 
       $(elInput).find("input.footer-instagram-check").prop("checked", initValue);
-      $(elInput).find("input.footer-instagram-link").val(href);
+      $(elInput).find("input.footer-instagram-link").val(previousValue);
 
-      if (href || href !== "") {
+      if (previousValue || previousValue !== "") {
         $(elInput).find('input').css('padding-left', '39px');
         $(elInput).find('#icons').css("display", "block");
         $(elInput).find('input').css('padding-right', '25px');
@@ -513,8 +521,9 @@ export default function loadBlockFooter(editor, opt = {}) {
   editor.TraitManager.addType("footer-facebook-link", {
     createInput({ trait }) {
       const el = document.createElement("div");
-      const initValue = trait.target.attributes.attributes['facebook'];
-      const href = trait.target.view.el.querySelector('.facebook-fanpage')?.href || "";
+      const initValue = trait.target.attributes.attributes['facebook'] || "";
+      const facebook = trait.target.get("components").models[2];
+      const href = facebook.attributes.link?.split(/;(.*)/s) || "";
       let previousValue = href || "";
 
       el.innerHTML = `
@@ -547,7 +556,7 @@ export default function loadBlockFooter(editor, opt = {}) {
 
       $(el).find("input.footer-facebook-link").on('input', function () {
         setTimeout(() => {
-          const value = $(this).val();
+          let value = $(this).val();
 
           if (validURL(value)) {
             value = value.match(/^https?:\/\//gm) ? value : `https://${value}`
@@ -608,10 +617,10 @@ export default function loadBlockFooter(editor, opt = {}) {
       });
 
       $(el).find('#delete_icon').on('click', function () {
-        const text = ""
+        const text = "";
         $(el).find('input').val(text);
         $(el).find('ul').addClass('combobox-hidden');
-
+        previousValue = text;
         $(el).find('input').css('padding-left', '');
         $(el).find('#icons').css("display", "none");
 
@@ -648,11 +657,14 @@ export default function loadBlockFooter(editor, opt = {}) {
       const facebook = component.get("components").models[2];
 
       setAttribute(facebook, { 'href': value })
+      facebook.set('link', event.traitValue)
     },
 
     onUpdate({ elInput, component }) {
-      const initValue = component.attributes.attributes['facebook'];
-      const href = component.view.el.querySelector('.facebook-fanpage')?.href || "";
+      const initValue = component.attributes.attributes['facebook'] || "";
+      const facebook = component.get("components").models[2];
+      const href = facebook.attributes.link?.split(/;(.*)/s) || "";
+      let previousValue = href[1] || "";
 
       if (initValue) {
         $(elInput).find('#Link-combo').show();
@@ -661,9 +673,9 @@ export default function loadBlockFooter(editor, opt = {}) {
       }
 
       $(elInput).find("input.footer-facebook-check").prop("checked", initValue);
-      $(elInput).find("input.footer-facebook-link").val(href);
+      $(elInput).find("input.footer-facebook-link").val(previousValue);
 
-      if (href || href !== "") {
+      if (previousValue || previousValue !== "") {
         $(elInput).find('input').css('padding-left', '39px');
         $(elInput).find('#icons').css("display", "block");
         $(elInput).find('input').css('padding-right', '25px');

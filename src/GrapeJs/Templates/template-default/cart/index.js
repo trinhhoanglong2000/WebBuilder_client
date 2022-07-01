@@ -13,13 +13,13 @@ export default function loadBlockCart(editor, opt = {}) {
         let checkedInput = $(tableBody).find(".ezMall-cart-item .ezMall-cart-item-check:checked")
         if (items.length == 0) {
             $(rootEle).find("#ezMall-cart-zero-item").show().addClass("d-flex");
-            $(rootEle).find("table").hide();
+            $(rootEle).find(".tableRoot").hide();
             $(ezMallSumary).hide();
             $(tableHead).find("#cart-select-all-product").prop("checked", false)
         }
         else {
             $(rootEle).find("#ezMall-cart-zero-item").hide().removeClass("d-flex");
-            $(rootEle).find("table").show();
+            $(rootEle).find(".tableRoot").show();
             $(ezMallSumary).show();
             if (checkedInput.length == items.length) {
                 $(tableHead).find("#cart-select-all-product").prop("checked", true)
@@ -246,8 +246,8 @@ export default function loadBlockCart(editor, opt = {}) {
             async Update() {
 
                 let rootEle = $(this.el)
-                let tableHead = $(this.el).find(`table thead`)[0];
-                let tableBody = $(this.el).find(`table tbody`)[0];
+                let tableHead = $(this.el).find(`.tableRoot thead`)[0];
+                let tableBody = $(this.el).find(`.tableRoot tbody`)[0];
                 let ezMallSumary = $(this.el).find(`.ezMallSumary`)[0];
                 let cart = JSON.parse(localStorage.getItem('cart'));
                 insertData(cart, tableHead, tableBody, ezMallSumary, rootEle)
@@ -327,7 +327,7 @@ export default function loadBlockCart(editor, opt = {}) {
                                     Shopping now
                                 </button>
                             </div>
-                            <table class="table ezMallCart">
+                            <table class="tableRoot ezMallCart">
                                 <thead>
                                     <tr>
                                         <th scope="col" style="width: 60%">

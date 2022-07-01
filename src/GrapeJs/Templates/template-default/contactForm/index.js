@@ -16,27 +16,32 @@ export default function loadContactForm(editor, opt = {}) {
             attributes: { class: "container", name: "contactForm" },
             content: `
                 <h1 class="text-center">Contact form</h1>
-                <form>
+                <div>
+                    <div class="row mb-2">
+                        <div class="col">
+                            <h4 id="error"> ERROR </h4>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="col-md-6 col-sm-12 mb-3">
-                            <input type="text" class="form-control" name="name" placeholder="Name">
+                            <input id="name" type="text" class="form-control" placeholder="Name">
                         </div>
                         <div class="col mb-3">
-                            <input type="email" class="form-control" name="email" placeholder="Email">
+                            <input id="email" type="email" class="form-control" placeholder="Email">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col">
-                            <input type="number" class="form-control" name="pNumber" placeholder="Phone number">
+                            <input id="pNumber" type="text" class="form-control" placeholder="Phone number">
                         </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col">
-                            <textarea class="form-control" name="comment" placeholder="Comment" rows="4"></textarea>
+                            <textarea class="form-control" id="comment" placeholder="Comment" rows="4"></textarea>
                         </div>
                     </div>
-                    <div class="text-center"><button type="submit" class="btn">Send</button></div>
-                </form>`
+                    <div class="text-center"><button id="submitBtn" type="button" class="btn">Send</button></div>
+                </div>`
         }
     });
 

@@ -18,13 +18,13 @@ export default function loadTrackingOrder(editor, opt = {}) {
                             <h6 id="order_id">Order ID: <span>OD45345345435</span></h6>
                             <article class="card">
                                 <div class="card-body row">
-                                    <div id="customer_name" class="col-md-6 col-sm-12"> <strong>Customer:</strong> <span>Thanh Long</span>  </div>
-                                    <div id="order_time" class="col-md-6 col-sm-12"> <strong>Order time:</strong> <span>29 nov 2019</span> </div>
-                                    <div id="delivery_address" class="col-md-6 col-sm-12"> <strong>Delivery Address:</strong> <span>39 Cao Lỗ, P4, Q8, TP HCM</span> </div>
-                                    <div id="phone" class="col-md-6 col-sm-12"> <strong>Phone:</strong> <span>0909080803</span>  </div>
-                                    <div id="delivery_method" class="col-md-6 col-sm-12"> <strong>Delivery method:</strong> <span>Xe tay ga</span> </div>
-                                    <div id="payment_method" class="col-md-6 col-sm-12"> <strong>Payment method:</strong> <span>Cash On Delivery</span> </div>
-                                    <div id="order_Status" class="col-md-6 col-sm-12"> <strong>Order status:</strong> <span> Confirmed</span> </div>
+                                    <div id="customer_name" class="col-md-6 col-sm-12"> <strong>Customer:</strong> <span></span>  </div>
+                                    <div id="order_time" class="col-md-6 col-sm-12"> <strong>Order time:</strong> <span></span> </div>
+                                    <div id="delivery_address" class="col-md-6 col-sm-12"> <strong>Delivery Address:</strong> <span></span> </div>
+                                    <div id="phone" class="col-md-6 col-sm-12"> <strong>Phone:</strong> <span></span>  </div>
+                                    <div id="delivery_method" class="col-md-6 col-sm-12"> <strong>Delivery method:</strong> <span></span> </div>
+                                    <div id="payment_method" class="col-md-6 col-sm-12"> <strong>Payment method:</strong> <span></span> </div>
+                                    <div id="order_Status" class="col-md-6 col-sm-12"> <strong>Order status:</strong> <span> </span> </div>
                                     <div id="order_note" class="col-md-6 col-sm-12"> <strong>Note:</strong> <span> </span> </div>
                                 </div>
                             </article>
@@ -81,7 +81,7 @@ export default function loadTrackingOrder(editor, opt = {}) {
                                 <div id="reason-popup">
                                     <div class="warning"> <i class="fa fa-exclamation-triangle"></i></div>
                                     <h2 id="title"> What make you want to cancel this order? </h2>
-                                    <input type="type" class="form form-control" placeholder="Reason">
+                                    <textarea class="form form-control" rows="4" cols="50" placeholder="Reason"></textarea>
                                     <div class="footer-button">
                                         <button class="btn btn-yes"> CONFIRM </button>
                                         <button class="btn btn-no"> NOT NOW </button>

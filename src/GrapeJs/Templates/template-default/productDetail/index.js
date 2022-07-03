@@ -17,13 +17,12 @@ export default function loadBlockProductDetail(editor, opt = {}) {
 
     }
     function insertProductData(rootEle, data) {
+        $(rootEle).find(".ezMall-popup-alert").hide()
         window.localStorage.setItem('productData', JSON.stringify(data));
         let productData = data.product[0];
         let imageArr = productData.images ? productData.images : [];
         let options = productData.is_variant ? data.option : [];
-        console.log(data)
-        console.log(productData)
-
+        let optionName = options.map(item => item.name).join("/");
         // For render image
         $(rootEle).find(`.ezMall-price .price`).html(productData.price);
         $(rootEle).find(`.ezMall-quantity-remain`).html(productData.inventory);
@@ -216,77 +215,104 @@ export default function loadBlockProductDetail(editor, opt = {}) {
                     content:
                         `
                     <div class="container bg-light">
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 p-0 pt-3 ezMall-image-container">
-                            <div style="width: 100%;" class="d-flex justify-content-center">
-                                <img class="main-img img-thumbnail"
-                                    src="https://ananas.vn/wp-content/uploads/stu_basas_A61015_3.jpg"
-                                    style="width:100%; max-width: 640px;">
-                            </div>
-                            <div class="ezMall-stick-slide ">
-                            </div>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 pt-3">
-                            <div class="row text px-3">
-                                <h3 class="fw-bold ezMall-header">
-                                </h3>
-                            </div>
-                            <div class="d-flex justify-content-between px-3">
-                                <div class="d-flex  ezMall-type-container">
-                                    <div class="fw-bold">Loại sản phẩm:</div>
-                                    <div class="px-2 ezMall-type-value">A61015</div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 p-0 pt-3 ezMall-image-container">
+                                <div style="width: 100%;" class="d-flex justify-content-center">
+                                    <img class="main-img img-thumbnail"
+                                        src="https://ananas.vn/wp-content/uploads/stu_basas_A61015_3.jpg"
+                                        style="width:100%; max-width: 640px;">
                                 </div>
-                                <div class="d-flex ezMall-status-container">
-                                    <div class="fw-bold">Tình trạng:</div>
-                                    <div class="px-2  ezMall-status-value">Online</div>
+                                <div class="ezMall-stick-slide ">
                                 </div>
                             </div>
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 pt-3">
+                                <div class="row text px-3">
+                                    <h3 class="fw-bold ezMall-header">
+                                    </h3>
+                                </div>
+                                <div class="d-flex justify-content-between px-3">
+                                    <div class="d-flex  ezMall-type-container">
+                                        <div class="fw-bold">Loại sản phẩm:</div>
+                                        <div class="px-2 ezMall-type-value">A61015</div>
+                                    </div>
+                                    <div class="d-flex ezMall-status-container">
+                                        <div class="fw-bold">Tình trạng:</div>
+                                        <div class="px-2  ezMall-status-value">Online</div>
+                                    </div>
+                                </div>
+                
+                                <div class="row ezMall-price px-3 py-3">
+                                    <h4 class="fw-bolder" style="color: #f15e2c;">
+                                        <span class="price">  </span> <span class="currency">  </span>
+                                    </h4>
+                                </div>
+                
+                                <div class="ezMall-description  px-3">
+                                </div>
             
-                            <div class="row ezMall-price px-3 py-3">
-                                <h4 class="fw-bolder" style="color: #f15e2c;">
-                                    <span class="price">  </span> <span class="currency">  </span>
-                                </h4>
-                            </div>
-            
-                            <div class="ezMall-description  px-3">
-                            </div>
-        
-            
-                            <div class = "ezMall-options-container">
-                            </div>
+                
+                                <div class = "ezMall-options-container">
+                                </div>
 
-                            <div class="ezMall-quantity d-flex justify-content-between px-3 pt-3">
-                                <div class="pt-2" >
-                                    <div class="d-flex">
-                                        <h5 class="fw-bolder py-3 m-0">SỐ LƯỢNG</h5>
-                                        <i class="col px-1 d-flex align-items-center justify-content-center"> (<span class="ezMall-quantity-remain"> </span> <p class="px-1 m-0"> sản phẩm còn lại</p>)</i>
-                                    </div> 
-                                    <div class="d-flex fw-bold" style="height:40px; width:252px">                                    
-                                        <input type="number" min="0" id="val-1" class="col form-control ezMall-quantity-input " value="2" >
+                                <div class="ezMall-quantity d-flex justify-content-between px-3 pt-3">
+                                    <div class="pt-2" >
+                                        <div class="d-flex">
+                                            <h5 class="fw-bolder py-3 m-0">SỐ LƯỢNG</h5>
+                                            <i class="col px-1 d-flex align-items-center justify-content-center"> (<span class="ezMall-quantity-remain"> </span> <p class="px-1 m-0"> sản phẩm còn lại</p>)</i>
+                                        </div> 
+                                        <div class="d-flex fw-bold" style="height:40px; width:252px">                                    
+                                            <input type="number" min="0" id="val-1" class="col form-control ezMall-quantity-input " value="2" >
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="px-3 py-3">
+                                    <div class="ezMall-alert " style="display:none">
+                                        <div class="d-flex text-danger fw-bolder align-items-center justify-content-center">
+                                            <p class=" ezMall-alert-text-config">Vui lòng chọn</p>
+                                            <p class="col ezMall-alert-text-option px-1"> á á</p>
+                                        </div> 
+                                    </div>
+                                    <button class="btn btn-lg btn-dark fw-bold py-3 ezMall-add-to-cart" style="width: 100%" onclick = "addToCart();">
+                                        THÊM VÀO GIỎ HÀNG
+                                    </button>
+                                </div>
+                
+                                <div class="px-3 py-3">
+                                    <div class="btn btn-lg btn-danger fw-bold py-3 ezMall-buys" style="width: 100%" onclick = "buyNow()">
+                                        MUA HÀNG
                                     </div>
                                 </div>
                             </div>
-                            
-                            <div class="px-3 py-3">
-                                <div class="ezMall-alert " style="display:none">
-                                    <div class="d-flex text-danger fw-bolder align-items-center justify-content-center">
-                                        <p class=" ezMall-alert-text-config">Vui lòng chọn</p>
-                                        <p class="col ezMall-alert-text-option px-1"> á á</p>
-                                    </div> 
-                                </div>
-                                <button class="btn btn-lg btn-dark fw-bold py-3 ezMall-add-to-cart" style="width: 100%" onclick = "addToCart();">
-                                    THÊM VÀO GIỎ HÀNG
-                                </button>
-                            </div>
-            
-                            <div class="px-3 py-3">
-                                <div class="btn btn-lg btn-danger fw-bold py-3 ezMall-buys" style="width: 100%" onclick = "buyNow()">
-                                    MUA HÀNG
-                                </div>
-                            </div>
                         </div>
+                        <div class="ezMall-popup-alert">
+                            <div class="spinner-border ezMall-loading" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <div class="ezMall-popup ezMall-popup-success"> 
+                                <i class="fa fa-check"></i>
+                                <h5 class="text-success fw-bolder">Order Successful</h5>
+                                <div class="ezMalll-msg fw-bold p-3 d-flex">
+                                    We already send an email to you
+                                </div>
+                                <button class="btn btn-primary fw-bold btn-lg">
+                                    Continue Shopping
+                                </button>
+                            </div> 
+                            <div class="ezMall-popup ezMall-popup-fail"> 
+                                <i class="fa fa-close text-danger"></i>
+                                <h5 class="text-danger fw-bolder">Error</h5>
+                                <div class="ezMalll-msg fw-bold p-3 d-flex">
+                                    Something went wrong
+                                </div>
+                                <button class="btn btn-danger fw-bold btn-lg">
+                                    Back to home page
+                                </button>
+                            </div> 
+                        </div>
+
                     </div>
-                </div>
+                    
                 `
                 }
             ],

@@ -7,27 +7,97 @@ export default function loadBlockPayMent(editor, opt = {}) {
     const domc = editor.DomComponents;
     const defaultType = domc.getType("default");
     let cart = JSON.parse(localStorage.getItem('cart'));
-    function insertData(rootEle,storeId){
-        console.log(rootEle)
+    async function getDistrict(rootEle){
+        let paymentCitySelectContainer = $(rootEle).find("#city")[0];
+        let cityOptions = JSON.parse(localStorage.getItem('city'))
+        let indexCity = cityOptions.findIndex(item => item.id === $(paymentCitySelectContainer).val())
+        if (!('data' in cityOptions[indexCity])) {
+            await fetch(`${process.env.REACT_APP_API_URL}data/city/${$(paymentCitySelectContainer).val()}/district`,
+                {
+                    mode: 'cors',
+                    headers: {
+                        'Access-Control-Allow-Origin': '*'
+                    }
+                }).then(res => res.json()).then(districtRes => {
+                    if (districtRes.statusCode === 200) {
+                        cityOptions[indexCity].data = districtRes.data
+                    }
+                })
+        }
+        let paymentDistrictSelectContainer = $(rootEle).find("#district")[0];
+        $(paymentDistrictSelectContainer).html("")
+        cityOptions[indexCity].data.forEach(item => {
+            const rowHtml =
+                `                            
+                    <option value="${item.id}" >${item.name}</option>        
+                `
+            paymentDistrictSelectContainer.insertAdjacentHTML("beforeend", rowHtml);
+        })
+    }
+    async function loadPaymentData(rootEle, firstRun) {
+        if (firstRun) {
+            // Render Currency
+            let paymentCurrencySelectCoptainer = $(rootEle).find("#currency")[0];
+            let currencyOptions = JSON.parse(localStorage.getItem('currency'))
+            $(paymentCurrencySelectCoptainer).html("")
+            currencyOptions.forEach((element, index) => {
+                const rowHtml =
+                    `                            
+                <option value="${element.currency}" >${element.currency}</option>        
+                `
+                paymentCurrencySelectCoptainer.insertAdjacentHTML("beforeend", rowHtml);
+            });
+            $(paymentCurrencySelectCoptainer).on("change", async () => {
+                await loadPaymentData(rootEle, false)
+            })
+            // Render City
+            let paymentCitySelectContainer = $(rootEle).find("#city")[0];
+            let cityOptions = JSON.parse(localStorage.getItem('city'))
+            $(paymentCitySelectContainer).html("")
+            cityOptions.forEach((element, index) => {
+                const rowHtml =
+                    `                            
+                <option value="${element.id}" >${element.name}</option>        
+                `
+                paymentCitySelectContainer.insertAdjacentHTML("beforeend", rowHtml);
+            });
+            // Render District
+            await getDistrict(rootEle)
+            $(paymentCitySelectContainer).on("change", async () => {
+                await getDistrict(rootEle)
+            })
+        }
+        // Render cart
+        let paymentCurrencyVal = $(rootEle).find("#currency").val();
+        $(rootEle).find(".currency").html(paymentCurrencyVal);
         let cart = JSON.parse(localStorage.getItem('paymentItems'));
-        console.log(cart)
         let paymentCartContainer = $(rootEle).find(".ezMall-payment-cart-container")[0];
         $(paymentCartContainer).html("");
-        console.log(paymentCartContainer)
+        let paymentCartSumPrice = $(rootEle).find(".ezMall-sumPrice")[0];
+        let paymentShippingCost = $(rootEle).find(".ezMall-shipping-cost")[0];
+        let paymentDiscount = $(rootEle).find(".ezMall-discount")[0];
+        let paymentFinalBillCost = $(rootEle).find(".ezMall-final-bill-cost")[0];
+        let sumPrice = 0;
         cart.forEach(element => {
+            let variantName = element.variant_name.split("/");
+            let optionName = element.optionName.split("/");
+            let variantInfo = [];
+            for (let i = 0; i < optionName.length; i++) {
+                variantInfo.push(`${optionName[i]}: ${variantName[i]}`)
+            }
+            let converCurrency = convertCurrency(Number(element.quantity) * Number(element.price), element.currency, paymentCurrencyVal)
+
             const rowHtml =
-            `
+                `
             <div class=" px-1">
-                <div class=" py-2 d-flex flex-row justify-content-between" >
-                    <div class ="">
-                        <div class = "row fw-bold"">
+                <div class=" py-2 d-flex flex-column justify-content-between" >
+                    <div class = "row fw-bold"">
                         ${element.product_name} 
-                        </div>
-                        <div class = "row py-1 fw-bold text-secondary">
-                        ${element.variant_name} 
-                        </div>
                     </div>
-                    <div class = "justify-content-end align-items-center d-flex px-3 ">
+                    <div class = "justify-content-between align-items-end d-flex">
+                        <div class = " px-2 fw-bold text-secondary fst-italic">
+                        ${variantInfo.join("<br/>")} 
+                        </div>
                         <div class = "d-flex flex-row fst-italic text-secondary">
                             <span class="fw-bold"> 
                                 x
@@ -36,17 +106,58 @@ export default function loadBlockPayMent(editor, opt = {}) {
                                 ${element.quantity} 
                             </span>
                         </div>
+                        <div class ="justify-content-end align-items-end d-flex fw-bold">
+                            <div class="text-end">${priceToString(converCurrency, paymentCurrencyVal)}</td>
+                        </div> 
                     </div>
-                    <div class ="justify-content-end align-items-center d-flex fw-bold">
-                        <div class="text-end">${Number(element.quantity)*Number(element.price)}  ${element.currency}</td>
-                    </div> 
+                    
                 </div
             </div>                                   
                             
              `
-             paymentCartContainer.insertAdjacentHTML("beforeend", rowHtml);
+
+            sumPrice += Number(converCurrency);
+            paymentCartContainer.insertAdjacentHTML("beforeend", rowHtml);
         });
-       
+        // Render sumary
+        let paymentDiscountVal = Number($(paymentDiscount).val());
+        let paymentShippingCostVal = Number($(paymentShippingCost).val());
+
+        $(paymentCartSumPrice).html(priceToString(sumPrice.toFixed(2), paymentCurrencyVal));
+        $(paymentShippingCost).html(priceToString(paymentShippingCostVal, paymentCurrencyVal))
+        $(paymentDiscount).html(priceToString(paymentDiscountVal, paymentCurrencyVal))
+        $(paymentFinalBillCost).html(priceToString((sumPrice + paymentDiscountVal + paymentShippingCostVal).toFixed(2), paymentCurrencyVal));
+    }
+    function convertCurrency(value, fromCurrency, toCurrency) {
+        let currencyOptions = JSON.parse(localStorage.getItem('currency'));
+        let dataFromCurrency = currencyOptions.findIndex(item => item.currency == fromCurrency);
+        let dataToCurrency = currencyOptions.findIndex(item => item.currency == toCurrency);
+
+        switch (toCurrency) {
+            case "VND":
+                return Math.ceil(value * Number(currencyOptions[dataToCurrency].amount) / Number(currencyOptions[dataFromCurrency].amount));
+                break;
+            case "USD":
+                return parseFloat(value * Number(currencyOptions[dataToCurrency].amount) / Number(currencyOptions[dataFromCurrency].amount) + 0.005).toFixed(2);
+                break;
+            default:
+                return parseFloat(value * Number(currencyOptions[dataToCurrency].amount) / Number(currencyOptions[dataFromCurrency].amount) + 0.005).toFixed(2);
+                break;
+        }
+    }
+    function priceToString(value, currency) {
+        switch (currency) {
+            case "VND":
+
+                return Math.ceil(Number(value)).toLocaleString('fi-FI', { style: 'currency', currency: 'VND' });
+                break;
+            case "USD":
+                return Number(value).toLocaleString('fi-FI', { style: 'currency', currency: 'USD' });
+                break;
+            default:
+                return `${value} ${currency}`
+                break;
+        }
     }
     //THIS IS SETTING COMPONENT
     domc.addType("Payment", {
@@ -83,6 +194,7 @@ export default function loadBlockPayMent(editor, opt = {}) {
                 // This is default attributes
                 attributes: {
                     "ez-mall-type": "payment",
+                    "ez-mall-store": opt.storeId
                 }
             },
             // This function run when component created - we setup listen to change atri
@@ -105,7 +217,33 @@ export default function loadBlockPayMent(editor, opt = {}) {
         },
         view: {
             async Update() {
-                insertData(this.el,opt.storeId )
+                await fetch(`${process.env.REACT_APP_API_URL}data/rate`,
+                    {
+                        mode: 'cors',
+                        headers: {
+                            'Access-Control-Allow-Origin': '*'
+                        }
+                    }).then(res => res.json()).then(currencyRes => {
+                        if (currencyRes.statusCode === 200) {
+                            window.localStorage.setItem('currency', JSON.stringify(currencyRes.data));
+                        }
+                    }).finally(async () => {
+                        await fetch(`${process.env.REACT_APP_API_URL}data/city`
+                            , {
+                                mode: 'cors',
+                                headers: {
+                                    'Access-Control-Allow-Origin': '*'
+                                }
+                            }).then(res => res.json()).then(cityRes => {
+                                if (cityRes.statusCode === 200) {
+                                    window.localStorage.setItem('city', JSON.stringify(cityRes.data));
+                                }
+                            }).finally(async () => {
+                                await loadPaymentData(this.el, true)
+                            })
+
+                    })
+
             },
             init() {
                 this.listenTo(this.model, 'change:attributes:data', this.Update)
@@ -183,128 +321,186 @@ export default function loadBlockPayMent(editor, opt = {}) {
                             droppable: false,
                             draggable: false,
                             content:
-                                `
+                            `
                             <div class="row">
-                            <div class=" col-xl-7 col-sm-6 col-md-6 col-12">
-                                <div class="text-dark py-2 px-2 fw-bold d-flex" style ="background: #f1f1f1">
-                                    <h5 class="m-0 px-2"> ĐỊA CHỈ NHẬN HÀNG</h5>
-                                 </div>
-                                <div class="py-3 px-2">
-                                    <form>
-                                        <div class="form-group py-1">
-                                            <label class = "fw-bold" for="email">Email</label>
-                                            <input type="email" class="form-control" id="email" placeholder="abc@gmail.com">
+                                <div class=" col-xl-7 col-12">
+                                    <div class="text-dark py-2 px-2 d-flex" style ="background: #f1f1f1">
+                                        <h4 class="m-0 px-2  fw-bold">YOUR INFORMATION</h4>
+                                    </div>
+                                    <div class="py-3 px-2">
+                                        <form>
+                                            <div class="form-group py-1">
+                                                <label class = "fw-bold" for="email">
+                                                    Email 
+                                                    <span class = "text-danger">*</span>
+                                                    <span class = "email-alert text-danger fw-normal fst-italic" style= "display:none">Please fill your infor</span>
+                                                </label>
+                                                <input type="email" class="form-control" id="email" placeholder="xxx@gmail.com">
+                                            </div>
+                                            <div class="form-group py-1">
+                                                <label class = "fw-bold" for="name">
+                                                    Name 
+                                                    <span class = "text-danger">*</span>
+                                                    <span class = "name-alert text-danger fw-normal fst-italic" style= "display:none">Please fill your infor</span>
+                                                </label>
+                                                <input type="text" class="form-control" id="name" placeholder="Fill your name">
+                                            </div>
+                                            <div class="form-group py-1">
+                                                <label class = "fw-bold" for="tel">
+                                                    Phone Number
+                                                    <span class = "text-danger">*</span>
+                                                    <span class = "tel-alert text-danger fw-normal fst-italic" style= "display:none">Please fill your infor</span>
+                                                </label>
+                                                <input type="tel" class="form-control" id="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="0942872722">
+                                            </div>
+                                        
+                                            <div class="form-group py-1">
+                                                <label class = "fw-bold" for="city">City<span class = "text-danger">*</span></label>
+                                                <select class="form-select" aria-label="Default select example" id="city" name="city">
+                                                
+                                                </select>
+                                            </div>
+                                            <div class="form-group py-1">
+                                                <label class = "fw-bold" for="district">District<span class = "text-danger">*</span></label>
+                                                <select class="form-select" aria-label="Default select example" id="district" name="district">
+                                                
+                                                </select>
+                                            </div>  
+                                            <div class="form-group py-1">
+                                                <label class = "fw-bold" for="address"> Detail Address
+                                                    <span class = "text-danger">*</span>
+                                                    <span class = "address-alert text-danger fw-normal fst-italic" style= "display:none">Please fill your infor</span>
+                                                </label>
+                                                <input type="text" class="form-control" id="address" placeholder="520 Trường Trinh, TP HCM">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="text-dark py-2 px-2 fw-bold d-flex" style ="background: #f1f1f1">
+                                        <h4 class="m-0  fw-bold">DELIVERY OPTIONS</h4>
+                                    </div>
+                                    <div class="py-3 row px-4">
+                                        <div class="form-check py-2 col">
+                                            <label class="row form-check-label" for="delivery1">
+                                                <div class="col">
+                                                    <input class="form-check-input" type="radio" name="delivery" id="delivery1"  value="0">
+                                                    <label class="form-check-label" for="delivery1">Take it at store</label>
+                                                </div>
+                                            </label>
                                         </div>
-                                        <div class="form-group py-1">
-                                            <label class = "fw-bold" for="first-name">Họ Tên</label>
-                                            <input type="text" class="form-control" id="first-name" placeholder="Trần...">
+                                        <div class="form-check py-2  col">
+                                            <label class="row form-check-label" for="delivery2">
+                                                <div class="col">
+                                                    <input class="form-check-input" type="radio" name="delivery" id="delivery2" value="1" checked="">
+                                                    <label class="form-check-label" for="delivery2">Standard shipping</label>
+                                                </div>
+                                            </label>
                                         </div>
-                                        <div class="form-group py-1">
-                                            <label class = "fw-bold" for="tel">Số điện thoại</label>
-                                            <input type="tel" class="form-control" id="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="0942872722">
+                                    </div>
+                                    <div class="text-dark py-2 px-2 fw-bold d-flex" style ="background: #f1f1f1">
+                                        <h4 class="m-0  fw-bold">PAYMENT OPTIONS</h4>
+                                    </div>
+                                    <div class="py-1 px-3">
+                                        <div class="form-check d-flex align-items-center py-2 ">
+                                            <input class="form-check-input align-items-center" type="radio" name="payment" id="payment1"  value="0" >
+                                            <label class="form-check-label" for="payment1">
+                                                <div class="d-flex flex-row px-2">
+                                                    <img style="height:30px" src="data:image/png;base64,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">
+                                                    <p class="pl-1 p-0 m-0">Payment by Paypal</p>
+                                                </div>
+                                                <div class="px-2">ATM/Visa/Master/JCB/QRCode by Paypal</div>
+                                            </label>
                                         </div>
-                                    
-                                        <div class="form-group py-1">
-                                            <label class = "fw-bold" for="country">Tỉnh thành</label>
-                                            <select class="form-select" aria-label="Default select example" id="country" name="country">
-                                                <option value="KienGiang" selected="">Kiên Giang</option>
-                                                <option value="TPHCM">TP HCM</option>
-                                                <option value="HaNoi">Hà Nội</option>
+                
+                                        <div class="form-check d-flex align-items-center pt-4 border-top ">
+                                            <input class="form-check-input" type="radio" name="payment" id="payment2"  value="1" checked="">
+                                            <label class="form-check-label px-2" for="payment2">
+                                                Cash on Delivery (COD)
+                                            </label>
+                                        </div>
+                                    </div>
         
+                                </div>
+                                <div class="col-xl-5  col-12">
+                                    <div class="d-flex flex-column p-2" style ="background: #f1f1f1">
+                                        <div class="d-flex flex-row justify-content-between p-1" style="border-bottom: solid;">
+                                            <h4 class="m-0 fw-bold " >ORDER DETAIL</h4>
+                                            <select class="form-select" aria-label="Default select example" id="currency" name="country" style = "width:90px">
+                                                <option value="VND" selected="">VND</option>
+                                                <option value="USD">USD</option>
                                             </select>
                                         </div>
-                                        <div class="form-group py-1">
-                                            <label class = "fw-bold" for="district">Quận/huyện</label>
-                                            <input type="text" class="form-control" id="district" placeholder="Quận 12">
-                                        </div>   <div class="form-group py-1">
-                                            <label class = "fw-bold" for="address">Địa chỉ nhà</label>
-                                            <input type="text" class="form-control" id="address" placeholder="520 Trường Trinh, TP HCM">
+                                        
+                                        
+                                        <div class="text-dark py-2 fw-bold d-flex flex-column" >
+                                        
+                                    
+                                            <div class="table table-hover px-2 m-0 pt-2">
+                                                <div class="ezMall-payment-cart-container">
+                                                    
+                                                </div>
+                                            </div>
                                         </div>
-                                    </form>
-                                </div>
-                                <div class="text-dark py-2 px-2 fw-bold d-flex" style ="background: #f1f1f1">
-                                    <h5 class="m-0 "> PHƯƠNG THỨC VẬN CHUYỂN</h5>
-                                </div>
-                                <div class="py-3 row px-4">
-                                    <div class="form-check py-2 col">
-                                        <label class="row form-check-label" for="delivery1">
-                                            <div class="col">
-                                                <input class="form-check-input" type="radio" name="delivery" id="delivery1" checked="">
-                                                <label class="form-check-label" for="delivery1">Nhận tại cửa hàng</label>
+                                    
+                                        <div class="pb-3 px-3 d-flex flex-column">
+                                            <h4 class="m-0 fw-bolder my-2"  style="border-bottom: dashed 3px;"></h4>
+                                            <div class="d-flex justify-content-between fw-bold">
+                                                <p class="p-0 m-0">Products Amount</p>
+                                                <p class="p-0 m-0"> <span class= "ezMall-sumPrice"> </span> </p>
                                             </div>
-                                        </label>
-                                    </div>
-                                    <div class="form-check py-2  col">
-                                        <label class="row form-check-label" for="delivery2">
-                                            <div class="col">
-                                                <input class="form-check-input" type="radio" name="delivery" id="delivery2">Vận chuyển tiêu chuẩn (30 000 VND)</div>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="text-dark py-2 px-2 fw-bold d-flex" style ="background: #f1f1f1">
-                                    <h5 class="m-0 "> PHƯƠNG THỨC THANH TOÁN</h5>
-                                </div>
-                                <div class="py-1 px-3">
-                                    <div class="form-check d-flex align-items-center py-2 ">
-                                        <input class="form-check-input align-items-center" type="radio" name="payment" id="payment1">
-                                        <label class="form-check-label" for="payment1">
-                                            <div class="d-flex flex-row px-2">
-                                                <img style="height:30px" src="data:image/png;base64,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">
-                                                <p class="pl-1 p-0 m-0"> Thanh toán bằng thẻ</p>
+                                            <div class="fw-bold d-flex justify-content-between">
+                                                <p class=" p-0 m-0">Delivery fee</p>
+                                                <p class=" p-0 m-0 "><span class= "ezMall-shipping-cost">0</span> </p>
                                             </div>
-                                            <div class="px-2">ATM/Visa/Master/JCB/QRCode qua cổng Paypal</div>
-                                        </label>
-                                    </div>
-            
-                                    <div class="form-check d-flex align-items-center pt-4 border-top ">
-                                        <input class="form-check-input" type="radio" name="payment" id="payment3" checked="">
-                                        <label class="form-check-label px-2" for="payment3">
-                                            Thanh toán khi nhận hàng
-                                        </label>
+                                            <div class="fw-bold d-flex justify-content-between">
+                                                <p class=" p-0 m-0">Discount</p>
+                                            <p class=" p-0 m-0 "> <span class= "ezMall-discount"> 0</span> </p>
+                                            </div>
+
+                                            <h4 class="m-0 fw-bolder my-2 "  style="border-bottom: dashed 3px;"></h4>
+                                            <div class="d-flex fw-bold justify-content-between py-2">
+                                                <h5 class="p-0 m-0 fw-bold text-danger">Total Amount</h5>
+                                                <h5 class="fw-bold p-0 m-0 text-danger "><span class= "ezMall-final-bill-cost"> </span></h5>
+                                            </div>
+                                        </div>  
+                                        <div class="py-3 d-flex flex-row justify-content-between">
+                                            <input type="text" class="form-control pl-1" id="discount" placeholder="Enter your discount code" style="width: 68%">
+                                            <button type="button" class="btn btn-outline-dark fw-bold" style="width: 30%">Use Discount</button>
+                                        </div>
+                                        <div class="d-grid gap-1 ">
+                                            <button type="button" class="btn btn-danger fw-bold btn-block p-3 mb-3" style = 
+                                            "font-size: 150%;" onclick="buy()";>
+                                            BUY
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-    
                             </div>
-                            <div class="col-xl-5 col-sm-6 col-md-6   col-12">
-                                <div>
-                                    <div class="text-dark py-2 px-2 fw-bold d-flex" style ="background: #f1f1f1">
-                                        <h5 class="m-0 "> THÔNG TIN THANH TOÁN</h5>
-                                    </div>
-                                        <table class="table table-hover mt-4">
-                                            <tbody class="ezMall-payment-cart-container">
-                                            
-                                            </tbody>
-                                        </table>
-                                        <div class=" pt-5 d-flex flex-column">
-                                            <h5 class="m-0 fw-bold "> TỔNG</h5>
-                                            <div class="d-flex justify-content-between mt-3">
-                                                <p class="fw-bold">Tạm tính</p>
-                                                <h5 class="fw-bold">1 000 000 VND</h5>
-                                            </div>
-                                            <div class="d-flex justify-content-between">
-                                                <p class="fw-bold">Vận chuyển</p>
-                                                <h5 class="fw-bold">0 VND</h5>
-                                            </div>
-                                            <div class="d-flex justify-content-between">
-                                                <p class="fw-bold">Giảm giá</p>
-                                            <h5 class="fw-bold">0 VND</h5>
-                                        </div>
-                                            <div class="d-flex fw-bold justify-content-between mt-2  py-2 px-1">
-                                                <p class="p-0 m-0">THÀNH TIỀN</p>
-                                                <h5 class="fw-bold p-0 m-0 text-danger">1 000 000 VND</h5>
-                                            </div>
-            
-                                            <div class="d-flex flex-row justify-content-between mt-3">
-                                                <input type="text" class="form-control" id="discount" placeholder="Vui lòng nhập mã giảm giá" style="width: 70%">
-                                                <button type="button" class="btn btn-outline-dark fw-bold" style="width: 30%">Áp dụng</button>
-                                            </div>
-                                        </div>
-                                        <div class="d-grid gap-1">
-                                            <button type="button" class="btn btn-danger fw-bold mt-4 btn-block p-3">ĐẶT HÀNG</button>
-                                        </div>
-                                    </div>
+                            <div class="ezMall-payment-alert">
+                                <div class="spinner-border ezMall-loading" role="status">
+                                    <span class="visually-hidden">Loading...</span>
                                 </div>
-                        </div>
+                                <div class="ezMall-popup ezMall-popup-success"> 
+                                    <i class="fa fa-check"></i>
+                                    <h5 class="text-success fw-bolder">Order Successful</h5>
+                                    <div class="ezMalll-msg fw-bold p-3 d-flex">
+                                        We already send an email to you
+                                    </div>
+                                    <button class="btn btn-primary fw-bold btn-lg">
+                                        Continue Shopping
+                                    </button>
+                                </div> 
+                                <div class="ezMall-popup ezMall-popup-fail"> 
+                                    <i class="fa fa-close text-danger"></i>
+                                    <h5 class="text-danger fw-bolder">Error</h5>
+                                    <div class="ezMalll-msg fw-bold p-3 d-flex">
+                                        Something went wrong
+                                    </div>
+                                    <button class="btn btn-danger fw-bold btn-lg">
+                                        Back to home page
+                                    </button>
+                                </div> 
+                            </div>
+
                             `
                         },
 

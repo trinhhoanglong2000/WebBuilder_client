@@ -17,7 +17,6 @@ export default function loadBlockProductDetail(editor, opt = {}) {
 
     }
     function insertProductData(rootEle, data) {
-        $(rootEle).find(".ezMall-popup-alert").hide()
         window.localStorage.setItem('productData', JSON.stringify(data));
         let productData = data.product[0];
         let imageArr = productData.images ? productData.images : [];
@@ -108,7 +107,8 @@ export default function loadBlockProductDetail(editor, opt = {}) {
                 ],
                 attributes: {
                     "ez-mall-type": "productDetail",
-                    class: "ezMall-stick-slide py-2"
+                    class: "ezMall-stick-slide py-2",
+                    style: "position: relative"
                 }
             },
             init() {
@@ -140,7 +140,7 @@ export default function loadBlockProductDetail(editor, opt = {}) {
 
             },
             async Update() {
-
+                
                 await fetch(`${process.env.REACT_APP_API_URL}products/9ecd724b-6041-4a5e-b2c1-e98ed37628de`
                     , {
                         mode: 'cors',
@@ -214,7 +214,7 @@ export default function loadBlockProductDetail(editor, opt = {}) {
                     type: "product-detail-body",
                     content:
                         `
-                    <div class="container bg-light">
+                    <div class="container bg-light ezMall-product-detail-container">
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 p-0 pt-3 ezMall-image-container">
                                 <div style="width: 100%;" class="d-flex justify-content-center">
@@ -285,19 +285,15 @@ export default function loadBlockProductDetail(editor, opt = {}) {
                                 </div>
                             </div>
                         </div>
-                        <div class="ezMall-popup-alert">
+                        
+                    </div>
+                    <div class="ezMall-popup-alert">
                             <div class="spinner-border ezMall-loading" role="status">
                                 <span class="visually-hidden">Loading...</span>
                             </div>
                             <div class="ezMall-popup ezMall-popup-success"> 
                                 <i class="fa fa-check"></i>
-                                <h5 class="text-success fw-bolder">Order Successful</h5>
-                                <div class="ezMalll-msg fw-bold p-3 d-flex">
-                                    We already send an email to you
-                                </div>
-                                <button class="btn btn-primary fw-bold btn-lg">
-                                    Continue Shopping
-                                </button>
+                                <h5 class="text-success fw-bolder">Successful</h5>
                             </div> 
                             <div class="ezMall-popup ezMall-popup-fail"> 
                                 <i class="fa fa-close text-danger"></i>
@@ -305,14 +301,10 @@ export default function loadBlockProductDetail(editor, opt = {}) {
                                 <div class="ezMalll-msg fw-bold p-3 d-flex">
                                     Something went wrong
                                 </div>
-                                <button class="btn btn-danger fw-bold btn-lg">
-                                    Back to home page
-                                </button>
+                            
                             </div> 
                         </div>
 
-                    </div>
-                    
                 `
                 }
             ],

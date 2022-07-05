@@ -455,7 +455,13 @@ export default function loadBlockPayMent(editor, opt = {}) {
                                                 <p class=" p-0 m-0">Discount</p>
                                             <p class=" p-0 m-0 "> <span class= "ezMall-discount"> 0</span> </p>
                                             </div>
-
+                                            <div class="fw px-3 d-flex justify-content-start ezMall-discount-description" style = "display:none">
+                                                <p class="p-0 m-0 text-danger">Used code: </p>
+                                                <div class="d-flex">
+                                                    <p class="p-0  m-0 text ezMall-discount-description-text">ádasd</p>
+                                                    <i class="fa fa-close text-dark" style="font-size: 9px;"></i>
+                                                </div>
+                                            </div>
                                             <h4 class="m-0 fw-bolder my-2 "  style="border-bottom: dashed 3px;"></h4>
                                             <div class="d-flex fw-bold justify-content-between py-2">
                                                 <h5 class="p-0 m-0 fw-bold text-danger">Total Amount</h5>
@@ -464,7 +470,7 @@ export default function loadBlockPayMent(editor, opt = {}) {
                                         </div>  
                                         <div class="py-3 d-flex flex-row justify-content-between">
                                             <input type="text" class="form-control pl-1" id="discount" placeholder="Enter your discount code" style="width: 68%">
-                                            <button type="button" class="btn btn-outline-dark fw-bold" style="width: 30%">Use Discount</button>
+                                            <button type="button" class="btn btn-outline-dark fw-bold"  onclick = "useDiscount()" style="width: 30%">Use Discount</button>
                                         </div>
                                         <div class="d-grid gap-1 ">
                                             <button type="button" class="btn btn-danger fw-bold btn-block p-3 mb-3" style = 

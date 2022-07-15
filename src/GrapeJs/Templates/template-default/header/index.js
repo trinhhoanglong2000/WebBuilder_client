@@ -8,21 +8,6 @@ export default function loadBlockHeader(editor, opt = {}) {
   const dc = editor.DomComponents;
 
   const isHaveLogo = c.logoURL ? true : false;
-  const getHeaderNavigationButton = () => {
-    let navbar = '';
-
-    if (c.headerNavigation) {
-      c.headerNavigation.forEach((element) => {
-        if (element.id !== c.pageId) {
-          navbar += `<li data-highlightable="1" class="nav-item"><a href="${element.name}" class="nav-link p-1"> ${element.name} </a></li>`;
-        }
-      });
-
-      return navbar;
-    }
-
-    return navbar;
-  };
   if (!opt.isDeloy) {
     bm.add("header", {
       label: "Header",
@@ -30,7 +15,6 @@ export default function loadBlockHeader(editor, opt = {}) {
       attributes: { class: "fa fa-header" },
       content: {
         type: "header",
-
         components: [
           {
             type: "defaultCustom",
@@ -56,7 +40,7 @@ export default function loadBlockHeader(editor, opt = {}) {
                 tagName: "a",
                 attributes: {
                   href: "#",
-                  class: "navbar-brand text-uppercase font-weight-bold order-1",
+                  class: "navbar-brand font-weight-bold order-1",
                 },
                 selectable: false,
                 components: [
@@ -88,15 +72,19 @@ export default function loadBlockHeader(editor, opt = {}) {
                   {
                     type: "defaultCustom",
                     tagName: "ul",
-                    attributes: { class: "navbar-nav" },
-                    content: getHeaderNavigationButton(),
+                    attributes: { class: "navbar-nav dropdown" },
                   },
-                ],
+                  {
+                    type: "defaultCustom",
+                    tagName: "ul",
+                    attributes: { class: "navbar-nav expand" },
+                  }
+                ]
               },
               {
                 type: "defaultCustom",
                 tagName: "div",
-                attributes: { class: "order-2" },
+                attributes: { class: "order-2 header-icon" },
                 content: `<a id="cartIcon" href="#"><i id="iv1qd" data-gjs-type="defaultCustom" class="fa fa-shopping-bag icon-header">
                             <span class="position-absolute translate-middle badge rounded-pill bg-danger"><span id="numberSelectedProduct">2</span></span>
                           </i></a>
@@ -232,7 +220,8 @@ export default function loadBlockHeader(editor, opt = {}) {
       defaults: {
         copyable: false,
         removable: false,
-        droppable: false,
+        moveable: false,
+        droppabl: false,
         draggable: false,
         name: "Header",
         tagName: "nav",

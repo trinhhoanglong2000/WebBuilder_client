@@ -88,78 +88,81 @@ export default function loadBlockProductDetail(editor, opt = {}) {
 
     }
 
-    domc.addType("product-detail", {
-        model: {
-            defaults: {
-                copyable: false,
-                attributes: {
-                    class: "container product-section",
-                    name: "products-collections",
-                },
-                name: "Product Detail",
-                draggable: ".main-content",
-                traits: [
-                    {
-                        type: "Product-Detail-Heading", // Type of the trait
-                        label: "Heading", // The label you will see in Settings
-                        placeholder: "Header",
+    if (!opt.isDeloy) {
+        domc.addType("product-detail", {
+            model: {
+                defaults: {
+                    copyable: false,
+                    attributes: {
+                        class: "container product-section",
+                        name: "products-collections",
                     },
-                ],
-                attributes: {
-                    "ez-mall-type": "productDetail",
-                    class: "ezMall-stick-slide py-2",
-                    style: "position: relative"
-                }
+                    name: "Product Detail",
+                    draggable: ".main-content",
+                    traits: [
+                        {
+                            type: "Product-Detail-Heading", // Type of the trait
+                            label: "Heading", // The label you will see in Settings
+                            placeholder: "Header",
+                        },
+                    ],
+                    attributes: {
+                        "ez-mall-type": "productDetail",
+                        class: "ezMall-stick-slide py-2",
+                        style: "position: relative"
+                    }
+                },
+                init() {
+
+                },
+                initData() {
+                    // this.attributes.components.models.forEach(function (item) {
+                    //     //check product//
+                    //     if (item.attributes.name === "Products") {
+                    //         item.set({
+                    //             content: item.attributes.content.replace(
+                    //                 /myCarousel/g,
+                    //                 `A${uuidv4()}`
+                    //             ),
+                    //         });
+                    //     }
+                    // });
+                },
+
+
+                // This function run when component created - we setup listen to change atri
             },
-            init() {
+            view: defaultView.extend({
+                init() {
+                    this.listenTo(this.model, "change:attributes:data-ez-mall-collection", this.Update);
+                },
+                onRender() {
+                    this.Update()
 
+                },
+                async Update() {
+                    
+                    await fetch(`${process.env.REACT_APP_API_URL}products/9ecd724b-6041-4a5e-b2c1-e98ed37628de`
+                        , {
+                            mode: 'cors',
+                            headers: {
+                                'Access-Control-Allow-Origin': '*'
+                            }
+                        }).then(res => res.json()).then(res => {
+                            if (res.message = "Get product successfully!") {
+                                insertProductData(this.el, res.data);
+                            } else {
+
+                            }
+                        })
+
+                },
             },
-            initData() {
-                // this.attributes.components.models.forEach(function (item) {
-                //     //check product//
-                //     if (item.attributes.name === "Products") {
-                //         item.set({
-                //             content: item.attributes.content.replace(
-                //                 /myCarousel/g,
-                //                 `A${uuidv4()}`
-                //             ),
-                //         });
-                //     }
-                // });
-            },
+            )
 
-
-            // This function run when component created - we setup listen to change atri
-        },
-        view: defaultView.extend({
-            init() {
-                this.listenTo(this.model, "change:attributes:data-ez-mall-collection", this.Update);
-            },
-            onRender() {
-                this.Update()
-
-            },
-            async Update() {
-                
-                await fetch(`${process.env.REACT_APP_API_URL}products/9ecd724b-6041-4a5e-b2c1-e98ed37628de`
-                    , {
-                        mode: 'cors',
-                        headers: {
-                            'Access-Control-Allow-Origin': '*'
-                        }
-                    }).then(res => res.json()).then(res => {
-                        if (res.message = "Get product successfully!") {
-                            insertProductData(this.el, res.data);
-                        } else {
-
-                        }
-                    })
-
-            },
-        },
-        )
-
-    });
+        });
+    }
+    
     domc.addType("product-detail-text", {
         model: {
             defaults: {

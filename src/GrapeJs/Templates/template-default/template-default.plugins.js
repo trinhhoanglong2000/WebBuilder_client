@@ -16,7 +16,7 @@ import loadImage from "./image";
 import loadBlockCart from "./cart";
 import loadBlockPayMent from "./payment";
 import loadBlockPolicy from "../Policy";
-import loadSlideshowGallery from "./SlideshowGallery";
+import loadSlideshowGallery from "./slideshowGallery";
 import loadCommonTrait from "./common/trait";
 import loadBlockProductDetail from "./productDetail";
 import loadTrackingOrder from "./trackingOrder";
@@ -72,7 +72,6 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
   loadBlockCarousel(editor, config);
   loadBlockProducts(editor, config);
   loadBlockRichText(editor,config);
-  loadBlockFooter(editor, config);
   loadBlockHeader(editor, config);
   loadImageWithText(editor, config);
   loadContactForm(editor, config);
@@ -87,6 +86,7 @@ export default grapesjs.plugins.add("template-default", (editor, opts = {}) => {
   loadBlockProductDetail(editor,config);
   loadTrackingOrder(editor, config);
   loadTrackingOrderForm(editor, config);
+  loadBlockFooter(editor, config);
   //Long ADD END
 }
 );

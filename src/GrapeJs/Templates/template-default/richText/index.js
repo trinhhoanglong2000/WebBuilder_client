@@ -1,5 +1,7 @@
-import loadTraitRichText from "./trait"
-import loadComponentsRichText from "./components"
+import loadTraitRichText from "./trait";
+import loadComponentsRichText from "./components";
+import { RICH_TEXT_LABEL, RICH_TEXT_BUTTON_LABEL, TEXT_LABEL } from "../../../../asset/icon/svg";
+
 export default function loadBlockRichText(editor, opt = {}) {
   const c = opt;
   let bm = editor.BlockManager;
@@ -10,9 +12,9 @@ export default function loadBlockRichText(editor, opt = {}) {
 
   bm.add("RichText", {
     label: `
+      ${RICH_TEXT_LABEL}
       <div>${c.label_rich_text}</div> `,
     category: c.label_rich_text,
-    attributes: { class: "fa fa-file-text" },
     content: {
       type: "Rich-Text",
       components: [
@@ -35,7 +37,7 @@ export default function loadBlockRichText(editor, opt = {}) {
   });
   bm.add("RichText-Header", {
     label: `
-      <div>${"Header"}</div> `,
+      <div>Heading</div> `,
     category: c.label_rich_text,
 
     attributes: { class: "fa fa-header " },
@@ -46,10 +48,9 @@ export default function loadBlockRichText(editor, opt = {}) {
   });
   bm.add("RichText-Text", {
     label: `
-      <div>${"Text"}</div> `,
+      ${TEXT_LABEL}
+      <div>Text</div> `,
     category: c.label_rich_text,
-
-    attributes: { class: "gjs-fonts gjs-f-text" },
     content: {
       type: "RichText-Text",
       content: `<p>Share information about your brand with your customers. Describe a product, make announcements, or
@@ -58,11 +59,10 @@ export default function loadBlockRichText(editor, opt = {}) {
   });
   bm.add("RichText-Btn", {
     label: `
-      <div>${"Button"}</div> 
+      ${RICH_TEXT_BUTTON_LABEL}
+      <div>Button</div> 
       `,
     category: c.label_rich_text,
-
-    attributes: { class: "gjs-fonts gjs-f-button" },
     content: {
       content: `Button Link`,
       type: "RichText-Button",

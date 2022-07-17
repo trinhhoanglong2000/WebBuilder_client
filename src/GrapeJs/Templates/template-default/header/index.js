@@ -66,7 +66,7 @@ export default function loadBlockHeader(editor, opt = {}) {
                 tagName: "div",
                 attributes: {
                   id: "navbarSupportedContent",
-                  class: "collapse navbar-collapse order-3 order-sm-2",
+                  class: "collapse navbar-collapse order-3 order-md-2",
                 },
                 components: [
                   {
@@ -219,10 +219,10 @@ export default function loadBlockHeader(editor, opt = {}) {
     model: {
       defaults: {
         copyable: false,
-        removable: false,
+        removable: true,
         moveable: false,
         droppabl: false,
-        draggable: false,
+        draggable: true,
         name: "Header",
         tagName: "nav",
         attributes: {

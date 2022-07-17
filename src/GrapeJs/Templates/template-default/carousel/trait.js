@@ -228,7 +228,6 @@ export default function loadTraitCarousel(editor, opt = {}) {
         GetRequest(
           `${process.env.REACT_APP_API_URL}collections/banner`
         ).then((myJson) => {
-          $(el).find(".Modal-popup ul").empty();
           let data = myJson.data.map((value) => { return { id: value.id, name: value.name } });
           let domdata = "";
           data.forEach((element) => {
@@ -254,8 +253,10 @@ export default function loadTraitCarousel(editor, opt = {}) {
                 </li>`;
           });
           //  Item section
-          if (!flag)
+          if (!flag) {
+            $(el).find(".Modal-popup ul").find('#loadingDiv').remove();
             $(el).find(".Modal-popup ul").append(domdata);
+          }
           else
             $(el).find(".Modal-popup ul").empty().append(domdata);
 

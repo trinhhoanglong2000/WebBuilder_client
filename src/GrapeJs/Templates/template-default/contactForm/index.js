@@ -78,6 +78,20 @@ export default function loadContactForm(editor, opt = {}) {
             droppable: false,
             editable: false,
             copyable: false,
+            traits: [
+                {
+                  type: "CustomSelect",
+                  label: "Theme color",
+                  name: "theme",
+                  options: [
+                    { id: "white", name: "White" },
+                    { id: "black", name: "Black" },
+                    { id: "lGreen", name: "Light Green" },
+                    { id: "lBlue", name: "Light Blue" },
+                    { id: "sand", name: "Sand" },
+                  ],
+                },
+            ],
           },
           init() {
           },

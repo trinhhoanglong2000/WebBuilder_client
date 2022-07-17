@@ -1,3 +1,5 @@
+import { WALLET_ICON } from "../../../../asset/icon/svg";
+
 export default function loadTrackingOrder(editor, opt = {}) {
     const bm = editor.BlockManager;
     const dc = editor.DomComponents;
@@ -30,8 +32,9 @@ export default function loadTrackingOrder(editor, opt = {}) {
                                     </div>
                                 </article>
                                 <div class="track">
-                                    <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"> Order placed </span> </div>
-                                    <div class="step active"> <span class="icon"> <i class="fa fa-gift "></i> </span> <span class="text"> In production </span> </div>
+                                    <div class="step"> <span class="icon"> ${WALLET_ICON}</i> </span> <span class="text"> Pre-pay </span> </div>
+                                    <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text"> Order placed </span> </div>
+                                    <div class="step"> <span class="icon"> <i class="fa fa-gift "></i> </span> <span class="text"> In production </span> </div>
                                     <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> In shipping  </span> </div>
                                     <div class="step"> <span class="icon"> <i class="fa fa-home"></i> </span> <span class="text"> Delivered </span> </div>
                                 </div>                              
@@ -59,7 +62,7 @@ export default function loadTrackingOrder(editor, opt = {}) {
                                         <div class="row">
                                             <div class="col-md-4 col-4"> Total: </div>  
                                             <div class="col-md-7 col-6" id="total_price"></div>
-                                            <div class="col" id="currency"> ABC </div> 
+                                            <div class="col" id="currency"> </div> 
                                         </div>
                                     </div>
                                 </div>

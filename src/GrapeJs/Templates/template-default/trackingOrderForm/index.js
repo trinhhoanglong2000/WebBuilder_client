@@ -70,17 +70,13 @@ export default function loadTrackingOrderForm(editor, opt = {}) {
                     let mailInput = email.val();
                     let orderIdInput = orderCode.val();
                     if (orderIdInput && ValidateEmail(mailInput) && orderIdInput != "") {
-
                         let serverURL = $('script.ScriptClass').attr('src').match(/.+(?=\/js|css)/gm);
-                        // TODO
-                        let orderIdInput = "ACICBIDGBGFGB"
-                        mailInput = "ttlgame123@gmail.com"
                         
                         fetch(`${serverURL}/stores/${opt.storeId}/order/${orderIdInput}?email=${mailInput}`)
                         .then((response) => response.json())
                         .then((response) => {
                             if (response.statusCode === 200 || response.statusCode === 304) {
-                                // TODO - REDIRECT TO TRACKING ORDER
+                                window.location = `orders?id=${orderCode}`
                             } else {
                                 errorAlert.html('Server erorr!')
                                 errorAlert.css('display', 'initial');

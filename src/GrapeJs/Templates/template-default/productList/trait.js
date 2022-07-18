@@ -115,6 +115,11 @@ export default function loadTraitProduct(editor, opt = {}) {
             .find(".dropdown-item").get(i)).on("click", func);
         });
       const GetItem = (name = "", flag = false) => {
+        if ($(el).find('#loadingDiv').length === 0) {
+          $(el).find(".Modal-popup ul").empty().append(`<div id="loadingDiv">
+          <div ></div>
+        </div>`);
+        }
         GetRequest(
           `${process.env.REACT_APP_API_URL}stores/${opt.storeId}/collections/product?name=${name.trim()}`
         ).then((data) => {
@@ -145,8 +150,10 @@ export default function loadTraitProduct(editor, opt = {}) {
               </li>`;
           });
           //  Item section
-          if (!flag)
+          if (!flag) {
+            $(el).find(".Modal-popup ul").find('#loadingDiv').remove();
             $(el).find(".Modal-popup ul").append(domdata);
+          }
           else
             $(el).find(".Modal-popup ul").empty().append(domdata);
 

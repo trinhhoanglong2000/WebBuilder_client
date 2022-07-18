@@ -264,12 +264,16 @@ export default function loadBlockFooterItem(editor, opt = {}) {
             .find(".dropdown-item").get(i)).on("click", func);
         });
       const GetItem = (name = "", flag = false) => {
+        if ($(el).find('#loadingDiv').length === 0) {
+          $(el).find(".Modal-popup ul").empty().append(`<div id="loadingDiv">
+          <div ></div>
+        </div>`);
+        }
         GetRequest(
           `${process.env.REACT_APP_API_URL}stores/${opt.storeId}/menu?name=${name.trim()}`
         ).then((response) => {
           initValue = trait.target.attributes.attributes['menu-collection'] || "";
           let domdata = "";
-
           response.data.forEach((element) => {
             domdata += `<li data-value = "${element.id}" name="${element.name}" >
             <div style="width: 100%;display: flex;align-items: center;" class="btn border-bottom py-3">
@@ -290,8 +294,10 @@ export default function loadBlockFooterItem(editor, opt = {}) {
           });
 
           //  Item section
-          if (!flag)
+          if (!flag) {
+            $(el).find(".Modal-popup ul").find('#loadingDiv').remove();
             $(el).find(".Modal-popup ul").append(domdata);
+          }
           else
             $(el).find(".Modal-popup ul").empty().append(domdata);
 
@@ -504,28 +510,29 @@ export default function loadBlockFooterItem(editor, opt = {}) {
       async Update() {
         let menu_data = [
           {
-            name: "Search",
-            link: "a",
+            title: "Search",
+            link: "/collections",
           },
           {
-            name: "Terms of service",
-            link: "a",
+            title: "Terms of service",
+            link: "/termsOfService",
           },
           {
-            name: "Refund policy",
-            link: "a",
+            title: "Refund policy",
+            link: "/refundPolicy",
           },
         ];
         const id = this.model.attributes.attributes["menu-collection"];
         id && fetch(`${process.env.REACT_APP_API_URL}menu/${id}`)
           .then((response) => response.json())
           .then((response) => {
+
             if (response.data?.listMenuItem) {
               menu_data = response.data.listMenuItem;
             }
 
             let data = "";
-            menu_data.forEach(element => data += `<li><a href="${element.link}">${element.name}</a></li>`);
+            menu_data.forEach(element => data += `<li><a href="${element.link}">${element.title}</a></li>`);
 
             $(this.el).find(".quicklinks-menu").html(data);
           });

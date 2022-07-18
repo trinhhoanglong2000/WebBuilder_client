@@ -1,6 +1,5 @@
 import $ from "jquery";
 import loadBlockFooterItem from "./items";
-import Swal from 'sweetalert2';
 import { validURL, setAttribute } from "../../../../helper/utils";
 import {
   URL_ICON,
@@ -16,6 +15,21 @@ export default function loadBlockFooter(editor, opt = {}) {
   const Swal = require('sweetalert2')
 
   loadBlockFooterItem(editor, opt);
+
+  const validLinkedInLink = (value) => {
+    let regex = new RegExp("^(http(s)?:\/\/)?([\w]+\.)?linkedin\.com\/(pub|in|profile)");
+    return !!regex.test(value);
+  }
+
+  const validInstagramLink = (value) => {
+    let regex = new RegExp("(?:(?:http|https):\/\/)?(?:www.)?(?:instagram.com|instagr.am|instagr.com)\/(\w+)");
+    return !!regex.test(value);
+  }
+
+  const validFacebookLink = (value) => {
+    let regex = new RegExp("(?:https?:\/\/)?(?:www.)?(mbasic.facebook|m.facebook|facebook|fb).(com|me)\/(?:(?:\w.)*#!\/)?(?:pages\/)?(?:[\w-.]*\/)*([\w-.]*)");
+    return !!regex.test(value);
+  }
 
   const getFooterNavigationButton = (mNavigation) => {
     let navbar = "";
@@ -236,16 +250,13 @@ export default function loadBlockFooter(editor, opt = {}) {
               const text = $(this).find('span').text().trim();
               let previousValue = text;
 
-              // let regex = new RegExp("(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)");
-              // let isFacebookLink = !!regex.test(value);
-
-              // if (!isFacebookLink) {
-              //   Swal.fire({
-              //     icon: 'error',
-              //     title: 'Link  Error',
-              //     text: 'This is not a facebook link!',
-              //   })
-              // }
+              if (!validLinkedInLink(value)) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Link  Error',
+                  text: 'This is not a Linked In link!',
+                })
+              }
 
               $(el).find('input').val(text);
               $(el).find('ul').addClass('combobox-hidden');
@@ -407,16 +418,13 @@ export default function loadBlockFooter(editor, opt = {}) {
               const text = $(this).find('span').text().trim();
               let previousValue = text;
 
-              // let regex = new RegExp("(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)");
-              // let isFacebookLink = !!regex.test(value);
-
-              // if (!isFacebookLink) {
-              //   Swal.fire({
-              //     icon: 'error',
-              //     title: 'Link  Error',
-              //     text: 'This is not a facebook link!',
-              //   })
-              // }
+              if (!validInstagramLink(value)) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Link  Error',
+                  text: 'This is not a Instagram link!',
+                })
+              }
 
               $(el).find('input').val(text);
               $(el).find('ul').addClass('combobox-hidden');
@@ -578,16 +586,13 @@ export default function loadBlockFooter(editor, opt = {}) {
               const text = $(this).find('span').text().trim();
               let previousValue = text;
 
-              // let regex = new RegExp("(?:https?:\/\/)?(?:www\.)?(mbasic.facebook|m\.facebook|facebook|fb)\.(com|me)\/(?:(?:\w\.)*#!\/)?(?:pages\/)?(?:[\w\-\.]*\/)*([\w\-\.]*)");
-              // let isFacebookLink = !!regex.test(value);
-
-              // if (!isFacebookLink) {
-              //   Swal.fire({
-              //     icon: 'error',
-              //     title: 'Link  Error',
-              //     text: 'This is not a facebook link!',
-              //   })
-              // }
+              if (!validFacebookLink(value)) {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Link  Error',
+                  text: 'This is not a facebook link!',
+                })
+              }
 
               $(el).find('input').val(text);
               $(el).find('ul').addClass('combobox-hidden');

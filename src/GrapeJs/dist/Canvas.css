@@ -216,10 +216,20 @@
   border-radius: 5px;
   font-size: 14px;
   margin-top: 5px;
+  color: white;
+  transition: 0.2s;
 }
 
 .upload-image-area .card-body button.change-btn {
-  background-color: #8dd7f7;
+  background-color: #26bcfd;
+}
+
+.upload-image-area .card-body button.change-btn:hover {
+  background-color: #52c7fa;
+}
+
+.upload-image-area .card-body button.remove-btn:hover {
+  background-color: #fd9385;
 }
 
 .upload-image-area .card-body button.remove-btn {

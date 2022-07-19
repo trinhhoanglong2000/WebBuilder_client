@@ -1,4 +1,5 @@
 import $ from "jquery";
+import { TRACKING_ICON } from "../../../../asset/icon/svg";
 
 export default function loadTrackingOrderForm(editor, opt = {}) {
     const bm = editor.BlockManager;
@@ -7,8 +8,8 @@ export default function loadTrackingOrderForm(editor, opt = {}) {
     const defaultType = dc.getType("default");
 
     bm.add("tracking-order-form", {
-        label: "Tracking Order Form",
-        attributes: { class: "fa fa-picture-o" },
+        label: `${TRACKING_ICON}
+            <div>Tracking Order Form</div>`,
         category: "Tracking Order",
         content: {
             type: "tracking-Order-Form",

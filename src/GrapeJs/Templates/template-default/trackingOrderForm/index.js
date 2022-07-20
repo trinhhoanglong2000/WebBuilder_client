@@ -1,4 +1,5 @@
 import $ from "jquery";
+import { TRACKING_ICON } from "../../../../asset/icon/svg";
 
 export default function loadTrackingOrderForm(editor, opt = {}) {
     const bm = editor.BlockManager;
@@ -7,8 +8,8 @@ export default function loadTrackingOrderForm(editor, opt = {}) {
     const defaultType = dc.getType("default");
 
     bm.add("tracking-order-form", {
-        label: "Tracking Order Form",
-        attributes: { class: "fa fa-picture-o" },
+        label: `${TRACKING_ICON}
+            <div>Tracking Order Form</div>`,
         category: "Tracking Order",
         content: {
             type: "tracking-Order-Form",
@@ -23,7 +24,8 @@ export default function loadTrackingOrderForm(editor, opt = {}) {
                         <P> Tracking your order by enter the information below.</P>
                         <p> We need your email address and order code for security </p>
                         <div class="input-form">
-                            <h5 class="error"> Invalid input! </h5>
+                            <h5 class="error"> </h5>
+                            <h5 class="notify"> </h5>
                             <input id="email" class="form-control" placeholder="Email">
                             <input id="orderCode" class="form-control" placeholder="Order code">
                         </div>
@@ -45,6 +47,20 @@ export default function loadTrackingOrderForm(editor, opt = {}) {
                 droppable: false,
                 copyable: false,
                 attributes: { class: "container", name: "trackingOrderForm", slideIndex: 1 },
+                traits: [
+                    {
+                      type: "CustomSelect",
+                      label: "Theme color",
+                      name: "theme",
+                      options: [
+                        { id: "white", name: "White" },
+                        { id: "black", name: "Black" },
+                        { id: "lGreen", name: "Light Green" },
+                        { id: "lBlue", name: "Light Blue" },
+                        { id: "sand", name: "Sand" },
+                      ],
+                    },
+                ],
             },
 
             init() {},
@@ -61,6 +77,7 @@ export default function loadTrackingOrderForm(editor, opt = {}) {
                 
                 let submitBtn  = $(this.el).find('#submitBtn');
                 let errorAlert = $(this.el).find('.error');
+                let notifyAlert = $(this.el).find('.notify');
                 let email = $(this.el).find('#email');
                 let orderCode = $(this.el).find('#orderCode');
 
@@ -70,15 +87,17 @@ export default function loadTrackingOrderForm(editor, opt = {}) {
                     let mailInput = email.val();
                     let orderIdInput = orderCode.val();
                     if (orderIdInput && ValidateEmail(mailInput) && orderIdInput != "") {
-                        let serverURL = $('script.ScriptClass').attr('src').match(/.+(?=\/js|css)/gm);
                         
-                        fetch(`${serverURL}/stores/${opt.storeId}/order/${orderIdInput}?email=${mailInput}`)
+                        fetch(`${process.env.REACT_APP_API_URL}stores/${opt.storeId}/order/${orderIdInput}?email=${mailInput}`)
                         .then((response) => response.json())
                         .then((response) => {
                             if (response.statusCode === 200 || response.statusCode === 304) {
-                                window.location = `orders?id=${orderCode}`
+                                if (response.data.length <= 0) {
+                                    notifyAlert.html('Order could not be found!')
+                                    notifyAlert.css('display', 'initial');
+                                } 
                             } else {
-                                errorAlert.html('Server erorr!')
+                                errorAlert.html('Server error!')
                                 errorAlert.css('display', 'initial');
                             }
                         })

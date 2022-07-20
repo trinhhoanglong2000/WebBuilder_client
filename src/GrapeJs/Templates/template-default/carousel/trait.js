@@ -226,7 +226,7 @@ export default function loadTraitCarousel(editor, opt = {}) {
         </div>`);
         }
         GetRequest(
-          `${process.env.REACT_APP_API_URL}collections/banner`
+          `${process.env.REACT_APP_API_URL}stores/${opt.storeId}/collections/banner?name=${name.trim()}`
         ).then((myJson) => {
           let data = myJson.data.map((value) => { return { id: value.id, name: value.name } });
           let domdata = "";

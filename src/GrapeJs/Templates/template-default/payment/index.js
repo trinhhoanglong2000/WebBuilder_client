@@ -456,11 +456,11 @@ export default function loadBlockPayMent(editor, opt = {}) {
                                                 <p class=" p-0 m-0">Discount</p>
                                             <p class=" p-0 m-0 "> <span class= "ezMall-discount"> 0</span> </p>
                                             </div>
-                                            <div class="fw px-3 d-flex justify-content-start ezMall-discount-description" style = "display:none !important">
-                                                <p class="p-0 m-0 text-danger fw-bold">Used code: </p>
+                                            <div class="fw px-3 d-flex justify-content-start ezMall-discount-description" style = "display:none !important;">
+                                                <p class="p-0 m-0 text-danger fw-bold px-2">Used code: </p>
                                                 <div class="d-flex">
                                                     <p class="p-0  m-0 text ezMall-discount-description-text">None</p>
-                                                    <button onclick= "removeDiscount()">
+                                                    <button onclick= "removeDiscount()" style = "border: solid 0px black;  margin-bottom: 10px;">
                                                         <i class="fa fa-close text-dark" style="font-size: 9px;"></i>
                                                     </button>
                                                 </div>

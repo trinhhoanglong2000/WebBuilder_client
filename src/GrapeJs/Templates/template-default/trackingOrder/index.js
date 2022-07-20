@@ -67,9 +67,10 @@ export default function loadTrackingOrder(editor, opt = {}) {
                                     </div>
                                 </div>
                             </div>
-                            <div id="show_order_details" class="card-body">
+                            <div id="show_order_details" class="card-body ">
                                 <hr>
                                 <button class="btn btn-show-orders"> Invoice details </button>
+                                <button class="btn btn-primary btn-payment">Payment</button>
                                 <button class="btn btn-cancel_order"> Cancel order </button>
                             </div>
                             <div class="modal-loader">

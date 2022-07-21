@@ -12,6 +12,8 @@ export default function loadBlockFooterItem(editor, opt = {}) {
   const defaultType = dc.getType("default");
   const defaultView = defaultType.view;
 
+  const srcDefault = 'https://dummyimage.com/230x150/55595c/fff';
+
   let controller;
   var GetRequest = async (url) => {
     controller = new AbortController();
@@ -422,7 +424,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
         <div class="card upload-image-area">
             <div class="card-body">
                 <div class="target-img">
-                    <img src=${initValue ?? trait.get('src')} class="card-img-top"/>
+                    <img src=${initValue ?? srcDefault} class="card-img-top"/>
                 </div>
                 <button type="button" class="change-btn">Change</button>
                 <button type="button" class="remove-btn">Remove</button>
@@ -452,8 +454,8 @@ export default function loadBlockFooterItem(editor, opt = {}) {
       };
 
       removeBtn.onclick = () => {
-        setAttribute(target, { 'src': trait.get('src') })
-        inputImage.src = trait.get('src');
+        setAttribute(target, { 'src': srcDefault })
+        inputImage.src = srcDefault;
       };
 
       return el;
@@ -579,8 +581,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
         traits: [
           {
             type: "footer-upload-image",
-            label: "Image",
-            src: "https://dummyimage.com/230x150/55595c/fff",
+            label: "Image"
           },
         ],
       },

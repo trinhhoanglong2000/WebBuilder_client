@@ -7,6 +7,8 @@ export default function loadBlockHeader(editor, opt = {}) {
   const am = editor.AssetManager;
   const dc = editor.DomComponents;
 
+  const srcDefault = 'https://ezmall-bucket.s3.ap-southeast-1.amazonaws.com/assets/a8ae4620-6eb2-4a6a-932b-3f6e2ca11302.png';
+
   const isHaveLogo = c.logoURL ? true : false;
   if (!opt.isDeloy) {
     bm.add("header", {
@@ -105,7 +107,7 @@ export default function loadBlockHeader(editor, opt = {}) {
             <div class="card upload-image-area">
                 <div class="card-body">
                     <div class="target-img">
-                        <img src=${c.logoURL ?? trait.get("srcDefault")
+                    <img src=${c.logoURL ?? srcDefault
         } class="card-img-top"/>
                     </div>
                     <button type="button" class="change-btn">Change</button>
@@ -161,7 +163,7 @@ export default function loadBlockHeader(editor, opt = {}) {
 
         logoBrand.removeClass('d-none')
 
-        inputImage.src = trait.get("srcDefault");
+        inputImage.src = srcDefault;
       };
 
       return el;
@@ -170,11 +172,11 @@ export default function loadBlockHeader(editor, opt = {}) {
     onUpdate({ elInput, component }) {
       const src = $(component.view.el).find('.navbar-brand img').attr('src');
       const inputImage = elInput.querySelector(".upload-image-area .card-body img");
-
-      if (src) {
+      debugger
+      if (src && src != 'data:,') {
         inputImage.src = src;
       } else {
-        inputImage.src = elInput.get("srcDefault");
+        inputImage.src = srcDefault;
       }
     },
   });
@@ -219,10 +221,9 @@ export default function loadBlockHeader(editor, opt = {}) {
     model: {
       defaults: {
         copyable: false,
-        removable: true,
-        moveable: false,
+        removable: false,
         droppabl: false,
-        draggable: true,
+        draggable: false,
         name: "Header",
         tagName: "nav",
         attributes: {
@@ -274,216 +275,3 @@ export default function loadBlockHeader(editor, opt = {}) {
     },
   });
 }
-
-// bm.add('header2', {
-//     label: "Header2",
-//     category: "Header",
-//     attributes: { class: "fa fa-header" },
-//     content: {
-//         tagName: "div",
-//         hoverable: false,
-//         components: [
-//         {
-//             tagName: "nav",
-//             attributes: { class: "navbar border-bottom border-dark" },
-//             type: "header",
-//             components: [
-//             {
-//                 layerable : false,
-//                 draggable: false,
-//                 hoverable: false,
-//                 tagName: "div",
-//                 attributes: { class: "container align-items-baseline" },
-//                 components: [
-//                 {
-//                     layerable : false,
-//                     draggable: false,
-//                     hoverable: false,
-//                     tagName: "button",
-//                     attributes: { class:"d-block d-md-none navbar-toggler", id: "togglerBtn", "data-bs-toggle": "offcanvas", "data-bs-target": "#offcanvas", "role": "button"},
-//                     content: `<i class="fa fa-bars"></i>`,
-//                 },
-//                 {
-//                     layerable : false,
-//                     draggable: false,
-//                     hoverable: false,
-//                     tagName: "a",
-//                     attributes: { href: "#", class: "navbar-brand text-uppercase font-weight-bold" },
-//                     content: `<h4>${c.storeName}</h4>`,
-//                 },
-//                 {
-//                     layerable : false,
-//                     draggable: false,
-//                     hoverable: false,
-//                     tagName: "div",
-//                     attributes: { class:"d-block d-md-none" },
-//                     components: [
-//                     {
-//                         layerable : false,
-//                         draggable: false,
-//                         hoverable: false,
-//                         tagName: "i",
-//                         attributes: { class: "fa fa-search icon-header" },
-//                     },
-//                     {
-//                         layerable : false,
-//                         draggable: false,
-//                         hoverable: false,
-//                         tagName: "i",
-//                         attributes: { class: "fa fa-shopping-bag icon-header" },
-//                     },
-//                     ],
-//                 },
-//                 {
-//                     layerable : false,
-//                     draggable: false,
-//                     hoverable: false,
-//                     tagName: "div",
-//                     attributes: { class: "d-none d-md-block", style: "flex-grow: 1; align-items: center;" },
-//                     components: [
-//                     {
-//                         layerable : false,
-//                         draggable: false,
-//                         hoverable: false,
-//                         tagName: "ul",
-//                         attributes: { class: "navbar-nav ml-1;", style: "flex-direction: row;" },
-//                         components: getHeaderNavigationButton(c.headerNavigation)
-//                     },
-//                     ],
-//                 },
-//                 {
-//                     layerable : false,
-//                     draggable: false,
-//                     hoverable: false,
-//                     tagName: "div",
-//                     attributes: { class:"d-none d-md-block" },
-//                     components: [
-//                     {
-//                         layerable : false,
-//                         draggable: false,
-//                         hoverable: false,
-//                         tagName: "i",
-//                         attributes: { class: "fa fa-search" },
-//                     },
-//                     {
-//                         layerable : false,
-//                         draggable: false,
-//                         hoverable: false,
-//                         tagName: "i",
-//                         attributes: { class: "fa fa-shopping-bag" },
-//                     },
-//                     ],
-//                 },
-//                 ]
-//             },
-//             ]
-//         },
-//         {
-//             layerable : false,
-//             draggable: false,
-//             hoverable: false,
-//             tagName: "div",
-//             attributes: { class:"d-block d-md-none offcanvas offcanvas-start w-75", id:"offcanvas", "data-bs-keyboard": "false", "data-bs-backdrop": "false" },
-//             components: [
-//             {
-//                 layerable : false,
-//                 draggable: false,
-//                 hoverable: false,
-//                 tagName: "div",
-//                 attributes: { class: "offcanvas-header border-bottom border-dark" },
-//                 content: `
-//                     <h6 class="offcanvas-title" id="offcanvas">Menu</h6>
-//                     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-//                 `
-//             },
-//             {
-//                 layerable : false,
-//                 draggable: false,
-//                 hoverable: false,
-//                 tagName: "div",
-//                 attributes: { class: "offcanvas-body p-0" },
-//                 components: [
-//                     {
-//                         layerable : false,
-//                         draggable: false,
-//                         hoverable: false,
-//                         tagName: "ul",
-//                         attributes: { class: "nav nav-pills flex-column m-0 p-0 align-items-start" },
-//                         components: getHeaderNavigationButton(c.headerNavigation)
-//                     }
-//                 ]
-//             },
-//             {
-//                 layerable : false,
-//                 draggable: false,
-//                 hoverable: false,
-//                 tagName: "script",
-//                 content: `
-//                 const mediaQuery = window.matchMedia('(min-width: 768px)')
-
-//                 function handleTabletChange(e) {
-//                     if (e.matches) {
-//                         let leftSidebar = document.getElementById("offcanvas");
-
-//                         if (leftSidebar.className.includes("show")) {
-//                             document.getElementById("togglerBtn").click();
-//                         }
-//                     }
-//                 }
-//                 mediaQuery.addListener(handleTabletChange)
-//                 handleTabletChange(mediaQuery)
-//                 `
-//             },
-//             ],
-//         },
-//         ]
-//     },
-// });
-
-// storeCssData[".offcanvas"] = "{ background-color: white, color: black !important }";
-// storeCssData[".offcanvas .btn-close"] = "{ background-color: none }";
-// storeCssData[".offcanvas a"] = "{ color: black !important }";
-
-// editor.Css.setRule(
-//     `.offcanvas`, {
-//         'background-color': '#121212',
-//         'color': 'white !important'
-//     });
-// editor.Css.setRule(
-//     `.offcanvas .btn-close`, {
-//         'background-color': 'white',
-//     });
-// editor.Css.setRule(
-//     `.offcanvas a`, {
-//         'color': 'white !important'
-//     });
-
-// editor.Css.setRule(
-//     `.offcanvas`, {
-//         'background-color': '#69c5a3',
-//         'color': 'black !important'
-//     });
-// editor.Css.setRule(
-//     `.offcanvas a`, {
-//         'color': 'black !important'
-//     });
-
-// editor.Css.setRule(
-//     `.offcanvas`, {
-//         'background-color': '#c8e1e7',
-//         'color': 'back !important'
-//     });
-// editor.Css.setRule(
-//     `.offcanvas a`, {
-//         'color': 'back !important'
-//     });
-
-// editor.Css.setRule(
-//     `.offcanvas`, {
-//         'background-color': '#f6d7b0',
-//         'color': 'back !important'
-//     });
-// editor.Css.setRule(
-//     `.offcanvas a`, {
-//         'color': 'back !important'
-//     });

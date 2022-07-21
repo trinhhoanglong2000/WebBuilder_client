@@ -18,6 +18,8 @@ export default function loadImageWithText(editor, opt = {}) {
   const dc = editor.DomComponents;
   const am = editor.AssetManager;
 
+  const srcDefault = "https://dummyimage.com/600x400/55595c/fff";
+
   bm.add("imageWithText", {
     //""
     label: `
@@ -273,9 +275,7 @@ export default function loadImageWithText(editor, opt = {}) {
             <div class="card upload-image-area">
                 <div class="card-body">
                     <div class="target-img">
-                        <img src=${
-                          initValue ?? trait.get("src")
-                        } class="card-img-top"/>
+                        <img src=${initValue ?? srcDefault} class="card-img-top"/>
                     </div>
                     <button type="button" class="change-btn">Change</button>
                     <button type="button" class="remove-btn">Remove</button>
@@ -312,8 +312,8 @@ export default function loadImageWithText(editor, opt = {}) {
       };
 
       removeBtn.onclick = () => {
-        setAttribute(target, { 'src': trait.get("src") })
-        inputImage.src = trait.get("src");
+        setAttribute(target, { 'src': srcDefault })
+        inputImage.src = srcDefault;
       };
 
       return el;
@@ -904,7 +904,6 @@ export default function loadImageWithText(editor, opt = {}) {
           {
             type: "imageWithText-upload-image",
             label: "Image",
-            src: "https://dummyimage.com/230x150/55595c/fff",
           },
           {
             type: "imageWithText-heading",

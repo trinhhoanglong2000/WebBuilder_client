@@ -195,7 +195,6 @@ export default function loadBlockPolicy(editor, opt = {}) {
       defaults: {
         name: "Terms Of Service",
         removable: false,
-        // draggable: ".main-content",
         draggable: false,
         droppable: false,
         highlightable: false,
@@ -219,9 +218,8 @@ export default function loadBlockPolicy(editor, opt = {}) {
       defaults: {
         name: "Refund Policy",
         removable: false,
-        // draggable: ".main-content",
         draggable: false,
-        droppable: false,
+        droppable: true,
         highlightable: false,
         copyable: false,
         selectable: false,

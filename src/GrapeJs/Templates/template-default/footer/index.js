@@ -167,7 +167,6 @@ export default function loadBlockFooter(editor, opt = {}) {
         highlightable: false,
         selectable: false,
         hoverable: false,
-        //draggable: ".footer-section",
         droppable: (target, destination) => {
           const arr = ['footer-quick-link', 'footer-image', 'footer-text']
           if (target == undefined) return false

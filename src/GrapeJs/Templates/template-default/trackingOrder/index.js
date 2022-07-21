@@ -123,8 +123,9 @@ export default function loadTrackingOrder(editor, opt = {}) {
         model: {
             defaults: {
                 name: "Tracking Order",
-                draggable: ".main-content",
+                draggable: false,
                 droppable: false,
+                removable: false,
                 copyable: false,
                 attributes: { class: "container", name: "trackingOrder", slideIndex: 1 },
             },

@@ -7,6 +7,8 @@ export default function loadImage(editor, opt = {}) {
   const dc = editor.DomComponents;
   const am = editor.AssetManager;
 
+  const srcDefault = "https://dummyimage.com/600x400/55595c/fff";
+
   bm.add("image", {
     label: "Image",
     attributes: { class: "fa fa-picture-o" },
@@ -35,8 +37,7 @@ export default function loadImage(editor, opt = {}) {
                 <div class="card-body">
                     <div class="target-img">
                         <img src=${
-                          initValue ?? trait.get("srcDefault")
-                        } class="card-img-top"/>
+                          initValue ?? srcDefault} class="card-img-top"/>
                     </div>
                     <button type="button" class="change-btn">Change</button>
                     <button type="button" class="remove-btn">Remove</button>
@@ -70,8 +71,8 @@ export default function loadImage(editor, opt = {}) {
       };
 
       removeBtn.onclick = () => {
-        setAttribute(target, { 'src': trait.get("src")})
-        inputImage.src = trait.get("srcDefault");
+        setAttribute(target, { 'src': srcDefault})
+        inputImage.src = srcDefault;
       };
 
       return el;
@@ -84,7 +85,7 @@ export default function loadImage(editor, opt = {}) {
       if (initValue) {
         inputImage.src = initValue;
       } else {
-        inputImage.src = elInput.get("srcDefault");
+        inputImage.src = srcDefault;
       }
     }
   });
@@ -225,7 +226,6 @@ export default function loadImage(editor, opt = {}) {
           {
             type: "image-upload-image",
             label: "Image",
-            srcDefault: "https://ezmall-bucket.s3.ap-southeast-1.amazonaws.com/assets/a8ae4620-6eb2-4a6a-932b-3f6e2ca11302.png",
           },
           {
             name: "width",

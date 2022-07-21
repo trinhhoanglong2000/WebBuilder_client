@@ -1,4 +1,4 @@
-import loadTraitColumnItem from "./traint"
+import loadTraitColumnItem from "./trait"
 import { COLUMN_ITEM_LABEL } from "../../../../../asset/icon/svg";
 
 export default function loadBlockColumnItem(editor, opt = {}) {

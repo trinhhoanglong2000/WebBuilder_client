@@ -336,18 +336,18 @@ export default function loadBlockCart(editor, opt = {}) {
                                                     <div class="col-auto d-flex align-items-center">
                                                         <input id="cart-select-all-product" class="form-check-input" type="checkbox" value="">
                                                     </div>
-                                                    Tất cả sản phẩm
+                                                    Products
                                                 </div>
                                             </div>
                                         </th>
                                         <th scope="col">
-                                            <div class="d-flex align-items-center justify-content-center"> Đơn giá</div>
+                                            <div class="d-flex align-items-center justify-content-center">Price</div>
                                         </th>
                                         <th scope="col">
-                                            <div class="d-flex align-items-center justify-content-center">Số lượng</div>
+                                            <div class="d-flex align-items-center justify-content-center">Quantity</div>
                                         </th>
                                         <th scope="col">
-                                            <div class="d-flex align-items-center justify-content-center">Thành tiền</div>
+                                            <div class="d-flex align-items-center justify-content-center">Sum</div>
                                         </th>
                                         <th scope="col">
                                             <div class="d-flex justify-content-center align-items-center" style="">
@@ -368,19 +368,19 @@ export default function loadBlockCart(editor, opt = {}) {
                                     <a class = "btn " id = "ezMall-cart-sumary-unchecked-all">
                                         <i class="fa fa-times" aria-hidden="true"></i>
                                         <span style = "font-weight: bold"> 
-                                            Bỏ chọn tất cả
+                                            Uncheck All
                                         </span>
                                     </a>
                                 </div>
                                 <div class="col-4 d-flex align-items-center font-weight-bold  justify-content-center">
-                                    Tổng: 
+                                    Total Cost: 
                                     <span class="ezMallSumary-total-cost px-2"> 0</span>
                                     <div class= "ezMall-item-price-type">
                                         VND
                                     </div>
                                 </div>
                                 <div class="col-4  d-flex align-items-center justify-content-end ">
-                                    <button type="button" class="btn btn-warning btn-lg text-light font-weight-bold" onClick=payMent()>Thanh toán</button>
+                                    <button type="button" class="btn btn-warning btn-lg text-light font-weight-bold" onClick=payMent()>Payment</button>
                                 </div>
                             </div>
                             <hr>

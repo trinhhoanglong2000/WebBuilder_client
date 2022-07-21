@@ -235,11 +235,11 @@ export default function loadBlockProductDetail(editor, opt = {}) {
                                 </div>
                                 <div class="d-flex justify-content-between px-3">
                                     <div class="d-flex  ezMall-type-container">
-                                        <div class="fw-bold">Loại sản phẩm:</div>
+                                        <div class="fw-bold">Product type:</div>
                                         <div class="px-2 ezMall-type-value">A61015</div>
                                     </div>
                                     <div class="d-flex ezMall-status-container">
-                                        <div class="fw-bold">Tình trạng:</div>
+                                        <div class="fw-bold">Status:</div>
                                         <div class="px-2  ezMall-status-value">Online</div>
                                     </div>
                                 </div>
@@ -260,8 +260,8 @@ export default function loadBlockProductDetail(editor, opt = {}) {
                                 <div class="ezMall-quantity d-flex justify-content-between px-3 pt-3">
                                     <div class="pt-2" >
                                         <div class="d-flex">
-                                            <h5 class="fw-bolder py-3 m-0">SỐ LƯỢNG</h5>
-                                            <i class="col px-1 d-flex align-items-center justify-content-center"> (<span class="ezMall-quantity-remain"> </span> <p class="px-1 m-0"> sản phẩm còn lại</p>)</i>
+                                            <h5 class="fw-bolder py-3 m-0">QUANTITY</h5>
+                                            <i class="col px-1 d-flex align-items-center justify-content-center"> (<span class="ezMall-quantity-remain"> </span> <p class="px-1 m-0">products remain</p>)</i>
                                         </div> 
                                         <div class="d-flex fw-bold" style="height:40px; width:252px">                                    
                                             <input type="number" min="0" id="val-1" class="col form-control ezMall-quantity-input " value="2" >
@@ -272,18 +272,18 @@ export default function loadBlockProductDetail(editor, opt = {}) {
                                 <div class="px-3 py-3">
                                     <div class="ezMall-alert " style="display:none">
                                         <div class="d-flex text-danger fw-bolder align-items-center justify-content-center">
-                                            <p class=" ezMall-alert-text-config">Vui lòng chọn</p>
+                                            <p class=" ezMall-alert-text-config">Please choose</p>
                                             <p class="col ezMall-alert-text-option px-1"> á á</p>
                                         </div> 
                                     </div>
                                     <button class="btn btn-lg btn-dark fw-bold py-3 ezMall-add-to-cart" style="width: 100%" onclick = "addToCart();">
-                                        THÊM VÀO GIỎ HÀNG
+                                        ADD TO CART
                                     </button>
                                 </div>
                 
                                 <div class="px-3 py-3">
                                     <div class="btn btn-lg btn-danger fw-bold py-3 ezMall-buys" style="width: 100%" onclick = "buyNow()">
-                                        MUA HÀNG
+                                        BUY
                                     </div>
                                 </div>
                             </div>

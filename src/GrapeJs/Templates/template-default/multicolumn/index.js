@@ -124,6 +124,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
         draggable: false,
         removable : false,
         copyable: false,
+        style: {"text-align" : "center", "font-weight" : "bold", "padding":"0px" },
       },
       // This function run when component created - we setup listen to change atri
 
@@ -236,11 +237,10 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
     content: [
       {
         type: "multicolumn",
-        attributes: { class: "multicolumn-numCols-3",},
+        attributes: { class: "multicolumn-numCols-3"},
         components: [
           {
           type: "multicolumn-tittle",
-          attributes: { style: "text-align : center; font-weight : bold ;padding:0px" },
           content: `Card Title`,
         },
         {
@@ -249,11 +249,10 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
           components: [
             {
               type: "ColumnItem",
-              attributes: { class: "ezMall-column-item card container ezMall-col navbar"},
+              attributes: { class: "ezMall-column-item card container ezMall-col"},
               components: [
                 {
                   type: "columnItem-image",
-                  attributes: { class: "column-item-image" },
                   content: `
                   <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
                 `,
@@ -263,12 +262,11 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                   components: [
                     {
                       type: "columnItem-title",
-                      attributes: { class: "card-title", style: "text-decoration: none;text-align: center" },
+                    
                       content: `Card title`,
                     }
                     , {
                       type: "columItem-header",
-                      attributes: {style: "font-size : medium" } ,
                       content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>`,
                     }]
                 },
@@ -276,11 +274,11 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
             },
             {
               type: "ColumnItem",
-              attributes: { class: "ezMall-column-item card container ezMall-col navbar"},
+              attributes: { class: "ezMall-column-item card container ezMall-col"},
               components: [
                 {
                   type: "columnItem-image",
-                  attributes: { class: "column-item-image" },
+
                   content: `
                   <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
                 `,
@@ -290,12 +288,10 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                   components: [
                     {
                       type: "columnItem-title",
-                      attributes: { class: "card-title", style: "text-decoration: none;text-align: center" },
                       content: `Card title`,
                     }
                     , {
                       type: "columItem-header",
-                      attributes: {style: "font-size : medium" } ,
                       content: `<p class="card-text">Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>`,
                     }]
                 },

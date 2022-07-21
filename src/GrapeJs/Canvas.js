@@ -125,7 +125,7 @@ function Canvas({ type }) {
                 storeId: storeId,
                 addTarget64Image: addTarget64Image,
                 validURL: validURL,
-                isDeloy: false,
+                isDeloy: true,
               },
               "Plugins-defaults": {
                 renderImage: renderImage

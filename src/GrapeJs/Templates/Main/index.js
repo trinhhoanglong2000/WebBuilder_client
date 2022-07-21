@@ -60,7 +60,7 @@ export default function loadBlockMain(editor, opt = {}) {
         hoverable: false,
         removable: false,
         editable: false,
-        draggable: false,
+        draggable: true,
         name: "Main",
         tagName: "main",
 

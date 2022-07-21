@@ -172,7 +172,6 @@ export default function loadBlockHeader(editor, opt = {}) {
     onUpdate({ elInput, component }) {
       const src = $(component.view.el).find('.navbar-brand img').attr('src');
       const inputImage = elInput.querySelector(".upload-image-area .card-body img");
-      debugger
       if (src && src != 'data:,') {
         inputImage.src = src;
       } else {
@@ -223,7 +222,7 @@ export default function loadBlockHeader(editor, opt = {}) {
         copyable: false,
         removable: false,
         droppabl: false,
-        draggable: false,
+        draggable: true,
         name: "Header",
         tagName: "nav",
         attributes: {

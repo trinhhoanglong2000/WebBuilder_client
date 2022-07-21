@@ -549,6 +549,7 @@ export default function loadBlockFooterItem(editor, opt = {}) {
         draggable: ".footer-navigation",
         droppable: false,
         copyable: false,
+        attributes: { class: "col-md" },
         tagName: "div",
         traits: [
           {

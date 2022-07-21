@@ -164,7 +164,11 @@ export default function loadBlockPayMent(editor, opt = {}) {
         model: {
             defaults: {
                 tagName: 'div',
+                draggable: false,
                 droppable: false,
+                removable : false,
+                copyable: false,
+
                 traits: [
                     {
                         label: "Padding Top",

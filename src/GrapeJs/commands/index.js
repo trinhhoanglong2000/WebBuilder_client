@@ -40,7 +40,7 @@ export default function LoadCommands(editor, config, opt) {
   cm.add(cmdDeviceDesktop, (e) => e.setDevice("Desktop"));
   cm.add(cmdDeviceTablet, (e) => {
     e.setDevice("Tablet")
-    // e.Components.clear()
+    e.Components.clear()
   });
   cm.add(cmdDeviceMobile, (e) => {
     e.setDevice("Mobile portrait")
@@ -53,11 +53,11 @@ export default function LoadCommands(editor, config, opt) {
     // Draggable
     // const footer = editor.getComponents().where({ name: 'Footer' })[0];
     // const header = editor.getComponents().where({ name: 'Header' })[0];
-    // const main   = editor.getComponents().where({ name: "Main" })[0]
-    // main.set({
-    //   droppable: false,
+    const main   = editor.getComponents().where({ name: "Main" })[0]
+    main.set({
+      droppable: false,
     
-    // })
+    })
 
   });
   cm.add(cmdClear, (e) => window.confirm(txtConfirm) && e.runCommand("core:canvas-clear"));

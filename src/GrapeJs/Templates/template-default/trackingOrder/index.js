@@ -18,7 +18,7 @@ export default function loadTrackingOrder(editor, opt = {}) {
                     attributes: { class: "card" },
                     content: `<h1 class="card-header"> Tracking order </h1>
                             <div id="tracking-order" class="card-body">
-                                <h6 id="order_id">Order ID: <span>OD45345345435</span></h6>
+                                <h6 id="order_id">Order ID: <span></span></h6>
                                 <article class="card">
                                     <div class="card-body row">
                                         <div id="customer_name" class="col-md-6 col-sm-12"> <strong>Customer:</strong> <span></span>  </div>
@@ -127,6 +127,9 @@ export default function loadTrackingOrder(editor, opt = {}) {
                 droppable: false,
                 removable: false,
                 copyable: false,
+                selectable: false,
+                hoverable: false,
+                
                 attributes: { class: "container", name: "trackingOrder", slideIndex: 1 },
             },
 

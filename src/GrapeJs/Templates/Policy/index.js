@@ -219,7 +219,7 @@ export default function loadBlockPolicy(editor, opt = {}) {
         name: "Refund Policy",
         removable: false,
         draggable: false,
-        droppable: true,
+        droppable: false,
         highlightable: false,
         copyable: false,
         selectable: false,

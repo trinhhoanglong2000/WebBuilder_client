@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import loadTraiProductDetail from "./trait";
 import { validURL } from "../../../../helper/utils.js";
 import "slick-carousel";
+import { positions } from "@mui/system";
 export default function loadBlockProductDetail(editor, opt = {}) {
   const c = opt;
   let bm = editor.BlockManager;
@@ -176,7 +177,9 @@ export default function loadBlockProductDetail(editor, opt = {}) {
         layerable: false,
         style: { "text-align": "center" },
         traits: [],
+
       },
+
     },
   });
   domc.addType("product-detail-body", {
@@ -192,6 +195,7 @@ export default function loadBlockProductDetail(editor, opt = {}) {
         hoverable: false,
         layerable: false,
         traits: [],
+        style:{"positions": "relative" }
       },
     },
   });
@@ -201,6 +205,7 @@ export default function loadBlockProductDetail(editor, opt = {}) {
           <div>${c.label_product_list}</div> `,
       category: c.product_detail,
       attributes: { class: "fa fa-cube" },
+     
       content: {
         type: "product-detail",
         components: [

@@ -499,7 +499,7 @@ export default function loadBlockPayMent(editor, opt = {}) {
                                         We already send an email to you
                                     </div>
                                     <button class="btn btn-primary fw-bold btn-lg">
-                                        Continue Shopping
+                                        Click to go tracking page
                                     </button>
                                 </div> 
                                 <div class="ezMall-popup ezMall-popup-fail"> 

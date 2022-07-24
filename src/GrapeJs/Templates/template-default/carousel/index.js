@@ -34,14 +34,14 @@ function insertCarouselData(data, carouselIndicators, carouselInner, carousel) {
     let htmlCarouselItemInsert = `
   <div class="carousel-item ${index == 0 ? "active" : ""}">
     <div  class="d-block w-100 image-container">
-      <img src="${item.image}"  alt="${item.image}">
+      <img src="${item.image??""}"  alt="${item.image??""}">
     </div>
     <div class="carousel-caption">
       <div class = "ezMall-carousel-contents">
         <div class="ezMall-carousel-text-container d-block">
-          <h2 class="bolder">${item.caption}</h2>
-          <p>${item.description}</p>
-          <a class="btn ezMall-btn bolder" href=${item.link} role="button">Shop Now</a>
+          <h2 class="bolder">${item.caption??""}</h2>
+          <p>${item.description??""}</p>
+          <a class="btn ezMall-btn bolder" href=${item.link??""} role="button">Shop Now</a>
         </div>
       </div>
     </div>

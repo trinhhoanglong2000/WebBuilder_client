@@ -41,7 +41,7 @@ export default function loadBlockHeader(editor, opt = {}) {
                 type: "defaultCustom",
                 tagName: "a",
                 attributes: {
-                  href: "#",
+                  href: "/",
                   class: "navbar-brand font-weight-bold order-1",
                 },
                 selectable: false,
@@ -222,7 +222,7 @@ export default function loadBlockHeader(editor, opt = {}) {
         copyable: false,
         removable: false,
         droppabl: false,
-        draggable: true,
+        draggable: false,
         name: "Header",
         tagName: "nav",
         attributes: {

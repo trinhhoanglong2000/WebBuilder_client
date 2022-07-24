@@ -95,28 +95,8 @@ export default function loadBlockProductPage(editor, opt = {}) {
             type: 'ProductGrid',
             content: `
             <div class="row">
-            <div class="col-md-3 col-sm-4">
-                <div class="single-new-arrival">
-                    <div class="single-new-arrival-bg">
-                        <img src="https://images.unsplash.com/photo-1572635196237-14b3f281503f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"
-                            alt="new-arrivals images">
-                        <div class="single-new-arrival-bg-overlay"></div>
-  
-                        <div class="new-arrival-cart">
-                            <p>
-                                <span class="lnr lnr-cart"></span>
-                                <a href="#"> <i class="fa fa-shopping-cart" aria-hidden="true"></i> Add <span>to
-                                    </span> cart</a>
-                            </p>
-  
-                        </div>
-                    </div>
-                    <h4><a href="#">Example Tittle</a></h4>
-                    <p class="arrival-product-price">$65.00</p>
-                </div>
+            
             </div>
-  
-          </div>
           <div class="w-100 d-flex justify-content-center " style ="height: 50px;" >
             <div class="dots d-none">
               <div></div>

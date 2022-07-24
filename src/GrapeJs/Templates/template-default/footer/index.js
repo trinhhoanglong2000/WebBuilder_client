@@ -27,7 +27,7 @@ export default function loadBlockFooter(editor, opt = {}) {
   }
 
   const validFacebookLink = (value) => {
-    let regex = new RegExp("(?:https?:\/\/)?(?:www.)?(mbasic.facebook|m.facebook|facebook|fb).(com|me)\/(?:(?:\w.)*#!\/)?(?:pages\/)?(?:[\w-.]*\/)*([\w-.]*)");
+    let regex = new RegExp("(?:(?:http|https):\/\/)?(?:www.)?facebook.com\/(?:(?:\w)*#!\/)?(?:pages\/)?(?:[?\w\-]*\/)?(?:profile.php\?id=(?=\d.*))?([\w\-]*)?");
     return !!regex.test(value);
   }
 
@@ -255,9 +255,11 @@ export default function loadBlockFooter(editor, opt = {}) {
                   title: 'Link  Error',
                   text: 'This is not a Linked In link!',
                 })
+
+                previousValue = "";
               }
 
-              $(el).find('input').val(text);
+              $(el).find('input').val(previousValue);
               $(el).find('ul').addClass('combobox-hidden');
               
               if (previousValue !== "") {
@@ -282,6 +284,14 @@ export default function loadBlockFooter(editor, opt = {}) {
           }
         }, 200)
 
+      });
+
+      $(el).find('input.footer-linkedIn-link').on('focusout', function () {
+        $(el).find('ul').addClass('combobox-hidden')
+        
+        const href = linkedIn   .attributes.link?.split(/;(.*)/s) || "";
+        let value = href[1] || "";
+        $(el).find('input.footer-linkedIn-link').val(value)
       });
 
       $(el).find('#delete_icon').on('click', function () {
@@ -423,9 +433,11 @@ export default function loadBlockFooter(editor, opt = {}) {
                   title: 'Link  Error',
                   text: 'This is not a Instagram link!',
                 })
+
+                previousValue = "";
               }
 
-              $(el).find('input').val(text);
+              $(el).find('input').val(previousValue);
               $(el).find('ul').addClass('combobox-hidden');
 
               if (previousValue !== "") {
@@ -450,6 +462,14 @@ export default function loadBlockFooter(editor, opt = {}) {
           }
         }, 200)
 
+      });
+
+      $(el).find('input.footer-instagram-link').on('focusout', function () {
+        $(el).find('ul').addClass('combobox-hidden')
+        
+        const href = instagram.attributes.link?.split(/;(.*)/s) || "";
+        let value = href[1] || "";
+        $(el).find('input.footer-instagram-link').val(value)
       });
 
       $(el).find('#delete_icon').on('click', function () {
@@ -591,9 +611,11 @@ export default function loadBlockFooter(editor, opt = {}) {
                   title: 'Link  Error',
                   text: 'This is not a facebook link!',
                 })
+                
+                previousValue = "";
               }
 
-              $(el).find('input').val(text);
+              $(el).find('input').val(previousValue);
               $(el).find('ul').addClass('combobox-hidden');
 
               if (previousValue !== "") {
@@ -618,6 +640,14 @@ export default function loadBlockFooter(editor, opt = {}) {
           }
         }, 200)
 
+      });
+      
+      $(el).find('input.footer-facebook-link').on('focusout', function () {
+        $(el).find('ul').addClass('combobox-hidden')
+        
+        const href = facebook.attributes.link?.split(/;(.*)/s) || "";
+        let value = href[1] || "";
+        $(el).find('input.footer-facebook-link').val(value)
       });
 
       $(el).find('#delete_icon').on('click', function () {

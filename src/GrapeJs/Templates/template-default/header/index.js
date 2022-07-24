@@ -222,7 +222,7 @@ export default function loadBlockHeader(editor, opt = {}) {
         copyable: false,
         removable: false,
         droppabl: false,
-        draggable: true,
+        draggable: false,
         name: "Header",
         tagName: "nav",
         attributes: {

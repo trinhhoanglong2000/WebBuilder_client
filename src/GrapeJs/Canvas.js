@@ -128,7 +128,8 @@ function Canvas({ type }) {
                 isDeloy: true,
               },
               "Plugins-defaults": {
-                renderImage: renderImage
+                renderImage: renderImage,
+                storeId: storeId,
               }
             }}
             width="100%"

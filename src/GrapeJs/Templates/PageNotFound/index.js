@@ -19,7 +19,6 @@ export default function loadBlockPageNotFound(editor, opt = {}) {
                           </div>
                       </div>
                       <div class="col-md-4 col-sm-12 error-img order-1 text-md-start text-center">
-                        <img src="../FNP.png"></img>
                       </div>
                   </div>
               </div>

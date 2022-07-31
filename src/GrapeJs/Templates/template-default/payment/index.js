@@ -355,7 +355,7 @@ export default function loadBlockPayMent(editor, opt = {}) {
                                                     <span class = "text-danger">*</span>
                                                     <span class = "tel-alert text-danger fw-normal fst-italic" style= "display:none">Please fill your infor</span>
                                                 </label>
-                                                <input type="tel" class="form-control" id="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="0942872722">
+                                                <input type="tel" class="form-control" id="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="Type your phone">
                                             </div>
                                         
                                             <div class="form-group py-1">

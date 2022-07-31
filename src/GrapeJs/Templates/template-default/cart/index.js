@@ -324,7 +324,7 @@ export default function loadBlockCart(editor, opt = {}) {
                             <hr> 
                             <div  class=" flex-column justify-content-center align-items-center" id="ezMall-cart-zero-item" style = "display:none; height:70vh">
                                 <h3>
-                                    Bạn đang không có sản phẩm nào>
+                                    Nothing products in your cart !!!
                                 </h3>
                                 <button class = "btn btn-lg btn-primary mt-2"> 
                                     Shopping now
@@ -378,7 +378,7 @@ export default function loadBlockCart(editor, opt = {}) {
                                 <div class="col-4 d-flex align-items-center font-weight-bold  justify-content-center">
                                     Total Cost: 
                                     <span class="ezMallSumary-total-cost px-2"> 0</span>
-                                    <div class= "ezMall-item-price-type">
+                                    <div class= "ezMall-item-price-type d-none">
                                         VND
                                     </div>
                                 </div>

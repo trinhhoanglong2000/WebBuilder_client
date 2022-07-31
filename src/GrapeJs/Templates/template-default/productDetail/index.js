@@ -221,7 +221,7 @@ export default function loadBlockProductDetail(editor, opt = {}) {
                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 p-0 pt-3 ezMall-image-container">
                                     <div style="width: 100%;" class="d-flex justify-content-center">
                                         <img class="main-img img-thumbnail"
-                                            src="https://ananas.vn/wp-content/uploads/stu_basas_A61015_3.jpg"
+                                            src="https://ezmall-bucket.s3.ap-southeast-1.amazonaws.com/DefaultImage/default-image-620x600.png"
                                             style="width:100%; max-width: 640px;">
                                     </div>
                                     <div class="ezMall-stick-slide ">

@@ -104,7 +104,6 @@ function Canvas({ type }) {
   const renderImage = (data) => {
     dispatch(doRenderImage(data));
   }
-
   return (
     <>
       {!loading ? (
@@ -186,6 +185,9 @@ function Canvas({ type }) {
                     <p class="text-left" style="font-size: 16px;"> <kbd>Ctrl</kbd> + <kbd>Y</kbd>, <kbd>⌘</kbd> + <kbd>Y</kbd>     Redo</p>
                     <p class="text-left" style="font-size: 16px;"> <kbd>Ctrl</kbd> + <kbd>S</kbd>, <kbd>⌘</kbd> + <kbd>S</kbd>     Save</p>
                     <p class="text-left" style="font-size: 16px;"> <kbd>Ctrl</kbd> + <kbd>P</kbd>, <kbd>⌘</kbd> + <kbd>P</kbd>     Preview</p>
+                  </div>
+                  <div class = "d-flex justify-content-start mt-3" style = "font-weight: 600; font-style: italic; ">
+                  EasyMall Editor ${process.env.APP_VERSION??'Version 1.0'}
                   </div>
                   `
                   $('.gjs-pn-views-container .gjs-trt-header').empty().append(initTraitManger)

@@ -7,9 +7,8 @@ export default function loadBlockHeader(editor, opt = {}) {
   const am = editor.AssetManager;
   const dc = editor.DomComponents;
 
-  const srcDefault = 'https://ezmall-bucket.s3.ap-southeast-1.amazonaws.com/assets/a8ae4620-6eb2-4a6a-932b-3f6e2ca11302.png';
+  const srcDefault = 'https://dummyimage.com/600x400/55595c/fff';
 
-  const isHaveLogo = c.logoURL ? true : false;
   if (!opt.isDeloy) {
     bm.add("header", {
       label: "Header",
@@ -50,15 +49,13 @@ export default function loadBlockHeader(editor, opt = {}) {
                     tagName: "img",
                     type: "defaultCustom",
                     attributes: {
-                      class: `img-thumbnail${isHaveLogo ? "" : " d-none"}`,
-                      src:
-                        c.logoURL ?? "https://dummyimage.com/600x400/55595c/fff",
+                      class: `img-thumbnail d-none`,
+                      src: "https://dummyimage.com/600x400/55595c/fff",
                     },
                   },
                   {
                     tagName: "h4",
                     type: "defaultCustom",
-                    attributes: { class: `${isHaveLogo ? "d-none" : ""}` },
                     content: c.storeName,
                   },
                 ],
@@ -107,8 +104,7 @@ export default function loadBlockHeader(editor, opt = {}) {
             <div class="card upload-image-area">
                 <div class="card-body">
                     <div class="target-img">
-                    <img src=${c.logoURL ?? srcDefault
-        } class="card-img-top"/>
+                    <img src=${ srcDefault } class="card-img-top"/>
                     </div>
                     <button type="button" class="change-btn">Change</button>
                     <button type="button" class="remove-btn">Remove</button>

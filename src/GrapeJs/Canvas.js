@@ -34,7 +34,6 @@ function Canvas({ type }) {
   const [isSaving, setIsSaving] = useState(false);
   const storeId = useParams().idStore;
   const listPagesId = useSelector(state => state.store.listPagesId);
-  const logoURL = useSelector((state) => state.store.logoURL);
   const template = useSelector((state) => state.store.templateName)
   const token = readCookie('token');
   const getPlugins = () => {
@@ -119,7 +118,6 @@ function Canvas({ type }) {
             plugins={getPlugins()}
             pluginsOpts={{
               "template-default": {
-                logoURL: logoURL,
                 pageId: pageId,
                 headerNavigation: listPagesId,
                 storeId: storeId,

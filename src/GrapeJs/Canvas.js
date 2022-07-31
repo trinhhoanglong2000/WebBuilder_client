@@ -187,7 +187,7 @@ function Canvas({ type }) {
                     <p class="text-left" style="font-size: 16px;"> <kbd>Ctrl</kbd> + <kbd>P</kbd>, <kbd>⌘</kbd> + <kbd>P</kbd>     Preview</p>
                   </div>
                   <div class = "d-flex justify-content-start mt-3" style = "font-weight: 600; font-style: italic; ">
-                  EasyMall Editor ${process.env.REACT_APP_VERSION??'Version 1.0'}
+                  EasyMall Editor Version ${process.env.REACT_APP_VERSION??'Version 1.0'}
                   </div>
                   `
                   $('.gjs-pn-views-container .gjs-trt-header').empty().append(initTraitManger)

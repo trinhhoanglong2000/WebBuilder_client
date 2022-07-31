@@ -94,10 +94,10 @@ export default function loadBlockProductDetail(editor, opt = {}) {
           name: "products-collections",
         },
         name: "Product Detail",
-        // draggable: ".main-content",
-        draggable: false,
+        draggable: !opt.isDeloy,
+        // draggable: false,
         droppable: false,
-        removable : false,
+        removable : !opt.isDeloy,
         copyable: false,
 
         traits: [

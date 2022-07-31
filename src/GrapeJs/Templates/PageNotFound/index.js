@@ -19,7 +19,6 @@ export default function loadBlockPageNotFound(editor, opt = {}) {
                           </div>
                       </div>
                       <div class="col-md-4 col-sm-12 error-img order-1 text-md-start text-center">
-                        <img src="../FNP.png"></img>
                       </div>
                   </div>
               </div>
@@ -33,14 +32,14 @@ export default function loadBlockPageNotFound(editor, opt = {}) {
     model: {
       defaults: {
         name: "Page Not Found",
-        removable: false,
-        draggable: false,
-        droppable: false,
-        highlightable: false,
-        copyable: false,
-        selectable: false,
-        hoverable: false,
-        editable: false,
+        removable: !opt.isDeloy,
+        draggable: !opt.isDeloy,
+        selectable: !opt.isDeloy,
+        droppable: !opt.isDeloy,
+        highlightable: !opt.isDeloy,
+        copyable: !opt.isDeloy,
+        hoverable: !opt.isDeloy,
+        editable: !opt.isDeloy,
       },
       init() {
       },

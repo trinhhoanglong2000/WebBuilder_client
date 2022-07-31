@@ -34,7 +34,6 @@ function Canvas({ type }) {
   const [isSaving, setIsSaving] = useState(false);
   const storeId = useParams().idStore;
   const listPagesId = useSelector(state => state.store.listPagesId);
-  const logoURL = useSelector((state) => state.store.logoURL);
   const template = useSelector((state) => state.store.templateName)
   const token = readCookie('token');
   const getPlugins = () => {
@@ -80,10 +79,7 @@ function Canvas({ type }) {
         header.appendChild(stylesheet);
       }
       if (ele && ele !== "") {
-        // header.insertAdjacentHTML(
-        //   "beforeend",
-        //   `<link id="${ele}" href="${process.env.REACT_APP_API_URL}css/${template}/${ele}.css" rel="stylesheet">`
-        // );
+
         if (index === listCssFile.length - 1) {
           addCss(ele, () => {
             setTimeout(() => {
@@ -119,7 +115,6 @@ function Canvas({ type }) {
             plugins={getPlugins()}
             pluginsOpts={{
               "template-default": {
-                logoURL: logoURL,
                 pageId: pageId,
                 headerNavigation: listPagesId,
                 storeId: storeId,
@@ -128,7 +123,8 @@ function Canvas({ type }) {
                 isDeloy: true,
               },
               "Plugins-defaults": {
-                renderImage: renderImage
+                renderImage: renderImage,
+                storeId: storeId,
               }
             }}
             width="100%"

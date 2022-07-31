@@ -56,7 +56,8 @@ export default function LoadCommands(editor, config, opt) {
     // const main   = editor.getComponents().where({ name: "Main" })[0]
     // main.set({
     //   droppable: false,
-    
+    //   // droppable: true,
+
     // })
 
   });

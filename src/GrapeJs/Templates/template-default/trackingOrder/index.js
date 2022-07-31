@@ -23,12 +23,12 @@ export default function loadTrackingOrder(editor, opt = {}) {
                                     <div class="card-body row">
                                         <div id="customer_name" class="col-md-6 col-sm-12"> <strong>Customer:</strong> <span></span>  </div>
                                         <div id="order_time" class="col-md-6 col-sm-12"> <strong>Order time:</strong> <span></span> </div>
-                                        <div id="delivery_address" class="col-md-6 col-sm-12"> <strong>Delivery Address:</strong> <span></span> </div>
                                         <div id="phone" class="col-md-6 col-sm-12"> <strong>Phone:</strong> <span></span>  </div>
                                         <div id="delivery_method" class="col-md-6 col-sm-12"> <strong>Delivery method:</strong> <span></span> </div>
+                                        <div id="order_status" class="col-md-6 col-sm-12"> <strong>Order status:</strong> <span> </span> </div>
                                         <div id="payment_method" class="col-md-6 col-sm-12"> <strong>Payment method:</strong> <span></span> </div>
-                                        <div id="order_Status" class="col-md-6 col-sm-12"> <strong>Order status:</strong> <span> </span> </div>
-                                        <div id="order_note" class="col-md-6 col-sm-12"> <strong>Note:</strong> <span> </span> </div>
+                                        <div id="delivery_address" class="col-md-6 col-sm-12"> <strong>Delivery Address:</strong> <span></span> </div>
+                                        <div id="order_note" class="col-12"> <strong>Note:</strong> <span> </span> </div>
                                     </div>
                                 </article>
                                 <div class="track">
@@ -67,8 +67,8 @@ export default function loadTrackingOrder(editor, opt = {}) {
                                     </div>
                                 </div>
                             </div>
+                            <hr>
                             <div id="show_order_details" class="card-body ">
-                                <hr>
                                 <button class="btn btn-show-orders"> Invoice details </button>
                                 <button class="btn btn-primary btn-payment">Payment</button>
                                 <button class="btn btn-cancel_order"> Cancel order </button>
@@ -86,7 +86,7 @@ export default function loadTrackingOrder(editor, opt = {}) {
                                     <div id="reason-popup">
                                         <div class="warning"> <i class="fa fa-exclamation-triangle"></i></div>
                                         <h2 id="title"> What make you want to cancel this order? </h2>
-                                        <textarea class="form form-control" rows="4" cols="50" placeholder="Reason"></textarea>
+                                        <textarea class="form form-control" rows="4" cols="50" maxlength="150" placeholder="Reason"></textarea>
                                         <div class="footer-button">
                                             <button class="btn btn-yes"> CONFIRM </button>
                                             <button class="btn btn-no"> NOT NOW </button>

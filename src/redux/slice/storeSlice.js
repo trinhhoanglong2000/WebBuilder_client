@@ -13,16 +13,12 @@ export const getInitDataStore = createAsyncThunk(
 export const storeSlice = createSlice({
     name: 'store',
     initialState: {
-        logoURL: null,
         templateName: null,
         storeComponents: {},
         targetBase64Image: {},
         listPagesId: [],
     },
     reducers: {
-        doSwitchLogoURL(state, action) {
-            state.logoURL = action.payload;
-        },
         doAddTargetImage(state, action) {
             let targetBase64Image  = { ...state.targetBase64Image}
             targetBase64Image[action.payload.id] = action.payload.target;
@@ -30,7 +26,7 @@ export const storeSlice = createSlice({
             state.targetBase64Image = targetBase64Image;
         },
         doSaveStoreData(state, action) {
-            callAPIWithPostMethod("stores/save-store-data/" + action.payload.storeId, { logoUrl: action.payload.logoSrc, storeComponents: action.payload.storeComponents}, true);
+            callAPIWithPostMethod("stores/save-store-data/" + action.payload.storeId, { storeComponents: action.payload.storeComponents}, true);
         },
         doRenderImage(state, action){
             if (state.targetBase64Image[action.payload.id]) {
@@ -42,7 +38,6 @@ export const storeSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(getInitDataStore.fulfilled, (state, action) => {
             if (action.payload) {
-                state.logoURL = action.payload.logoURL;
                 state.listPagesId = action.payload.listPagesId;
                 state.storeComponents = action.payload.storeComponents;
                 state.templateName = action.payload.template;
@@ -52,5 +47,5 @@ export const storeSlice = createSlice({
 })
 
 const { actions, reducer } = storeSlice;
-export const { doSwitchLogoURL, doAddTargetImage, doSaveStoreData, doRenderImage } = actions;
+export const { doAddTargetImage, doSaveStoreData, doRenderImage } = actions;
 export default reducer;

@@ -191,10 +191,10 @@ export default function loadBlockCart(editor, opt = {}) {
         model: {
             defaults: {
                 tagName: 'div',
-                draggable: false,
-                droppable: false,
-                removable : false,
-                copyable: false,
+                draggable: !opt.isDeloy,
+                droppable: !opt.isDeloy,
+                removable : !opt.isDeloy,
+                copyable: !opt.isDeloy,
                 traits: [
                     {
                         label: "Padding Top",

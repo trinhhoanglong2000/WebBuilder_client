@@ -79,10 +79,7 @@ function Canvas({ type }) {
         header.appendChild(stylesheet);
       }
       if (ele && ele !== "") {
-        // header.insertAdjacentHTML(
-        //   "beforeend",
-        //   `<link id="${ele}" href="${process.env.REACT_APP_API_URL}css/${template}/${ele}.css" rel="stylesheet">`
-        // );
+
         if (index === listCssFile.length - 1) {
           addCss(ele, () => {
             setTimeout(() => {

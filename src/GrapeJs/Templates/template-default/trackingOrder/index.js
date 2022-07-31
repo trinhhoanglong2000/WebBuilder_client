@@ -123,7 +123,7 @@ export default function loadTrackingOrder(editor, opt = {}) {
         model: {
             defaults: {
                 name: "Tracking Order",
-                draggable: true,
+                draggable: false,
                 droppable: false,
                 removable: false,
                 copyable: false,

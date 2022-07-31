@@ -124,6 +124,7 @@ export default function loadBlockCart(editor, opt = {}) {
             tableBody.insertAdjacentHTML("beforeend", rowHtml);
             $(tableBody).find(`#${id} button.ezMall-cart-item-delete`).click(() => {
                 let cart = JSON.parse(localStorage.getItem('cart'));
+                cart = cart ? []: cart
                 let indexInArr =cart.findIndex((item) =>{
                     if(element.is_variant){
                        if(item.variant_id == id ){
@@ -147,6 +148,7 @@ export default function loadBlockCart(editor, opt = {}) {
 
             $(tableBody).find(`#${id} input.ezMall-item-quantity`).change(() => {
                 let cart = JSON.parse(localStorage.getItem('cart'));
+                cart = cart ? []: cart
                 let indexInArr =cart.findIndex((item) =>{
                     if(element.is_variant){
                        if(item.variant_id == id ){
@@ -252,7 +254,9 @@ export default function loadBlockCart(editor, opt = {}) {
                 let tableHead = $(this.el).find(`.tableRoot thead`)[0];
                 let tableBody = $(this.el).find(`.tableRoot tbody`)[0];
                 let ezMallSumary = $(this.el).find(`.ezMallSumary`)[0];
-                let cart = JSON.parse(localStorage.getItem('cart'));
+                // let cart = JSON.parse(localStorage.getItem('cart'));
+                // cart = cart ? []: cart
+                let cart = [{"id":"195a0fa0-e079-4714-a990-163620eb7187","quantity":1,"price":"20000","product_name":"adasdasd","currency":"VND","is_variant":false,"variant_id":null,"variant_name":null,"thumnail":"https://dummyimage.com/150x150/000/fff","description":null,"optionName":""}]
                 insertData(cart, tableHead, tableBody, ezMallSumary, rootEle)
             },
             init() {

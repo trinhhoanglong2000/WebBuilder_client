@@ -154,7 +154,7 @@ export default function loadBlockProductDetail(editor, opt = {}) {
           .then((res) => res.json())
           .then((res) => {
             if ((res.message = "Get product successfully!")) {
-              insertProductData(this.el, res.data);
+              //insertProductData(this.el, res.data);
             } else {
             }
           });
@@ -263,7 +263,7 @@ export default function loadBlockProductDetail(editor, opt = {}) {
                                                 <i class="col px-1 d-flex align-items-center justify-content-center"> (<span class="ezMall-quantity-remain"> </span> <p class="px-1 m-0">products remain</p>)</i>
                                             </div> 
                                             <div class="d-flex fw-bold" style="height:40px; width:252px">                                    
-                                                <input type="number" min="0" id="val-1" class="col form-control ezMall-quantity-input " value="2" >
+                                                <input type="number" min="1" id="val-1" class="col form-control ezMall-quantity-input " value="1" >
                                             </div>
                                         </div>
                                     </div>

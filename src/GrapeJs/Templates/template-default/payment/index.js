@@ -40,6 +40,7 @@ export default function loadBlockPayMent(editor, opt = {}) {
             let paymentCurrencySelectCoptainer = $(rootEle).find("#currency")[0];
             let currencyOptions = JSON.parse(localStorage.getItem('currency'))
             $(paymentCurrencySelectCoptainer).html("")
+    
             currencyOptions.forEach((element, index) => {
                 const rowHtml =
                     `                            
@@ -47,6 +48,8 @@ export default function loadBlockPayMent(editor, opt = {}) {
                 `
                 paymentCurrencySelectCoptainer.insertAdjacentHTML("beforeend", rowHtml);
             });
+            let storeCurrency = JSON.parse(localStorage.getItem('storeCurrency'));
+            $(rootEle).find("#currency").val(storeCurrency)
             $(paymentCurrencySelectCoptainer).on("change", async () => {
                 await loadPaymentData(rootEle, false)
             })
@@ -70,7 +73,7 @@ export default function loadBlockPayMent(editor, opt = {}) {
         // Render cart
         let paymentCurrencyVal = $(rootEle).find("#currency").val();
         $(rootEle).find(".currency").html(paymentCurrencyVal);
-        let cart = JSON.parse(localStorage.getItem('paymentItems'));
+        let cart = [{"id":"195a0fa0-e079-4714-a990-163620eb7187","quantity":2,"price":"20000","product_name":"adasdasd","currency":"VND","is_variant":false,"variant_id":null,"variant_name":null,"thumnail":"https://dummyimage.com/150x150/000/fff","description":null,"optionName":""}]
         let paymentCartContainer = $(rootEle).find(".ezMall-payment-cart-container")[0];
         $(paymentCartContainer).html("");
         let paymentCartSumPrice = $(rootEle).find(".ezMall-sumPrice")[0];
@@ -78,77 +81,97 @@ export default function loadBlockPayMent(editor, opt = {}) {
         let paymentDiscount = $(rootEle).find(".ezMall-discount")[0];
         let paymentFinalBillCost = $(rootEle).find(".ezMall-final-bill-cost")[0];
         let sumPrice = 0;
+        
         cart.forEach(element => {
-            let variantName = element.variant_name.split("/");
-            let optionName = element.optionName.split("/");
-            let variantInfo = [];
-            for (let i = 0; i < optionName.length; i++) {
-                variantInfo.push(`${optionName[i]}: ${variantName[i]}`)
-            }
             let converCurrency = convertCurrency(Number(element.quantity) * Number(element.price), element.currency, paymentCurrencyVal)
-
-            const rowHtml =
-                `
-            <div class=" px-1">
-                <div class=" py-2 d-flex flex-column justify-content-between" >
-                    <div class = "row fw-bold"">
-                        ${element.product_name} 
-                    </div>
-                    <div class = "justify-content-between align-items-end d-flex">
-                        <div class = " px-2 fw-bold text-secondary fst-italic">
-                        ${variantInfo.join("<br/>")} 
-                        </div>
-                        <div class = "d-flex flex-row fst-italic text-secondary">
-                            <span class="fw-bold"> 
-                                x
-                            </span>
-                            <span class="fw-bold">
-                                ${element.quantity} 
-                            </span>
-                        </div>
-                        <div class ="justify-content-end align-items-end d-flex fw-bold">
-                            <div class="text-end">${priceToString(converCurrency, paymentCurrencyVal)}</td>
-                        </div> 
-                    </div>
-                    
-                </div
-            </div>                                   
-                            
-             `
-
             sumPrice += Number(converCurrency);
+            let variantInfo = [];
+            let rowHtml = '';
+            if (element.is_variant) {
+                let variantName = element.variant_name.split("/");
+                let optionName = element.optionName.split("/");
+    
+                for (let i = 0; i < optionName.length; i++) {
+                    variantInfo.push(`${optionName[i]}: ${variantName[i]}`)
+                }
+                rowHtml =
+                    `
+                    <div class=" px-1">
+                        <div class=" py-2 d-flex flex-column justify-content-between" >
+                            <div class = "row fw-bold"">
+                                ${element.product_name} 
+                            </div>
+                            <div class = "justify-content-between align-items-end d-flex">
+                                <div class = " px-2 fw-bold text-secondary fst-italic">
+                                ${variantInfo.join("<br/>")} 
+                                </div>
+                                <div class = "d-flex flex-row fst-italic text-secondary">
+                                    <span class="fw-bold">
+                                        x${element.quantity} 
+                                    </span>
+                                </div>
+                                <div class ="justify-content-end align-items-end d-flex fw-bold">
+                                    <div class="text-end">${priceToString(converCurrency, paymentCurrencyVal)}</td>
+                                </div> 
+                            </div>
+                            
+                        </div
+                    </div>                                   
+                                    
+                    `
+            }else{
+                rowHtml =
+                    `
+                    <div class=" px-1">
+                        <div class=" py-2 d-flex justify-content-between" >
+                            <div class = "row fw-bold"">
+                                ${element.product_name} 
+                            </div>
+                            <div class = "fst-italic text-secondary">
+                                    <span class="fw-bold">x${element.quantity}</span>
+                            </div>
+                            <div class ="fw-bold">
+                                    <div class="text-end">${priceToString(converCurrency, paymentCurrencyVal)}</td>
+                            </div> 
+                        </div
+                    </div>                                   
+                                    
+                    `
+            }
             paymentCartContainer.insertAdjacentHTML("beforeend", rowHtml);
         });
         // Render sumary
-        let paymentDiscountVal = Number($(paymentDiscount).val());
-        let paymentShippingCostVal = Number($(paymentShippingCost).val());
-
+        let paymentDiscountVal = Number(calculatorDiscount(sumPrice, paymentCurrencyVal));
+        $(paymentDiscount).html(priceToString(paymentDiscountVal, paymentCurrencyVal));
+        let paymentShippingCostVal = 0;//Number($(paymentShippingCost).val());
+        let finalCost = (sumPrice - paymentDiscountVal + paymentShippingCostVal).toFixed(2);
+        finalCost = finalCost > 0 ? finalCost : 0;
         $(paymentCartSumPrice).html(priceToString(sumPrice.toFixed(2), paymentCurrencyVal));
         $(paymentShippingCost).html(priceToString(paymentShippingCostVal, paymentCurrencyVal))
         $(paymentDiscount).html(priceToString(paymentDiscountVal, paymentCurrencyVal))
-        $(paymentFinalBillCost).html(priceToString((sumPrice + paymentDiscountVal + paymentShippingCostVal).toFixed(2), paymentCurrencyVal));
+        $(paymentFinalBillCost).html(priceToString(finalCost, paymentCurrencyVal));
+        return finalCost;
     }
     function convertCurrency(value, fromCurrency, toCurrency) {
         let currencyOptions = JSON.parse(localStorage.getItem('currency'));
         let dataFromCurrency = currencyOptions.findIndex(item => item.currency == fromCurrency);
         let dataToCurrency = currencyOptions.findIndex(item => item.currency == toCurrency);
-
+    
         switch (toCurrency) {
             case "VND":
                 return Math.ceil(value * Number(currencyOptions[dataToCurrency].amount) / Number(currencyOptions[dataFromCurrency].amount));
                 break;
             case "USD":
-                return parseFloat(value * Number(currencyOptions[dataToCurrency].amount) / Number(currencyOptions[dataFromCurrency].amount) + 0.005).toFixed(2);
+                return parseFloat(value * Number(currencyOptions[dataToCurrency].amount) / Number(currencyOptions[dataFromCurrency].amount) + 0.004).toFixed(2);
                 break;
             default:
-                return parseFloat(value * Number(currencyOptions[dataToCurrency].amount) / Number(currencyOptions[dataFromCurrency].amount) + 0.005).toFixed(2);
+                return parseFloat(value * Number(currencyOptions[dataToCurrency].amount) / Number(currencyOptions[dataFromCurrency].amount) + 0.004).toFixed(2);
                 break;
         }
     }
     function priceToString(value, currency) {
         switch (currency) {
             case "VND":
-
                 return Math.ceil(Number(value)).toLocaleString('fi-FI', { style: 'currency', currency: 'VND' });
                 break;
             case "USD":
@@ -158,6 +181,74 @@ export default function loadBlockPayMent(editor, opt = {}) {
                 return `${value} ${currency}`
                 break;
         }
+    }
+    function useDiscount() {
+
+        let rootEle = $("div[ez-mall-type='payment']")[0];
+        let storeId = $(rootEle).attr("ez-mall-store");
+        let discountCode = $(rootEle).find('input#discount').val();
+        let cart = JSON.parse(localStorage.getItem('paymentItems'));
+        let paymentCurrencyVal = $(rootEle).find("#currency").val();
+        let sumPrice = 0;
+        cart.forEach(element => {
+            let converCurrency = convertCurrency(Number(element.quantity) * Number(element.price), element.currency, paymentCurrencyVal)
+            sumPrice += Number(converCurrency);
+        });
+        var payload = {
+            "store_id": storeId,
+            "code": discountCode,
+            "total_price": sumPrice,
+            "total_products": cart.length,
+            "currency": paymentCurrencyVal
+        }
+        var data = JSON.stringify(payload);
+        const rootUrl = $('script.ScriptClass').attr('src').match(/.+(?=\/js|css)/gm)
+        const url = `${rootUrl}/discount/use-discount`
+        fetch(url,
+            {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: data
+            })
+            .then(function (res) { return res.json(); })
+            .then(function (resData) {
+                if (resData.statusCode == 200 && data) {
+                    window.localStorage.setItem('discount', JSON.stringify(resData.data[0]));
+                    $(rootEle).find(".ezMall-discount-description").show();
+                    let discount_text = $(rootEle).find(".ezMall-discount-description-text").html(resData.data[0].code);
+                } else {
+                    window.localStorage.removeItem('discount');
+                    $(rootEle).find(".ezMall-discount-description").hide();
+                }
+            }).finally(() => {
+                loadPaymentData(rootEle, false)
+            })
+    }
+    function calculatorDiscount(sumPrice, paymentCurrencyVal) {
+        let value = 0;
+        let discountInfo = JSON.parse(localStorage.getItem('discount'));
+        if (discountInfo) {
+            let amount = discountInfo.amount;
+            let discountCurrency = discountInfo.currency;
+    
+            if (discountInfo.type == 1) {
+                value = convertCurrency(Number(amount), discountCurrency, paymentCurrencyVal)
+            } else if (discountInfo.type == 0) {
+                value = convertCurrency(Number(amount) * Number(sumPrice)/100, discountCurrency, paymentCurrencyVal)
+            }
+        }
+        return value;
+    }
+    
+    function removeDiscount() {
+        let rootEle = $("div[ez-mall-type='payment']")[0];
+        window.localStorage.removeItem('discount');
+        $(rootEle).find(".ezMall-discount-description-text").html("");
+        $(rootEle).find(".ezMall-discount-description").attr('style', 'display: none !important');
+        loadPaymentData(rootEle, false)
     }
     //THIS IS SETTING COMPONENT
     domc.addType("Payment", {

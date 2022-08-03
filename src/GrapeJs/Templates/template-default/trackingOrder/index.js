@@ -53,16 +53,15 @@ export default function loadTrackingOrder(editor, opt = {}) {
                                     <div class="billing">
                                         <div class="row">
                                             <div class="col-md-4 col-4"> Subtotal: </div>  
-                                            <div class="col-md-7 col-6" id="subtotal_price"></div>
+                                            <div class="col" id="subtotal_price"></div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-4 col-4"> Discount: </div>  
-                                            <div class="col-md-7 col-6" id="discount_price"></div>
+                                            <div class="col" id="discount_price"></div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-4 col-4"> Total: </div>  
-                                            <div class="col-md-7 col-6" id="total_price"></div>
-                                            <div class="col" id="currency"> </div> 
+                                            <div class="col" id="total_price"></div>
                                         </div>
                                     </div>
                                 </div>

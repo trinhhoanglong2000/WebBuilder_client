@@ -85,7 +85,7 @@ export default function loadBlockHeader(editor, opt = {}) {
                 tagName: "div",
                 attributes: { class: "order-2 header-icon" },
                 content: `<a id="cartIcon" href="#"><i id="iv1qd" data-gjs-type="defaultCustom" class="fa fa-shopping-bag icon-header">
-                            <span class="position-absolute translate-middle badge rounded-pill bg-danger"><span id="numberSelectedProduct">2</span></span>
+                            <span class="position-absolute translate-middle badge rounded-pill bg-danger d-none"><span id="numberSelectedProduct"></span></span>
                           </i></a>
                           <a id="searchIcon" href="#"><i id="iiolz" data-gjs-type="defaultCustom" class="fa fa-search icon-header"></i></a>`
               },

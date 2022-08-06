@@ -468,6 +468,11 @@ export default function loadBlockPayMent(editor, opt = {}) {
                                                 </label>
                                                 <input type="text" class="form-control" id="address" placeholder="520 Trường Trinh, TP HCM">
                                             </div>
+                                            <div class="form-group py-1">
+                                                <label class = "fw-bold" for="note"> Note
+                                                </label>
+                                                <textarea class="form-control"  name="note" id="note" cols="35" wrap="soft" maxlength="255"></textarea>
+                                            </div>
                                         </form>
                                     </div>
                                     <div class="text-dark py-2 px-2 fw-bold d-flex" style ="background: #f1f1f1">

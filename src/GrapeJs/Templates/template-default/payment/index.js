@@ -571,9 +571,12 @@ export default function loadBlockPayMent(editor, opt = {}) {
                                                 <h5 class="fw-bold p-0 m-0 text-danger "><span class= "ezMall-final-bill-cost"> </span></h5>
                                             </div>
                                         </div>  
-                                        <div class="py-3 d-flex flex-row justify-content-between">
-                                            <input type="text" class="form-control pl-1" id="discount" placeholder="Enter your discount code" style="width: 68%">
-                                            <button type="button" class="btn btn-outline-dark fw-bold"  onclick = "useDiscount()" style="width: 30%">Use Discount</button>
+                                        <div class="py-2">
+                                            <span id="incorrect-discount-alert" class = "email-alert text-danger fw-normal fst-italic" style= "display:none">Your discount code incorrect</span>
+                                            <div class = "p-0 m-0 d-flex flex-row justify-content-between">
+                                                <input type="text" class="form-control pl-1" id="discount" placeholder="Enter your discount code" style="width: 68%">
+                                                <button type="button" class="btn btn-outline-dark fw-bold"  onclick = "useDiscount()" style="width: 30%">Use Discount</button>
+                                            </div>
                                         </div>
                                         <div class="d-grid gap-1 ">
                                             <button type="button" class="btn btn-danger fw-bold btn-block p-3 mb-3" style = 

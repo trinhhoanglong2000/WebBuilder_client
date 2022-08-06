@@ -110,8 +110,8 @@ export default function loadBlockProductDetail(editor, opt = {}) {
         attributes: {
           "ez-mall-type": "productDetail",
           class: "ezMall-stick-slide py-2",
-          style: "position: relative",
         },
+        style: {"position": "relative"}
       },
       init() {},
       initData() {
@@ -287,25 +287,23 @@ export default function loadBlockProductDetail(editor, opt = {}) {
                                     </div>
                                 </div>
                             </div>
-                            
                         </div>
                         <div class="ezMall-popup-alert">
-                                <div class="spinner-border ezMall-loading" role="status">
-                                    <span class="visually-hidden">Loading...</span>
-                                </div>
-                                <div class="ezMall-popup ezMall-popup-success"> 
-                                    <i class="fa fa-check"></i>
-                                    <h5 class="text-success fw-bolder">Successful</h5>
-                                </div> 
-                                <div class="ezMall-popup ezMall-popup-fail"> 
-                                    <i class="fa fa-close text-danger"></i>
-                                    <h5 class="text-danger fw-bolder">Error</h5>
-                                    <div class="ezMalll-msg fw-bold p-3 d-flex">
-                                        Something went wrong
-                                    </div>
-                                
-                                </div> 
-                            </div>
+                           <div class="spinner-border ezMall-loading" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                           </div>
+                           <div class="ezMall-popup ezMall-popup-success"> 
+                              <i class="fa fa-check"></i>
+                              <h5 class="text-success fw-bolder">Successful</h5>
+                           </div> 
+                           <div class="ezMall-popup ezMall-popup-fail"> 
+                              <i class="fa fa-close text-danger"></i>
+                              <h5 class="text-danger fw-bolder">Error</h5>
+                              <div class="ezMalll-msg fw-bold p-3 d-flex">
+                               Something went wrong
+                              </div>
+                           </div>      
+                        </div>
     
                     `,
           },

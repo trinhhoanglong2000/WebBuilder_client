@@ -407,7 +407,7 @@ export default function loadBlockPayMent(editor, opt = {}) {
                             draggable: false,
                         },
                         {
-                            attributes: { class: "bg-white px-5", style: "width: 85%" },
+                            attributes: { class: "bg-white px-md-5 px-2", style: "width: 85%" },
                             name: "Payment Tittle",
                             layerable: false,
                             hoverable: false,
@@ -567,8 +567,8 @@ export default function loadBlockPayMent(editor, opt = {}) {
                                             </div>
                                             <h4 class="m-0 fw-bolder my-2 "  style="border-bottom: dashed 3px;"></h4>
                                             <div class="d-flex fw-bold justify-content-between py-2">
-                                                <h5 class="p-0 m-0 fw-bold text-danger">Total Amount</h5>
-                                                <h5 class="fw-bold p-0 m-0 text-danger "><span class= "ezMall-final-bill-cost"> </span></h5>
+                                                <h5 class="p-0 m-0 fw-bold color-orange">Total Amount</h5>
+                                                <h5 class="fw-bold p-0 m-0 color-orange "><span class= "ezMall-final-bill-cost"> </span></h5>
                                             </div>
                                         </div>  
                                         <div class="py-2">
@@ -579,7 +579,7 @@ export default function loadBlockPayMent(editor, opt = {}) {
                                             </div>
                                         </div>
                                         <div class="d-grid gap-1 ">
-                                            <button type="button" class="btn btn-danger fw-bold btn-block p-3 mb-3" style = 
+                                            <button type="button" class="btn bg-orange fw-bold btn-block p-3 mb-3 text-light" style = 
                                             "font-size: 150%;" onclick="buy()";>
                                             BUY
                                             </button>

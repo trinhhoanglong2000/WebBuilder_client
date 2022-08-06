@@ -13,13 +13,13 @@ export default function loadBlockCart(editor, opt = {}) {
         let checkedInput = $(tableBody).find(".ezMall-cart-item .ezMall-cart-item-check:checked")
         if (items.length == 0) {
             $(rootEle).find("#ezMall-cart-zero-item").show().addClass("d-flex");
-            $(rootEle).find(".tableRoot").hide();
+            $(rootEle).find(".cart-container").hide();
             $(ezMallSumary).hide();
             $(tableHead).find("#cart-select-all-product").prop("checked", false)
         }
         else {
             $(rootEle).find("#ezMall-cart-zero-item").hide().removeClass("d-flex");
-            $(rootEle).find(".tableRoot").show();
+            $(rootEle).find(".cart-container").show();
             $(ezMallSumary).show();
             if (checkedInput.length == items.length) {
                 $(tableHead).find("#cart-select-all-product").prop("checked", true)
@@ -358,14 +358,15 @@ export default function loadBlockCart(editor, opt = {}) {
                                 `
                             <hr> 
                             <div  class=" flex-column justify-content-center align-items-center" id="ezMall-cart-zero-item" style = "display:none; height:70vh">
-                                <h3>
+                                <h3 class="d-flex flex-column justify-content-center aligh-items-center text-center my-5">
+                                    <i class="fa fa-shopping-basket my-3" style="font-size: 150px"></i>
                                     Nothing products in your cart !!!
                                 </h3>
-                                <button class = "btn btn-lg btn-primary mt-2"> 
+                                <button class = "btn btn-lg ezMall-btn mt-2 fw-bold px-4 py-2"> 
                                     Shopping now
                                 </button>
                             </div>
-                            <div class = "row">
+                            <div class = "row cart-container">
                                 <div class = "col-xl-8 col-12">
                                     <div class="tableRoot ezMallCart">
                                         <div class ="thead d-flex justify-content-between style-black px-2">
@@ -387,6 +388,7 @@ export default function loadBlockCart(editor, opt = {}) {
                                             </a> 
                                             <a type="button" class="ezMall-cart-sumary-unchecked-all btn ezMall-btn fw-bold p-2" data-toggle="button"
                                                 aria-pressed="false" autocomplete="off" style="font-size: 14px ">
+                                                <i class="fa fa-times " aria-hidden="true"></i>
                                                 <span style = "font-weight: bold"> 
                                                     UNCHECK ALL
                                                 </span>
@@ -412,11 +414,12 @@ export default function loadBlockCart(editor, opt = {}) {
                                             <div class="d-grid gap-2">
                                                 <button type="button" class="btn btn-primary text-light fw-bold py-3 bg-orange" onClick=payMent()>PAYMENT</button>
                                             </div>
+                                            <div class="text-danger fw-bold" id="cart-alert">
+                                            <div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <hr>
                             <div class="ezMall-popup-alert">
                                 <div class="spinner-border ezMall-loading" role="status">
                                     <span class="visually-hidden">Loading...</span>

@@ -7,9 +7,10 @@ export default function loadBlockCart(editor, opt = {}) {
     const domc = editor.DomComponents;
     const defaultType = domc.getType("default");
 
-    function calculateTotal(tableBody, tableHead, ezMallSumary, rootEle,currency) {
+    function calculateTotal(tableBody, tableHead, ezMallSumary, rootEle, currency) {
+       
         let totalCost = 0;
-        let items = $(tableBody).find(".ezMall-cart-item");
+        let items = $(tableBody).find(".ezMall-cart-item ");
         let checkedInput = $(tableBody).find(".ezMall-cart-item .ezMall-cart-item-check:checked")
         if (items.length == 0) {
             $(rootEle).find("#ezMall-cart-zero-item").show().addClass("d-flex");
@@ -25,9 +26,26 @@ export default function loadBlockCart(editor, opt = {}) {
                 $(tableHead).find("#cart-select-all-product").prop("checked", true)
             }
         }
+        let cart =  [
+            { "id": "195a0fa0-e079-4714-a990-163620eb7187", "quantity": 1, "price": "20000", "product_name": "Product Demo 1", "currency": "VND", "is_variant": false, "variant_id": null, "variant_name": null, "thumnail": "https://dummyimage.com/150x150/000/fff", "description": null, "optionName": "" }
+            , { "id": "195a0fa0-e079-4714-a990-163620eb7188", "quantity": 1, "price": "20000", "product_name": "Product Demo 2", "currency": "VND", "is_variant": false, "variant_id": null, "variant_name": null, "thumnail": "https://dummyimage.com/150x150/000/fff", "description": null, "optionName": "" }
+        ]
         for (let i = 0; i < items.length; i++) {
+            let id = $(items[i]).attr("id");
+            let itemData = cart.find((item) => {
+                if (item.is_variant) {
+                    if (item.variant_id == id) {
+                        return true;
+                    }
+                } else {
+                    if (item.id == id) {
+                        return true
+                    }
+                }
+                return false;
+            })
             let quantity = $(items[i]).find(".ezMall-item-quantity").val();
-            let price = $(items[i]).find(".ezMall-item-price").html();
+            let price =itemData.price
             let isCheck = $(items[i]).find(".ezMall-cart-item-check").is(':checked');
             if (isCheck) {
                 totalCost += (Number)(price) * quantity;
@@ -36,23 +54,22 @@ export default function loadBlockCart(editor, opt = {}) {
             }
         }
         $(ezMallSumary).find(".ezMallSumary-total-cost").html(priceToString(totalCost, currency));
-       
     }
-    function insertData(data, tableHead, tableBody, ezMallSumary, rootEle,currency) {
-      
+    function insertData(data, tableHead, tableBody, ezMallSumary, rootEle, currency) {
+
         $(ezMallSumary).find("#ezMall-cart-sumary-unchecked-all").click(() => {
             let checkedInput = $(tableBody).find(".ezMall-cart-item .ezMall-cart-item-check:checked ")
             for (let i = 0; i < checkedInput.length; i++) {
                 $(checkedInput[i]).prop("checked", false);
             }
-            calculateTotal(tableBody, tableHead, ezMallSumary, rootEle,currency);
+            calculateTotal(tableBody, tableHead, ezMallSumary, rootEle, currency);
         })
 
         $(tableHead).find(".ezMall-head-remove-all-items").click(() => {
             window.localStorage.setItem('cart', JSON.stringify([]));
             $(tableBody).html("")
             $(tableHead).find("#cart-select-all-product").prop('checked', false);
-            calculateTotal(tableBody, tableHead, ezMallSumary, rootEle,currency);
+            calculateTotal(tableBody, tableHead, ezMallSumary, rootEle, currency);
         });
 
         $(tableHead).find("#cart-select-all-product").click((e) => {
@@ -60,16 +77,16 @@ export default function loadBlockCart(editor, opt = {}) {
             for (let i = 0; i < checkBox.length; i++) {
                 $(checkBox[i]).prop('checked', e.target.checked)
             }
-            calculateTotal(tableBody, tableHead, ezMallSumary, rootEle,currency)
+            calculateTotal(tableBody, tableHead, ezMallSumary, rootEle, currency)
         })
 
         let totalCostInit = 0;
         data.forEach(element => {
             let totalPrice = (Number)(element.quantity) * (Number)(element.price)
             totalCostInit += totalPrice;
-            let id = element.is_variant?  element.variant_id : element.id;
+            let id = element.is_variant ? element.variant_id : element.id;
             const rowHtml =
-            `
+                `
         <div id  = ${id} class= "ezMall-cart-item row py-1 px-3" >
             <div class="name col-md-9">
                     <div class="row">
@@ -81,13 +98,13 @@ export default function loadBlockCart(editor, opt = {}) {
                                     </div>
                                     <div class="col-md-8 col-5 d-flex flex-column justify-content-between px-3">
                                         <div class="px-0 py-0 my-2 justify-content-start  text-start fw-bold cart-item-tittle">
-                                            <a href="/products/id=${id}"> ${element.product_name} ${element.is_variant? ` - ${element.variant_name}`: ""}</a>
+                                            <a href="/products/id=${id}"> ${element.product_name} ${element.is_variant ? ` - ${element.variant_name}` : ""}</a>
                                         </div>
                                         <div class = "d-flex justify-content-between px-0">
                                                 <div class= "p-0 my-2 fw-bold d-flex text-secondary align-items-center fst-italic">
                                                     Price: 
                                                     <div class="ezMall-item-price px-1"> 
-                                                        ${element.price} 
+                                                        ${priceToString(element.price, element.currency)}
                                                     </div>    
                                                     <div class= "ezMall-item-price-type">
                                                         ${element.currency}
@@ -126,10 +143,10 @@ export default function loadBlockCart(editor, opt = {}) {
             tableBody.insertAdjacentHTML("beforeend", rowHtml);
             $(tableBody).find(`#${id} button.ezMall-cart-item-delete`).click(() => {
                 debugger
-                let cart = JSON.parse(localStorage.getItem('cart'));
-                if (!cart) {
-                    cart = []
-                }
+                let cart = [
+                    { "id": "195a0fa0-e079-4714-a990-163620eb7187", "quantity": 1, "price": "20000", "product_name": "adasdasd", "currency": "VND", "is_variant": false, "variant_id": null, "variant_name": null, "thumnail": "https://dummyimage.com/150x150/000/fff", "description": null, "optionName": "" }
+                    , { "id": "195a0fa0-e079-4714-a990-163620eb7188", "quantity": 1, "price": "20000", "product_name": "adasdasd", "currency": "VND", "is_variant": false, "variant_id": null, "variant_name": null, "thumnail": "https://dummyimage.com/150x150/000/fff", "description": null, "optionName": "" }
+                ]
                 let indexInArr = cart.findIndex((item) => {
                     if (element.is_variant) {
                         if (item.variant_id == id) {
@@ -150,8 +167,8 @@ export default function loadBlockCart(editor, opt = {}) {
                 cart.splice(indexInArr, 1);
                 window.localStorage.setItem('cart', JSON.stringify(cart));
                 updateCart()
-                calculateTotal(tableBody, tableHead, ezMallSumary, rootEle,currency)
-           
+                calculateTotal(tableBody, tableHead, ezMallSumary, rootEle, currency)
+
             })
 
             $(tableBody).find(`#${id} input.ezMall-item-quantity`).change(() => {
@@ -172,21 +189,21 @@ export default function loadBlockCart(editor, opt = {}) {
                     return false;
                 })
                 let currentQuantity = $(tableBody).find(`input#val-${id}`).val()
-                if(currentQuantity <=0){
+                if (currentQuantity <= 0) {
                     $(tableBody).find(`#${id} button.ezMall-cart-item-delete`).click();
                     return
                 }
                 $(tableBody).find(`#${id} .ezMall-item-total .cart-item-tittle`).html(priceToString((Number)(element.price) * currentQuantity, element.currency))
                 let items = $(tableBody).find(".ezMall-cart-item ");
                 let totalCost = 0;
-                calculateTotal(tableBody, tableHead, ezMallSumary, rootEle,currency)
+                calculateTotal(tableBody, tableHead, ezMallSumary, rootEle, currency)
                 cart[indexInArr].quantity = currentQuantity;
                 window.localStorage.setItem('cart', JSON.stringify(cart));
                 updateCart()
             });
 
             $(tableBody).find(`#${id} input.ezMall-cart-item-check`).change(() => {
-                calculateTotal(tableBody, tableHead, ezMallSumary, rootEle,currency)
+                calculateTotal(tableBody, tableHead, ezMallSumary, rootEle, currency)
             });
         });
     }
@@ -223,7 +240,7 @@ export default function loadBlockCart(editor, opt = {}) {
                 tagName: 'div',
                 draggable: !opt.isDeloy,
                 droppable: !opt.isDeloy,
-                removable : !opt.isDeloy,
+                removable: !opt.isDeloy,
                 copyable: !opt.isDeloy,
                 traits: [
                     {
@@ -280,15 +297,15 @@ export default function loadBlockCart(editor, opt = {}) {
 
                 let rootEle = $(this.el)
                 let tableHead = $(this.el).find(`.tableRoot .thead`)[0];
-           
+
                 let tableBody = $(this.el).find(`.tableRoot .tbody`)[0];
                 let ezMallSumary = $(this.el).find(`.ezMallSumary`)[0];
-                     console.log(tableHead,tableBody)
+                console.log(tableHead, tableBody)
                 // let cart = JSON.parse(localStorage.getItem('cart'));
                 // cart = cart ? []: cart
                 let cart = [
-                    {"id":"195a0fa0-e079-4714-a990-163620eb7187","quantity":1,"price":"20000","product_name":"adasdasd","currency":"VND","is_variant":false,"variant_id":null,"variant_name":null,"thumnail":"https://dummyimage.com/150x150/000/fff","description":null,"optionName":""}
-                    ,{"id":"195a0fa0-e079-4714-a990-163620eb7188","quantity":1,"price":"20000","product_name":"adasdasd","currency":"VND","is_variant":false,"variant_id":null,"variant_name":null,"thumnail":"https://dummyimage.com/150x150/000/fff","description":null,"optionName":""}
+                    { "id": "195a0fa0-e079-4714-a990-163620eb7187", "quantity": 1, "price": "20000", "product_name": "Product Demo 1", "currency": "VND", "is_variant": false, "variant_id": null, "variant_name": null, "thumnail": "https://dummyimage.com/150x150/000/fff", "description": null, "optionName": "" }
+                    , { "id": "195a0fa0-e079-4714-a990-163620eb7188", "quantity": 1, "price": "20000", "product_name": "Product Demo 2", "currency": "VND", "is_variant": false, "variant_id": null, "variant_name": null, "thumnail": "https://dummyimage.com/150x150/000/fff", "description": null, "optionName": "" }
                 ]
                 insertData(cart, tableHead, tableBody, ezMallSumary, rootEle, cart[0].currency)
             },
@@ -330,8 +347,8 @@ export default function loadBlockCart(editor, opt = {}) {
                 {
                     name: 'Cart',
                     type: "Cart",
-                    attributes: { class: ""},
-                    style: { "position": "relative"},
+                    attributes: { class: "" },
+                    style: { "position": "relative" },
                     components: [
                         {
                             attributes: { class: "container" },

@@ -275,13 +275,13 @@ export default function loadBlockProductDetail(editor, opt = {}) {
                                                 <p class="col ezMall-alert-text-option px-1"> á á</p>
                                             </div> 
                                         </div>
-                                        <button class="btn btn-lg btn-dark fw-bold py-3 ezMall-add-to-cart" style="width: 100%" onclick = "addToCart();">
+                                        <button class="btn btn-lg ezMall-btn fw-bold py-3 ezMall-add-to-cart" style="width: 100%" onclick = "addToCart();">
                                             ADD TO CART
                                         </button>
                                     </div>
                     
                                     <div class="px-3 py-3">
-                                        <div class="btn btn-lg btn-danger fw-bold py-3 ezMall-buys" style="width: 100%" onclick = "buyNow()">
+                                        <div class="btn btn-lg bg-orange text-light fw-bold py-3 ezMall-buys" style="width: 100%" onclick = "buyNow()">
                                             BUY
                                         </div>
                                     </div>

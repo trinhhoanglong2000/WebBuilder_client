@@ -575,7 +575,7 @@ export default function loadBlockPayMent(editor, opt = {}) {
                                             <span id="incorrect-discount-alert" class = "email-alert text-danger fw-normal fst-italic" style= "display:none">Your discount code incorrect</span>
                                             <div class = "p-0 m-0 d-flex flex-row justify-content-between">
                                                 <input type="text" class="form-control pl-1" id="discount" placeholder="Enter your discount code" style="width: 68%">
-                                                <button type="button" class="btn btn-outline-dark fw-bold"  onclick = "useDiscount()" style="width: 30%">Use Discount</button>
+                                                <button type="button" class="btn ezMall-btn  fw-bold"  onclick = "useDiscount()" style="width: 30%">Use Discount</button>
                                             </div>
                                         </div>
                                         <div class="d-grid gap-1 ">
@@ -597,7 +597,7 @@ export default function loadBlockPayMent(editor, opt = {}) {
                                     <div class="ezMalll-msg fw-bold p-3 d-flex">
                                         We already send an email to you
                                     </div>
-                                    <button class="btn btn-primary fw-bold btn-lg">
+                                    <button class="btn ezMall-btn  fw-bold btn-lg">
                                         Click to go tracking page
                                     </button>
                                 </div> 

@@ -218,6 +218,7 @@ function Canvas({ type }) {
                       listCssFile.push(ele.attributes.name);
                     }
                   });
+                  // Deploy template setting true
                   editor.getWrapper().set({ hoverable: false, selectable: false, highlightable: false,
                    droppable:false,
                   })

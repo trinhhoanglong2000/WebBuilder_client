@@ -215,10 +215,10 @@ export default function loadBlockHeader(editor, opt = {}) {
   dc.addType("header", {
     model: {
       defaults: {
-        copyable: false,
-        removable: false,
-        droppabl: false,
-        draggable: false,
+        copyable: !opt.isDeloy,
+        removable: !opt.isDeloy,
+        droppabl: !opt.isDeloy,
+        draggable: !opt.isDeloy,
         name: "Header",
         tagName: "nav",
         attributes: {

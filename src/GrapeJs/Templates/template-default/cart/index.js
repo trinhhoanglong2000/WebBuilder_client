@@ -57,7 +57,7 @@ export default function loadBlockCart(editor, opt = {}) {
     }
     function insertData(data, tableHead, tableBody, ezMallSumary, rootEle, currency) {
 
-        $(ezMallSumary).find("#ezMall-cart-sumary-unchecked-all").click(() => {
+        $(ezMallSumary).find(".ezMall-cart-sumary-unchecked-all").click(() => {
             let checkedInput = $(tableBody).find(".ezMall-cart-item .ezMall-cart-item-check:checked ")
             for (let i = 0; i < checkedInput.length; i++) {
                 $(checkedInput[i]).prop("checked", false);
@@ -65,14 +65,14 @@ export default function loadBlockCart(editor, opt = {}) {
             calculateTotal(tableBody, tableHead, ezMallSumary, rootEle, currency);
         })
 
-        $(tableHead).find(".ezMall-head-remove-all-items").click(() => {
+        $(rootEle).find(".ezMall-head-remove-all-items").click(() => {
             window.localStorage.setItem('cart', JSON.stringify([]));
             $(tableBody).html("")
-            $(tableHead).find("#cart-select-all-product").prop('checked', false);
+            $(rootEle).find("#cart-select-all-product").prop('checked', false);
             calculateTotal(tableBody, tableHead, ezMallSumary, rootEle, currency);
         });
 
-        $(tableHead).find("#cart-select-all-product").click((e) => {
+        $(rootEle).find("#cart-select-all-product").click((e) => {
             var checkBox = $(tableBody).find(".ezMall-cart-item .ezMall-cart-item-check");
             for (let i = 0; i < checkBox.length; i++) {
                 $(checkBox[i]).prop('checked', e.target.checked)
@@ -113,7 +113,7 @@ export default function loadBlockCart(editor, opt = {}) {
                                         </div>
                                         <div class="fw-bold d-flex text-secondary align-items-center px-0 fst-italic">
                                             <input type="number" min="0" id=${"val-" + id} class="form-control ezMall-item-quantity" value=${element.quantity}
-                                            style="min-width: 70px; width: 70px;">
+                                            style="min-width: 135px; width: 135px;" min=1>
                                         </div>
                                     </div>
                     </div>
@@ -189,6 +189,20 @@ export default function loadBlockCart(editor, opt = {}) {
                     return false;
                 })
                 let currentQuantity = $(tableBody).find(`input#val-${id}`).val()
+
+                if(!currentQuantity.toString().match(/^[1-9]\d*$/)){
+                    $('.ezMallSumary button').attr('disabled','disabled');
+                    $(`#${id} input.ezMall-item-quantity`).css("border-color", "red").css("background","#ffdddd")  
+                    $(`#${id} input.ezMall-item-quantity`).attr('invalid', 'true') 
+                    return
+                }else{
+                    $(`#${id} input.ezMall-item-quantity`).css("border-color", "#ced4da").css("background","#fff")  
+                    $(`#${id} input.ezMall-item-quantity`).removeAttr('invalid')
+                    if($(`input.ezMall-item-quantity[invalid='true']`).length == 0){
+                        $('.ezMallSumary button').removeAttr('disabled');
+                    }
+                }
+
                 if (currentQuantity <= 0) {
                     $(tableBody).find(`#${id} button.ezMall-cart-item-delete`).click();
                     return
@@ -300,7 +314,6 @@ export default function loadBlockCart(editor, opt = {}) {
 
                 let tableBody = $(this.el).find(`.tableRoot .tbody`)[0];
                 let ezMallSumary = $(this.el).find(`.ezMallSumary`)[0];
-                console.log(tableHead, tableBody)
                 // let cart = JSON.parse(localStorage.getItem('cart'));
                 // cart = cart ? []: cart
                 let cart = [

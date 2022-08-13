@@ -455,3 +455,7 @@ div#loadingDiv {
   background-color: white;
   border-radius: 10px;
 }
+
+.gjs-am-file-uploader input {
+  cursor: pointer;
+}

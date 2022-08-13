@@ -9,7 +9,10 @@ import "./dist/snow.css";
 import "./blocks/basicBlocks/index";
 import "./plugins/index";
 import NavigationPanel from "./pages/NavigationPanel";
+// Template
 import "./Templates/template-default/template-default.plugins";
+import "./Templates/coffee-shop/coffee-shop.plugins";
+
 import AvatarLoad from '../components/AvatarLoad/AvatarLoad'
 import SaveLoad from '../components/SaveLoad/SaveLoad'
 import { readCookie } from './../helper/cookie';
@@ -37,7 +40,7 @@ function Canvas({ type }) {
   const template = useSelector((state) => state.store.templateName)
   const token = readCookie('token');
   const getPlugins = () => {
-    return ["Plugins-defaults", "template-default"];
+    return ["Plugins-defaults", template.trim().toLowerCase().replace(/\s+/g, '-')];
   };
 
   useEffect(() => {
@@ -113,7 +116,7 @@ function Canvas({ type }) {
             id="grapesjs-react"
             plugins={getPlugins()}
             pluginsOpts={{
-              "template-default": {
+              [template.trim().toLowerCase().replace(/\s+/g, '-')]: {
                 pageId: pageId,
                 headerNavigation: listPagesId,
                 storeId: storeId,

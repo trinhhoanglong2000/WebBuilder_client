@@ -22,7 +22,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
         draggable: ".main-content",
         traits: [
           {
-            label: "Display",
+            label: "Align",
             type: "multicolumn-padding-mode",
           },
           {

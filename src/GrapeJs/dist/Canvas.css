@@ -343,8 +343,18 @@
 }
 
 .gjs-am-add-asset button {
-  background-color: #84dd9e;
-  border: 1px solid black;
+  color: #ffffff;
+  border-radius: 5px;
+  width: 20%;
+  min-width: 130px;
+  background-color: #65ca3e;
+  border-color: #65ca3e;
+  height: 40px;
+}
+
+.gjs-am-add-asset button:hover {
+  background-color: #96e477;
+  border-color: #96e477;
 }
 
 .gjs-trt-trait .gjs-field {
@@ -458,4 +468,12 @@ div#loadingDiv {
 
 .gjs-am-file-uploader input {
   cursor: pointer;
+}
+
+.gjs-am-assets { 
+  height: 260px; 
+}
+
+.gjs-editor-cont ::-webkit-scrollbar-thumb {
+  background-color: rgb(96 96 96 / 76%);
 }

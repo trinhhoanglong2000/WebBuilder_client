@@ -130,14 +130,10 @@ export default function loadVideo(editor, opt = {}) {
             const fullwidth = elInput.querySelector('.video-fullwidth').checked;
             if (fullwidth) {
                 component.removeClass('container')
-                if (!component.getClasses()?.includes('container-fluid')) {
-                  component.addClass('container-fluid')
-                }
+                component.addClass('container-fluid')
             } else {
                 component.removeClass('container-fluid')
-                if (!component.getClasses()?.includes('container')) {
-                  component.addClass('container')
-                }
+                component.addClass('container')
             }
         },
 

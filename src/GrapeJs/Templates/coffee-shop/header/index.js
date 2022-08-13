@@ -197,9 +197,7 @@ export default function loadBlockHeader(editor, opt = {}) {
       const isSticky = elInput.querySelector("input.header-sticky-top").checked;
 
       if (isSticky) {
-        if (!component.getClasses()?.includes('sticky-top')) {
-          component.addClass('sticky-top')
-        }
+        component.addClass('sticky-top')
       } else {
         component.removeClass('sticky-top')
       }

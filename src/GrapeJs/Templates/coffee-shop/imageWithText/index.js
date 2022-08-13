@@ -367,17 +367,13 @@ export default function loadImageWithText(editor, opt = {}) {
       const textPart = component.get("components").models[0].get("components").models[1];
       const parent = textPart.get("components").models[0];
       const button = parent.get("components").models[2];
-
+      debugger
       if (isFullWidth) {
         component.removeClass('container')
-        if (!component.getClasses()?.includes('container-fluid')) {
-          component.addClass('container-fluid')
-        }
+        component.addClass('container-fluid')
       } else {
         component.removeClass('container-fluid')
-        if (!component.getClasses()?.includes('container')) {
-          component.addClass('container')
-        }
+        component.addClass('container')
       }
 
       const isHideButton = elInput.querySelector("input.imageWithText-hideButton").checked;

@@ -208,14 +208,10 @@ export default function loadImage(editor, opt = {}) {
 
       if (isFullWidth) {
         component.removeClass("container");
-        if (!component.getClasses()?.includes("container-fluid")) {
-          component.addClass("container-fluid");
-        }
+        component.addClass("container-fluid");
       } else {
         component.removeClass("container-fluid");
-        if (!component.getClasses()?.includes("container")) {
-          component.addClass("container");
-        }
+        component.addClass("container");
       }
       editor.refresh()
     },

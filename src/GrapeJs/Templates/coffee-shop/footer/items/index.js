@@ -398,14 +398,10 @@ export default function loadBlockFooterItem(editor, opt = {}) {
 
       if (isOneRow) {
         component.removeClass('col-md')
-        if (!component.getClasses()?.includes('one-row')) {
-          component.addClass('one-row')
-        }
+        component.addClass('one-row')
       } else {
         component.removeClass('one-row')
-        if (!component.getClasses()?.includes('col-md')) {
-          component.addClass('col-md')
-        }
+        component.addClass('col-md')
       }
     },
 

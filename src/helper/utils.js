@@ -10,6 +10,10 @@ const validURL = (str) => {
   return !!pattern.test(str);
 }
 
+function validImageURL(url) {
+  return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
+}
+
 const loadStoreComponents = async (editor, storeId) => {
   if (!editor || !storeId) {
     return false;
@@ -64,4 +68,4 @@ const setAttribute = (component, attributes={}) => {
   component.set('attributes', attr)
 }
 
-export { validURL, loadStoreComponents, setAttribute };
+export { validURL, loadStoreComponents, setAttribute, validImageURL };

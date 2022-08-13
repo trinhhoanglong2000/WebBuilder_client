@@ -1,4 +1,5 @@
 import $ from "jquery";
+import { validImageURL } from "../../helper/utils";
 const Swal = require('sweetalert2')
 
 export const getEvents = (editor,config) => {
@@ -58,7 +59,9 @@ export const getEvents = (editor,config) => {
     //==========================| asset |===================
     editor.on("asset:add", (asset) => {
       let isImage = asset.get('src').includes('data:image');
-      if (!isImage) {
+      let isImageURL = validImageURL(asset.get('src'));
+
+      if (!(isImage || isImageURL)) {
         editor.AssetManager.close()
         editor.AssetManager.remove(asset.get('src'))
         Swal.fire({

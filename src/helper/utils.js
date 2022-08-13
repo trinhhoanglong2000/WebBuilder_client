@@ -11,7 +11,7 @@ const validURL = (str) => {
 }
 
 function validImageURL(url) {
-  return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
+  return(url.match(/(https?:\/\/.*\.(?:png|jpg))/i) != null);
 }
 
 const loadStoreComponents = async (editor, storeId) => {

@@ -116,7 +116,7 @@ export default function loadTraitColumnItem(editor, opt = {}) {
     onEvent({ elInput, component, event }) {
       const inputType = elInput.querySelector(".Product-Heading");
       let data = inputType.value?inputType.value:"";
-      component.get("components").models[1].get("components").models[0].set({ content: `<a href="${component.get("attributes").href??""}" >${data} </a>` });
+      component.get("components").models[1].get("components").models[0].set({ content: `<a href="${component.get("attributes").href??"#"}" >${data} </a>` });
       setAttribute(component, {
         'heading': data
       })
@@ -245,7 +245,7 @@ export default function loadTraitColumnItem(editor, opt = {}) {
             const selected = editor.getSelected();
             inputImage.src = asset.getSrc();
             const image = selected.get("components").models[0];
-            image.set('content', `<a href="${selected.get("attributes").href??""}" > <img src="${asset.getSrc()}" class="img-responsive img-fluid" alt=""> </a>`);
+            image.set('content', `<a href="${selected.get("attributes").href??"#"}" > <img src="${asset.getSrc()}" class="img-responsive img-fluid" alt=""> </a>`);
             am.close();
           },
         });
@@ -255,7 +255,7 @@ export default function loadTraitColumnItem(editor, opt = {}) {
         const selected = editor.getSelected();
         const image = selected.get("components").models[0];
 
-        image.set('content', `<a href="${selected.get("attributes").href??""}" > <img src="https://dummyimage.com/600x400/55595c/fff" class="img-responsive img-fluid" alt=""> </a>`);
+        image.set('content', `<a href="${selected.get("attributes").href??"#"}" > <img src="https://dummyimage.com/600x400/55595c/fff" class="img-responsive img-fluid" alt=""> </a>`);
         inputImage.src = "https://dummyimage.com/600x400/55595c/fff";
       };
 

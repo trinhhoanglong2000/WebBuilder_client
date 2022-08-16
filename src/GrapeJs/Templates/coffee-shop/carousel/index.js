@@ -84,11 +84,15 @@ export default function loadBlockCarousel(editor, opt = {}) {
           },
           {
             type: "banner-height",
-            label: "Banner Height"
+            label: "Fixed According"
           },
           {
             type: "banner-description-background",
             label: "Description background"
+          },
+          {
+            type: "banner-description-container-mode",
+            label: "Container Mode"
           },
 
         ],

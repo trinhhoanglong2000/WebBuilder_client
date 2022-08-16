@@ -168,7 +168,7 @@ export default function loadTraitCarousel(editor, opt = {}) {
             <div class="Modal-popup dnone" style="">
     
               <div class ="d-flex border-bottom mb-3 p-3">
-                <h5 class="flex-grow-1" style = "margin-bottom:0;display:flex;align-items:center">
+                <h5 class="flex-grow-1" style = "margin-bottom:0;display:flex;align-items:center" >
                 Select collection
                 </h5> 
                 <button type="button" class="btn close-btn">
@@ -405,9 +405,8 @@ export default function loadTraitCarousel(editor, opt = {}) {
 
     createInput({ trait }) {
       let textOptionsData = [
-        { id: "small", name: "Small" },
-        { id: "medium", name: "Medium" },
-        { id: "lager", name: "Lager" },
+        { id: "small", name: "Width" },
+        { id: "medium", name: "Height" },
       ];
 
       // #3 Create HTML selected for trait option 
@@ -456,7 +455,7 @@ export default function loadTraitCarousel(editor, opt = {}) {
   editor.TraitManager.addType("banner-description-background", {
     // Expects as return a simple HTML string or an HTML element
     createInput({ trait }) {
-      const initValue = trait.target.attributes.attributes.descriptionBackground ? true : false;
+      const initValue = trait.target.attributes.attributes.descriptionBackground ? trait.target.attributes.attributes.descriptionBackground  : false;
       const el = document.createElement("div");
       el.innerHTML = `
           <div class="gjs-one-bg">
@@ -492,4 +491,46 @@ export default function loadTraitCarousel(editor, opt = {}) {
       }
     },
   });
+
+  editor.TraitManager.addType("banner-description-container-mode", {
+    // Expects as return a simple HTML string or an HTML element
+    createInput({ trait }) {
+      const initValue =trait.target.attributes.attributes.containerMode !=null ? trait.target.attributes.attributes.containerMode: false ;
+      console.log(trait.target.attributes.attributes.containerMode)
+      const el = document.createElement("div");
+      el.innerHTML = `
+          <div class="gjs-one-bg">
+            <label class="checkbox-product gjs-label-wrp" for="fullWidth" >
+              <input class ="checkbox-input d-none" type="checkbox" id="fullWidth" name="fullWidth" ${initValue ? "checked" : ""} >
+              <div class="checkbox_box"></div>
+              Your banner show with padding 
+            <label/>
+          </div>
+          `;
+
+      $(el).find(`input`).prop("checked", initValue);
+
+      return el;
+    },
+    onUpdate({ elInput, component }) {
+      $(elInput).find("input").val(component.getAttributes().containerMode);
+      $(elInput).find("input").prop("checked", component.getAttributes().containerMode);
+    },
+    onEvent({ elInput, component, event }) {
+      //#1 when option change we will get new option => change HTML following option
+      const inputType = elInput.querySelector("input");
+      let containerMode = inputType.checked;
+      
+      setAttribute(component,{
+        'containerMode': containerMode
+      })
+
+      if (containerMode) {
+        component.addClass(`container`);
+      } else {
+        component.removeClass(`container`);
+      }
+    },
+  });
 }
+

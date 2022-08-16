@@ -33,15 +33,15 @@ function insertCarouselData(data, carouselIndicators, carouselInner, carousel) {
     carouselIndicators.insertAdjacentHTML("beforeend", htmlButtonInsert);
     let htmlCarouselItemInsert = `
   <div class="carousel-item ${index == 0 ? "active" : ""}">
-    <div  class="d-block w-100 image-container">
-      <img src="${item.image??""}"  alt="${item.image??""}">
-    </div>
+    <a class="d-block w-100 image-container" href=${item.link??"#"}>
+      <img src="${item.image??""}"  alt="${item.image??""}" >
+    </a>
     <div class="carousel-caption">
       <div class = "ezMall-carousel-contents">
         <div class="ezMall-carousel-text-container d-block">
           <h2 class="bolder">${item.caption??""}</h2>
           <p>${item.description??""}</p>
-          <a class="btn ezMall-btn bolder" href=${item.link??""} role="button">Shop Now</a>
+          <a class="btn ezMall-btn bolder" href=${item.link??"#"} role="button">Shop Now</a>
         </div>
       </div>
     </div>
@@ -84,11 +84,15 @@ export default function loadBlockCarousel(editor, opt = {}) {
           },
           {
             type: "banner-height",
-            label: "Banner Height"
+            label: "Fixed According"
           },
           {
             type: "banner-description-background",
             label: "Description background"
+          },
+          {
+            type: "banner-description-container-mode",
+            label: "Container Mode"
           },
 
         ],

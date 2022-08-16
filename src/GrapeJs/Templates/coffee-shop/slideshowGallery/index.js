@@ -209,7 +209,6 @@ export default function loadSlideshowGallery(editor, opt = {}) {
         } else {
           am.open({
             select(asset, complete) {
-              // setAttribute(logoImage, { 'src': asset.getSrc() })
               const rowImageComponent = trait.target.get("components").models[1].get("components").models[3].get("components");
               
               let isDone = false;
@@ -371,19 +370,19 @@ export default function loadSlideshowGallery(editor, opt = {}) {
     },
     view: {
       async Update() {   
-          const curSlide = $(this.el).find('.mySlides img');
-          const optionImage = $(this.el).find('img.option-image');
-          const prevBtn= $(this.el).find('a.prev');
-          const nextBtn = $(this.el).find('a.next');
-      
-          optionImage.on("click", function() {
-            optionImage.each(function() { $(this).removeClass('active'); })
-            $(this).addClass('active');
-            $(curSlide).attr('src', $(this).attr('src'))
+        const curSlide = $(this.el).find('.mySlides img');
+        const optionImage = $(this.el).find('div:not(.d-none) > img.option-image');
+        const prevBtn= $(this.el).find('a.prev');
+        const nextBtn = $(this.el).find('a.next');
+        
+        optionImage.on("click", function() {
+          optionImage.each(function() { $(this).removeClass('active'); })
+          $(this).addClass('active');
+          $(curSlide).attr('src', $(this).attr('src'))
         })
     
         prevBtn.on("click", () => {
-            const active = $(this).find('img.option-image.active')
+            const active = $(this.el).find('img.option-image.active')
             const index = $(active).parent().closest('div').index() - 1;
             if (index > -1 && index < optionImage.length) { 
                 $(active).removeClass('active');
@@ -394,7 +393,7 @@ export default function loadSlideshowGallery(editor, opt = {}) {
         })
     
         nextBtn.on("click", () => {
-            const active = $(this).find('img.option-image.active')
+            const active = $(this.el).find('img.option-image.active')
             const index = $(active).parent().closest('div').index() + 1;
             
             if (index > -1 && index < optionImage.length) { 
@@ -404,6 +403,9 @@ export default function loadSlideshowGallery(editor, opt = {}) {
                 $(curSlide).attr('src', $(optionImage[index]).attr('src'))
             }
         })
+
+        const active = $(this.el).find('img.option-image.active');
+        $(curSlide).attr('src', $(active).attr('src'))
       },
       init() {
       },

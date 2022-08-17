@@ -367,7 +367,7 @@ export default function loadImageWithText(editor, opt = {}) {
       const textPart = component.get("components").models[0].get("components").models[1];
       const parent = textPart.get("components").models[0];
       const button = parent.get("components").models[2];
-      debugger
+      
       if (isFullWidth) {
         component.removeClass('container')
         component.addClass('container-fluid')

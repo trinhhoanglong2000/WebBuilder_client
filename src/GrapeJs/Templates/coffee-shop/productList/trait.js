@@ -25,7 +25,7 @@ export default function loadTraitProduct(editor, opt = {}) {
     createInput({ trait }) {
       const el = document.createElement("div");
       let initValue = trait.target.attributes.attributes['data-ez-mall-collection'] || "";
-
+      
       el.innerHTML = `
           <div class="Modal-popup dnone" style="">
   
@@ -131,13 +131,13 @@ export default function loadTraitProduct(editor, opt = {}) {
               
                 <div class="Picture" >
                   <img style= "width: 32px;height: 32px;" src="${element.thumbnail
-                ? element.thumbnai
+                ? element.thumbnail
                 : "https://img.icons8.com/fluency-systems-regular/48/000000/image.png"
               }"/>
   
   
                 </div>
-                <div style ="text-align:left;flex-grow:1;font-size:12px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2; /* number of lines to show */ line-clamp: 2;-webkit-box-orient: vertical;
+                <div style ="text-align:left;flex-grow:1;font-size:12px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2; line-clamp: 2;-webkit-box-orient: vertical; padding: 5px;
                 " >
                 ${element.name}
   

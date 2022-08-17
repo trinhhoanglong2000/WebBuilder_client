@@ -131,7 +131,7 @@ export default function loadTraitProduct(editor, opt = {}) {
               
                 <div class="Picture" >
                   <img style= "width: 32px;height: 32px;" src="${element.thumbnail
-                ? element.thumbnai
+                ? element.thumbnail
                 : "https://img.icons8.com/fluency-systems-regular/48/000000/image.png"
               }"/>
   

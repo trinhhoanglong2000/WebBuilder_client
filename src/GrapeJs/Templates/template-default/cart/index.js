@@ -142,7 +142,7 @@ export default function loadBlockCart(editor, opt = {}) {
 
             tableBody.insertAdjacentHTML("beforeend", rowHtml);
             $(tableBody).find(`#${id} button.ezMall-cart-item-delete`).click(() => {
-                debugger
+
                 let cart = [
                     { "id": "195a0fa0-e079-4714-a990-163620eb7187", "quantity": 1, "price": "20000", "product_name": "adasdasd", "currency": "VND", "is_variant": false, "variant_id": null, "variant_name": null, "thumnail": "https://dummyimage.com/150x150/000/fff", "description": null, "optionName": "" }
                     , { "id": "195a0fa0-e079-4714-a990-163620eb7188", "quantity": 1, "price": "20000", "product_name": "adasdasd", "currency": "VND", "is_variant": false, "variant_id": null, "variant_name": null, "thumnail": "https://dummyimage.com/150x150/000/fff", "description": null, "optionName": "" }

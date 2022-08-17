@@ -281,11 +281,11 @@ export default function loadBlockFooterItem(editor, opt = {}) {
             <div style="width: 100%;display: flex;align-items: center;" class="btn border-bottom py-3">
               <div class="Picture" >
                 <img style= "width: 32px;height: 32px;" src="${element.thumbnail
-                ? element.thumbnai
+                ? element.thumbnail
                 : "https://img.icons8.com/fluency-systems-regular/48/000000/image.png"
               }"/>
               </div>
-              <div style ="text-align:left;flex-grow:1;font-size:12px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2; line-clamp: 2;-webkit-box-orient: vertical;">
+              <div style ="text-align:left;flex-grow:1;font-size:12px;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 2; line-clamp: 2;-webkit-box-orient: vertical; padding: 5px;">
               ${element.name}
               </div>
               <div class="check-item mr-2">

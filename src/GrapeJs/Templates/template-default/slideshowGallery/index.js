@@ -286,7 +286,7 @@ export default function loadSlideshowGallery(editor, opt = {}) {
     },
 
     onUpdate({elInput, component}) {
-      const componentGallery = $(component.get("components").models[1].view.el).find('div:not(.d-none) img.option-image');
+      const componentGallery = $(component.get("components").models[1].view.el).find('div:not(.d-none).column img.option-image');
       const traitGallery = $(elInput).find('.image-gallery');
 
       traitGallery.empty();
@@ -371,7 +371,7 @@ export default function loadSlideshowGallery(editor, opt = {}) {
     view: {
       async Update() {   
         const curSlide = $(this.el).find('.mySlides img');
-        const optionImage = $(this.el).find('div:not(.d-none) > img.option-image');
+        const optionImage = $(this.el).find('div:not(.d-none).column img.option-image');
         const prevBtn= $(this.el).find('a.prev');
         const nextBtn = $(this.el).find('a.next');
         

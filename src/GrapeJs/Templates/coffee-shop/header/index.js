@@ -188,6 +188,13 @@ export default function loadBlockHeader(editor, opt = {}) {
                         Enable sticky header
                     <label/>
                 </div>
+                <div class="gjs-one-bg">
+                  <label class="checkbox-product gjs-label-wrp">
+                      <input class ="checkbox-input header-hide-logo-border" type="checkbox" id="border">
+                      <div class="checkbox_box"></div>
+                      Hide logo border
+                  <label/>
+              </div>
             `;
 
       return el;
@@ -201,12 +208,33 @@ export default function loadBlockHeader(editor, opt = {}) {
       } else {
         component.removeClass('sticky-top')
       }
+      
+      const isHideLogoBorder = elInput.querySelector("input.header-hide-logo-border").checked;
+      const logoImage = editor
+        .getSelected()
+        .get("components")
+        .models[0].get("components")
+        .models[1].get("components").models[0];
+
+        if (!isHideLogoBorder) {
+          logoImage.addClass('img-thumbnail');
+        } else {
+          logoImage.removeClass('img-thumbnail');
+        }
     },
 
     onUpdate({ elInput, component }) {
+      const logoImage = editor
+        .getSelected()
+        .get("components")
+        .models[0].get("components")
+        .models[1].get("components").models[0];
+
       const isStickyTop = component.getClasses()?.includes('sticky-top');
+      const isHideLogoBorder = logoImage.getClasses()?.includes('img-thumbnail');
 
       $(elInput).find("input.header-sticky-top").prop("checked", isStickyTop);
+      $(elInput).find("input.header-hide-logo-border").prop("checked", !isHideLogoBorder);
     },
   });
 

@@ -242,12 +242,17 @@ export default function loadSlideshowGallery(editor, opt = {}) {
 
                   if ($(trait.target.view.el).find('img.option-image').eq(index)) {
                     const slideImg = $(trait.target.get("components").models[1].view.el).find('.mySlides img');
-                    if (index == 0) {
-                      slideImg.attr('src', $(el).find('.trait-gallery-image img').eq(1).attr('src'))
-                      $(trait.target.view.el).find('img.option-image').eq(1).addClass('active');
-                    } else {
-                      slideImg.attr('src', $(el).find('.trait-gallery-image img').eq(0).attr('src'))
-                      $(trait.target.view.el).find('img.option-image').eq(0).addClass('active');
+                    const active = $(trait.target.get("components").models[1].view.el).find('img.option-image.active');
+                    const activeIndex = $(active).parent().closest('div').index();
+
+                    if (index == activeIndex) {
+                      if (index == 0) {
+                        slideImg.attr('src', $(el).find('.trait-gallery-image img').eq(1).attr('src'))
+                        $(trait.target.view.el).find('img.option-image').eq(1).addClass('active');
+                      } else {
+                        slideImg.attr('src', $(el).find('.trait-gallery-image img').eq(0).attr('src'))
+                        $(trait.target.view.el).find('img.option-image').eq(0).addClass('active');
+                      }
                     }
                   }
                   
@@ -312,12 +317,17 @@ export default function loadSlideshowGallery(editor, opt = {}) {
         
         if ($(component.view.el).find('img.option-image').eq(index)) {
           const slideImg = $(component.get("components").models[1].view.el).find('.mySlides img');
-          if (index == 0) {
-            slideImg.attr('src', $(elInput).find('.trait-gallery-image img').eq(1).attr('src'))
-            $(component.view.el).find('img.option-image').eq(1).addClass('active');
-          } else {
-            slideImg.attr('src', $(elInput).find('.trait-gallery-image img').eq(0).attr('src'))
-            $(component.view.el).find('img.option-image').eq(0).addClass('active');
+          const active = $(component.get("components").models[1].view.el).find('img.option-image.active');
+          const activeIndex = $(active).parent().closest('div').index();
+
+          if (index == activeIndex) {
+            if (index == 0) {
+              slideImg.attr('src', $(elInput).find('.trait-gallery-image img').eq(1).attr('src'))
+              $(component.view.el).find('img.option-image').eq(1).addClass('active');
+            } else {
+              slideImg.attr('src', $(elInput).find('.trait-gallery-image img').eq(0).attr('src'))
+              $(component.view.el).find('img.option-image').eq(0).addClass('active');
+            }
           }
         }
 
@@ -415,26 +425,30 @@ export default function loadSlideshowGallery(editor, opt = {}) {
         })
     
         prevBtn.on("click", () => {
-            const active = $(this.el).find('img.option-image.active')
-            const index = $(active).parent().closest('div').index() - 1;
-            if (index > -1 && index < optionImage.length) { 
-                $(active).removeClass('active');
-                $(optionImage[index]).addClass('active');
-    
-                $(curSlide).attr('src', $(optionImage[index]).attr('src'))
-            }
+          const optionImage = $(this.el).find('div:not(.d-none).column img.option-image');
+
+          const active = $(this.el).find('img.option-image.active')
+          const index = $(active).parent().closest('div').index() - 1;
+          if (index > -1 && index < optionImage.length) { 
+              $(active).removeClass('active');
+              $(optionImage[index]).addClass('active');
+  
+              $(curSlide).attr('src', $(optionImage[index]).attr('src'))
+          }
         })
     
         nextBtn.on("click", () => {
-            const active = $(this.el).find('img.option-image.active')
-            const index = $(active).parent().closest('div').index() + 1;
-            
-            if (index > -1 && index < optionImage.length) { 
-                $(active).removeClass('active');
-                $(optionImage[index]).addClass('active');
-    
-                $(curSlide).attr('src', $(optionImage[index]).attr('src'))
-            }
+          const optionImage = $(this.el).find('div:not(.d-none).column img.option-image');
+
+          const active = $(this.el).find('img.option-image.active')
+          const index = $(active).parent().closest('div').index() + 1;
+          
+          if (index > -1 && index < optionImage.length) { 
+              $(active).removeClass('active');
+              $(optionImage[index]).addClass('active');
+  
+              $(curSlide).attr('src', $(optionImage[index]).attr('src'))
+          }
         })
 
         const active = $(this.el).find('img.option-image.active');

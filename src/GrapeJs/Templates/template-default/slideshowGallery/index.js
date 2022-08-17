@@ -415,26 +415,30 @@ export default function loadSlideshowGallery(editor, opt = {}) {
         })
     
         prevBtn.on("click", () => {
-            const active = $(this.el).find('img.option-image.active')
-            const index = $(active).parent().closest('div').index() - 1;
-            if (index > -1 && index < optionImage.length) { 
-                $(active).removeClass('active');
-                $(optionImage[index]).addClass('active');
-    
-                $(curSlide).attr('src', $(optionImage[index]).attr('src'))
-            }
+          const optionImage = $(this.el).find('div:not(.d-none).column img.option-image');
+
+          const active = $(this.el).find('img.option-image.active')
+          const index = $(active).parent().closest('div').index() - 1;
+          if (index > -1 && index < optionImage.length) { 
+              $(active).removeClass('active');
+              $(optionImage[index]).addClass('active');
+  
+              $(curSlide).attr('src', $(optionImage[index]).attr('src'))
+          }
         })
     
         nextBtn.on("click", () => {
-            const active = $(this.el).find('img.option-image.active')
-            const index = $(active).parent().closest('div').index() + 1;
-            
-            if (index > -1 && index < optionImage.length) { 
-                $(active).removeClass('active');
-                $(optionImage[index]).addClass('active');
-    
-                $(curSlide).attr('src', $(optionImage[index]).attr('src'))
-            }
+          const optionImage = $(this.el).find('div:not(.d-none).column img.option-image');
+
+          const active = $(this.el).find('img.option-image.active')
+          const index = $(active).parent().closest('div').index() + 1;
+          
+          if (index > -1 && index < optionImage.length) { 
+              $(active).removeClass('active');
+              $(optionImage[index]).addClass('active');
+  
+              $(curSlide).attr('src', $(optionImage[index]).attr('src'))
+          }
         })
 
         const active = $(this.el).find('img.option-image.active');

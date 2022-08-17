@@ -191,7 +191,8 @@ export default function loadImageWithText(editor, opt = {}) {
 
             { script: "sub" },
             { script: "super" },
-            { size: "small" },
+            { 'align': ['','center','right','justify'] }
+
           ],
         },
         theme: "snow",
@@ -208,13 +209,12 @@ export default function loadImageWithText(editor, opt = {}) {
       return el;
     },
     onEvent({ elInput, component, event }) {
-      const inputType = elInput.querySelector(".ql-editor p").innerHTML;
+      const inputType = elInput.querySelector(".ql-editor").innerHTML;
       const parent = component
         .get("components")
         .models[0].get("components")
         .models[1].get("components").models[0];
       const content = parent.get("components").models[1];
-
       content.set({ content: inputType });
     },
 

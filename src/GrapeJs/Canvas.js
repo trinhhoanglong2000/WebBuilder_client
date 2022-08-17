@@ -216,6 +216,7 @@ function Canvas({ type }) {
                   let listCssFile = [];
                   listComponents.forEach((ele) => {
                     if (ele.attributes.name === "Main") {
+                      listCssFile.push(ele.attributes.name);
                       const mainComponent = ele.attributes.components.models;
                       mainComponent.forEach((ele) => {
                         listCssFile.push(ele.attributes.name);

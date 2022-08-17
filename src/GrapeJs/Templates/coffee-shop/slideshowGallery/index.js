@@ -239,7 +239,7 @@ export default function loadSlideshowGallery(editor, opt = {}) {
                     })
                     return;
                   }
-                  
+
                   if ($(trait.target.view.el).find('img.option-image').eq(index)) {
                     const slideImg = $(trait.target.get("components").models[1].view.el).find('.mySlides img');
                     if (index == 0) {
@@ -288,7 +288,7 @@ export default function loadSlideshowGallery(editor, opt = {}) {
     onUpdate({elInput, component}) {
       const componentGallery = $(component.get("components").models[1].view.el).find('div:not(.d-none).column img.option-image');
       const traitGallery = $(elInput).find('.image-gallery');
-      debugger
+
       traitGallery.empty();
       componentGallery.map((index, element) => { 
         traitGallery.append(`<div class='trait-gallery-image'>

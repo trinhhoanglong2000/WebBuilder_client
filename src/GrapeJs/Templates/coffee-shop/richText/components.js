@@ -12,7 +12,20 @@ export default function loadComponentsRichText(editor, opt = {}) {
         editable: true,
         copyable: false,
         draggable: ".Rich-Text",
+        style:{'text-align':'center'},
         traits: [
+          // {
+          //   type: "text-align",
+          //   label: "Text Align"
+          // },
+          {
+            type: "richtext-heading", // Type of the trait
+            label: "Description", // The label you will see in Settings
+          },
+          {
+            type: "richtext-heading-align",
+            label: "Alignment",
+          },
           {
             label: "Padding Top",
             type: "padding-setting",
@@ -47,14 +60,6 @@ export default function loadComponentsRichText(editor, opt = {}) {
             typeSetting: "margin-bottom"
           },
 
-          {
-            type: "richtext-heading", // Type of the trait
-            label: "Description", // The label you will see in Settings
-          },
-          {
-            type: "richtext-heading-align",
-            label: "Alignment",
-          }
         ],
       },
       init() {
@@ -155,13 +160,12 @@ export default function loadComponentsRichText(editor, opt = {}) {
             'border': '#0d6efd'
           },
         traits: [
-          
-
           {
             type: "richtext-heading", // Type of the trait
             label: "Label", // The label you will see in Settings
             placeholder: "Label"
           },
+
           {
             type: "RichText-Button-Color",
             label: "Button color"

@@ -58,6 +58,20 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
             type: "padding-setting",
             typeSetting: "padding-right"
           },
+          {
+            type: 'section-common'
+          },
+          {
+            label: "Margin Top",
+            type: "padding-setting",
+            typeSetting: "margin-top"
+          },
+          {
+            label: "Margin Bottom",
+            type: "padding-setting",
+            typeSetting: "margin-bottom"
+          },
+
         ],
         // This is default attributes
         attributes: {

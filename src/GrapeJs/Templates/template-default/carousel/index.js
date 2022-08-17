@@ -33,15 +33,15 @@ function insertCarouselData(data, carouselIndicators, carouselInner, carousel) {
     carouselIndicators.insertAdjacentHTML("beforeend", htmlButtonInsert);
     let htmlCarouselItemInsert = `
   <div class="carousel-item ${index == 0 ? "active" : ""}">
-    <a class="d-block w-100 image-container" href=${item.link??"#"}>
-      <img src="${item.image??""}"  alt="${item.image??""}" >
+    <a class="d-block w-100 image-container" href=${item.link ?? "#"}>
+      <img src="${item.image ?? ""}"  alt="${item.image ?? ""}" >
     </a>
     <div class="carousel-caption">
       <div class = "ezMall-carousel-contents">
         <div class="ezMall-carousel-text-container d-block">
-          <h2 class="bolder">${item.caption??""}</h2>
-          <p>${item.description??""}</p>
-          <a class="btn ezMall-btn bolder" href=${item.link??"#"} role="button">Shop Now</a>
+          <h2 class="bolder">${item.caption ?? ""}</h2>
+          <p>${item.description ?? ""}</p>
+          <a class="btn ezMall-btn bolder" href=${item.link ?? "#"} role="button">Shop Now</a>
         </div>
       </div>
     </div>
@@ -71,13 +71,14 @@ export default function loadBlockCarousel(editor, opt = {}) {
             label: "Banner Collection",
           },
           {
-            type: "banner-text-color",
-            label: "Contents Style"
-          },
-          {
             type: "banner-text-display",
             label: "Contents Display"
           },
+          {
+            type: "banner-text-color",
+            label: "Contents Style"
+          },
+
           {
             type: "banner-description-align",
             label: "Align Description"
@@ -93,6 +94,39 @@ export default function loadBlockCarousel(editor, opt = {}) {
           {
             type: "banner-description-container-mode",
             label: "Container Mode"
+          },
+          {
+            label: "Padding Top",
+            type: "padding-setting",
+            typeSetting: "padding-top"
+          },
+          {
+            label: "Padding Bottom",
+            type: "padding-setting",
+            typeSetting: "padding-bottom"
+          },
+          {
+            label: "Padding Left",
+            type: "padding-setting",
+            typeSetting: "padding-left"
+          },
+          {
+            label: "Padding Right",
+            type: "padding-setting",
+            typeSetting: "padding-right"
+          },
+          {
+            type: 'section-common'
+          },
+          {
+            label: "Margin Top",
+            type: "padding-setting",
+            typeSetting: "margin-top"
+          },
+          {
+            label: "Margin Bottom",
+            type: "padding-setting",
+            typeSetting: "margin-bottom"
           },
 
         ],
@@ -184,7 +218,7 @@ export default function loadBlockCarousel(editor, opt = {}) {
     content: [
       {
         type: "carousel",
-        attributes: {class: "carousel-text-white carousel-display-bottom-center carousel-description-align-center carousel-height-medium carousel-description-background"},
+        attributes: { class: "carousel-text-white carousel-display-bottom-center carousel-description-align-center carousel-height-medium carousel-description-background" },
         content: `
         <div id="myCarousel" class=" carousel slide ezMall-carousel" data-bs-ride="carousel" data-type="banners">
         <div class="carousel-indicators">

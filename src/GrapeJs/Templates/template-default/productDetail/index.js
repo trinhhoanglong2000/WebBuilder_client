@@ -101,10 +101,45 @@ export default function loadBlockProductDetail(editor, opt = {}) {
         copyable: false,
 
         traits: [
+         
+
           {
             type: "Product-Detail-Heading", // Type of the trait
             label: "Heading", // The label you will see in Settings
             placeholder: "Header",
+          },
+          {
+            label: "Padding Top",
+            type: "padding-setting",
+            typeSetting: "padding-top"
+          },
+          {
+            label: "Padding Bottom",
+            type: "padding-setting",
+            typeSetting: "padding-bottom"
+          },
+          {
+            label: "Padding Left",
+            type: "padding-setting",
+            typeSetting: "padding-left"
+          },
+          {
+            label: "Padding Right",
+            type: "padding-setting",
+            typeSetting: "padding-right"
+          },
+          {
+            type: 'section-common'
+          },
+          {
+            label: "Margin Top",
+            type: "padding-setting",
+            typeSetting: "margin-top"
+          },
+          {
+            label: "Margin Bottom",
+            type: "padding-setting",
+            typeSetting: "margin-bottom"
           },
         ],
         attributes: {

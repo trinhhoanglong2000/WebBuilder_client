@@ -897,6 +897,8 @@ export default function loadImageWithText(editor, opt = {}) {
         droppable: false,
         copyable: false,
         traits: [
+         
+
           {
             type: "imageWithText-upload-image",
             label: "Image",
@@ -936,6 +938,39 @@ export default function loadImageWithText(editor, opt = {}) {
           {
             name: "setting",
             type: "imageWithText-advance-setting",
+          },
+          {
+            label: "Padding Top",
+            type: "padding-setting",
+            typeSetting: "padding-top"
+          },
+          {
+            label: "Padding Bottom",
+            type: "padding-setting",
+            typeSetting: "padding-bottom"
+          },
+          {
+            label: "Padding Left",
+            type: "padding-setting",
+            typeSetting: "padding-left"
+          },
+          {
+            label: "Padding Right",
+            type: "padding-setting",
+            typeSetting: "padding-right"
+          },
+          {
+            type: 'section-common'
+          },
+          {
+            label: "Margin Top",
+            type: "padding-setting",
+            typeSetting: "margin-top"
+          },
+          {
+            label: "Margin Bottom",
+            type: "padding-setting",
+            typeSetting: "margin-bottom"
           },
         ],
       },

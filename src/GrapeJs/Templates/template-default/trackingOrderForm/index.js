@@ -55,6 +55,49 @@ export default function loadTrackingOrderForm(editor, opt = {}) {
                 attributes: { class: "container", name: "trackingOrderForm", slideIndex: 1 },
                 traits: [
                     {
+                        label: "Padding Top",
+                        type: "padding-setting",
+                        typeSetting: "padding-top"
+                      },
+                      {
+                        label: "Padding Bottom",
+                        type: "padding-setting",
+                        typeSetting: "padding-bottom"
+                      },
+                      {
+                        label: "Padding Left",
+                        type: "padding-setting",
+                        typeSetting: "padding-left"
+                      },
+                      {
+                        label: "Padding Right",
+                        type: "padding-setting",
+                        typeSetting: "padding-right"
+                      },
+                      {
+                        type: 'section-common'
+                      },
+                      {
+                        label: "Margin Top",
+                        type: "padding-setting",
+                        typeSetting: "margin-top"
+                      },
+                      {
+                        label: "Margin Bottom",
+                        type: "padding-setting",
+                        typeSetting: "margin-bottom"
+                      },
+                      {
+                        label: "Margin Left",
+                        type: "padding-setting",
+                        typeSetting: "margin-left"
+                      },
+                      {
+                        label: "Margin Right",
+                        type: "padding-setting",
+                        typeSetting: "margin-right"
+                      },
+                    {
                       type: "CustomSelect",
                       label: "Theme color",
                       name: "theme",

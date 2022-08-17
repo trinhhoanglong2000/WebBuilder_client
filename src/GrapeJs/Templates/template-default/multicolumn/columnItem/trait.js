@@ -115,8 +115,8 @@ export default function loadTraitColumnItem(editor, opt = {}) {
     },
     onEvent({ elInput, component, event }) {
       const inputType = elInput.querySelector(".Product-Heading");
-      let data = inputType.value;
-      component.get("components").models[1].get("components").models[0].set({ content: `<a href="${component.get("attributes").href}" >${data} </a>` });
+      let data = inputType.value?inputType.value:"";
+      component.get("components").models[1].get("components").models[0].set({ content: `<a href="${component.get("attributes").href??"#"}" >${data} </a>` });
       setAttribute(component, {
         'heading': data
       })
@@ -245,7 +245,7 @@ export default function loadTraitColumnItem(editor, opt = {}) {
             const selected = editor.getSelected();
             inputImage.src = asset.getSrc();
             const image = selected.get("components").models[0];
-            image.set('content', `<a href="${selected.get("attributes").href}" > <img src="${asset.getSrc()}" class="img-responsive img-fluid" alt=""> </a>`);
+            image.set('content', `<a href="${selected.get("attributes").href??"#"}" > <img src="${asset.getSrc()}" class="img-responsive img-fluid" alt=""> </a>`);
             am.close();
           },
         });
@@ -255,7 +255,7 @@ export default function loadTraitColumnItem(editor, opt = {}) {
         const selected = editor.getSelected();
         const image = selected.get("components").models[0];
 
-        image.set('content', `<a href="${selected.get("attributes").href}" > <img src="https://dummyimage.com/600x400/55595c/fff" class="img-responsive img-fluid" alt=""> </a>`);
+        image.set('content', `<a href="${selected.get("attributes").href??"#"}" > <img src="https://dummyimage.com/600x400/55595c/fff" class="img-responsive img-fluid" alt=""> </a>`);
         inputImage.src = "https://dummyimage.com/600x400/55595c/fff";
       };
 
@@ -748,13 +748,13 @@ export default function loadTraitColumnItem(editor, opt = {}) {
       })
       component.set('traitValue', event.traitValue)
       //HEADING CHANGE
-      component.get("components").models[1].get("components").models[0].set({ content: `<a href="${component.get("attributes").href}" >${component.get("attributes").heading} </a>` });
+      component.get("components").models[1].get("components").models[0].set({ content: `<a href="${component.get("attributes").href??"#"}" >${component.get("attributes").heading} </a>` });
       //IMAGE CHANGE
       const image = component.get("components").models[0];
 
       let dataImage = $(".upload-image-area img")[0]?.src;
       console.log( $(".upload-image-area img"))
-      image.set('content', `<a href="${component.get("attributes").href}" > <img src="${dataImage}" class="img-responsive img-fluid" alt=""> </a>`);
+      image.set('content', `<a href="${component.get("attributes").href??"#"}" > <img src="${dataImage}" class="img-responsive img-fluid" alt=""> </a>`);
       // component.setAttributes({ ...component.getAttributes(), 'href': value })
     },
 

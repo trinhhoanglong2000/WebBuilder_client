@@ -128,6 +128,7 @@ export default function loadTraitRichText(editor, opt = {}) {
             { script: "sub" },
             { script: "super" },
             { size: "small" },
+            // { 'align': ['','center','right','justify'] }
           ],
         },
         theme: "snow",

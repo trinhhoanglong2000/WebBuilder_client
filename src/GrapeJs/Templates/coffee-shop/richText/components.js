@@ -14,6 +14,40 @@ export default function loadComponentsRichText(editor, opt = {}) {
         draggable: ".Rich-Text",
         traits: [
           {
+            label: "Padding Top",
+            type: "padding-setting",
+            typeSetting: "padding-top"
+          },
+          {
+            label: "Padding Bottom",
+            type: "padding-setting",
+            typeSetting: "padding-bottom"
+          },
+          {
+            label: "Padding Left",
+            type: "padding-setting",
+            typeSetting: "padding-left"
+          },
+          {
+            label: "Padding Right",
+            type: "padding-setting",
+            typeSetting: "padding-right"
+          },
+          {
+            type: 'section-common'
+          },
+          {
+            label: "Margin Top",
+            type: "padding-setting",
+            typeSetting: "margin-top"
+          },
+          {
+            label: "Margin Bottom",
+            type: "padding-setting",
+            typeSetting: "margin-bottom"
+          },
+
+          {
             type: "richtext-heading", // Type of the trait
             label: "Description", // The label you will see in Settings
           },
@@ -46,6 +80,8 @@ export default function loadComponentsRichText(editor, opt = {}) {
         draggable: ".Rich-Text",
 
         traits: [
+         
+
           {
             type: "RichText-Text-Trait", // Type of the trait
             label: "Description", // The label you will see in Settings
@@ -53,7 +89,40 @@ export default function loadComponentsRichText(editor, opt = {}) {
           {
             type: "RichText-TextFontSize-Trait",
             label: "Font size",
-          }
+          },
+          {
+            label: "Padding Top",
+            type: "padding-setting",
+            typeSetting: "padding-top"
+          },
+          {
+            label: "Padding Bottom",
+            type: "padding-setting",
+            typeSetting: "padding-bottom"
+          },
+          {
+            label: "Padding Left",
+            type: "padding-setting",
+            typeSetting: "padding-left"
+          },
+          {
+            label: "Padding Right",
+            type: "padding-setting",
+            typeSetting: "padding-right"
+          },
+          {
+            type: 'section-common'
+          },
+          {
+            label: "Margin Top",
+            type: "padding-setting",
+            typeSetting: "margin-top"
+          },
+          {
+            label: "Margin Bottom",
+            type: "padding-setting",
+            typeSetting: "margin-bottom"
+          },
         ],
       },
       init() {
@@ -86,6 +155,8 @@ export default function loadComponentsRichText(editor, opt = {}) {
             'border': '#0d6efd'
           },
         traits: [
+          
+
           {
             type: "richtext-heading", // Type of the trait
             label: "Label", // The label you will see in Settings
@@ -98,7 +169,40 @@ export default function loadComponentsRichText(editor, opt = {}) {
           {
             type: "richtext-Btn-Link",
             label: "Link"
-          }
+          },
+          {
+            label: "Padding Top",
+            type: "padding-setting",
+            typeSetting: "padding-top"
+          },
+          {
+            label: "Padding Bottom",
+            type: "padding-setting",
+            typeSetting: "padding-bottom"
+          },
+          {
+            label: "Padding Left",
+            type: "padding-setting",
+            typeSetting: "padding-left"
+          },
+          {
+            label: "Padding Right",
+            type: "padding-setting",
+            typeSetting: "padding-right"
+          },
+          {
+            type: 'section-common'
+          },
+          {
+            label: "Margin Top",
+            type: "padding-setting",
+            typeSetting: "margin-top"
+          },
+          {
+            label: "Margin Bottom",
+            type: "padding-setting",
+            typeSetting: "margin-bottom"
+          },
         ],
       },
       init() {
@@ -161,6 +265,20 @@ export default function loadComponentsRichText(editor, opt = {}) {
             type: "padding-setting",
             typeSetting: "padding-right"
           },
+          {
+            type: 'section-common'
+          },
+          {
+            label: "Margin Top",
+            type: "padding-setting",
+            typeSetting: "margin-top"
+          },
+          {
+            label: "Margin Bottom",
+            type: "padding-setting",
+            typeSetting: "margin-bottom"
+          },
+
         ],
       },
       init() { },

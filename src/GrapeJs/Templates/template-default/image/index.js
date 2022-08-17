@@ -255,22 +255,35 @@ export default function loadImage(editor, opt = {}) {
           {
             label: "Padding Top",
             type: "padding-setting",
-            typeSetting: "padding-top",
+            typeSetting: "padding-top"
           },
           {
             label: "Padding Bottom",
             type: "padding-setting",
-            typeSetting: "padding-bottom",
+            typeSetting: "padding-bottom"
           },
           {
             label: "Padding Left",
             type: "padding-setting",
-            typeSetting: "padding-left",
+            typeSetting: "padding-left"
           },
           {
             label: "Padding Right",
             type: "padding-setting",
-            typeSetting: "padding-right",
+            typeSetting: "padding-right"
+          },
+          {
+            type: 'section-common'
+          },
+          {
+            label: "Margin Top",
+            type: "padding-setting",
+            typeSetting: "margin-top"
+          },
+          {
+            label: "Margin Bottom",
+            type: "padding-setting",
+            typeSetting: "margin-bottom"
           },
         ],
       },

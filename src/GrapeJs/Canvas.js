@@ -206,6 +206,9 @@ function Canvas({ type }) {
                   * ::-webkit-scrollbar-thumb {
                     background: rgb(0 0 0 / 26%)!important;
                   }
+                  [data-gjs-type=wrapper] {
+                    overflow-x: hidden!important;
+                  }
                   </style>`)
 
                   // ========================== Load component css file ================================

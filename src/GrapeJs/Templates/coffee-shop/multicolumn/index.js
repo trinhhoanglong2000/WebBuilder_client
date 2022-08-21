@@ -268,7 +268,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                 {
                   type: "columnItem-image",
                   content: `
-                  <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
+                  <a href="#"> <img class="card-img-top" src="https://ezmall-bucket.s3.ap-southeast-1.amazonaws.com/DefaultImage/default-image-620x600.png" alt="Card image cap"></a>
                 `,
                 },
                 {
@@ -294,7 +294,7 @@ export default function loadBlockMulticolumn(editor, opt = {}) {
                   type: "columnItem-image",
 
                   content: `
-                  <a href="#"> <img class="card-img-top" src="https://ananas.vn/wp-content/uploads/Banner_Sale-off-1.jpg" alt="Card image cap"></a>
+                  <a href="#"> <img class="card-img-top" src="https://ezmall-bucket.s3.ap-southeast-1.amazonaws.com/DefaultImage/default-image-620x600.png" alt="Card image cap"></a>
                 `,
                 },
                 {

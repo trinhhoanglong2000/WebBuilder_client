@@ -748,7 +748,7 @@ export default function loadTraitColumnItem(editor, opt = {}) {
       })
       component.set('traitValue', event.traitValue)
       //HEADING CHANGE
-      component.get("components").models[1].get("components").models[0].set({ content: `<a href="${component.get("attributes").href??"#"}" >${component.get("attributes").heading} </a>` });
+      component.get("components").models[1].get("components").models[0].set({ content: `<a href="${component.get("attributes").href??"#"}" >${component.get("attributes").heading??""} </a>` });
       //IMAGE CHANGE
       const image = component.get("components").models[0];
 

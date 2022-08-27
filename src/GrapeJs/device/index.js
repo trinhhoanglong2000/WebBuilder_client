@@ -17,7 +17,7 @@
        const device3 = deviceManager.add({
         id: 'Mobile portrait',
         name: 'Mobile portrait',
-        width: '320px', // This width will be applied on the canvas frame
+        width: '400px', // This width will be applied on the canvas frame
         widthMedia: '', // This width that will be used for the CSS media
        });
   }

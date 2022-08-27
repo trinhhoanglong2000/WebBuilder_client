@@ -496,7 +496,7 @@ export default function loadTraitCarousel(editor, opt = {}) {
     // Expects as return a simple HTML string or an HTML element
     createInput({ trait }) {
       const initValue =trait.target.attributes.attributes.containerMode !=null ? trait.target.attributes.attributes.containerMode: false ;
-      console.log(trait.target.attributes.attributes.containerMode)
+      
       const el = document.createElement("div");
       el.innerHTML = `
           <div class="gjs-one-bg">

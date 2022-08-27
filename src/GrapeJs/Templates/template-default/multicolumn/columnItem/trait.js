@@ -37,7 +37,7 @@ export default function loadTraitColumnItem(editor, opt = {}) {
       });
       quill.on("text-change", (delta, oldDelta, source) => {
         if (source == "api") {
-          console.log("An API call triggered this change.");
+          
         } else if (source == "user") {
           this.onChange();
         }
@@ -753,7 +753,7 @@ export default function loadTraitColumnItem(editor, opt = {}) {
       const image = component.get("components").models[0];
 
       let dataImage = $(".upload-image-area img")[0]?.src;
-      console.log( $(".upload-image-area img"))
+      
       image.set('content', `<a href="${component.get("attributes").href??"#"}" > <img src="${dataImage}" class="img-responsive img-fluid" alt=""> </a>`);
       // component.setAttributes({ ...component.getAttributes(), 'href': value })
     },

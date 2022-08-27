@@ -200,7 +200,7 @@ export default function loadImageWithText(editor, opt = {}) {
 
       quill.on("text-change", (delta, oldDelta, source) => {
         if (source === "api") {
-          console.log("An API call triggered this change.");
+          
         } else if (source === "user") {
           this.onChange();
         }

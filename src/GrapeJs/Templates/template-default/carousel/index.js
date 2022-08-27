@@ -185,7 +185,7 @@ export default function loadBlockCarousel(editor, opt = {}) {
                 insertCarouselData(listBanners, carouselIndicators, carouselInner, carousel)
               }
             ).catch(error => {
-              console.log(error)
+              
               insertCarouselData(defaultData, carouselIndicators, carouselInner, carousel)
             });
         }

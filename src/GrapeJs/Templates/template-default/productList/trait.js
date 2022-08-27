@@ -226,7 +226,7 @@ export default function loadTraitProduct(editor, opt = {}) {
     onUpdate({ elInput, component }) {
       let initValue = component.attributes.attributes['data-ez-mall-collection'] || "";
       const onClickButton = $(elInput).find(`[data-value="${initValue}"]`)
-      // console.log($(elInput).find(`[data-value="${initValue}"]`))
+      // 
       $(".Modal-popup ul li").removeClass("active");
       $(onClickButton).addClass("active");
       $(".Modal-popup ul li").find(".check-item").fadeOut(0);
@@ -309,7 +309,7 @@ export default function loadTraitProduct(editor, opt = {}) {
 
       let data = inputType.value;
       // editor.Selectors.setState('after');
-      // console.log(editor.Selectors.getState())
+      // 
       component.get('components').where({ name: "Text" })[0].setStyle({ ...component.get('components').where({ name: "Text" })[0].getStyle(), "text-align": data });
     },
     onUpdate({ elInput, component }) {

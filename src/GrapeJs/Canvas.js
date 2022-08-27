@@ -12,6 +12,8 @@ import NavigationPanel from "./pages/NavigationPanel";
 // Template
 import "./Templates/template-default/template-default.plugins";
 import "./Templates/coffee-shop/coffee-shop.plugins";
+import "./Templates/pet-shop/pet-shop.plugins";
+import "./Templates/shopping-template/shopping-template.plugins"
 
 import AvatarLoad from '../components/AvatarLoad/AvatarLoad'
 import SaveLoad from '../components/SaveLoad/SaveLoad'
@@ -206,9 +208,7 @@ function Canvas({ type }) {
                   * ::-webkit-scrollbar-thumb {
                     background: rgb(0 0 0 / 26%)!important;
                   }
-                  [data-gjs-type=wrapper] {
-                    overflow-x: hidden!important;
-                  }
+
                   </style>`)
 
                   // ========================== Load component css file ================================

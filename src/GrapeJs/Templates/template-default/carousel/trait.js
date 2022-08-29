@@ -228,7 +228,8 @@ export default function loadTraitCarousel(editor, opt = {}) {
         GetRequest(
           `${process.env.REACT_APP_API_URL}stores/${opt.storeId}/collections/banner?name=${name.trim()}`
         ).then((myJson) => {
-          let data = myJson.data.map((value) => { return { id: value.id, name: value.name } });
+          initValue = trait.target.attributes.attributes['data'] || "";
+          let data = myJson.data.map((value) => { return { id: value.id, name: value.name, thumbnail: value.thumbnail } });
           let domdata = "";
           data.forEach((element) => {
             domdata += `<li data-value = "${element.id}" name="${element.name}" >
